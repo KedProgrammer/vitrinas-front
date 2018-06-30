@@ -174,7 +174,9 @@
               <div class="admin-hoy__panel-item">
                 <div class="admin-hoy__nombre">
                   <!-- la clase admin-hoy__triger  ejecuta el evento abrir modal-->
-                  <div class="admin-hoy__ubicacion-precio admin-hoy__triger">
+                  <div
+                    @click="toggleDetail"
+                    class="admin-hoy__ubicacion-precio">
                     <div class="admin-hoy__nombre-ubicacion">
                       <h3>Delirato</h3>
                       <p>ML 203</p>
@@ -1032,16 +1034,22 @@
       </article>
 
     </main>
+    <!-- modal detalles -->
+    <modal-details
+      @close-details="toggleDetail"
+      :show-modal="showDetail" />
   </div>
 </template>
 
 <script>
 import Menu from '../components/layout/Menu'
+import ModalDetails from '../components/today/modal-details'
 
 export default {
   name: 'Today',
   components: {
-    Menu
+    Menu,
+    ModalDetails
   },
   data () {
     return {
@@ -1112,7 +1120,13 @@ export default {
           capacity: 3,
           process: 1
         }
-      ]
+      ],
+      showDetail: false
+    }
+  },
+  methods: {
+    toggleDetail () {
+      this.showDetail = !this.showDetail
     }
   }
 }

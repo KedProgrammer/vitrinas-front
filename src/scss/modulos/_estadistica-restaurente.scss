@@ -1,0 +1,233 @@
+.estadistica__main {
+  background-color: #f5f8fa;
+  padding: 20px 40px;
+  min-width: $anchomin;
+  min-height: calc( 100vh - 65px );
+}
+
+.estadistica__main-datos {
+  display: flex;
+}
+.estadistica__calendario {
+  min-width: 280px;
+  margin-right: 50px;
+}
+
+.estadistica__calendario-fecha {
+  font-family: $font1;
+  color: $principal;
+  margin-bottom: 20px;
+  p {
+    font-size: 25px;
+    margin: 0;
+    text-align: center;
+  }
+}
+
+.estadistica__info-general-productos {
+  flex: 1;
+  h5 {
+    font-family: $font1;
+    color: $principal;
+    font-size: 20px;
+    font-weight: 300;
+    margin: 0;
+  }
+  h2 {
+    font-family: $font1;
+    color: #000;
+    font-size: 65px;
+    margin: 0;
+    font-weight: 300;
+    strong {
+      font-weight: bold;
+    }
+    span {
+      font-family: $font2;
+      font-size: 25px;
+      font-weight: 500;
+    }
+  }
+}
+
+.estadistica__info-contenedor {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.estadistica__info-general {
+  background-color: #fff;
+  min-width: 49%;
+  width: 45%;
+  max-height: 360px;
+  padding: 10px;
+  margin-right: 10px;
+  display: flex;
+  flex-direction: column;
+  h3 {
+    font-family: $font2;
+    font-weight: 500;
+    color: $principal;
+    margin: 0;
+    font-size: 25px;
+    padding: 0 0 5px 0;
+  } 
+}
+
+.estadistica__info-general-content {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.estadistica__info-general-item {
+  display: flex;
+  border-top: 1px solid #e5edef;
+  padding: 8px 10px;
+  p {
+    font-family: $font1;
+    color: #404040;
+    font-size: 15px;
+    margin: 0;
+    &:first-child {
+      width: 70%;
+    }
+    &:last-child {
+      width: 30%;
+      text-align: center;
+    }
+  }
+}
+
+.estadistica__calificacion {
+  width: 30%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  i {
+    font-size: 12px;
+    margin: 0 3px;
+    color: #d8d8d8;
+  }
+}
+
+.estadistica__calificacion-1 {
+  i {
+    &:first-child{
+      color: $principal;
+    }
+  }
+}
+
+.estadistica__calificacion-2 {
+  i {
+    &:first-child,
+    &:nth-child(2) {
+      color: $principal;
+    }
+  }
+}
+
+.estadistica__calificacion-3 {
+  i {
+    &:first-child,
+    &:nth-child(2),
+    &:nth-child(3) {
+      color: $principal;
+    }
+  }
+}
+
+.estadistica__calificacion-4 {
+  i {
+    &:first-child,
+    &:nth-child(2),
+    &:nth-child(3),
+    &:nth-child(4) {
+      color: $principal;
+    }
+  }
+}
+
+.estadistica__calificacion-5 {
+  i {
+    &:first-child,
+    &:nth-child(2),
+    &:nth-child(3),
+    &:nth-child(4)
+    &:nth-child(5) {
+      color: $principal;
+    }
+  }
+}
+
+// pruductos
+.estadistica__pruductos {
+  background-color: #fff;
+  min-width: 49%;
+  width: 45%;
+  max-height: 360px;
+  padding: 10px;
+  margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.estadistica__pruductos-header {
+  display: flex;
+  padding: 0 0 5px 0;
+  p {
+    font-family: $font2;
+    color: $principal;
+    font-size: 25px;
+    font-weight: 500;
+    margin: 0;
+    &:first-child {
+      width: 70%;
+    }
+    &:last-child {
+      width: 30%;
+      text-align: center;
+    }
+  }
+}
+
+.estadistica__productos-item {
+  display: flex;
+  border-top: 1px solid #e5edef;
+  padding: 8px 10px;
+  p {
+    font-family: $font1;
+    color: #404040;
+    font-size: 15px;
+    margin: 0;
+    &:first-child {
+      width: 70%;
+    }
+    &:last-child {
+      width: 30%;
+      text-align: center;
+    }
+  }
+}
+
+.estadistica__main-graficos {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 30px;
+}
+
+.estadistica__grafico-pedido-hora {
+  width: 48%;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 6px;
+  h3 {
+    font-family: $font1;
+    color: $principal;
+    font-weight: 500;
+    font-size: 20px;
+    margin: 0 0 30px 0;
+  }
+}

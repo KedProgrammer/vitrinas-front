@@ -1,0 +1,112 @@
+// modal ticket
+.crear-ticket {
+  .modal-ceu__content {
+    max-width: 960px;
+    padding: 20px 70px;
+    .modal-ceu__close {
+      top: 4px;
+      right: 20px;
+      i {
+        font-size: 46px;
+      }
+    }
+
+  }
+}
+
+
+.crear-ticket__titulo {
+  margin-bottom: 30px;
+  h3 {
+    font-family: $font2;
+    font-size: 24px;
+    color: #000;
+    // color: $principal;
+    margin: 0 0 0 0;
+  }
+}
+
+.crear-ticket__form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.crear-ticket__select {
+  width: 360px;
+  .selectric-wrapper {
+    .selectric {
+      border-color: #979797;
+      background-color: #f7f7f7;
+      padding: 4px 8px;
+      .label {
+        font-family: $font2;
+        font-size: 20px;
+      }
+    }
+    .arrow {
+      font-size: 28px;
+    }
+  }
+}
+
+.crear-ticket__row {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 25px;
+}
+
+.crear-ticket__mensaje {
+  flex: 1;
+  padding-right: 30px;
+  display: flex;
+  flex-direction: column;
+  textarea {
+    width: 100%;
+    border: 1px solid #979797;
+    border-radius: 8px;
+    background: #f7f7f7;
+    height: 100px;
+    flex: 1;
+  }
+}
+
+.crear-ticket__categorias {
+  width: 240px;
+  .ceu-checkbox2 {
+    margin-bottom: 8px;
+    p {
+      font-size: 20px;
+    }
+    label {
+      width: 100%;
+      justify-content: space-between;
+      span {
+        width: 18px;
+        height: 18px;
+        background-color: #f7f7f7;
+      }
+    }
+  }
+}
+
+.crear-ticket__mensaje,
+.crear-ticket__categorias {
+  h5 {
+    font-family: $font2;
+    font-size: 18px;
+    color: #404040;
+    margin: 0 0 12px 0;
+  }
+}
+
+.crear-ticket__btn {
+  font-family: $font1;
+  button {
+    &:hover {
+      background-color: #404040;
+      color: #fff;
+    }
+  }
+}

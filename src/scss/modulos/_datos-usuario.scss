@@ -1,0 +1,148 @@
+/**
+  * Datos basicos del usuario
+  */
+
+.datos-usuario {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 20px;
+  h2 {
+    color: $color3;
+    font-size: 24px;
+    font-family: $font2;
+    text-align: center;
+    margin-top: 0;
+  }
+}
+
+.datos-usuario__contenido{
+  max-width: 320px;
+  width: 100%;
+  flex: 1 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px 0 40px 0;
+}
+
+.datos-usuario__campo {
+  margin-top: 30px;
+  width: 100%;
+  input[type=email] {
+    border: 1px solid #979797;
+    padding: 10px 20px;
+    border-radius: 33px;
+    background-color: #f9f8f8;
+    font-family: $font1;
+    font-size: 18px;
+    color: $color3;
+    width: 100%;
+    box-sizing: border-box;
+    &:focus {
+      outline: none;
+    }
+  }
+  p {
+    font-size: 14px;
+    font-family: $font1;
+    color: $color3;
+    text-align: center;
+    margin-bottom: 0;
+    a { 
+      color: $principal;
+    }
+  }
+}
+
+.datos-usuario__quehaces {
+  margin-top: 60px;
+}
+
+.datos-usuario__select {
+  position: relative;
+  label{
+    content: '';
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%) rotate(0deg);
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 12px solid #979797;
+    transition: all .1s;
+  }
+  select {
+    -ms-appearance: none;
+    appearance: none;
+    border: 1px solid #979797;
+    padding: 10px 40px 10px 20px;
+    border-radius: 33px;
+    background-color: #f9f8f8;
+    font-size: 16px;
+    font-family: $font1;
+    width: 100%;
+    color: $color3;
+    &:focus-within, &:checked {
+      outline: none;
+    }
+  }
+}
+
+.datos-usuario__radius {
+  display: flex;
+  background-color: #f9f8f8;
+  border: 1px solid #979797;
+  border-radius: 30px;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.datos-usuario__radius-item {
+  position: relative;
+  label {
+    padding: 10px 12px;
+    display: block;
+    border-radius: 33px;
+    background-color: transparent;
+    transition: all .2s;
+    color: $color3;
+    font-weight: 300;
+    font-family: $font1;
+    font-size: 14px;
+    flex: 1;
+    cursor: pointer;
+  }
+  input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    &:checked + label{
+      background-color: $principal;
+      font-weight: bold;
+      color: $color1;
+    }
+  }
+}
+
+.datos-usuario__btn {
+  margin-top: 40px;
+  background-color: $principal;
+  border: 1px solid #979797;
+  border-radius: 4px;
+  padding: 8px 15px;
+  font-family: $font3;
+  font-weight: bold;
+  color: $color1;
+  font-size: 25px;
+  transition: all .3s;
+  cursor: pointer;
+  &:hover {
+    background-color: $secundario;
+    color: $color3;
+  }
+}

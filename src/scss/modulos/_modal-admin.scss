@@ -1,0 +1,282 @@
+.modal-admin {
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 360px;
+  height: 100%;
+  background-color: #fff;
+  border-left: 3px solid $principal;
+  z-index: 999;
+  padding: 20px 20px;
+  overflow-y: auto;
+  transform: translate3d(100%,0,0);
+
+  transition: all .3s;
+  &.activo {
+    transform: translate3d(0,0,0);
+
+  }
+}
+
+.modal-admin__header {
+  h3 {
+    font-family: $font2;
+    color: #424e5c;
+    text-align: center;
+    line-height: 1.2;
+    font-weight: bold;
+    font-size: 28px;
+    margin: 0 0 5px 0;
+  }
+  h2 {
+    font-family: $font2;
+    margin: 0;
+    color: #424e5c;
+    text-align: center;
+    line-height: 1.2;
+    font-weight: 500;
+  }
+  h5 {
+    font-family: $font2;
+    margin: 0;
+    color: #424e5c;
+    text-align: center;
+    line-height: 1.2;
+    font-weight: 500;
+    font-size: 25px;
+    span {
+      font-weight: bold;
+    }
+  }
+}
+
+.modal-admin__estado-pedido {
+  margin: 0;
+  font-family: $font2;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  color: #404040;
+  &.activo {
+    color: #f5a623;
+  }
+}
+
+.modal-admin__hora {
+  margin: 3px 0;
+  font-family: $font1;
+  color: $principal;
+  font-size: 16px;
+  text-align: center;
+}
+
+.modal-admin__cerrar {
+  border-radius: 8px;
+  border: 1px solid $principal;
+  background-color: #fff;
+  font-size: 18px;
+  font-family: $font1;
+  color: $principal;
+  padding: 5px 10px;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  cursor: pointer;
+  transition: all .3s;
+  &:hover {
+    background-color: $principal;
+    color: #fff;
+  }
+  &.modal-admin__cerrar-small {
+    border: none;
+  }
+}
+
+.modal-admin__lista {
+  height: 300px;
+  overflow-y: auto;
+}
+
+.modal-admin__lista-item {
+  display: flex;
+  border-bottom: 1px solid #ced6d8;
+  padding: 15px 0;
+  &:last-child {
+    border: none;
+  }
+}
+
+.modal-admin__lista-num {
+  font-family: $font1;
+  font-size: 18px;
+  color: #404040;
+  font-weight: bold;
+}
+
+.modal-admin__lista-info {
+  margin-left: 15px;
+}
+
+.modal-admin__lista-titulo {
+  font-family: $font1;
+  font-size: 14px;
+  color: #404040;
+  margin: 0;
+}
+
+.modal-admin__lista-adicional {
+  margin: 0 0 0 17px;
+  padding: 5px 0 0 0;
+  font-family: $font1;
+  font-size: 14px;
+  color: #404040;
+  li {
+    margin-bottom: 3px;
+  }
+}
+
+.modal-admin__lista-comentario {
+  font-family: $font1;
+  color: #404040;
+  font-size: 12px;
+  margin: 12px 0 6px 0;
+}
+
+.modal-admin__lista-mensaje {
+  font-family: $font1;
+  color: #404040;
+  font-size: 13px;
+  margin: 0;
+  line-height: 1.2;
+  text-align: center;
+  width: 90%;
+  margin: 0 auto;
+}
+
+.modal-admin__lista-precio,
+.modal-admin-resumen__lista-precio {
+  font-family: $font1;
+  font-size: 15px;
+  color: #404040;
+  text-align: right;
+  margin-top: 5px;
+}
+
+.modal-admin-resumen__lista-precio {
+  font-size: 20px;
+}
+
+.modal-admin__costos {
+  border-top: 1px solid #ced6d8;
+  margin-top: 20px;
+  padding: 15px 0;
+}
+
+.modal-admin__row {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 0 5px 0;
+  font-family: $font1;
+  p {
+    font-family: $font1;
+    font-size: 15px;
+  }
+  strong {
+    font-weight: 500;
+  }
+}
+
+.modal-admin__cupon {
+  margin: 0;
+}
+
+.modal-admin__domicilio {
+  font-family: $font1;
+  color: #d59c9c;
+  font-size: 15px;
+}
+
+.modal-admin__total {
+  margin-top: 5px;
+  font-family: $font1;
+  color: #404040;
+  font-size: 22px;
+  font-weight: 500;
+  text-align: center;
+  border-bottom: 1px solid #ced6d8;
+  padding-bottom: 10px;
+}
+
+.modal-admin__pagos-row {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  padding-left: 15px;
+  font-family: $font1;
+  color: #404040;
+  &:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 5px;
+    width: 7px;
+    height: 7px;
+    background-color: $principal;
+    border-radius: 50%;
+  }
+}
+
+
+.modal-admin__pago-modo {
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  i {
+    color: $principal;
+    font-size: 22px;
+    margin-left: 6px;
+  }
+}
+
+.modal-admin__estados {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 10px 0 5px 0;
+}
+
+.modal-admin__estado-item {
+  border: 1px solid $principal;
+  border-radius: 8px;
+  color: $principal;
+  font-family: $font1;
+  padding: 7px 10px;
+  margin: 0 5px 8px 5px;
+}
+
+.modal-admin__info {
+  width: 85%;
+  margin: 0 auto;
+  p {
+    font-family: $font1;
+    font-weight: 300;
+    color: #424e5c;
+    font-size: 15px;
+    text-align: center;
+    strong {
+      font-weight: 500;
+    }
+  }
+  span {
+    display: block;
+    margin-top: 5px;
+  }
+  i {
+    font-size: 20px;
+  }
+}
+
+.admin-hoy__triger {
+  cursor: pointer;
+}

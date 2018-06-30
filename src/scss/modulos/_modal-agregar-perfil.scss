@@ -1,0 +1,141 @@
+.agregar-perfil {
+  font-family: $font1;
+  .modal-ceu__content {
+    display: flex;
+    max-width: 700px;
+    padding: 40px 60px 40px 50px;
+  }
+  .modal-ceu__close {
+    top: 10px;
+    right: 25px;
+    i {
+      font-size: 40px;
+    }
+  }
+}
+
+.agregar-perfil__foto-turno {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 30px 0 0;
+  h5 {
+    color: #4a4a4a;
+    font-size: 18px;
+    font-weight: 500;
+    text-align: center;
+    margin: 0 0 5px 0;
+  }
+}
+
+.agregar-perfil__foto {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: #c7c7c7;
+  border: 1px solid #e5edef;
+  background-position: center;
+  background-size: cover;
+  img {
+    max-width: 100%;
+  }
+}
+
+.agregar-perfil__editar-foto {
+  font-family: $font1;
+  font-size: 22px;
+  color: $principal;
+  margin-top: 10px;
+}
+
+.agregar-perfil__tope {
+  display: flex;
+  align-items: center;
+  margin: 15px 0;
+}
+
+.agregar-perfil__tope-num {
+  font-size: 32px;
+  font-weight: 500;
+  color: #4a4a4a;
+  margin-right: 15px;
+}
+
+.agregar-perfil__eliminar {
+  font-size: 20px;
+  color: $principal;
+  margin-top: 20px;
+  transition: all .3s;
+  cursor: pointer;
+  &:hover {
+    color: #f27c64;
+  }
+}
+
+.agregar-perfil__form {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.ceu-form__campo {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  label {
+    font-family: $font1;
+    color: $principal;
+    font-size: 22px;
+    margin-bottom: 5px;
+  }
+  input {
+    border-radius: 10px;
+    border: 1px solid #e5edef;
+    width: 100%;
+    padding: 8px 10px;
+    color: #404040;
+    &:focus{
+      outline: none;
+    }
+  }
+}
+
+.ceu-form__campo2 {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  input {
+    border-radius: 100px;
+    border: 1px solid $principal;
+    width: 100%;
+    padding: 8px 15px;
+    color: #404040;
+    &:focus{
+      outline: none;
+    }
+  }
+}
+
+
+.ceu-form__campo-btn {
+  background-color: #9013fe;
+  color: #fff;
+  font-size: 22px;
+  padding: 10px 40px;
+  border-radius: 15px;
+  border: none;
+  cursor: pointer;
+  transition: all .3s;
+  &:hover {
+    background-color: $secundario;
+    color: #404040;
+  }
+}
+
+.agregar-perfil__btn {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+}

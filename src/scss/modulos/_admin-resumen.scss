@@ -1,0 +1,192 @@
+.admin-resumen__main {
+  display: flex;
+  background-color: #FAFBFD;
+}
+
+.admin-resumen__paneles {
+  flex: 1;
+  display: flex;
+  justify-content: space-around;
+}
+
+
+.admin-resumen__fecha-totales {
+  min-width: 290px;
+  padding:20px;
+}
+
+
+.admin-resumen__calendario {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.admin-resumen__totales-row {
+  margin-bottom: 10px;
+  h4 {
+    font-family: $font1;
+    font-weight: 30;
+    font-size: 20px;
+    color: $principal;
+    margin: 0 0 5px 0;
+  }
+  p {
+    font-family: $font1;
+    color: #000000;
+    margin: 0;
+    font-size: 30px;
+  }
+  strong {
+    font-weight: 500;
+  }
+}
+
+
+.admin-resumen__fecha-pedido {
+  font-family: $font1;
+  color: $principal;
+  font-size: 30px;
+  margin: 20px 0;
+  text-align: center;
+}
+
+.admin-resumen__lista {
+  width: 840px;
+}
+
+.admin-resumen__ordenar {
+  display: flex;
+  width: 90%;
+  margin: 0 auto;
+}
+
+.admin-resumen__ordernar-titulo {
+  font-family: $font1;
+  font-weight: 500;
+  color: #4a4a4a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 5px 20px;
+  font-size: 20px;
+}
+
+.admin-resumen__ordernar-item {
+  font-family: $font1;
+  font-weight: 500;
+  color: #4a4a4a;
+  font-size: 20px;
+  border: 1px solid #e5edef;
+  background-color: #fff;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  transition: color .3s;
+  flex: 1;
+  padding: 5px 20px;
+  cursor: pointer;
+  i {
+    font-size: 22px;
+    margin-left: 10px;
+  }
+  &.activo,
+  &:hover {
+    color: $principal;
+  }
+}
+
+.admin-resumen__lista-contenedor {
+  height: 535px;
+  overflow-y: auto;
+}
+
+.admin-resumen__lista-item {
+  border: 1px solid #e5edef;
+  border-radius: 8px;
+  padding: 15px 25px;
+  margin: 15px 0;
+  background-color: #fff;
+  transition: border .3s;
+  cursor: pointer;
+  &:hover,
+  &.activo {
+    border-color: $principal;
+  }
+}
+
+.admin-resumen__lista-datos-id{ 
+  display: flex;
+  justify-content: space-between;
+}
+
+.admin-resumen__lista-id {
+  font-family: $font2;
+  color: #424e5c;
+  font-size: 25px;
+  font-weight: 400;
+  margin-right: 20px;
+  strong {
+    font-weight: bold;
+  }
+}
+
+.admin-resumen__lista-fecha {
+  font-family: $font1;
+  font-size: 20px;
+  color: $principal;
+  font-weight: 500;
+  margin-right: 20px;
+}
+
+.admin-resumen__lista-hora {
+  font-family: $font1;
+  color: $principal;
+  font-size: 16px;
+  margin-right: 20px;
+}
+
+.admin-resumen__lista-estado {
+  font-family: $font1;
+  font-size: 20px;
+  font-weight: 500;
+  color: $principal;
+  margin-right: 20px;
+}
+
+.admin-resumen__lista-tiempo {
+  font-family: $font1;
+  font-weight: 500;
+  color: #404040;
+  font-size: 20px;
+}
+
+.admin-resumen__lista-lista-datos-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  padding-left: 10px;
+}
+
+.admin-resumen__lista-cliente-restaurante {
+  p {
+    font-family: $font1;
+    margin: 0;
+    font-size: 20px;
+    color: #404040;
+    font-weight: 500;
+  }
+  strong {
+    color: $principal;
+  }
+}
+
+.admin-resumen__lista-total {
+  font-family: $font1;
+  color: #404040;
+  font-weight: 500;
+  font-size: 22px;
+}

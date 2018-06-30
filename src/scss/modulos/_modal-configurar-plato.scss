@@ -1,0 +1,182 @@
+.modal-agregar {
+  h3 {
+    font-family: $font2;
+    color: #000;
+    font-weight: bold;
+    font-size: 25px;
+    margin: 0;
+  }
+}
+
+.modal-agregar__descripcion {
+  font-family: $font3;
+  font-size: 16px;
+  font-weight: 300;
+  color: $color3;
+  margin: 15px 0 0 0;
+}
+
+.modal-agregar__extra {
+  h4 {
+    font-size: 14px;
+    font-family: $font1;
+    font-weight: bold;
+    color: $color3;
+    margin: 15px 0 8px 0;
+    span {
+      margin-left: 8px;
+      font-size: 12px;
+      font-weight: 400;
+    }
+  }
+  p {
+    font-size: 13px;
+    color: $color3;
+    margin: 0;
+  }
+}
+
+.modal-agregar__extra-adicional {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 15px 0 0;
+  height: 30px;
+  margin-bottom: 3px;
+  border-bottom: 1px solid #dedede;
+}
+
+.modal-agregar__extra-nombre {
+  font-family: $font1;
+  flex: 2;
+  min-width: 180px;
+}
+
+.modal-agregar__extra-precio {
+  font-family: $font3;
+  flex: 1;
+  flex-basis: 60px
+}
+
+.modal-agregar__extra-agregar {
+  font-family: $font3;
+  border-radius: 5px;
+  width: 18px;
+  height: 18px;
+  border: 1px solid #9b9b9b;
+  font-size: 13px;
+  color: $color3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.modal-agregar__extra-agregar-activo {
+  display: flex;
+  background-color: $principal;
+  border-color: $principal;
+  width: 60px;
+  color: $color1;
+  padding: 2px 5px;
+}
+
+.modal-agregar__extra-agregar-num{
+  flex: 1;
+  text-align: center;
+}
+
+.modal-agregar__extra-textarea {
+  padding: 0 12px;
+  margin-top: 12px;
+  textarea {
+    padding: 8px;
+    border: 1px solid #979797;
+    width: 100%;
+    border-radius: 5px;
+    font-size: 14px;
+    font-family: $font3;
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+.modal-agregar__cuenta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.modal-agregar__cantidad {
+  display: flex;
+  height: 35px;
+  min-width: 105px;
+  border-radius: 5px;
+  border: 1px solid #979797;
+}
+
+.modal-agregar__cantidad-restar,
+.modal-agregar__cantidad-numero,
+.modal-agregar__cantidad-sumar {
+  font-family: $font3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-agregar__cantidad-restar,
+.modal-agregar__cantidad-sumar {
+  cursor: pointer;
+}
+
+.modal-agregar__cantidad-numero {
+  font-size: 16px;
+  flex: 2;
+}
+
+.modal-agregar__cantidad-restar,
+.modal-agregar__cantidad-sumar {
+  font-size: 25px;
+  color: $principal;
+  flex: 1;
+  padding: 8px;
+}
+
+.modal-agregar__precio {
+  background-image: linear-gradient(to bottom, #7620d6, #6e17e7);
+  border-radius: 5px;
+  padding: 12px;
+  p {
+    font-family: $font1;
+    font-size: 16px;
+    color: $color1;
+    margin: 0;
+    span {
+      margin-left: 10px;
+    }
+  }
+}
+
+.modal-agregar__pedir {
+  padding: 8px;
+  border-radius: 5px;
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  button {
+    font-size: 16px;
+    color: $color1;
+    font-family: $font1;
+    border: none;
+    border-radius: 5px;
+    background-image: linear-gradient(to bottom, #7620d6, #6e17e7);
+    padding: 10px;
+    cursor: pointer;
+    transition: all .3s;
+    &:hover {
+      color: $secundario;
+    }
+  }
+}

@@ -1,0 +1,159 @@
+.contacto-restaurante {
+  min-width: $anchomin;
+  min-height: calc( 100vh - 65px );
+  background-color: #f5f8fa;
+  padding: 20px;
+  align-items: center;
+  display: flex;
+}
+
+.contacto-restaurante__contactos {
+  width: 900px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between
+}
+
+.contacto__soporte,
+.soporte__operaciones {
+  width: 385px;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 30px;
+  h3 {
+    font-family: $font2;
+    color: #fff;   
+    font-size: 40px;
+    text-align: center;
+    font-weight: 500;
+    margin: 0;    
+  }
+  .contacto__icon {
+    font-size: 80px;
+    color: #fff;
+    margin: 30px 0;
+  }
+  p {
+    font-family: $font1;
+    font-size: 15px;
+    color: #fff;
+    font-weight: 400;
+    text-align: center;
+    line-height: 1.2;
+    margin: 0 0 40px 0;
+  }
+}
+
+.contacto__info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+  a {
+    text-decoration: none;
+    font-family: $font1;
+    font-size: 15px;
+    color: #fff;
+    margin-left: 10px;
+  }
+  i {
+    height: 37px;
+    width: 37px;
+    background-color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    position: relative;
+    z-index: 20;
+    &:after {
+      content: '';
+      height: 45px;
+      width: 45px;
+      background-color: rgba(#fff, .5);
+      border-radius: 50%;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate3d(-50%,-50%,0);
+      z-index: -1;
+    }
+  }
+}
+
+.contacto__soporte {
+  background-image: linear-gradient(91deg, #70e5dc, #6adddf 19%, #5ac8e8 48%, #40a4f7 83%, #3292ff);
+  .contacto__info {
+    i {
+      &:before {
+        background-image: linear-gradient(162deg, #70e5dc, #6adddf 19%, #5ac8e8 48%, #40a4f7 83%, #3292ff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        color: #3292ff;
+      }
+    }
+  }
+}
+
+.soporte__operaciones {
+  background-image: linear-gradient(164deg, #fce93a, #fdd528 36%, #ffaa00);
+  .contacto__info {
+    i {
+      &:before {
+        background-image: linear-gradient(to bottom, #fdde30, #ffb80d);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        color: #fce93a;
+      }
+    }
+  }
+}
+
+.contacto__ticket {
+  width: 100%;
+  background-color: $principal;
+  padding: 30px;
+  border-radius: 6px;
+  margin-top: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  h4 {
+    font-family: $font1;
+    color: #fff;
+    font-weight: 500;
+    font-size: 40px;
+    line-height: 1.1;
+    margin: 0;
+  }
+
+  p {
+    width: 310px;
+    color: #fff;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 400;
+    font-family: $font1;
+  }
+
+  
+}
+
+.contacto__ticket-icon {
+  font-size: 100px;
+  color: #fff;
+}
+
+.contacto__ticket-version {
+  color: #fff;
+  font-family: $font1;
+  font-size: 20px;
+  position: absolute;
+  top: 12px;
+  right: 120px;
+}

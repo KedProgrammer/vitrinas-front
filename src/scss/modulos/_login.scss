@@ -1,0 +1,195 @@
+
+/**
+  *header login
+  */
+
+.login-header {
+  background-image: url('../assets/images/login/bg-login.jpg');
+  background-size: cover;
+  background-position: center;
+  height: 320px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  &:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba($color2,.4)
+  }
+  img {
+    max-width: 297px;
+  }
+}
+
+.login-header__contenido{ 
+  position: relative;
+  z-index: 10;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  p {
+    color: $color1;
+    font-family: $font1;
+    font-weight: 300;
+    font-size: 20px;
+    margin: 4px 0 0 0;
+    text-align: center;
+  }
+}
+
+// login main
+.login__contenedor {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 40px;
+}
+
+.login-main__contenido {
+  padding: 0 20px;
+  h2 {
+    font-family: $font2;
+    font-weight: bold;
+    text-align: center;
+    color: $color3;
+    font-size: 30px;
+  }
+}
+// btn login redes sociales
+.login__redes {
+  margin-top: 40px auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.login__faceboook,
+.login__google,
+.g-signin-button {
+  background-color: #dc4e41;
+  display: inline-block;
+  padding: 12px 22px;
+  text-decoration: none;
+  margin-bottom: 15px;
+  border-radius: 6px;
+  color: #fff;
+  font-family: $font1;
+  font-weight: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  img {
+    height: 30px;
+    margin-right: 5px;
+  }
+}
+
+.login__google,
+.g-signin-button {
+  background-color: #dc4e41;
+}
+
+.login__faceboook {
+  background-color: #4267b2;
+}
+
+// login correo electronico
+.login__registro {
+  margin: 30px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  p,a {
+    font-family: $font2;
+    text-align: center;
+  }
+  p {
+    font-size: 18px;
+    color: #9b9b9b;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  a {
+    color: $principal;
+    margin: 0 10px;
+    cursor: pointer;
+  }
+}
+
+.login__registro__info {
+  display: flex;
+}
+
+// regisstro de usuario
+.modal-registro {
+  h3 {
+    font-family: $font2;
+    color: #404040;
+    font-weight: bold;
+    font-size: 30px;
+    margin: 0 0 20px 0 ;
+    text-align: center;
+  }
+  .modal-ceu__content {
+    padding: 20px;
+  }
+}
+
+.form-campo {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  input {
+    font-family: $font1;
+    border: 1px solid #c1c1c1;
+    padding: 10px;
+    font-size: 18px;
+    border-radius: 4px;
+    &:focus{
+      outline: none;
+      border-color: $principal;
+    }
+  }
+}
+
+.registro-logo {
+  img {
+    display: block;
+    max-width: 60px;
+    margin: 0 auto;
+  }
+}
+
+.btn-registro {
+  border-radius: 5px;
+  background-image: linear-gradient(to bottom, #7620d6, #6e17e7);
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+  font-family: $font1;
+  color: #fff;
+  padding: 10px;
+  width: 100%;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.msg__registro {
+  font-family: $font1;
+  background-color: #f86449;
+  color: #fff;
+  font-size: 18px;
+  text-align: center;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  padding: 10px;
+  display: none;
+  &.activo {
+    display: block;
+  }
+}

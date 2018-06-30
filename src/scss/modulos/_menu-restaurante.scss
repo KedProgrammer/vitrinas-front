@@ -1,0 +1,258 @@
+// vista menu restaurante
+.menu-restaurante__head {
+  display: flex;
+  padding: 35px 20px;
+  border-bottom: 1px solid #e5edef;
+  justify-content: space-between;
+  min-width: $anchomin;
+}
+
+.menu-restaurante__info-contenedor {
+  display: flex;
+}
+
+
+.menu-restaurante__info {
+  font-family: $font1;
+  font-size: 18px;
+  color: $color3;
+  margin: 0 15px;
+  h2 {
+    font-size: 25px;
+    font-family: $font2;
+    color: $color3;
+    font-weight: 900;
+    margin: 0 0 5px 0;
+  }
+}
+
+.menu-restaurante__info-foto {
+  width: 212px;
+  height: 136px;
+  border-radius: 5px;
+  background-size: cover;
+  background-position: center;
+}
+
+.menu-restaurante__info-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+  align-items: center;
+}
+
+
+.menu-restaurante__info-producto {
+  color: #9b9b9b;
+}
+
+.menu-restaurante__info-entrega {
+  font-size: 15px;
+  color: #f5a623;
+}
+
+.menu-restaurante__info-take-out {
+  font-size: 15px;
+  color: #f86449;
+}
+
+.menu-restaurante__info-costo,
+.menu-restaurante__info-tiempo {
+  font-weight: bold;
+}
+
+// mensaje restaurante cerrado
+.menu-restaurante__mensaje-estado {
+  border-radius: 8px;
+  border: 1px solid $principal;
+  width: 198px;
+  padding: 15px;
+  color: $principal;
+  font-family: $font1;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+// carrito menu restaurante
+.menu-restaurante__carrito {
+  border: 1px solid #e5edef;
+  padding: 10px 20px;
+  border-radius: 6px;
+  display: flex;
+  height: 60px;
+  align-items: center;
+  cursor: pointer;
+}
+
+.menu-restaurante__carrito-precio {
+  font-family: $font1;
+  color: $color3;
+  font-size: 20px;
+  font-weight: bold;
+  margin-right: 8px;
+}
+
+.menu-restaurante__carrito-canasta {
+  position: relative;
+  i {
+    color: $principal;
+    font-size: 35px;
+  }
+  .menu-restaurante__carrito-borbuja {
+    width: 25px;
+    height: 25px;
+    background-color: $color4;
+    border-radius: 50%;
+    font-family: $font1;
+    color: $color1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+}
+
+// menu restaurante main
+.menu-restaurante__main {
+  display: flex;
+  min-width: $anchomin;
+}
+
+// menu restaurante lista opciones
+.menu-restaurante__lista {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 200px;
+  padding: 20px 15px;
+  a {
+    font-family: $font1;
+    font-size: 15px;
+    font-weight: 400;
+    color: $color3;
+    text-decoration: none;
+    padding: 10px;
+    line-height: 1.2;
+    border-left: 3px solid transparent;
+    transition: all .3s;
+    &:hover,
+    &.activo {
+      border-left-color: $principal;
+      color: $principal;
+    }
+  }
+}
+
+// menu restaurante productos
+
+.menu-restaurante__productos {
+  flex: 1;
+  padding-bottom: 60px;
+}
+
+.menu-restaurante__productos-item {
+  h2 {
+    font-family: $font2;
+    color: $color3;
+    font-weight: bold;
+    margin-bottom: 25px;
+  }
+}
+
+.menu-restaurante__productos-row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.menu-restaurante__productos-row-item {
+  font-family: $font1;
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 16px;
+  color: $color3;
+  padding-right: 30px;
+  margin-bottom: 15px;
+}
+
+
+.menu-restaurante__productos-descuentos {
+  flex-basis: 82px;
+  min-width: 78px;
+  background-color: $principal;
+  opacity: 0;
+  color: $color1;
+  margin: 0;
+  margin-right: 5px;
+  padding: 6px;
+  font-size: 11px;
+  border-radius: 8px;
+  text-align: center;
+  transition: opacity .3s;
+  &.activo {
+    opacity: 1;
+  }
+}
+
+.menu-restaurante__productos-nombre{ 
+  display: flex;
+  flex-basis: 280px;
+}
+
+.menu-restaurante__productos-agregar {
+  display: flex;
+  margin-right: 10px;
+}
+
+.menu-restaurante__productos-cantidad {
+  background-color: $color4;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  color: $color1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 4px;
+  opacity: 0;
+  transition: opacity .3s;
+  &.activo {
+    opacity: 1;
+  }
+}
+
+.menu-restaurante__productos-menos,
+.menu-restaurante__productos-mas {
+  width: 24px;
+  height: 24px;
+  border: 1px solid $principal;
+  color: $principal;
+  border-radius: 50%;
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 4px;
+  cursor: pointer;
+  transition: all .3s;
+  &:hover {
+    background-color: $principal;
+    color: $color1;
+  }
+}
+
+.menu-restaurante__productos-precio {
+  font-weight: bold;
+  margin-right: 8px;
+  flex-basis: 61px;
+}
+
+.menu-restaurante__productos-total {
+  color: $principal;
+  font-weight: bold;
+  flex-basis: 61px;
+  min-width: 61px;
+}

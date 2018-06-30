@@ -1,0 +1,176 @@
+.fecha {
+  color: $principal;
+  font-size: 30px;
+  margin-bottom: 30px;
+  p {
+    margin-bottom: 5px;
+  }
+  strong {
+    font-weight: 700;
+  }
+}
+
+.calendar {
+  text-decoration: none;
+}
+
+.pignose-calendar {
+  width: 100%;
+  box-shadow: none;
+  border: none;
+  border-radius: 8px;
+  overflow: hidden;
+  max-width: 280px;
+  background-color: #fff;
+
+  .pignose-calendar-top {
+    padding: 0;
+    background-color: transparent;
+    box-shadow: none;
+    border: none;
+
+    .pignose-calendar-top-nav {
+      position: absolute;
+      top: 50%;
+
+        &.pignose-calendar-top-prev {
+          left: 0px;
+        }
+
+        &.pignose-calendar-top-next {
+          right: 0px;
+          text-align: right;
+        }
+
+        .pignose-calendar-top-icon {
+            color: $principal;
+            font-size: 20px;
+            transition: color .3s;
+            &:hover {
+              color: #404040;
+            }
+        }
+    }
+
+      .pignose-calendar-top-date {
+          position: relative;
+          padding: 15px 0 0 0;
+
+          .pignose-calendar-top-month {
+            text-decoration: none;
+            margin-bottom: 0;
+            color: $principal;
+            font-family: $font1;
+            font-size: 20px;
+            font-weight: 500;
+          }
+
+          .pignose-calendar-top-year {
+              display: none;
+          }
+      }
+  }
+
+  .pignose-calendar-header {
+    margin-top: 6px;
+    position: relative;
+    &:after {
+      content: '';
+      height: 1px;
+      width: 85%;
+      left: 50%;
+      bottom: 0;
+      position: absolute;
+      transform: translateX(-50%);
+      background-color: rgba($principal, .5);
+    }
+      .pignose-calendar-week {
+        color: $principal;
+        font-size: 13px;
+        font-family: $font1;
+        font-weight: 500;
+          &.pignose-calendar-week-sun,
+          &.pignose-calendar-week-sat {
+            color: $principal;
+          }
+      }
+  }
+
+  .pignose-calendar-body {
+    .pignose-calendar-row {
+      .pignose-calendar-unit {
+        height: 32px;
+        line-height: normal;
+        &.pignose-calendar-unit-date {
+            // non-empty date item.
+            a {
+              font-family: $font1;
+              font-size: 13px;
+              font-weight: 500;
+              height: 23px;
+              width: 23px;
+              line-height: 23px;
+              color: #4a4a4a;
+              background-color: #d8d8d8;
+            }
+        }
+
+        &.pignose-calendar-unit-active {
+          // When date is clicked, and that date turns to active state.
+          a {
+            background-color: $principal;
+            color: #fff;
+            border-radius: 50%;
+          }
+
+          &.pignose-calendar-unit-first-active,
+          &.pignose-calendar-unit-second-active {
+            a {
+            }
+          }
+        }
+
+        &.pignose-calendar-unit-range {
+          a {
+            width: 100%;
+            background-color: $principal;
+            color: #fff;
+            font-family: $font1;
+            font-size: 13px;
+            font-weight: 400;
+          }
+        }
+      }
+    }
+  }
+
+  .icon-arrow-right,
+  .icon-arrow-left {
+    &:before {
+      display: inline-block;
+      font-family: "Ionicons";
+      speak: none;
+      font-style: normal;
+      font-weight: normal;
+      font-variant: normal;
+      text-transform: none;
+      text-rendering: auto;
+      line-height: 1;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+  }
+
+  .icon-arrow-left {
+    &:before {
+      content: "\f107";
+    }
+  }
+
+  .icon-arrow-right {
+    &:before {
+      content: "\f10a";
+    }
+  }
+}
+

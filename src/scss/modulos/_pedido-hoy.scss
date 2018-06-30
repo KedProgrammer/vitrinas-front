@@ -1,0 +1,284 @@
+.pedido-hoy__main {
+  display: flex;
+  background-color: #f5f8fa;
+}
+
+.pedido-hoy__item {
+  flex: 1;
+  height: calc( 100vh - 65px );
+  border-left: 1px solid #979797;
+  padding: 20px;
+  h3 {
+    font-family: $font2;
+    color: #404040;
+    font-size: 25px;
+    font-weight: bold;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 0 12px 0;
+    span {
+      border-radius: 50%;
+      font-size: 14px;
+      font-weight: 400;
+      color: #fff;
+      font-weight: bold;
+      width: 23px;
+      min-width: 23px;
+      height: 23px;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #ff5f52;
+      margin-left: 5px;
+    }
+  }
+  .pedido-hoy__item-contendor {
+    overflow-y: auto;
+  }
+}
+
+.pedido-hoy__item-solicitudes {
+  display: flex;
+  flex-direction: column;
+  .pedido-hoy__item-contendor {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #e5edef;
+    background-color: #fff;
+    border-radius: 6px;
+    padding: 20px 0 0 0;
+  }
+}
+
+.pedido-hoy__solicitudes-header {
+  padding: 0 14px;
+  position: relative;
+  h4 {
+    font-family: $font2;
+    color: #424e5c;
+    font-weight: bold;
+    font-size: 25px;
+    font-weight: 400;
+    margin: 0;
+    text-align: center
+  }
+  strong {
+    font-weight: bold;
+  }
+  p {
+    margin: 0;
+    font-size: 14px;
+    font-family: $font1;
+    color: $principal;
+    text-align: center
+  }
+}
+
+.pedido-hoy__imprimir {
+  background-color: #9013fe;
+  font-size: 14px;
+  padding: 8px;
+  border-radius: 6px;
+  color: #fff;
+  font-family: $font1;
+  position: absolute;
+  top: 5px;
+  right: 12px;
+  cursor: pointer;
+  border: none;
+}
+
+.pedido-hoy__solicitudes-lista {
+  // height: 300px;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.pedido-hoy__solicitudes-lista-item {
+  display: flex;
+  border-bottom: 1px solid #ced6d8;
+  padding: 15px;
+  &:last-child {
+    border: none;
+  }
+}
+
+.pedido-hoy__solicitudes-lista-num {
+  font-family: $font1;
+  font-size: 18px;
+  color: #404040;
+  font-weight: bold;
+}
+
+.pedido-hoy__solicitudes-lista-info {
+  margin-left: 15px;
+}
+
+.pedido-hoy__solicitudes-lista-titulo {
+  font-family: $font1;
+  font-size: 14px;
+  color: #404040;
+  margin: 0;
+}
+
+.pedido-hoy__solicitudes-lista-adicional {
+  margin: 0 0 0 17px;
+  padding: 5px 0 0 0;
+  font-family: $font1;
+  font-size: 14px;
+  color: #404040;
+  li {
+    margin-bottom: 3px;
+  }
+}
+
+.pedido-hoy__solicitudes-lista-comentario {
+  font-family: $font1;
+  color: #404040;
+  font-size: 12px;
+  margin: 12px 0 6px 0;
+}
+
+.pedido-hoy__solicitudes-lista-mensaje {
+  font-family: $font1;
+  color: #404040;
+  font-size: 13px;
+  margin: 0;
+  line-height: 1.2;
+  text-align: center;
+  width: 90%;
+  margin: 0 auto;
+}
+
+.pedido-hoy__solicitudes-btn {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.pedido-hoy__solicitudes-rechazar {
+  background-color: #ff5f52;
+}
+
+.pedido-hoy__solicitudes-detalles {
+  background-color: #9013fe;
+}
+
+.pedido-hoy__solicitudes-rechazar,
+.pedido-hoy__solicitudes-detalles {
+  width: 50%;
+}
+
+.pedido-hoy__solicitudes-aceptar {
+  width: 100%;
+  background-color: #5affb2;
+}
+
+.pedido-hoy__solicitudes-rechazar,
+.pedido-hoy__solicitudes-detalles,
+.pedido-hoy__solicitudes-aceptar {
+  font-family: $font2;
+  font-size: 18px;
+  color: #fff;
+  text-align: center;
+  padding: 12px;
+  border: none;
+  cursor: pointer;
+  &:focus {
+    outline: none;
+  }
+}
+
+
+// panel proceso - pedidos hoy
+.pedido-hoy__item-proceso {
+  display: flex;
+  flex-direction: column;
+}
+
+.pedido-hoy__item-contendor {
+  overflow-y: auto;
+  flex: 1;
+}
+
+.pedido-hoy__proceso {
+  display: flex;
+  width: 100%;
+  background-color: #fff;
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 15px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border .3s;
+  &:hover,
+  &.activo {
+    border-color: $principal;
+  }
+}
+
+.pedido-hoy__proceso-info {
+  flex: 1;
+  padding: 10px 12px;
+}
+
+.pedido-hoy__proceso-id {
+  margin-bottom: 10px;
+  h4 {
+    font-family: $font2;
+    font-size: 25px;
+    color: #424e5c;
+    font-weight: 400;
+    margin: 0;
+  }
+  strong {
+    font-weight: bold;
+  }
+  p {
+    font-family: $font1;
+    margin: 0;
+    color: $principal;
+    font-size: 13px;
+  }
+}
+
+.pedido-hoy__proceso-platos {
+  font-family: $font1;
+  font-size: 25px;
+  color: #424e5c;
+}
+
+.pedido-hoy__proceso-tiempo {
+  font-family: $font1;
+  font-size: 13px;
+  text-align: right;
+  color: #9b9b9b;
+}
+
+.pedido-hoy__proceso-estado {
+  background-color: #5affb2;
+  font-family: $font2;
+  font-size: 18px;
+  font-weight: 500;
+  color: #fff;
+  padding: 11px;
+  display: flex;
+  align-items: center;
+}
+
+// recoger - pedidos hoy
+.pedido-hoy__item-recoger {
+  display: flex;
+  flex-direction: column;
+}
+
+.pedido-hoy__recoger-estado {
+  background-color: $principal;
+  font-size: 30px;
+  color: #fff;
+  padding: 11px 22px;
+  display: flex;
+  align-items: center;
+}

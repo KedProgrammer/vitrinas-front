@@ -1,0 +1,54 @@
+.modal-cupon {
+  .modal-ceu__content {
+    max-width: 240px;
+  }
+  h2 {
+    font-size: 16px;
+    font-family: $font1;
+    color: #000000;
+    text-align: center;
+  }
+  label {
+    font-family: $font1;
+    font-size: 12px;
+    color: $principal;
+  }
+  .modal-ceu__close {
+    top: 15px;
+    right: 15px;
+    i {
+      font-size: 30px;
+    }
+  }
+}
+
+
+.modal-cupon__input {
+  position: relative;
+  i {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    color: $principal;
+  }
+  input {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid $principal;
+    padding: 10px 8px 5px 8px;
+    font-family: $font1;
+    color: #000000;
+    font-size: 18px;
+    outline: none;
+  }
+}
+
+.modal-cupon__mensaje {
+  color: $principal;
+  font-family: $font1;
+  font-weight: 500;
+  font-size: 20px;
+  text-align: center;
+  margin-top: 20px;
+}

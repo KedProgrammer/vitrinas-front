@@ -1,0 +1,155 @@
+// modal 1
+.modal-ceu {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(1.1);
+  transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-ceu__overley {
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-color: rgba(#000, .3);
+}
+
+.modal-ceu__content {
+  // position: absolute;
+  position: relative;
+  z-index: 30;
+  max-width: 400px;
+  width: 100%;
+  margin: 0 15px;
+  background-color: $color1;
+  padding: 20px 15px;
+  border: 1px solid #979797;
+  border-radius: 5px;
+  max-height: 95%;
+  overflow-y: auto;
+}
+.modal-ceu__close {
+  color: $principal;
+  position: absolute;
+  top: 4px;
+  right: 16px;
+  cursor: pointer;
+  font-size: 15px;
+  line-height: 0;
+  i.ion-ios-close-empty {
+    font-size: 40px;
+  }
+}
+
+.modal-ceu__show {
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1.0);
+  transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
+}
+
+// modal 2
+.modal-side {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 60;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+  transition: visibility 0s linear 0.25s, opacity 0.25s 0s;
+  &.activo {
+    opacity: 1;
+    visibility: visible;
+    .modal-side__overley {
+      opacity: 1;
+      transform: scale(1);
+      visibility: visible;
+    }
+    .modal-side__contenedor {
+      transform: translateX(0);
+    }
+  }
+}
+
+.modal-side__overley {
+  background-color: rgba(#000, .2);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  visibility: hidden;
+  transition:  all .3s;
+}
+
+.modal-side__contenedor {
+  width: 100%;
+  max-width: 510px;
+  background-color: $color1;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 30;
+  overflow-y: auto;
+  height: 100%;
+  padding-bottom: 40px;
+  transition: transform .3s;
+  transform: translateX(100%)
+}
+
+.modal-side__cerrar {
+  border-radius: 5px;
+  border: 1px solid $principal;
+  padding: 8px 10px;
+  font-size: 16px;
+  font-family: $font1;
+  position: absolute;
+  right: 25px;
+  top: 20px;
+  color: $principal;
+  cursor: pointer;
+  transition: all .3s;
+  span {
+    font-size: 14px;
+  }
+  &:hover {
+    color: $color1;
+    background-color: $principal;
+  }
+}
+
+
+.modal-side2__cerrar {
+  font-size: 25px;
+  color: #000;
+  position: absolute;
+  top: 12px;
+  left: 20px;
+  cursor: pointer;
+}
+
+.modal-side2__titulo {
+  padding: 15px;
+  h3 {
+    margin: 0;
+    color: #000;
+    font-family: $font2;
+    font-weight: 900;
+    font-size: 20px;
+    text-align: center;
+  }
+}

@@ -1,0 +1,111 @@
+// inscripcion
+.inscripcion__header {
+  background-color: #9013fe;
+  font-family: $font1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 240px;
+  min-width: $anchomin;
+  h3 {
+    text-align: center;
+    color: #fff;
+    font-size: 30px;
+    font-weight: 500;
+    margin: 0 0 10px 0;
+  }
+  img {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    display: block;
+  }
+}
+
+.inscripcion__main {
+  padding: 40px 20px 40px 20px;
+  font-family: $font1;
+  min-height: calc( 100vh - 240px );
+  min-width: $anchomin;
+  h4 {
+    margin: 0 0 40px 0;
+    text-align: center;
+    font-size: 25px;
+    font-weight: normal;
+  }
+}
+
+.inscripcion__form {
+
+}
+
+.inscripcion__main-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.inscripcion__campo {
+  width: 25%;
+  padding: 0 30px;
+  margin-bottom: 45px;
+  input {
+    font-size: 20px;
+  }
+}
+
+.inspcricion__servicio-interes {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  h5 {
+    font-family: $font1;
+    font-size: 25px;
+    color: $principal;
+    font-weight: 400;
+    text-align: center;
+    margin: 0 0 20px 0;
+  }
+}
+
+.inspcricion__servicio-row {
+  display: flex;
+  margin-bottom: 30px;
+  .ceu-checkbox {
+    margin: 0 20px;
+    label {
+      display: flex;
+      align-items: center;
+      span {
+        width: 20px;
+        height: 20px;
+      }
+      p {
+        font-size: 20px;
+        color: #404040;
+      }
+    }
+  }
+}
+
+.inscripcion__contracto {
+  font-size: 20px;
+  text-align: center;
+  color: $principal;
+  margin-bottom: 20px;
+}
+
+.inscripcion__btn-envio {
+  font-family: $font1;
+  color: #fff;
+  text-align: center;
+  background-color: $principal;
+  border-radius: 6px;
+  padding: 15px 28px;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  &:hover {
+    background-color: #404040;;
+  }
+}

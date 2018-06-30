@@ -1,0 +1,62 @@
+// colores
+
+$principal: #9013fe;
+$secundario: #fce93a;
+$color1: #fff;
+$color2: #000;
+$color3: #404040;
+$color4: #50e3c2;
+
+// tamaño maximo que puede dismuir la pantalla
+$anchomin: 1200px;
+$anchomax: 1420px;
+
+// fuentes
+$font1: 'Gotham Rounded', sans-serif;
+$font2: 'Museo Sans Rounded', sans-serif;
+$font3: 'Lato', sans-serif;
+
+@import './helpers/normalize';
+@import './helpers/custom-fonts';
+@import './helpers/custom-icon-font';
+@import './helpers/ionicons/ionicons';
+@import './helpers/select';
+@import './helpers/search';
+@import './helpers/global';
+@import './helpers/modal';
+@import './modulos/login';
+@import './modulos/modal-prime';
+@import './modulos/agregar-celular';
+@import './modulos/verificar-codigo';
+@import './modulos/datos-usuario';
+@import './modulos/restaurante-user';
+@import './modulos/modal-perfil';
+@import './modulos/modal-carrito';
+@import './modulos/modal-configurar-plato';
+@import './modulos/promos';
+@import './modulos/menu-restaurante';
+@import './modulos/checkout';
+@import './modulos/tabs';
+@import './modulos/tracker';
+@import './modulos/modal-cupon';
+@import './modulos/cuenta';
+@import './modulos/ucoins';
+@import './modulos/admin-hoy';
+@import './modulos/modal-admin';
+@import './modulos/admin-resumen';
+@import './modulos/calendario';
+@import './modulos/admin-team';
+@import './modulos/tablas-filtro';
+@import './modulos/historial';
+@import './modulos/gustos';
+@import './modulos/metodo-pago';
+@import './modulos/modal-agregar-perfil';
+@import './modulos/pedido-hoy';
+@import './modulos/modal-pedidos-hoy';
+@import './modulos/inscripcion';
+@import './modulos/verificar-cuenta';
+@import './modulos/modal-menu';
+@import './modulos/contacto-restaurante';
+@import './modulos/modal-ticket';
+@import './modulos/estadistica-restaurente';
+@import './modulos/modal-tarjeta';

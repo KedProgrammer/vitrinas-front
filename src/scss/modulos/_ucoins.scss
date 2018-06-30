@@ -1,0 +1,92 @@
+.gustos__ucoins {
+  border-radius: 8px;
+  border: 1px solid #e5edef;
+  background-color: $principal;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  img {
+    height: 50px;
+  }
+  p {
+    font-family: $font2;
+    font-size: 70px;
+    color: #fff;
+    margin: 0 50px;
+  }
+}
+
+
+.gustos__ucoins-contenedor {
+  padding: 0 30px;
+}
+
+.gustos__recargar {
+  font-family: $font1;
+  color: #fff;
+  font-size: 20px;
+  transition: all .3s;
+  &:hover {
+    color: $secundario;
+  }
+}
+
+.gustos__informacion {
+  h3 {
+    font-family: $font2;
+    font-size: 20px;
+    font-weight: bold;
+    color: #404040;
+    text-align: center;
+  }
+  p {
+    color: #9b9b9b;
+    font-family: $font1;
+    font-size: 15px;
+    line-height: 1.2;
+  }
+}
+
+.gustos__historial {
+  border-top: 1px solid #e5edef;
+  padding: 15px 0 0 0;
+  max-height: 285px;
+  overflow-y: auto;
+  h4 {
+    font-size: 20px;
+    font-family: $font2;
+    color: #404040;
+    margin: 0 0 15px 0;
+  }
+}
+
+.gustos__historial-row {
+  display: flex;
+  padding: 10px 0;
+  border-bottom: 1px solid #e5edef;
+  &:last-child {
+    border: none;
+  }
+}
+
+.gustos__historial-costo {
+  font-family: $font2;
+  min-width: 90px;
+  font-size: 15px;
+  color: #50e3c2;
+  display: flex;
+  align-items: center;
+  i {
+    font-size: 10px;
+    margin-left: 8px;
+  }
+  &.rojo {
+    color: #f85f4d;
+  }
+}
+
+.gustos__historial-mensaje {
+  font-family: $font2;
+  font-size: 15px;
+  color: #404040;
+}

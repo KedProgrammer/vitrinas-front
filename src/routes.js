@@ -1,4 +1,5 @@
 import Today from './views/today.vue'
+import Restaurant from './views/restaurant.vue'
 import Error404 from './views/error404.vue'
 
 const routes = [
@@ -6,6 +7,11 @@ const routes = [
     path: '/hoy',
     component: Today,
     name: 'today'
+  },
+  {
+    path: '/restaurante',
+    component: Restaurant,
+    name: 'restaurant'
   },
   {
     path: '/*',

@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import routes from './routes'
 import VueOffline from 'vue-offline'
 import vSelect from 'vue-select'
+
 import App from './App.vue'
 
 Vue.config.productionTip = false

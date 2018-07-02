@@ -1,0 +1,42 @@
+.modal-add {
+  .modal-add__content {
+    max-width: 70%;
+    margin: 40px auto;
+  }
+  .ceu-campo__text-round {
+    padding: 0 40px;
+    margin-bottom: 30px;
+  }
+}
+
+.modal-add__name-retaurant {
+  margin-bottom: 30px;
+  input {
+    font-family: $font1;
+    color: #404040;
+    font-size: 25px;
+    text-align: center;
+    padding: 5px 10px;
+    border: none;
+    border-bottom: 1px solid #979797;
+    width: 100%;
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+.modal-add__servicios {
+  flex-direction: column;
+  h3 {
+    font-family: $font1;
+    color: $principal;
+    font-size: 18px;
+    font-weight: 400;
+    margin: 0 0 15px 0;
+  }
+}
+
+.modal-add__footer {
+  margin-top: 20px;
+}

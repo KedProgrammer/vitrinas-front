@@ -34,6 +34,13 @@
       </vue-good-table>
     </article>
 
+    <!-- modal -->
+    <ModalAdd
+      @toggle-add="toggleAdd"
+      :show-modal="showAdd" />
+    <ModalEdit
+      @toggle-edit="toggleEdit"
+      :show-modal="showEdit" />
   </main>
 </template>
 
@@ -45,11 +52,16 @@ import 'vue-good-table/dist/vue-good-table.css'
 
 // custom components
 import Menu from '../components/layout/Menu'
+import ModalAdd from '../components/restaurant/modal-add'
+import ModalEdit from '../components/restaurant/modal-edit'
+
 export default {
   name: 'Restaurant',
   components: {
     Menu,
-    VueGoodTable
+    VueGoodTable,
+    ModalAdd,
+    ModalEdit
   },
   data () {
     return {
@@ -218,17 +230,29 @@ export default {
           activeDisable: '<div class="admin-tabla__turno-checkbox"><input type="checkbox" id="restaurant-activedisable__08"><label for="restaurant-activedisable__08" data-si="On" data-no="Off"/></div>',
           edit: '<div class="restaurant-edit">Edit</div>'
         }
-      ]
+      ],
+      showAdd: false,
+      showEdit: false
     }
   },
   methods: {
     cellClick (value) {
       if (value.column.field === 'edit') {
-        alert('Vamos a editar')
+        console.log('edit')
+        this.toggleEdit()
       }
     },
     addRestaurant () {
-      alert('agregar')
+      console.log('agregar')
+      this.toggleAdd()
+    },
+    toggleAdd () {
+      this.showAdd = !this.showAdd
+      document.querySelector('body').classList.toggle('no-scroll')
+    },
+    toggleEdit () {
+      this.showEdit = !this.showEdit
+      document.querySelector('body').classList.toggle('no-scroll')
     }
   }
 }

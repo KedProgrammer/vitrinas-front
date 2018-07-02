@@ -1,0 +1,14 @@
+@mixin ed-button {
+  display         : inline-block;
+  padding         : .6em 1.2em;
+  cursor          : pointer;
+  border          : none;
+  text-decoration : none;
+  background      : #eee;
+  color           : #333;
+
+  &:hover {
+    background: #ddd;
+  }
+}
+

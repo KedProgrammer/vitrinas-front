@@ -17,6 +17,8 @@ $font2: 'MuseoSansRounded', sans-serif;
 $font3: 'Lato', sans-serif;
 
 @import './helpers/normalize';
+// https://github.com/escueladigital/EDgrid
+@import './helpers/ed-grid/ed-grid';
 @import './helpers/custom-fonts';
 @import './helpers/custom-icon-font';
 @import './helpers/ionicons/ionicons';
@@ -24,6 +26,7 @@ $font3: 'Lato', sans-serif;
 @import './helpers/search';
 @import './helpers/table';
 @import './helpers/global';
+@import './helpers/modal';
 @import './modulos/login';
 @import './modulos/agregar-celular';
 @import './modulos/verificar-codigo';
@@ -59,3 +62,4 @@ $font3: 'Lato', sans-serif;
 @import './modulos/modal-ticket';
 @import './modulos/estadistica-restaurente';
 @import './modulos/admin-restaurant';
+@import './modulos/modal-add-restaurant';

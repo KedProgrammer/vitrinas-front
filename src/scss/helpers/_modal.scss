@@ -1,4 +1,4 @@
-// modal 1
+// modal 
 .modal-ceu {
   position: fixed;
   left: 0;
@@ -15,6 +15,16 @@
   align-items: center;
 }
 
+.filtre-blur {
+  filter: blur(3px);
+}
+
+@supports (backdrop-filter: blur(3px)) or (-webkit-backdrop-filter: blur(3px)) {
+  .filtre-blur {
+    filter: blur(0);
+  }
+}
+
 .modal-ceu__overley {
   left: 0;
   top: 0;
@@ -23,27 +33,51 @@
   position: absolute;
   left: 0;
   top: 0;
-  background-color: rgba(#000, .3);
+  background-color: rgba(#000, .2);
+}
+
+@supports (backdrop-filter: blur(3px)) or (-webkit-backdrop-filter: blur(3px)) {
+  .modal-ceu__overley {
+    -webkit-backdrop-filter: blur(3px);
+    backdrop-filter: blur(3px);
+  }
 }
 
 .modal-ceu__content {
-  // position: absolute;
   position: relative;
   z-index: 30;
-  max-width: 400px;
   width: 100%;
-  margin: 0 15px;
-  background-color: $color1;
+  margin: 0 auto;
+  background-color:$color1;
   padding: 20px 15px;
-  border: 1px solid #979797;
+  border: 1px solid rgba(#979797, .8);
   border-radius: 5px;
   max-height: 95%;
   overflow-y: auto;
+  &.small {
+    max-width: 280px;
+  }
+  &.xsmall {
+    max-width: 540px;
+  }
+  &.medium {
+    max-width: 768px;
+  }
+  &.xmedium {
+    max-width: 992px;
+  }
+  &.large {
+    max-width: 1200px;
+  }
+  &.xlarge {
+    max-width: 1350px;
+  }
 }
 .modal-ceu__close {
   color: $principal;
   position: absolute;
-  top: 4px;
+  z-index: 60;
+  top: 14px;
   right: 16px;
   cursor: pointer;
   font-size: 15px;

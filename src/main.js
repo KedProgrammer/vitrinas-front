@@ -5,6 +5,7 @@ import VueOffline from 'vue-offline'
 import vSelect from 'vue-select'
 import * as VueGoogleMaps from 'vue2-google-maps'
 
+import store from './store'
 import App from './App.vue'
 
 Vue.config.productionTip = false
@@ -26,5 +27,6 @@ const router = new VueRouter({
 
 new Vue({
   render: h => h(App),
-  router
+  router,
+  store
 }).$mount('#app')

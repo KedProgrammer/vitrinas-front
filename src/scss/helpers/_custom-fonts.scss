@@ -1,69 +1,26 @@
 @font-face {
-  font-family:'MuseoSansRounded';
-  src: url('../assets/fonts/museosansrounded-300-webfont.eot');
-  src: url('../assets/fonts/museosansrounded-300-webfont.eot?#iefix') format('embedded-opentype'),
-       url('../assets/fonts/museosansrounded-300-webfont.woff') format('woff'),
-       url('../assets/fonts/museosansrounded-300-webfont.ttf') format('truetype'),
-       url('../assets/fonts/museosansrounded-300-webfont.svg#museo_sans_rounded300') format('svg');
-  font-weight:300;
-  font-style:normal;
+  font-family: 'Museo Sans Rounded';
+  src: url('../assets/fonts/MuseoSansRounded-900.woff2') format('woff2'),
+      url('../assets/fonts/MuseoSansRounded-900.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
 }
 
 @font-face {
-  font-family:'MuseoSansRounded';
-  src: url('../assets/fonts/museosansrounded-500-webfont.eot');
-  src: url('../assets/fonts/museosansrounded-500-webfont.eot?#iefix') format('embedded-opentype'),
-       url('../assets/fonts/museosansrounded-500-webfont.woff') format('woff'),
-       url('../assets/fonts/museosansrounded-500-webfont.ttf') format('truetype'),
-       url('../assets/fonts/museosansrounded-500-webfont.svg#museo_sans_rounded500') format('svg');
-  font-weight:500;
-  font-style:normal;
+  font-family: 'Museo Sans Rounded';
+  src: url('../assets/fonts/MuseoSansRounded-700.woff2') format('woff2'),
+      url('../assets/fonts/MuseoSansRounded-700.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
 }
 
 @font-face {
-  font-family:'MuseoSansRounded';
-  src: url('../assets/fonts/museosansrounded-700-webfont.eot');
-  src: url('../assets/fonts/museosansrounded-700-webfont.eot?#iefix') format('embedded-opentype'),
-       url('../assets/fonts/museosansrounded-700-webfont.woff') format('woff'),
-       url('../assets/fonts/museosansrounded-700-webfont.ttf') format('truetype'),
-       url('../assets/fonts/museosansrounded-700-webfont.svg#museo_sans_rounded700') format('svg');
-  font-weight:700;
-  font-style:normal;
+  font-family: 'Museo Sans Rounded';
+  src: url('../assets/fonts/MuseoSansRounded-1000.woff2') format('woff2'),
+      url('../assets/fonts/MuseoSansRounded-1000.woff') format('woff');
+  font-weight: 900;
+  font-style: normal;
 }
-
-@font-face {
-  font-family:'MuseoSansRounded';
-  src: url('../assets/fonts/museosansrounded-1000-webfont.eot');
-  src: url('../assets/fonts/museosansrounded-1000-webfont.eot?#iefix') format('embedded-opentype'),
-       url('../assets/fonts/museosansrounded-1000-webfont.woff') format('woff'),
-       url('../assets/fonts/museosansrounded-1000-webfont.ttf') format('truetype'),
-       url('../assets/fonts/museosansrounded-1000-webfont.svg#museo_sans_rounded1000') format('svg');
-  font-weight:900;
-  font-style:normal;
-}
-/*
-@font-face {
-  font-family:'MuseoSansRounded';
-  src: url('../assets/fonts/museosansrounded-100-webfont.eot');
-  src: url('../assets/fonts/museosansrounded-100-webfont.eot?#iefix') format('embedded-opentype'),
-       url('../assets/fonts/museosansrounded-100-webfont.woff') format('woff'),
-       url('../assets/fonts/museosansrounded-100-webfont.ttf') format('truetype'),
-       url('../assets/fonts/museosansrounded-100-webfont.svg#museo_sans_rounded100') format('svg');
-  font-weight:100;
-  font-style:normal;
-}
-@font-face {
-  font-family:'MuseoSansRounded';
-  src: url('../assets/fonts/museosansrounded-900-webfont.eot');
-  src: url('../assets/fonts/museosansrounded-900-webfont.eot?#iefix') format('embedded-opentype'),
-       url('../assets/fonts/museosansrounded-900-webfont.woff') format('woff'),
-       url('../assets/fonts/museosansrounded-900-webfont.ttf') format('truetype'),
-       url('../assets/fonts/museosansrounded-900-webfont.svg#museo_sans_rounded900') format('svg');
-  font-weight:800;
-  font-style:normal;
-}
-*/
-
 
 @font-face {
   font-family: 'Gotham Rounded';

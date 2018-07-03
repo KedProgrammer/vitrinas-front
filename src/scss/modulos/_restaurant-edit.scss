@@ -1,0 +1,425 @@
+.modal-edit {
+  .modal-ceu__content {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+.restaurant-edit__name-service-logo {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+// section loog
+.restaurant-edit__logo {
+  // display: flex;
+  font-family: $font1;
+}
+
+.restaurant-edit__logo-img {
+  width: 125px;
+  height: 125px;
+  border-radius: 50%;
+  border: 1px solid #e5edef;
+  margin: 0 auto;
+}
+
+.restaurant-edit__logo-upload {
+  font-size: 20px;
+  color: $principal;
+  text-decoration: underline;
+  text-align: center;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.restaurant-edit__logo-info {
+  font-size: 12px;
+  color: #404040;
+  text-align: center;
+  margin-top: 8px;
+  strong {
+    font-weight: 600;
+  }
+}
+
+// section name servicios
+
+.restaurant-edit__name {
+  display: flex;
+  flex-direction: column;
+  h2 {
+    font-family: $font2;
+    margin: 0;
+    color: #000000;
+    font-weight: bold;
+    font-size: 40px;
+  }
+}
+
+.restaurant-edit__descontinuado {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  p {
+    font-family: $font1;
+    margin: 0 10px 0 0;
+  }
+}
+
+// servicios
+.restaurant-edit__servicios {
+  display: flex;
+  align-items: center;
+  border: 1px solid #e5edef;
+  border-radius: 8px;
+  font-family: $font1;
+  padding: 10px 13px;
+  margin-top: 20px;
+  h5 {
+    color: $principal;
+    font-size: 20px;
+    margin: 0;
+  }
+  .ceu-checkbox {
+    font-size: 13px;
+    label {
+      align-items: center;
+    }
+  }
+}
+
+.restaurant-edit__servicio {
+  display: flex;
+  flex-direction: column;
+  padding: 0 11px;
+  border-right: 1px solid rgba($principal, .5);
+  &:last-child {
+    border: none;
+  }
+}
+
+.restaurant-edit__servicio-porcentaje {
+  display: flex;
+  align-items: flex-end;
+  color: $principal;
+  margin-top: 10px;
+  font-size: 20px;
+  p {
+    margin: 0 0 0 10px;
+    color: inherit;
+    font-size: 15px;
+    font-weight: 300;
+    text-decoration: underline;
+  }
+}
+
+.restaurant-edit__edit-menu {
+  font-family: $font1;
+  color: $principal;
+  text-decoration: underline;
+  font-weight: 500;
+  margin: 15px 25px;
+}
+
+// datos
+.restaurant-edit__datos {
+  display: flex;
+  flex-wrap: wrap;
+  .ceu-campo__text-round {
+    input {
+      text-align: center;
+    }
+  }
+  p {
+    font-family: $font1;
+    margin: 0 0 5px 5px;
+    color: #404040;
+  }
+}
+
+.restaurant-edit__horarios {
+  padding: 0 25px;
+  h3 {
+    font-family: $font2;
+    color: #000000;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0;
+  }
+}
+
+.restaurant-edit__add-banner {
+  padding: 0 25px;
+}
+
+.restaurant-edit__add-banner-titulo {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+  margin-bottom: 15px;
+  h4 {
+    color: #404040;
+    font-family: $font2;
+    font-size: 20px;
+    margin: 0;
+  }
+  p {
+    margin: 0;
+    font-size: 12px;
+    font-family: $font1;
+    margin-left: 15px;
+  }
+}
+
+.ceu-campo__hStart-hEnd {
+  display: flex;
+  align-items: center;
+  margin-top: 15px;
+  p {
+    margin: 0;
+    font-family: $font2;
+    color: $principal;
+    font-size: 16px;
+    margin-right: 15px;
+  }
+  .time-picker {
+    display: inline-block;
+    margin-right: 30px;
+    input.display-time {
+      border-radius: 8px;
+      border: solid 1px #e5edef;
+      height: auto;
+      padding: 10px 12px;
+    }
+    .clear-btn {
+      color: $principal;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      margin-top: auto;
+      font-size: 20px;
+    }
+    .dropdown ul li.active,
+    .dropdown ul li.active:hover {
+      background-color: $principal;
+    }
+  }
+}
+
+.restaurant-edit__banner-description {
+  margin-top: 15px;
+  max-width: 82%;
+  p {
+    font-family: $font2;
+    color: $principal;
+    margin: 0 15px 0 0;
+  }
+  .ceu-campo__text-round2 {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.restaurant-edit__dias-semana {
+  display: flex;
+  align-items: center;
+  margin-top: 15px;
+  .multiselect__select:before {
+    border-color: $principal transparent transparent;
+  }
+  p {
+    margin: 0;
+    font-family: $font2;
+    color: $principal;
+    font-size: 16px;
+    margin-right: 15px;
+    white-space: nowrap;
+  }
+}
+
+.restaurant-edit__add-horario {
+  font-family: $font1;
+  font-size: 16px;
+  font-weight: 500;
+  color: $principal;
+  text-decoration: underline;
+  margin-top: 15px;
+  cursor: pointer;
+}
+
+.restaurant-edit__time-price {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-top: 20px;
+  padding: 0 46px;
+}
+
+.restaurant-edit__time-item {
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: 10px;
+  p {
+    font-family: $font1;
+    font-size: 18px;
+    margin: 0 20px;
+  }
+  .ceu-campo__text2 {
+    width: 60px;
+    input {
+      text-align: center;
+      font-weight: bold;
+      font-size: 18px;
+    }
+  }
+}
+
+.restaurant-edit__time-precio {
+  p {
+    &:last-of-type {
+      visibility: hidden;
+    }
+  }
+  .ceu-campo__text2 {
+    width: 60px;
+    input {
+      font-weight: 400;
+    }
+  }
+}
+
+.restaurant-edit__payments {
+  h3 {
+    font-family: $font2;
+    color: $principal;
+    font-size: 16px;
+    margin: 20px 0 10px 0;
+    text-decoration: underline;
+  }
+}
+
+.restaurant-edit__payments-radio {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 14px;
+  .lista-radio2 {
+    label {
+      font-family: $font2;
+      font-weight: 500;
+    }
+  }
+}
+
+.restaurant-edit__banco-info {
+  display: flex;
+  margin-top: 15px;
+  .ceu-campo__text-round {
+    input {
+      padding: 12px 14px;
+      font-size: 13px;
+    }
+  }
+  .custom-select4 {
+    .multiselect__tags {
+      font-size: 13px;
+    }
+    .multiselect__single {
+      font-size: 13px;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+    .multiselect__element,
+    .multiselect__input {
+      font-size: 13px;
+    }
+    &.selBanco {
+      .multiselect__content-wrapper {
+        width: 165%;
+      }
+    }
+  }
+}
+
+.restaurant-edit__banco-campo {
+  p {
+    font-family: $font1;
+    color: #404040;
+    margin: 0 0 5px 10px;
+  }
+}
+
+.restaurant-edit__eliminar {
+  margin-top: 15px;
+}
+
+.restaurant-edit__footer {
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0;
+  a {
+    font-family: $font1;
+    font-size: 20px;
+    text-decoration: underline;
+    margin-bottom: 15px;
+  }
+}
+
+.restaurant-edit__banner-upload {
+  display: flex;
+}
+
+.restaurant-edit__upload-file {
+  position: relative;
+  display: flex;
+  label {
+    font-family: $font1;
+    font-size: 20px;
+    color: $principal;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  input {
+    position: absolute;
+    left: 0;
+    top: 0;
+    visibility: hidden;
+    width: 2px;
+  }
+}
+
+.restaurant-edit__upload-text {
+  border: 1px solid #4f5e61;
+  width: 50px;
+  height: 25px;
+  margin: 0 10px;
+}
+
+.restaurant-edit__upload-delete {
+  color: $principal;
+  font-size: 22px;
+  i {
+    cursor: pointer;
+  }
+}
+
+.restaurant-edit__direccion {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 30px;
+}
+
+.restaurant-edit__search-map {
+  p {
+    font-family: $font1;
+    margin: 0 0 5px 0;
+    color: #404040;
+  }
+}
+
+.restaurant-edit__search-map {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}

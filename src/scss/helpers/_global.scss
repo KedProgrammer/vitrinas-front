@@ -39,7 +39,29 @@ body {
 *::-webkit-scrollbar-corner {
   background: transparent;
 }
-  
+
+// multiselect
+.multiselect__tag {
+  background-color: $principal;
+  font-family: $font1;
+  font-weight: 300;
+  i {
+    &:after {
+      color: #fff;
+    }
+  }
+}
+
+.multiselect__option--highlight {
+  background-color: $principal;
+}
+
+.multiselect__tag-icon {
+  &:hover {
+    background-color: transparent;
+  }
+}
+
 // ceu-checkbox
 .ceu-checkbox {
   display: flex;
@@ -167,13 +189,13 @@ body {
   padding-left: 20px;
   label {
     cursor: pointer;
-    position: absolute;
-    width: auto;
-    height: 100%;
-    left: 30px;
-    top: 0;
+    position: relative;
+    // width: auto;
+    // height: 100%;
+    // left: 30px;
+    // top: 0;
     font-family: $font1;
-    font-size: 13px;
+    font-size: 16px;
     color: $color3;
     display: flex;
     align-items: center;
@@ -181,8 +203,8 @@ body {
       content: '';
       border: 1px solid $principal;
       border-radius: 50%;
-      width: 16px;
-      height: 16px;
+      width: 20px;
+      height: 20px;
       position: absolute;
       left: -25px;
       top: 50%;
@@ -190,8 +212,8 @@ body {
     }
     &:before {
       content: '';
-      width: 10px;
-      height: 10px;
+      width: 12px;
+      height: 12px;
       position: absolute;
       left: -21px;
       top: 50%;
@@ -417,12 +439,64 @@ body {
   input {
     font-family: $font1;
     font-size: 16px;
-    text-align: center;
     color: #404040;
     border-radius: 50px;
     background-color: #ffffff;
     border: solid 0.7px #9013fe;
     padding: 8px 10px;
+    width: 100%;
+    &:focus {
+      outline: none;
+    }
+    &::-webkit-input-placeholder {
+      color: #9b9b9b;
+    }
+    &::-moz-placeholder {
+      color: #9b9b9b;
+    }
+    &:-ms-input-placeholder {
+      color: #9b9b9b;
+    }
+    &:-moz-placeholder {
+      color: #9b9b9b;
+    }
+  }
+}
+
+// input text
+.ceu-campo__text-round2 {
+  margin-bottom: 15px;
+  input {
+    font-family: $font1;
+    font-size: 16px;
+    color: #404040;
+    border-radius: 8px;
+    background-color: #ffffff;
+    border: solid 1px #e5edef;
+    padding: 8px 10px;
+    width: 100%;
+    &:focus {
+      outline: none;
+    }
+    &::-webkit-input-placeholder {
+      color: #9b9b9b;
+    }
+    &::-moz-placeholder {
+      color: #9b9b9b;
+    }
+    &:-ms-input-placeholder {
+      color: #9b9b9b;
+    }
+    &:-moz-placeholder {
+      color: #9b9b9b;
+    }
+  }
+}
+
+.ceu-campo__text2 {
+  input {
+    border: none;
+    border-bottom: solid 2px rgba(#404040, .6);
     width: 100%;
     &:focus {
       outline: none;

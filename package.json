@@ -10,6 +10,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "ed-grid": "^2.5.10",
+    "v-calendar": "^0.9.7",
     "vue": "^2.5.16",
     "vue-good-table": "^2.8.2",
     "vue-multiselect": "^2.1.0",

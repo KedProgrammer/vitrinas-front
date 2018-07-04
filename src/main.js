@@ -4,6 +4,8 @@ import routes from './routes'
 import VueOffline from 'vue-offline'
 import vSelect from 'vue-select'
 import * as VueGoogleMaps from 'vue2-google-maps'
+import VCalendar from 'v-calendar'
+import 'v-calendar/lib/v-calendar.min.css'
 
 import store from './store'
 import App from './App.vue'
@@ -19,6 +21,7 @@ Vue.use(VueGoogleMaps, {
     libraries: 'places'
   }
 })
+Vue.use(VCalendar)
 
 const router = new VueRouter({
   routes,

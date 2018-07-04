@@ -18,31 +18,6 @@
             :attributes='attrs' />
         </div>
 
-        <div class="admin-resumen__totales-row">
-          <h4>Pedidos entregados</h4>
-          <p><strong>120</strong></p>
-        </div>
-
-        <div class="admin-resumen__totales-row">
-          <h4>Pedidos con problemas</h4>
-          <p><strong>10</strong></p>
-        </div>
-
-        <div class="admin-resumen__totales-row">
-          <h4>Ventas totales</h4>
-          <p><strong>COP</strong> $1’345.200</p>
-        </div>
-
-        <div class="admin-resumen__totales-row">
-          <h4>Utilidad</h4>
-          <p><strong>COP</strong> $1’345.200</p>
-        </div>
-
-        <div class="admin-resumen__totales-row">
-          <h4>Perdida</h4>
-          <p><strong>COP</strong> $1’345.200</p>
-        </div>
-
       </section>
       <!-- tabla resumen -->
       <section class="admin-resumen__tabla-resumen">
@@ -78,7 +53,9 @@
           <div class="admin-resumen__lista-contenedor">
             <!-- item -->
             <!-- 'admin-resumen__triger' clase que abre el modal -->
-            <div class="admin-resumen__lista-item admin-resumen__triger">
+            <div
+              @click="toggleModalDetails"
+              class="admin-resumen__lista-item">
               <!-- datos -->
               <div class="admin-resumen__lista-datos-id">
                 <div class="admin-resumen__lista-id">
@@ -238,15 +215,21 @@
       </section>
     </article>
 
+    <!-- modal -->
+    <modal-details
+      @event-toggle-modal="toggleModalDetails"
+      :toggle-modal="showModalDetails"/>
   </main>
 </template>
 
 <script>
 import Menu from '../components/layout/Menu'
+import ModalDetails from '../components/record/modalDetails'
 export default {
   name: 'History',
   components: {
-    Menu
+    Menu,
+    ModalDetails
   },
   data () {
     return {
@@ -264,8 +247,9 @@ export default {
       ],
       themeStyles: {
         wrapper: {
-          // color: '#fafafa'
-          // border: 'none'
+          backgroundColor: '#fff',
+          borderRadius: '6px',
+          border: '1px solid #e5edef'
         },
         weekdayHorizontalDivider: {
           borderBottom: 'solid #000 1px'
@@ -285,7 +269,13 @@ export default {
       myRange: {
         start: new Date(2018, 7, 2),
         end: new Date(2018, 7, 10)
-      }
+      },
+      showModalDetails: false
+    }
+  },
+  methods: {
+    toggleModalDetails () {
+      this.showModalDetails = !this.showModalDetails
     }
   }
 }

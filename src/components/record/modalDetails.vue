@@ -1,17 +1,20 @@
 <template>
-  <!-- modal datos pedido -->
-  <div class="modal-admin">
-    <button class="modal-admin__cerrar modal-admin__cerrar-small">
-      X
+  <div
+    :class="{ 'activo': toggleModal }"
+    class="modal-admin">
+    <button
+      @click="eventToggleModal"
+      class="modal-admin__cerrar">
+      Cerrar
     </button>
     <div class="modal-admin__header">
-      <h3>Descripción</h3>
-      <h5>ID <span>56721</span></h5>
+      <h3>56721</h3>
+      <h2>Delirato</h2>
       <p class="modal-admin__hora">
         Para la 1:15pm
       </p>
       <!-- colocar la clase "activo" para indicar que fue aceptado el pedido -->
-      <h4 class="modal-admin__estado-pedido">En proceso</h4>
+      <h4 class="modal-admin__estado-pedido activo">Aceptado</h4>
     </div>
     <!-- lista del pedido -->
     <div class="modal-admin__lista">
@@ -33,8 +36,8 @@
           <p class="modal-admin__lista-mensaje">
             Enviar salsa de tomate y mayonesa, no incluir la cebolla
           </p>
-          <div class="modal-admin-resumen__lista-precio">
-            COP $32.300
+          <div class="modal-admin__lista-precio">
+            $32.300
           </div>
         </div>
 
@@ -57,8 +60,8 @@
           <p class="modal-admin__lista-mensaje">
             Enviar salsa de tomate y mayonesa, no incluir la cebolla
           </p>
-          <div class="modal-admin-resumen__lista-precio">
-            COP $32.300
+          <div class="modal-admin__lista-precio">
+            $32.300
           </div>
         </div>
 
@@ -81,8 +84,8 @@
           <p class="modal-admin__lista-mensaje">
             Enviar salsa de tomate y mayonesa, no incluir la cebolla
           </p>
-          <div class="modal-admin-resumen__lista-precio">
-            COP $32.300
+          <div class="modal-admin__lista-precio">
+            $32.300
           </div>
         </div>
 
@@ -91,23 +94,82 @@
     </div>
     <!-- precio total -->
     <div class="modal-admin__costos">
+      <div class="modal-admin__row">
+        <p class="modal-admin__cupon">
+          <strong>Cupón</strong>
+          HappyCharlie
+        </p>
+        <div class="modal-admin__domicilio">
+          Sin domicilio
+        </div>
+      </div>
+      <p class="modal-admin__row">
+        <strong>Domicilio</strong>
+        $0
+      </p>
       <div class="modal-admin__total">
         TOTAL COP $54.400
+      </div>
+    </div>
+    <!-- formad de pagos -->
+    <div class="modal-admin__pagos">
+      <div class="modal-admin__pagos-row">
+        <div class="modal-admin__pago">
+          Forma de pago
+        </div>
+        <div class="modal-admin__pago-modo">
+          Efectivo <i class="ion-ios-arrow-forward"/>
+        </div>
+      </div>
+      <div class="modal-admin__pagos-row">
+        <div class="modal-admin__pago">
+          Runner
+        </div>
+        <div class="modal-admin__pago-modo">
+          Juan Camilo Martines <i class="ion-ios-arrow-forward"/>
+        </div>
+      </div>
+    </div>
+    <!-- estados -->
+    <div class="modal-admin__estados">
+      <!-- item -->
+      <div class="modal-admin__estado-item">
+        Runner esp...
+      </div>
+      <!-- item -->
+      <div class="modal-admin__estado-item">
+        Listo en rest
+      </div>
+      <!-- item -->
+      <div class="modal-admin__estado-item">
+        Recogido
+      </div>
+      <!-- item -->
+      <div class="modal-admin__estado-item">
+        Entregado
+      </div>
+      <!-- item -->
+      <div class="modal-admin__estado-item">
+        Pagado
+      </div>
+      <!-- item -->
+      <div class="modal-admin__estado-item">
+        Problema Cliente
+      </div>
+      <!-- item -->
+      <div class="modal-admin__estado-item">
+        Problema rest
       </div>
     </div>
     <!-- informacion base -->
     <div class="modal-admin__info">
       <p>
-        <strong>Cliente:</strong> Carlos Alvarez Avila
-        <span><i class="ceu-icon-phone-call-1"/> 3006304982</span>
+        <strong>Cliente: </strong>Pepito perez
+        (pepito@javeriana.edu.co
       </p>
       <p>
-        <strong>Runner: </strong>Pepito perez
-        <span><i class="ceu-icon-phone-call-1"/> 3006304982</span>
-      </p>
-      <p>
-        <strong>Central: </strong> Katherine Ibarguen
-        <span><i class="ceu-icon-phone-call-1"/> 3006304982</span>
+        <strong>Restaurante: </strong>
+        Delirato 3103224982
       </p>
     </div>
   </div>
@@ -115,6 +177,17 @@
 
 <script>
 export default {
-  name: 'ModalDetails'
+  name: 'ModalDetails',
+  props: {
+    toggleModal: {
+      default: false,
+      type: Boolean
+    }
+  },
+  methods: {
+    eventToggleModal () {
+      this.$emit('event-toggle-modal')
+    }
+  }
 }
 </script>

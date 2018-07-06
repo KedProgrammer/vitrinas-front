@@ -8,11 +8,11 @@ if (localStorage.getItem('user_data') !== null) {
 }
 
 const configService = axios.create({
-  baseURL: 'http://staging.comidaenlau.com/',
+  baseURL: 'staging.comidaenlau.com/',
   headers: {
     'accept-language': 'es',
     'Content-Type': 'application/json',
-    'authorization': userToken
+    'authorization': 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo2fQ.cmfqeZanuGPtFheDSGzeXhAg56D3DODqyseskOO3Dg8'
   }
 })
 

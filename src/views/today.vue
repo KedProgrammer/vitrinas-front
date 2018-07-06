@@ -10,37 +10,58 @@
         <div class="admin-hoy__filtro">
           <!-- item filtro -->
           <!-- Agregar la clase activo para marcar el item -->
-          <div class="admin-hoy__filtro-item activo">
+          <div 
+          @click="filterOrder('all')"
+          :class="{activo: setActive('all')}"
+          class="admin-hoy__filtro-item">
             <h4>All</h4>
             <p>(30-2)</p>
           </div>
           <!-- item filtro -->
-          <div class="admin-hoy__filtro-item">
+          <div 
+           @click="filterOrder('vigentes')"
+            :class="{activo: setActive('vigentes')}"
+          class="admin-hoy__filtro-item">
             <h4>Vigentes</h4>
             <p>(12-2)</p>
           </div>
           <!-- item filtro -->
-          <div class="admin-hoy__filtro-item">
+          <div 
+           @click="filterOrder('estado')"
+            :class="{activo: setActive('estado')}"
+          class="admin-hoy__filtro-item">
             <h4>Estado int.</h4>
             <p>(7-1)</p>
           </div>
           <!-- item filtro -->
-          <div class="admin-hoy__filtro-item">
+          <div
+           @click="filterOrder('recogidos')"
+            :class="{activo: setActive('recogidos')}"
+           class="admin-hoy__filtro-item">
             <h4>Recogidos</h4>
             <p>(3-1)</p>
           </div>
           <!-- item filtro -->
-          <div class="admin-hoy__filtro-item">
+          <div 
+           @click="filterOrder('problemas')"
+            :class="{activo: setActive('problemas')}"
+          class="admin-hoy__filtro-item">
             <h4>Problemas</h4>
             <p>(4-0)</p>
           </div>
           <!-- item filtro -->
-          <div class="admin-hoy__filtro-item">
+          <div 
+           @click="filterOrder('entregados')"
+            :class="{activo: setActive('entregados')}"
+          class="admin-hoy__filtro-item">
             <h4>Entregados</h4>
             <p>(4-0)</p>
           </div>
           <!-- item filtro -->
-          <div class="admin-hoy__filtro-item">
+          <div 
+           @click="filterOrder('prime')"
+            :class="{activo: setActive('prime')}"
+          class="admin-hoy__filtro-item">
             <h4>PRIME</h4>
             <p>(3-1)</p>
           </div>
@@ -65,11 +86,17 @@
       <div class="admin-hoy__header-envio">
         <div class="admin-hoy__header-envio-contenedor">
           <!-- Agregar la clase activo para marcar el item -->
-          <div class="admin-hoy__header-domicilio activo">
+          <div 
+          @click="filterType('delivery')"
+           :class='{activo: !isTakeout}'
+          class="admin-hoy__header-domicilio ">
             <h4>Domicilios</h4>
             <p>(30-2)</p>
           </div>
-          <div class="admin-hoy__header-takeout">
+          <div 
+           @click="filterType('takeout')"
+           :class='{activo: isTakeout}'
+          class="admin-hoy__header-takeout">
             <h4>Take-out</h4>
             <p>(2-4)</p>
           </div>
@@ -171,27 +198,25 @@
             <!-- body panel -->
             <div class="admin-hoy__panel-body">
               <!-- item -->
-              <div class="admin-hoy__panel-item">
+              <div 
+              v-for="order in pendingOrders"
+              :key="order.id"
+              class="admin-hoy__panel-item">
                 <div class="admin-hoy__nombre">
-                  <!-- la clase admin-hoy__triger  ejecuta el evento abrir modal-->
-                  <div
-                    @click="toggleDetail"
-                    class="admin-hoy__ubicacion-precio">
+                  <div class="admin-hoy__ubicacion-precio admin-hoy__triger">
                     <div class="admin-hoy__nombre-ubicacion">
-                      <h3>Delirato</h3>
-                      <p>ML 203</p>
+                      <h3>{{order.commerce.commercial_name}}</h3>
+                      <p>{{order.address}}</p>
                     </div>
                     <div class="admin-hoy__precio">
-                      <h3>$30.000</h3>
+                      <h3>{{order.total}}</h3>
                       <p>
                         <i class="ceu-icon-payment-terminal"/>
-                        3
+                      {{order.json_products.length}}
                       </p>
                     </div>
                   </div>
                   <div class="admin-hoy__nombre-row">
-                    <!-- <select class="admin-hoy__nombre-runner">
-                    </select> -->
                     <v-select
                       label="name"
                       class="search-select"
@@ -219,174 +244,8 @@
                   </div>
                 </div>
                 <div class="admin-hoy__estado-info">
-                  <h3 class="admin-hoy__estado-aceptado">Aceptado.</h3>
-                  <p>(3006304982)</p>
-                  <div class="admin-hoy__estado">
-                    Listo en..
-                  </div>
-                </div>
-                <div class="admin-hoy__panel-tiempo">
-                  <p>11:45</p>
-                  <!-- se manejan 3 estados alto medio y bajo -->
-                  <!-- agregar la clase 'alto' para activar este estado -->
-                  <!-- agregar la clase 'medio' para activar este estado -->
-                  <!-- se deja sin clase para indicat bajo -->
-                  <span class="alto">(22)</span>
-                  <p>15413</p>
-                </div>
-              </div>
-              <!-- item -->
-              <div class="admin-hoy__panel-item">
-                <div class="admin-hoy__nombre">
-                  <div class="admin-hoy__nombre-ubicacion">
-                    <h3>Delirato</h3>
-                    <p>ML 203</p>
-                  </div>
-                  <div class="admin-hoy__precio">
-                    <h3>$30.000</h3>
-                    <p>
-                      <img
-                        src="../assets/images/iconos-multicolor/nequi.png"
-                        alt="">
-                      3
-                    </p>
-                  </div>
-                  <div class="admin-hoy__nombre-row">
-                    <select class="admin-hoy__nombre-runner">
-                      <option value="">Asignar</option>
-                      <option value=""> J. Marquez - 0/2</option>
-                      <option value="">M. Pardo - 1/3</option>
-                      <option value="">J. Ramirez - 1/3</option>
-                      <option value="">E. Gomez - 1/2</option>
-                      <option value="">F. Zamora - 2/3</option>
-                      <option value="">R. Martinez - 2/4</option>
-                      <option value="">Q. Tarantino - 2/2</option>
-                      <option value="">A. Motzart - 3/3</option>
-                      <option value="">J. Balvin - 3/3</option>
-                      <option value="">E. Gomez - 1/2</option>
-                      <option value="">F. Zamora - 2/3</option>
-                      <option value="">R. Martinez - 2/4</option>
-                      <option value="">Q. Tarantino - 2/2</option>
-                      <option value="">A. Motzart - 3/3</option>
-                      <option value="">J. Balvin - 3/3</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="admin-hoy__estado-info">
-                  <h3>Listo en rest.</h3>
-                  <p>(3006304982)</p>
-                  <div class="admin-hoy__estado">
-                    Listo en..
-                  </div>
-                </div>
-                <div class="admin-hoy__panel-tiempo">
-                  <p>11:45</p>
-                  <!-- se manejan 3 estados alto medio y bajo -->
-                  <!-- agregar la clase 'alto' para activar este estado -->
-                  <!-- agregar la clase 'medio' para activar este estado -->
-                  <!-- se deja sin clase para indicat bajo -->
-                  <span class="medio">(22)</span>
-                  <p>15413</p>
-                </div>
-              </div>
-              <!-- item -->
-              <div class="admin-hoy__panel-item">
-                <div class="admin-hoy__nombre">
-                  <div class="admin-hoy__ubicacion-precio admin-hoy__triger">
-                    <div class="admin-hoy__nombre-ubicacion">
-                      <h3>Delirato</h3>
-                      <p>ML 203</p>
-                    </div>
-                    <div class="admin-hoy__precio">
-                      <h3>$30.000</h3>
-                      <p>
-                        <img
-                          src="../assets/images/iconos-multicolor/nequi.png"
-                          alt="">
-                        3
-                      </p>
-                    </div>
-                  </div>
-                  <div class="admin-hoy__nombre-row">
-                    <select class="admin-hoy__nombre-runner">
-                      <option value="">Asignar</option>
-                      <option value=""> J. Marquez - 0/2</option>
-                      <option value="">M. Pardo - 1/3</option>
-                      <option value="">J. Ramirez - 1/3</option>
-                      <option value="">E. Gomez - 1/2</option>
-                      <option value="">F. Zamora - 2/3</option>
-                      <option value="">R. Martinez - 2/4</option>
-                      <option value="">Q. Tarantino - 2/2</option>
-                      <option value="">A. Motzart - 3/3</option>
-                      <option value="">J. Balvin - 3/3</option>
-                      <option value="">E. Gomez - 1/2</option>
-                      <option value="">F. Zamora - 2/3</option>
-                      <option value="">R. Martinez - 2/4</option>
-                      <option value="">Q. Tarantino - 2/2</option>
-                      <option value="">A. Motzart - 3/3</option>
-                      <option value="">J. Balvin - 3/3</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="admin-hoy__estado-info">
-                  <h3 class="admin-hoy__estado-aceptado">Aceptado.</h3>
-                  <p>(3006304982)</p>
-                  <div class="admin-hoy__estado">
-                    Listo en..
-                  </div>
-                </div>
-                <div class="admin-hoy__panel-tiempo">
-                  <p>11:45</p>
-                  <!-- se manejan 3 estados alto medio y bajo -->
-                  <!-- agregar la clase 'alto' para activar este estado -->
-                  <!-- agregar la clase 'medio' para activar este estado -->
-                  <!-- se deja sin clase para indicat bajo -->
-                  <span>(22)</span>
-                  <p>15413</p>
-                </div>
-              </div>
-              <!-- item -->
-              <div class="admin-hoy__panel-item">
-                <div class="admin-hoy__nombre">
-                  <div class="admin-hoy__ubicacion-precio">
-                    <div class="admin-hoy__nombre-ubicacion">
-                      <h3>Delirato</h3>
-                      <p>ML 203</p>
-                    </div>
-                    <div class="admin-hoy__precio">
-                      <h3>$30.000</h3>
-                      <p>
-                        <!-- <img src="../assets/images/iconos-multicolor/nequi.png" alt="">  -->
-                        <i class="ceu-icon-payment-terminal"/>
-                        3
-                      </p>
-                    </div>
-                  </div>
-                  <div class="admin-hoy__nombre-row">
-                    <select class="admin-hoy__nombre-runner">
-                      <option value=""> Asignar </option>
-                      <option value=""> J. Marquez - 0/2</option>
-                      <option value="">M. Pardo - 1/3</option>
-                      <option value="">J. Ramirez - 1/3</option>
-                      <option value="">E. Gomez - 1/2</option>
-                      <option value="">F. Zamora - 2/3</option>
-                      <option value="">R. Martinez - 2/4</option>
-                      <option value="">Q. Tarantino - 2/2</option>
-                      <option value="">A. Motzart - 3/3</option>
-                      <option value="">J. Balvin - 3/3</option>
-                      <option value="">E. Gomez - 1/2</option>
-                      <option value="">F. Zamora - 2/3</option>
-                      <option value="">R. Martinez - 2/4</option>
-                      <option value="">Q. Tarantino - 2/2</option>
-                      <option value="">A. Motzart - 3/3</option>
-                      <option value="">J. Balvin - 3/3</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="admin-hoy__estado-info">
-                  <!-- para indicar que esta aceptado se agrega la clase "admin-hoy__estado-aceptado" -->
-                  <h3 class="admin-hoy__estado-aceptado">Aceptado.</h3>
-                  <p>(3006304982)</p>
+                  <h3>{{order.status}}</h3>
+                  <p>{{order.cellphone}}</p>
                   <div class="admin-hoy__estado">
                     Listo en..
                   </div>
@@ -394,58 +253,7 @@
                 <div class="admin-hoy__panel-tiempo">
                   <p>11:45</p>
                   <span>(22)</span>
-                  <p>15413</p>
-                </div>
-              </div>
-              <!-- item -->
-              <div class="admin-hoy__panel-item">
-                <div class="admin-hoy__nombre">
-                  <div class="admin-hoy__ubicacion-precio">
-                    <div class="admin-hoy__nombre-ubicacion">
-                      <h3>Delirato</h3>
-                      <p>ML 203</p>
-                    </div>
-                    <div class="admin-hoy__precio">
-                      <h3>$30.000</h3>
-                      <p>
-                        <!-- <img src="../assets/images/iconos-multicolor/nequi.png" alt="">  -->
-                        <i class="ceu-icon-payment-terminal"/>
-                        3
-                      </p>
-                    </div>
-                  </div>
-                  <div class="admin-hoy__nombre-row">
-                    <select class="admin-hoy__nombre-runner">
-                      <option value="">Asignar</option>
-                      <option value=""> J. Marquez - 0/2</option>
-                      <option value="">M. Pardo - 1/3</option>
-                      <option value="">J. Ramirez - 1/3</option>
-                      <option value="">E. Gomez - 1/2</option>
-                      <option value="">F. Zamora - 2/3</option>
-                      <option value="">R. Martinez - 2/4</option>
-                      <option value="">Q. Tarantino - 2/2</option>
-                      <option value="">A. Motzart - 3/3</option>
-                      <option value="">J. Balvin - 3/3</option>
-                      <option value="">E. Gomez - 1/2</option>
-                      <option value="">F. Zamora - 2/3</option>
-                      <option value="">R. Martinez - 2/4</option>
-                      <option value="">Q. Tarantino - 2/2</option>
-                      <option value="">A. Motzart - 3/3</option>
-                      <option value="">J. Balvin - 3/3</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="admin-hoy__estado-info">
-                  <h3>Listo en rest.</h3>
-                  <p>(3006304982)</p>
-                  <div class="admin-hoy__estado">
-                    Listo en..
-                  </div>
-                </div>
-                <div class="admin-hoy__panel-tiempo">
-                  <p>11:45</p>
-                  <span>(22)</span>
-                  <p>15413</p>
+                  <p>{{order.id}}</p>
                 </div>
               </div>
             </div>
@@ -745,7 +553,7 @@
           <!-- panel -->
           <div class="admin-hoy__panel">
             <div class="admin-hoy__panel-header">
-              <h3>All</h3>
+              <h3>{{selectedFilter}}</h3>
               <!-- menu -->
               <div class="admin-hoy__panel-menu">
                 <a
@@ -781,45 +589,54 @@
             <!-- body panel -->
             <div class="admin-hoy__panel-body">
               <!-- item -->
-              <div class="admin-hoy__panel-item">
+              <div 
+              v-for="order in filterOrders"
+              :key="order.id"
+              class="admin-hoy__panel-item">
                 <div class="admin-hoy__nombre">
                   <div class="admin-hoy__ubicacion-precio admin-hoy__triger">
                     <div class="admin-hoy__nombre-ubicacion">
-                      <h3>Delirato</h3>
-                      <p>ML 203</p>
+                      <h3>{{order.commerce.commercial_name}}</h3>
+                      <p>{{order.address}}</p>
                     </div>
                     <div class="admin-hoy__precio">
-                      <h3>$30.000</h3>
+                      <h3>{{order.total}}</h3>
                       <p>
                         <i class="ceu-icon-payment-terminal"/>
-                        3
+                      {{order.json_products.length}}
                       </p>
                     </div>
                   </div>
                   <div class="admin-hoy__nombre-row">
-                    <select class="admin-hoy__nombre-runner">
-                      <option value="">Asignar</option>
-                      <option value=""> J. Marquez - 0/2</option>
-                      <option value="">M. Pardo - 1/3</option>
-                      <option value="">J. Ramirez - 1/3</option>
-                      <option value="">E. Gomez - 1/2</option>
-                      <option value="">F. Zamora - 2/3</option>
-                      <option value="">R. Martinez - 2/4</option>
-                      <option value="">Q. Tarantino - 2/2</option>
-                      <option value="">A. Motzart - 3/3</option>
-                      <option value="">J. Balvin - 3/3</option>
-                      <option value="">E. Gomez - 1/2</option>
-                      <option value="">F. Zamora - 2/3</option>
-                      <option value="">R. Martinez - 2/4</option>
-                      <option value="">Q. Tarantino - 2/2</option>
-                      <option value="">A. Motzart - 3/3</option>
-                      <option value="">J. Balvin - 3/3</option>
-                    </select>
+                    <v-select
+                      label="name"
+                      class="search-select"
+                      max-height="250px"
+                      placeholder="Asignar"
+                      v-model="runnerUser"
+                      :clear-search-on-select="false"
+                      :options="runners">
+                      <div
+                        class="runners__list-item"
+                        slot="option"
+                        :title="option.name"
+                        slot-scope="option">
+                        <div class="runners__list-name">
+                          {{ option.name }}
+                        </div>
+                        <div class="runners__list-status">
+                          <div class="runner__list-available">
+                            {{ option.process }} / {{ option.capacity }}
+                          </div>
+                          <i class="ion-android-arrow-forward" />
+                        </div>
+                      </div>
+                    </v-select>
                   </div>
                 </div>
                 <div class="admin-hoy__estado-info">
-                  <h3>Listo en rest.</h3>
-                  <p>(3006304982)</p>
+                  <h3>{{order.status}}</h3>
+                  <p>{{order.cellphone}}</p>
                   <div class="admin-hoy__estado">
                     Listo en..
                   </div>
@@ -827,205 +644,7 @@
                 <div class="admin-hoy__panel-tiempo">
                   <p>11:45</p>
                   <span>(22)</span>
-                  <p>15413</p>
-                </div>
-              </div>
-              <!-- item -->
-              <div class="admin-hoy__panel-item">
-                <div class="admin-hoy__nombre">
-                  <div class="admin-hoy__nombre-ubicacion">
-                    <h3>Delirato</h3>
-                    <p>ML 203</p>
-                  </div>
-                  <div class="admin-hoy__precio">
-                    <h3>$30.000</h3>
-                    <p>
-                      <img
-                        src="../assets/images/iconos-multicolor/nequi.png"
-                        alt="">
-                      3
-                    </p>
-                  </div>
-                  <div class="admin-hoy__nombre-row">
-                    <select class="admin-hoy__nombre-runner">
-                      <option value="">Asignar</option>
-                      <option value=""> J. Marquez - 0/2</option>
-                      <option value="">M. Pardo - 1/3</option>
-                      <option value="">J. Ramirez - 1/3</option>
-                      <option value="">E. Gomez - 1/2</option>
-                      <option value="">F. Zamora - 2/3</option>
-                      <option value="">R. Martinez - 2/4</option>
-                      <option value="">Q. Tarantino - 2/2</option>
-                      <option value="">A. Motzart - 3/3</option>
-                      <option value="">J. Balvin - 3/3</option>
-                      <option value="">E. Gomez - 1/2</option>
-                      <option value="">F. Zamora - 2/3</option>
-                      <option value="">R. Martinez - 2/4</option>
-                      <option value="">Q. Tarantino - 2/2</option>
-                      <option value="">A. Motzart - 3/3</option>
-                      <option value="">J. Balvin - 3/3</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="admin-hoy__estado-info">
-                  <h3>Listo en rest.</h3>
-                  <p>(3006304982)</p>
-                  <div class="admin-hoy__estado">
-                    Listo en..
-                  </div>
-                </div>
-                <div class="admin-hoy__panel-tiempo">
-                  <p>11:45</p>
-                  <span>(22)</span>
-                  <p>15413</p>
-                </div>
-              </div>
-              <!-- item -->
-              <div class="admin-hoy__panel-item">
-                <div class="admin-hoy__nombre">
-                  <div class="admin-hoy__nombre-ubicacion">
-                    <h3>Delirato</h3>
-                    <p>ML 203</p>
-                  </div>
-                  <div class="admin-hoy__precio">
-                    <h3>$30.000</h3>
-                    <p>
-                      <img
-                        src="../assets/images/iconos-multicolor/nequi.png"
-                        alt="">
-                      3
-                    </p>
-                  </div>
-                  <div class="admin-hoy__nombre-row">
-                    <select class="admin-hoy__nombre-runner">
-                      <option value="">Asignar</option>
-                      <option value=""> J. Marquez - 0/2</option>
-                      <option value="">M. Pardo - 1/3</option>
-                      <option value="">J. Ramirez - 1/3</option>
-                      <option value="">E. Gomez - 1/2</option>
-                      <option value="">F. Zamora - 2/3</option>
-                      <option value="">R. Martinez - 2/4</option>
-                      <option value="">Q. Tarantino - 2/2</option>
-                      <option value="">A. Motzart - 3/3</option>
-                      <option value="">J. Balvin - 3/3</option>
-                      <option value="">E. Gomez - 1/2</option>
-                      <option value="">F. Zamora - 2/3</option>
-                      <option value="">R. Martinez - 2/4</option>
-                      <option value="">Q. Tarantino - 2/2</option>
-                      <option value="">A. Motzart - 3/3</option>
-                      <option value="">J. Balvin - 3/3</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="admin-hoy__estado-info">
-                  <h3>Listo en rest.</h3>
-                  <p>(3006304982)</p>
-                  <div class="admin-hoy__estado">
-                    Listo en..
-                  </div>
-                </div>
-                <div class="admin-hoy__panel-tiempo">
-                  <p>11:45</p>
-                  <span>(22)</span>
-                  <p>15413</p>
-                </div>
-              </div>
-              <!-- item -->
-              <div class="admin-hoy__panel-item">
-                <div class="admin-hoy__nombre">
-                  <div class="admin-hoy__nombre-ubicacion">
-                    <h3>Delirato</h3>
-                    <p>ML 203</p>
-                  </div>
-                  <div class="admin-hoy__precio">
-                    <h3>$30.000</h3>
-                    <p>
-                      <!-- <img src="../assets/images/iconos-multicolor/nequi.png" alt="">  -->
-                      <i class="ceu-icon-payment-terminal"/>
-                      3
-                    </p>
-                  </div>
-                  <div class="admin-hoy__nombre-row">
-                    <select class="admin-hoy__nombre-runner">
-                      <option value=""> Asignar </option>
-                      <option value=""> J. Marquez - 0/2</option>
-                      <option value="">M. Pardo - 1/3</option>
-                      <option value="">J. Ramirez - 1/3</option>
-                      <option value="">E. Gomez - 1/2</option>
-                      <option value="">F. Zamora - 2/3</option>
-                      <option value="">R. Martinez - 2/4</option>
-                      <option value="">Q. Tarantino - 2/2</option>
-                      <option value="">A. Motzart - 3/3</option>
-                      <option value="">J. Balvin - 3/3</option>
-                      <option value="">E. Gomez - 1/2</option>
-                      <option value="">F. Zamora - 2/3</option>
-                      <option value="">R. Martinez - 2/4</option>
-                      <option value="">Q. Tarantino - 2/2</option>
-                      <option value="">A. Motzart - 3/3</option>
-                      <option value="">J. Balvin - 3/3</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="admin-hoy__estado-info">
-                  <h3>Listo en rest.</h3>
-                  <p>(3006304982)</p>
-                  <div class="admin-hoy__estado">
-                    Listo en..
-                  </div>
-                </div>
-                <div class="admin-hoy__panel-tiempo">
-                  <p>11:45</p>
-                  <span>(22)</span>
-                  <p>15413</p>
-                </div>
-              </div>
-              <!-- item -->
-              <div class="admin-hoy__panel-item">
-                <div class="admin-hoy__nombre">
-                  <div class="admin-hoy__nombre-ubicacion">
-                    <h3>Delirato</h3>
-                    <p>ML 203</p>
-                  </div>
-                  <div class="admin-hoy__precio">
-                    <h3>$30.000</h3>
-                    <p>
-                      <!-- <img src="../assets/images/iconos-multicolor/nequi.png" alt="">  -->
-                      <i class="ceu-icon-payment-terminal"/>
-                      3
-                    </p>
-                  </div>
-                  <div class="admin-hoy__nombre-row">
-                    <select class="admin-hoy__nombre-runner">
-                      <option value="">Asignar</option>
-                      <option value=""> J. Marquez - 0/2</option>
-                      <option value="">M. Pardo - 1/3</option>
-                      <option value="">J. Ramirez - 1/3</option>
-                      <option value="">E. Gomez - 1/2</option>
-                      <option value="">F. Zamora - 2/3</option>
-                      <option value="">R. Martinez - 2/4</option>
-                      <option value="">Q. Tarantino - 2/2</option>
-                      <option value="">A. Motzart - 3/3</option>
-                      <option value="">J. Balvin - 3/3</option>
-                      <option value="">E. Gomez - 1/2</option>
-                      <option value="">F. Zamora - 2/3</option>
-                      <option value="">R. Martinez - 2/4</option>
-                      <option value="">Q. Tarantino - 2/2</option>
-                      <option value="">A. Motzart - 3/3</option>
-                      <option value="">J. Balvin - 3/3</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="admin-hoy__estado-info">
-                  <h3>Listo en rest.</h3>
-                  <p>(3006304982)</p>
-                  <div class="admin-hoy__estado">
-                    Listo en..
-                  </div>
-                </div>
-                <div class="admin-hoy__panel-tiempo">
-                  <p>11:45</p>
-                  <span>(22)</span>
-                  <p>15413</p>
+                  <p>{{order.id}}</p>
                 </div>
               </div>
             </div>
@@ -1042,8 +661,10 @@
 </template>
 
 <script>
+import configService from '../settings/api-url.js'
 import Menu from '../components/layout/Menu'
 import ModalDetails from '../components/today/modal-details'
+import {stateGroups} from '../stateGroup.js'
 
 export default {
   name: 'Today',
@@ -1053,6 +674,12 @@ export default {
   },
   data () {
     return {
+      pendingOrders: [],
+      activeFilter: 'all',
+      filterOrders: [],
+      orders: [],
+      selectedFilter: "All",
+      isTakeout: false,
       runnerUser: '',
       runners: [
         {
@@ -1124,10 +751,145 @@ export default {
       showDetail: false
     }
   },
+  watch: {
+    activeFilter (active){
+      console.log(active)
+      switch (active) {
+        case 'all':
+          this.groupOrders(stateGroups.all)
+          break
+        case 'vigentes':
+          this.groupOrders(stateGroups.vigentes)
+        break
+        case 'estado':
+          this.groupOrders(stateGroups.intermedio)
+        break
+        case 'recogidos':
+          this.groupOrders(stateGroups.recogidos)
+        break
+        case 'problemas':
+          this.groupOrders(stateGroups.problemas)
+        break
+        case 'entregados':
+          this.groupOrders(stateGroups.entregados)
+        break
+        case 'prime':
+          this.groupOrders(active)
+        break
+        default:
+          break
+      }
+    },
+     isTakeout (active){
+      console.log(active)
+      switch (this.activeFilter) {
+        case 'all':
+          this.groupOrders(stateGroups.all)
+          break
+        case 'vigentes':
+          this.groupOrders(stateGroups.vigentes)
+        break
+        case 'estado':
+          this.groupOrders(stateGroups.intermedio)
+        break
+        case 'recogidos':
+          this.groupOrders(stateGroups.recogidos)
+        break
+        case 'problemas':
+          this.groupOrders(stateGroups.problemas)
+        break
+        case 'entregados':
+          this.groupOrders(stateGroups.entregados)
+        break
+        case 'prime':
+          this.groupOrders(this.activeFilter)
+        break
+        default:
+          break
+      }
+    }
+  },
   methods: {
+    setActive(type){
+      if (this.activeFilter === type){
+        return true
+      }
+    },
+    setOrderCount (orders,pending) {
+     orders.map((element,index) => {
+       let auxiliar = []
+        element.json_products.forEach(element => {
+        const repeated = auxiliar.findIndex(element1 => {
+          return element1.total_price === element.total_price && element1.name === element.name
+        })
+        if (repeated === -1) {
+          auxiliar.push({...element, count: 1})
+        } else {
+          auxiliar[0].count++
+        }
+      })
+      return element.json_products = auxiliar
+     })
+    if (pending) {
+      if (pending === 'pending'){
+        this.pendingOrders = orders
+         console.log(this.pendingOrders)
+      }
+    }else {
+      this.filterOrders = orders
+        console.log(this.filterOrders)
+    }
+    },
+    filterType (type) {
+      if (type === 'takeout'){
+         this.isTakeout = true
+      }else{
+        this.isTakeout = false
+      }
+     
+      this.filterOrder(this.activeFilter)
+    },
+    filterOrder (type) {
+      this.activeFilter = type
+    },
     toggleDetail () {
       this.showDetail = !this.showDetail
+    },
+    groupOrders (groupFilter,pending) {
+      if (groupFilter === "prime"){
+         this.setOrderCount( this.orders.filter(element => {
+        if (this.isTakeout){
+          if (element.user_prime && element.is_takeout) {
+            return true
+          }
+        }else{
+           if (element.user_prime && !element.is_takeout) {
+            return true
+          }
+        }
+      }),pending)
+      }else {
+        this.setOrderCount( this.orders.filter(element => {
+        if (groupFilter.includes(element.status) && (this.isTakeout ? element.is_takeout : !element.is_takeout)){
+         return  true
+        }
+      }),pending)
     }
+    }
+  },
+  created (){
+    this.isAllActive = true
+    configService('central_admin/orders?university_id=2')
+    .then(response => {
+      this.orders = response.data
+      this.groupOrders(stateGroups.all)
+      this.groupOrders(stateGroups.pending,"pending")
+  
+
+    })
+    .catch(error => {
+      console.log(error)
+    })
   }
 }
 </script>

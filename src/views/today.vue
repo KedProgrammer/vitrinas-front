@@ -10,58 +10,58 @@
         <div class="admin-hoy__filtro">
           <!-- item filtro -->
           <!-- Agregar la clase activo para marcar el item -->
-          <div 
-          @click="filterOrder('all')"
-          :class="{activo: setActive('all')}"
-          class="admin-hoy__filtro-item">
+          <div
+            @click="filterOrder('all')"
+            :class="{activo: setActive('all')}"
+            class="admin-hoy__filtro-item">
             <h4>All</h4>
             <p>(30-2)</p>
           </div>
           <!-- item filtro -->
-          <div 
-           @click="filterOrder('vigentes')"
+          <div
+            @click="filterOrder('vigentes')"
             :class="{activo: setActive('vigentes')}"
-          class="admin-hoy__filtro-item">
+            class="admin-hoy__filtro-item">
             <h4>Vigentes</h4>
             <p>(12-2)</p>
           </div>
           <!-- item filtro -->
-          <div 
-           @click="filterOrder('estado')"
+          <div
+            @click="filterOrder('estado')"
             :class="{activo: setActive('estado')}"
-          class="admin-hoy__filtro-item">
+            class="admin-hoy__filtro-item">
             <h4>Estado int.</h4>
             <p>(7-1)</p>
           </div>
           <!-- item filtro -->
           <div
-           @click="filterOrder('recogidos')"
+            @click="filterOrder('recogidos')"
             :class="{activo: setActive('recogidos')}"
-           class="admin-hoy__filtro-item">
+            class="admin-hoy__filtro-item">
             <h4>Recogidos</h4>
             <p>(3-1)</p>
           </div>
           <!-- item filtro -->
-          <div 
-           @click="filterOrder('problemas')"
+          <div
+            @click="filterOrder('problemas')"
             :class="{activo: setActive('problemas')}"
-          class="admin-hoy__filtro-item">
+            class="admin-hoy__filtro-item">
             <h4>Problemas</h4>
             <p>(4-0)</p>
           </div>
           <!-- item filtro -->
-          <div 
-           @click="filterOrder('entregados')"
+          <div
+            @click="filterOrder('entregados')"
             :class="{activo: setActive('entregados')}"
-          class="admin-hoy__filtro-item">
+            class="admin-hoy__filtro-item">
             <h4>Entregados</h4>
             <p>(4-0)</p>
           </div>
           <!-- item filtro -->
-          <div 
-           @click="filterOrder('prime')"
+          <div
+            @click="filterOrder('prime')"
             :class="{activo: setActive('prime')}"
-          class="admin-hoy__filtro-item">
+            class="admin-hoy__filtro-item">
             <h4>PRIME</h4>
             <p>(3-1)</p>
           </div>
@@ -86,17 +86,17 @@
       <div class="admin-hoy__header-envio">
         <div class="admin-hoy__header-envio-contenedor">
           <!-- Agregar la clase activo para marcar el item -->
-          <div 
-          @click="filterType('delivery')"
-           :class='{activo: !isTakeout}'
-          class="admin-hoy__header-domicilio ">
+          <div
+            @click="filterType('delivery')"
+            :class='{activo: !isTakeout}'
+            class="admin-hoy__header-domicilio ">
             <h4>Domicilios</h4>
             <p>(30-2)</p>
           </div>
-          <div 
-           @click="filterType('takeout')"
-           :class='{activo: isTakeout}'
-          class="admin-hoy__header-takeout">
+          <div
+            @click="filterType('takeout')"
+            :class='{activo: isTakeout}'
+            class="admin-hoy__header-takeout">
             <h4>Take-out</h4>
             <p>(2-4)</p>
           </div>
@@ -198,21 +198,21 @@
             <!-- body panel -->
             <div class="admin-hoy__panel-body">
               <!-- item -->
-              <div 
-              v-for="order in pendingOrders"
-              :key="order.id"
-              class="admin-hoy__panel-item">
+              <div
+                v-for="order in pendingOrders"
+                :key="order.id"
+                class="admin-hoy__panel-item">
                 <div class="admin-hoy__nombre">
                   <div class="admin-hoy__ubicacion-precio admin-hoy__triger">
                     <div class="admin-hoy__nombre-ubicacion">
-                      <h3>{{order.commerce.commercial_name}}</h3>
-                      <p>{{order.address}}</p>
+                      <h3>{{ order.commerce.commercial_name }}</h3>
+                      <p>{{ order.address }}</p>
                     </div>
                     <div class="admin-hoy__precio">
-                      <h3>{{order.total}}</h3>
+                      <h3>{{ order.total }}</h3>
                       <p>
                         <i class="ceu-icon-payment-terminal"/>
-                      {{order.json_products.length}}
+                        {{ order.json_products.length }}
                       </p>
                     </div>
                   </div>
@@ -244,8 +244,8 @@
                   </div>
                 </div>
                 <div class="admin-hoy__estado-info">
-                  <h3>{{order.status}}</h3>
-                  <p>{{order.cellphone}}</p>
+                  <h3>{{ order.status }}</h3>
+                  <p>{{ order.cellphone }}</p>
                   <div class="admin-hoy__estado">
                     Listo en..
                   </div>
@@ -253,7 +253,7 @@
                 <div class="admin-hoy__panel-tiempo">
                   <p>11:45</p>
                   <span>(22)</span>
-                  <p>{{order.id}}</p>
+                  <p>{{ order.id }}</p>
                 </div>
               </div>
             </div>
@@ -553,7 +553,7 @@
           <!-- panel -->
           <div class="admin-hoy__panel">
             <div class="admin-hoy__panel-header">
-              <h3>{{selectedFilter}}</h3>
+              <h3>{{ selectedFilter }}</h3>
               <!-- menu -->
               <div class="admin-hoy__panel-menu">
                 <a
@@ -589,21 +589,21 @@
             <!-- body panel -->
             <div class="admin-hoy__panel-body">
               <!-- item -->
-              <div 
-              v-for="order in filterOrders"
-              :key="order.id"
-              class="admin-hoy__panel-item">
+              <div
+                v-for="order in filterOrders"
+                :key="order.id"
+                class="admin-hoy__panel-item">
                 <div class="admin-hoy__nombre">
                   <div class="admin-hoy__ubicacion-precio admin-hoy__triger">
                     <div class="admin-hoy__nombre-ubicacion">
-                      <h3>{{order.commerce.commercial_name}}</h3>
-                      <p>{{order.address}}</p>
+                      <h3>{{ order.commerce.commercial_name }}</h3>
+                      <p>{{ order.address }}</p>
                     </div>
                     <div class="admin-hoy__precio">
-                      <h3>{{order.total}}</h3>
+                      <h3>{{ order.total }}</h3>
                       <p>
                         <i class="ceu-icon-payment-terminal"/>
-                      {{order.json_products.length}}
+                        {{ order.json_products.length }}
                       </p>
                     </div>
                   </div>
@@ -635,8 +635,8 @@
                   </div>
                 </div>
                 <div class="admin-hoy__estado-info">
-                  <h3>{{order.status}}</h3>
-                  <p>{{order.cellphone}}</p>
+                  <h3>{{ order.status }}</h3>
+                  <p>{{ order.cellphone }}</p>
                   <div class="admin-hoy__estado">
                     Listo en..
                   </div>
@@ -644,7 +644,7 @@
                 <div class="admin-hoy__panel-tiempo">
                   <p>11:45</p>
                   <span>(22)</span>
-                  <p>{{order.id}}</p>
+                  <p>{{ order.id }}</p>
                 </div>
               </div>
             </div>
@@ -678,7 +678,7 @@ export default {
       activeFilter: 'all',
       filterOrders: [],
       orders: [],
-      selectedFilter: "All",
+      selectedFilter: 'All',
       isTakeout: false,
       runnerUser: '',
       runners: [
@@ -752,7 +752,7 @@ export default {
     }
   },
   watch: {
-    activeFilter (active){
+    activeFilter (active) {
       console.log(active)
       switch (active) {
         case 'all':
@@ -760,27 +760,27 @@ export default {
           break
         case 'vigentes':
           this.groupOrders(stateGroups.vigentes)
-        break
+          break
         case 'estado':
           this.groupOrders(stateGroups.intermedio)
-        break
+          break
         case 'recogidos':
           this.groupOrders(stateGroups.recogidos)
-        break
+          break
         case 'problemas':
           this.groupOrders(stateGroups.problemas)
-        break
+          break
         case 'entregados':
           this.groupOrders(stateGroups.entregados)
-        break
+          break
         case 'prime':
           this.groupOrders(active)
-        break
+          break
         default:
           break
       }
     },
-     isTakeout (active){
+    isTakeout (active) {
       console.log(active)
       switch (this.activeFilter) {
         case 'all':
@@ -788,65 +788,66 @@ export default {
           break
         case 'vigentes':
           this.groupOrders(stateGroups.vigentes)
-        break
+          break
         case 'estado':
           this.groupOrders(stateGroups.intermedio)
-        break
+          break
         case 'recogidos':
           this.groupOrders(stateGroups.recogidos)
-        break
+          break
         case 'problemas':
           this.groupOrders(stateGroups.problemas)
-        break
+          break
         case 'entregados':
           this.groupOrders(stateGroups.entregados)
-        break
+          break
         case 'prime':
           this.groupOrders(this.activeFilter)
-        break
+          break
         default:
           break
       }
     }
   },
   methods: {
-    setActive(type){
-      if (this.activeFilter === type){
+    setActive (type) {
+      if (this.activeFilter === type) {
         return true
       }
     },
-    setOrderCount (orders,pending) {
-     orders.map((element,index) => {
-       let auxiliar = []
+    setOrderCount (orders, pending) {
+      orders.map((element, index) => {
+        let auxiliar = []
         element.json_products.forEach(element => {
-        const repeated = auxiliar.findIndex(element1 => {
-          return element1.total_price === element.total_price && element1.name === element.name
+          const repeated = auxiliar.findIndex(element1 => {
+            return element1.total_price === element.total_price && element1.name === element.name
+          })
+          if (repeated === -1) {
+            auxiliar.push({...element, count: 1})
+          } else {
+            auxiliar[0].count++
+          }
         })
-        if (repeated === -1) {
-          auxiliar.push({...element, count: 1})
-        } else {
-          auxiliar[0].count++
-        }
+        element.json_products = auxiliar
+        return element.json_products
       })
-      return element.json_products = auxiliar
-     })
-    if (pending) {
-      if (pending === 'pending'){
-        this.pendingOrders = orders
-         console.log(this.pendingOrders)
-      }
-    }else {
-      this.filterOrders = orders
+      if (pending) {
+        if (pending === 'pending') {
+          this.pendingOrders = orders
+          console.log(this.pendingOrders)
+        }
+      } else {
+        this.filterOrders = orders
         console.log(this.filterOrders)
-    }
+      }
     },
     filterType (type) {
-      if (type === 'takeout'){
-         this.isTakeout = true
-      }else{
+      if (type === 'takeout') {
+        this.isTakeout = true
+      } else {
         this.isTakeout = false
       }
-     
+
       this.filterOrder(this.activeFilter)
     },
     filterOrder (type) {
@@ -855,41 +856,39 @@ export default {
     toggleDetail () {
       this.showDetail = !this.showDetail
     },
-    groupOrders (groupFilter,pending) {
-      if (groupFilter === "prime"){
-         this.setOrderCount( this.orders.filter(element => {
-        if (this.isTakeout){
-          if (element.user_prime && element.is_takeout) {
+    groupOrders (groupFilter, pending) {
+      if (groupFilter === 'prime') {
+        this.setOrderCount(this.orders.filter(element => {
+          if (this.isTakeout) {
+            if (element.user_prime && element.is_takeout) {
+              return true
+            }
+          } else {
+            if (element.user_prime && !element.is_takeout) {
+              return true
+            }
+          }
+        }), pending)
+      } else {
+        this.setOrderCount(this.orders.filter(element => {
+          if (groupFilter.includes(element.status) && (this.isTakeout ? element.is_takeout : !element.is_takeout)) {
             return true
           }
-        }else{
-           if (element.user_prime && !element.is_takeout) {
-            return true
-          }
-        }
-      }),pending)
-      }else {
-        this.setOrderCount( this.orders.filter(element => {
-        if (groupFilter.includes(element.status) && (this.isTakeout ? element.is_takeout : !element.is_takeout)){
-         return  true
-        }
-      }),pending)
-    }
+        }), pending)
+      }
     }
   },
-  created (){
+  created () {
     this.isAllActive = true
     configService('central_admin/orders?university_id=2')
-    .then(response => {
-      this.orders = response.data
-      this.groupOrders(stateGroups.all)
-      this.groupOrders(stateGroups.pending,"pending")
-  
-
-    })
-    .catch(error => {
-      console.log(error)
-    })
+      .then(response => {
+        this.orders = response.data
+        this.groupOrders(stateGroups.all)
+        this.groupOrders(stateGroups.pending, 'pending')
+      })
+      .catch(error => {
+        console.log(error)
+      })
   }
 }
 </script>

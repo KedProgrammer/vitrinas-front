@@ -11,12 +11,16 @@
         class="modal-ceu__close">
         <i class="ceu-icon-close" />
       </div>
-      <div class="modal-add__content">
+      <form
+        @submit.prevent="createRestaurant"
+        class="modal-add__content">
         <!-- campo principal -->
         <div class="modal-add__name-retaurant">
           <input
             placeholder="Nombre del restaurante"
             autocomplete="name"
+            v-model="form.nameRestaurant"
+            required
             type="text">
         </div>
         <!-- campo -->
@@ -24,6 +28,8 @@
           <input
             autocomplete="email"
             placeholder="Correo de contacto"
+            v-model="form.email"
+            required
             type="text">
         </div>
         <!-- campo -->
@@ -31,6 +37,8 @@
           <input
             autocomplete="name"
             placeholder="Nombre de contacto"
+            v-model="form.nameContact"
+            required
             type="text">
         </div>
         <!-- campo -->
@@ -38,6 +46,8 @@
           <input
             autocomplete="tel"
             placeholder="Número de contacto"
+            v-model="form.phone"
+            required
             type="tel">
         </div>
         <!-- campo -->
@@ -45,18 +55,15 @@
           <input
             autocomplete="tel"
             placeholder="Número de contacto 2"
+            v-model="form.phone2"
             type="tel">
         </div>
         <!-- campo -->
         <div class="ceu-campo__text-round">
           <input
             placeholder="NIT"
-            type="text">
-        </div>
-        <!-- campo -->
-        <div class="ceu-campo__text-round">
-          <input
-            placeholder="Universidad"
+            v-model="form.nit"
+            required
             type="text">
         </div>
         <!-- campo -->
@@ -64,6 +71,8 @@
           <input
             autocomplete="street-address"
             placeholder="Dirección del local"
+            v-model="form.direccion"
+            required
             type="text">
         </div>
         <!-- Servicios -->
@@ -73,6 +82,7 @@
             <div class="ceu-checkbox">
               <input
                 id="add-restaurant__domicilios"
+                v-model="form.domicilio"
                 type="checkbox">
               <label for="add-restaurant__domicilios">
                 <span />
@@ -82,6 +92,7 @@
             <div class="ceu-checkbox">
               <input
                 id="add-restaurant__takeout"
+                v-model="form.takeout"
                 type="checkbox">
               <label for="add-restaurant__takeout">
                 <span />
@@ -98,7 +109,7 @@
             Crear restaurate
           </button>
         </div>
-      </div>
+      </form>
     </div>
   </section>
 </template>
@@ -110,11 +121,30 @@ export default {
     showModal: {
       type: Boolean,
       default: false
+
+    }
+  },
+  data () {
+    return {
+      form: {
+        nameRestaurant: '',
+        email: '',
+        nameContact: '',
+        phone: '',
+        phone2: '',
+        nit: '',
+        direccion: '',
+        domicilio: false,
+        takeout: false
+      }
     }
   },
   methods: {
     toggleShow () {
       this.$emit('toggle-add')
+    },
+    createRestaurant () {
+      this.$emit('create-restaurant', this.form)
     }
   }
 }

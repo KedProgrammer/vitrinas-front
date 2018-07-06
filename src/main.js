@@ -6,6 +6,7 @@ import vSelect from 'vue-select'
 import * as VueGoogleMaps from 'vue2-google-maps'
 import VCalendar from 'v-calendar'
 import 'v-calendar/lib/v-calendar.min.css'
+import VueSweetalert2 from 'vue-sweetalert2'
 
 import store from './store'
 import App from './App.vue'
@@ -22,6 +23,7 @@ Vue.use(VueGoogleMaps, {
   }
 })
 Vue.use(VCalendar)
+Vue.use(VueSweetalert2)
 
 const router = new VueRouter({
   routes,

@@ -17,6 +17,7 @@
     "vue-offline": "^1.0.203",
     "vue-router": "^3.0.1",
     "vue-select": "^2.4.0",
+    "vue-sweetalert2": "^1.4.2",
     "vue2-google-maps": "^0.9.7",
     "vue2-timepicker": "^0.1.4",
     "vuex": "^3.0.1"

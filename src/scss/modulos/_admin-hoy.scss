@@ -252,7 +252,7 @@
     transition: all .3s;
     background-color: #fff;
     &:hover,
-    &.activo {
+    &.router-link-exact-active {
       background-color: $principal;
       color: #fff;
     }

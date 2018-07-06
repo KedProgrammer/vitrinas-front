@@ -26,17 +26,17 @@
           class="ceu-table__actions"
           slot="table-actions">
           <div
-            @click="addRestaurant"
+            @click="toggleAdd"
             class="ceu-table__add">
             Agregar
           </div>
         </div>
       </vue-good-table>
     </article>
-
     <!-- modal -->
     <ModalAdd
       @toggle-add="toggleAdd"
+      @create-restaurant="createRestaurant"
       :show-modal="showAdd" />
     <ModalEdit
       @toggle-edit="toggleEdit"
@@ -45,7 +45,7 @@
 </template>
 
 <script>
-// library
+import { mapState } from 'vuex'
 // https://xaksis.github.io/vue-good-table/guide/#installation
 import { VueGoodTable } from 'vue-good-table'
 import 'vue-good-table/dist/vue-good-table.css'
@@ -54,6 +54,7 @@ import 'vue-good-table/dist/vue-good-table.css'
 import Menu from '../components/layout/Menu'
 import ModalAdd from '../components/restaurant/modal-add'
 import ModalEdit from '../components/restaurant/modal-edit'
+import configService from '../settings/api-url'
 
 export default {
   name: 'Restaurant',
@@ -63,8 +64,17 @@ export default {
     ModalAdd,
     ModalEdit
   },
+  computed: {
+    ...mapState(['university', 'commerces'])
+  },
+  mounted () {
+    this.$nextTick(function () {
+      this.updateTable()
+    })
+  },
   data () {
     return {
+      // ...mapState(),
       columns: [
         {
           label: 'Nombre',
@@ -109,7 +119,7 @@ export default {
           sortable: false
         }
       ],
-      rows: [
+      rows1: [
         {
           id: 1,
           name: 'El Corral',
@@ -231,20 +241,91 @@ export default {
           edit: '<div class="restaurant-edit">Edit</div>'
         }
       ],
+      rows: [],
       showAdd: false,
       showEdit: false
     }
   },
   methods: {
+    updateTable () {
+      this.rows = []
+      this.$store.dispatch('updateCommerceAsync')
+        .then(res => {
+          const data = res.data
+          if (data.lenght === 1) {
+            this.rows.push({
+              id: data.id,
+              name: data.commercial_name,
+              cellphone: data.telephone,
+              cellphone2: data.contact_number,
+              address: 'Carrera 22#106-40',
+              addresses: `<div data-id="${data.id}" class="admin-tabla__turno-checkbox"><input type="checkbox" id="restaurant-addresess__${data.id}"><label for="restaurant-addresess__${data.id}" data-si="On" data-no="Off"/></div>`,
+              takeout: `<div data-id="${data.id}" class="admin-tabla__turno-checkbox"><input type="checkbox" id="restaurant-takeout__${data.id}"><label for="restaurant-takeout__${data.id}" data-si="On" data-no="Off"/></div>`,
+              status: `<div data-id="${data.id}" class="admin-tabla__turno-checkbox"><input type="checkbox" id="restaurant-status__${data.id}"><label for="restaurant-status__${data.id}" data-si="On" data-no="Off"/></div>`,
+              activeDisable: `<div data-id="${data.id}" class="admin-tabla__turno-checkbox"><input type="checkbox" id="restaurant-activedisable__${data.id}"><label for="restaurant-activedisable__${data.id}" data-si="On" data-no="Off"/></div>`,
+              edit: `<div class="restaurant-edit" data-id="${data.id}">Edit</div>`
+            })
+          } else {
+            data.map(data => {
+              this.rows.push({
+                id: data.id,
+                name: data.commercial_name,
+                cellphone: data.telephone,
+                cellphone2: data.contact_number,
+                address: 'Carrera 22#106-40',
+                addresses: `<div data-id="${data.id}" class="admin-tabla__turno-checkbox"><input type="checkbox" id="restaurant-addresess__${data.id}"><label for="restaurant-addresess__${data.id}" data-si="On" data-no="Off"/></div>`,
+                takeout: `<div data-id="${data.id}" class="admin-tabla__turno-checkbox"><input type="checkbox" id="restaurant-takeout__${data.id}"><label for="restaurant-takeout__${data.id}" data-si="On" data-no="Off"/></div>`,
+                status: `<div data-id="${data.id}" class="admin-tabla__turno-checkbox"><input type="checkbox" id="restaurant-status__${data.id}"><label for="restaurant-status__${data.id}" data-si="On" data-no="Off"/></div>`,
+                activeDisable: `<div data-id="${data.id}" class="admin-tabla__turno-checkbox"><input type="checkbox" id="restaurant-activedisable__${data.id}"><label for="restaurant-activedisable__${data.id}" data-si="On" data-no="Off"/></div>`,
+                edit: `<div class="restaurant-edit" data-id="${data.id}">Edit</div>`
+              })
+            })
+          }
+        })
+    },
     cellClick (value) {
       if (value.column.field === 'edit') {
         console.log('edit')
         this.toggleEdit()
       }
     },
-    addRestaurant () {
-      console.log('agregar')
-      this.toggleAdd()
+    createRestaurant (data) {
+      configService('/central_admin/commerces', {
+        method: 'post',
+        data: {
+          commerce: {
+            'university_id': this.university.id,
+            'active': true,
+            'commercial_name': data.nameRestaurant,
+            'email': data.email,
+            'business_name': data.nameContact,
+            'telephone': data.phone,
+            'contact_number': data.phone2,
+            'nit': data.nit,
+            'address': data.direccion,
+            'has_delivery': data.domicilio,
+            'has_takeout': data.takeout
+          }
+        }
+      })
+        .then(res => {
+          this.updateTable()
+          this.toggleAdd()
+          this.$swal({
+            type: 'success',
+            title: 'Restaurante Agregado',
+            timer: 2500
+          })
+        })
+        .catch(error => {
+          this.$swal({
+            type: 'error',
+            title: 'Oops...',
+            text: error.response.data.message
+          })
+          console.log(error.response.data)
+          console.log(error.response.headers)
+        })
     },
     toggleAdd () {
       this.showAdd = !this.showAdd

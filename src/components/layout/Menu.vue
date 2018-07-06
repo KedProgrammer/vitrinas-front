@@ -1,15 +1,19 @@
 <template>
   <aside class="admin__menu">
     <!-- agregar clase 'activo' para indicar la ruta actual -->
-    <a
-      href=""
-      class="admin__menu-item activo">Hoy</a>
+    <router-link
+      class="admin__menu-item"
+      :to="{ name: 'today'}">
+      Hoy
+    </router-link>
     <a
       href=""
       class="admin__menu-item">Resumen</a>
-    <a
-      href=""
-      class="admin__menu-item">Historial</a>
+    <router-link
+      class="admin__menu-item"
+      :to="{ name: 'record'}">
+      Historial
+    </router-link>
     <a
       href=""
       class="admin__menu-item">Dashboard</a>
@@ -28,9 +32,11 @@
     <a
       href=""
       class="admin__menu-item">ADS</a>
-    <a
-      href=""
-      class="admin__menu-item">Restaurant.</a>
+    <router-link
+      class="admin__menu-item"
+      :to="{ name: 'restaurant'}">
+      Restaurant.
+    </router-link>
     <a
       href=""
       class="admin__menu-item">Usuarios</a>

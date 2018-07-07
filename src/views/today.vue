@@ -67,20 +67,6 @@
           </div>
         </div>
 
-        <div class="admin-hoy__asign">
-          <p>Auto asign</p>
-          <div class="lista-checkbox2 large">
-            <input
-              type="checkbox"
-              id="auto-asign"
-              checked>
-            <label
-              for="auto-asign"
-              data-checkedsi="On"
-              data-checkedno="Off"/>
-          </div>
-        </div>
-
       </div>
 
       <div class="admin-hoy__header-envio">
@@ -167,27 +153,26 @@
               <div class="admin-hoy__panel-menu">
                 <!-- agregar la clase 'activo' para aplicar estilo -->
                 <a
-                  href=""
-                  class="admin-hoy__panel-menu-item activo">
+                  @click="filterLeft('hour')"
+                  :class="{activo: setLeftActive('hour') }"
+                  class="admin-hoy__panel-menu-item">
                   00:00
                 </a>
                 <a
-                  href=""
+                  @click="filterLeft('time')"
+                  :class="{activo: setLeftActive('time') }"
                   class="admin-hoy__panel-menu-item">
                   <i class="ceu-icon-time-left"/>
                 </a>
                 <a
-                  href=""
+                  @click="filterLeft('place')"
+                  :class="{activo: setLeftActive('place') }"
                   class="admin-hoy__panel-menu-item">
                   <i class="ceu-icon-shop"/>
                 </a>
                 <a
-                  href=""
-                  class="admin-hoy__panel-menu-item">
-                  <i class="ceu-icon-placeholder"/>
-                </a>
-                <a
-                  href=""
+                  @click="filterLeft('price')"
+                  :class="{activo: setLeftActive('price') }"
                   class="admin-hoy__panel-menu-item">
                   <i class="ceu-icon-coin"/>
                 </a>
@@ -199,6 +184,7 @@
             <div class="admin-hoy__panel-body">
               <!-- item -->
               <div
+                @click="toggleDetail(order)"
                 v-for="order in pendingOrders"
                 :key="order.id"
                 class="admin-hoy__panel-item">
@@ -244,7 +230,7 @@
                   </div>
                 </div>
                 <div class="admin-hoy__estado-info">
-                  <h3>{{ order.status }}</h3>
+                  <h3 class="size">{{ order.status }}</h3>
                   <p>{{ order.cellphone }}</p>
                   <div class="admin-hoy__estado">
                     Listo en..
@@ -252,7 +238,7 @@
                 </div>
                 <div class="admin-hoy__panel-tiempo">
                   <p>11:45</p>
-                  <span>(22)</span>
+                  <span>({{ order.json_products.length }})</span>
                   <p>{{ order.id }}</p>
                 </div>
               </div>
@@ -265,28 +251,27 @@
               <!-- menu -->
               <div class="admin-hoy__panel-menu">
                 <a
-                  href=""
+                  @click="filterMiddle('hour')"
+                  :class="{activo: setMiddleActive('hour') }"
                   class="admin-hoy__panel-menu-item">
                   00:00
                 </a>
                 <!-- agregar la clase 'activo' para aplicar estilo -->
                 <a
-                  href=""
-                  class="admin-hoy__panel-menu-item activo">
+                  @click="filterMiddle('time')"
+                  :class="{activo: setMiddleActive('time') }"
+                  class="admin-hoy__panel-menu-item">
                   <i class="ceu-icon-time-left"/>
                 </a>
                 <a
-                  href=""
+                  @click="filterMiddle('place')"
+                  :class="{activo: setMiddleActive('place') }"
                   class="admin-hoy__panel-menu-item">
                   <i class="ceu-icon-shop"/>
                 </a>
                 <a
-                  href=""
-                  class="admin-hoy__panel-menu-item">
-                  <i class="ceu-icon-placeholder"/>
-                </a>
-                <a
-                  href=""
+                  @click="filterMiddle('price')"
+                  :class="{activo: setMiddleActive('price') }"
                   class="admin-hoy__panel-menu-item">
                   <i class="ceu-icon-coin"/>
                 </a>
@@ -557,28 +542,27 @@
               <!-- menu -->
               <div class="admin-hoy__panel-menu">
                 <a
-                  href=""
+                  @click="filterRight('hour')"
+                  :class="{activo: setRightActive('hour') }"
                   class="admin-hoy__panel-menu-item">
                   00:00
                 </a>
                 <a
-                  href=""
+                  @click="filterRight('time')"
+                  :class="{activo: setRightActive('time') }"
                   class="admin-hoy__panel-menu-item">
                   <i class="ceu-icon-time-left"/>
                 </a>
                 <a
-                  href=""
+                  @click="filterRight('place')"
+                  :class="{activo: setRightActive('place') }"
                   class="admin-hoy__panel-menu-item">
                   <i class="ceu-icon-shop"/>
                 </a>
                 <!-- agregar la clase 'activo' para aplicar estilo -->
                 <a
-                  href=""
-                  class="admin-hoy__panel-menu-item activo">
-                  <i class="ceu-icon-placeholder"/>
-                </a>
-                <a
-                  href=""
+                  @click="filterRight('price')"
+                  :class="{activo: setRightActive('price') }"
                   class="admin-hoy__panel-menu-item">
                   <i class="ceu-icon-coin"/>
                 </a>
@@ -590,6 +574,7 @@
             <div class="admin-hoy__panel-body">
               <!-- item -->
               <div
+                @click="toggleDetail(order)"
                 v-for="order in filterOrders"
                 :key="order.id"
                 class="admin-hoy__panel-item">
@@ -635,7 +620,7 @@
                   </div>
                 </div>
                 <div class="admin-hoy__estado-info">
-                  <h3>{{ order.status }}</h3>
+                  <h3 class="size">{{ order.status }}</h3>
                   <p>{{ order.cellphone }}</p>
                   <div class="admin-hoy__estado">
                     Listo en..
@@ -643,7 +628,7 @@
                 </div>
                 <div class="admin-hoy__panel-tiempo">
                   <p>11:45</p>
-                  <span>(22)</span>
+                  <span>({{ order.json_products.length }})</span>
                   <p>{{ order.id }}</p>
                 </div>
               </div>
@@ -655,8 +640,10 @@
     </main>
     <!-- modal detalles -->
     <modal-details
-      @close-details="toggleDetail"
-      :show-modal="showDetail" />
+      @close-details="showDetail = $event"
+      :show-modal="showDetail"
+      :order-summary="orderSummary"
+    />
   </div>
 </template>
 
@@ -674,6 +661,10 @@ export default {
   },
   data () {
     return {
+      orderSummary: {},
+      rightPanelActive: '',
+      middlePanelActive: '',
+      letfPanelActive: '',
       pendingOrders: [],
       activeFilter: 'all',
       filterOrders: [],
@@ -752,6 +743,9 @@ export default {
     }
   },
   watch: {
+    orderSummary (newOrder, oldOrder) {
+      console.log(newOrder, oldOrder)
+    },
     activeFilter (active) {
       console.log(active)
       switch (active) {
@@ -779,6 +773,9 @@ export default {
         default:
           break
       }
+      this.rightPanelActive = ''
+      this.middlePanelActive = ''
+      this.letfPanelActive = ''
     },
     isTakeout (active) {
       console.log(active)
@@ -807,12 +804,90 @@ export default {
         default:
           break
       }
+      this.rightPanelActive = ''
+      this.middlePanelActive = ''
+      this.letfPanelActive = ''
     }
   },
   methods: {
+    filterRight (type) {
+      this.rightPanelActive = type
+      this.sortBy('right', type)
+    },
+    setRightActive (type) {
+      if (this.rightPanelActive === type) {
+        return true
+      }
+    },
+    setMiddleActive (type) {
+      if (this.middlePanelActive === type) {
+        return true
+      }
+    },
+    filterMiddle (type) {
+      this.middlePanelActive = type
+    },
+    setLeftActive (type) {
+      if (this.letfPanelActive === type) {
+        return true
+      }
+    },
+    filterLeft (type) {
+      this.letfPanelActive = type
+      this.sortBy('left', type)
+    },
     setActive (type) {
       if (this.activeFilter === type) {
         return true
+      }
+    },
+    sortBy (side, type) {
+      switch (type) {
+        case 'hour':
+          if (side === 'left') {
+            this.pendingOrders = this.pendingOrders.sort((a, b) => {
+              return new Date(a.created_at) - new Date(b.created_at)
+            })
+          }
+
+          if (side === 'right') {
+            this.filterOrders = this.filterOrders.sort((a, b) => {
+              return new Date(a.created_at) - new Date(b.created_at)
+            })
+          }
+          break
+        case 'price':
+          if (side === 'left') {
+            this.pendingOrders = this.pendingOrders.sort((a, b) => {
+              return a.total - b.total
+            })
+          }
+
+          if (side === 'right') {
+            this.filterOrders = this.filterOrders.sort((a, b) => {
+              return a.total - b.total
+            })
+          }
+          break
+        case 'place':
+          if (side === 'left') {
+            this.pendingOrders = this.pendingOrders.sort((a, b) => {
+              if (a.address > b.address) {
+                return 1
+              }
+            })
+          }
+
+          if (side === 'right') {
+            this.pendingOrders = this.filterOrders.sort((a, b) => {
+              if (a.address > b.address) {
+                return 1
+              }
+            })
+          }
+          break
+        default:
+          break
       }
     },
     setOrderCount (orders, pending) {
@@ -840,6 +915,7 @@ export default {
         this.filterOrders = orders
         console.log(this.filterOrders)
       }
+      console.log(this.orders)
     },
     filterType (type) {
       if (type === 'takeout') {
@@ -853,10 +929,19 @@ export default {
     filterOrder (type) {
       this.activeFilter = type
     },
-    toggleDetail () {
-      this.showDetail = !this.showDetail
+    toggleDetail (order) {
+      if (this.orderSummary === order) {
+        if (this.showDetail) {
+          this.showDetail = false
+        } else {
+          this.showDetail = true
+        }
+      } else {
+        this.showDetail = true
+      }
+      this.orderSummary = order
     },
-    groupOrders (groupFilter, pending) {
+    setOrdinalOrder (groupFilter) {
       if (groupFilter === 'prime') {
         this.setOrderCount(this.orders.filter(element => {
           if (this.isTakeout) {
@@ -868,27 +953,64 @@ export default {
               return true
             }
           }
-        }), pending)
+        }))
       } else {
         this.setOrderCount(this.orders.filter(element => {
           if (groupFilter.includes(element.status) && (this.isTakeout ? element.is_takeout : !element.is_takeout)) {
             return true
           }
-        }), pending)
+        }))
       }
+    },
+    setPendingOrder (groupFilter) {
+      if (groupFilter === 'prime') {
+        this.setOrderCount(this.orders.filter(element => {
+          if (this.isTakeout) {
+            if (element.user_prime && element.is_takeout) {
+              return true
+            }
+          } else {
+            if (element.user_prime && !element.is_takeout) {
+              return true
+            }
+          }
+        }), 'pending')
+      } else {
+        this.setOrderCount(this.orders.filter(element => {
+          if (groupFilter.includes(element.status) && (this.isTakeout ? element.is_takeout : !element.is_takeout)) {
+            return true
+          }
+        }), 'pending')
+      }
+    },
+    groupOrders (groupFilter) {
+      this.setOrdinalOrder(groupFilter)
+      this.setPendingOrder(stateGroups.pending)
     }
   },
   created () {
     this.isAllActive = true
-    configService('central_admin/orders?university_id=2')
+    configService('central_admin/orders?university_id=1')
       .then(response => {
         this.orders = response.data
+        console.log(this.orders)
         this.groupOrders(stateGroups.all)
-        this.groupOrders(stateGroups.pending, 'pending')
+        console.log(this.filterOrders[0])
+        console.log(this.orders)
       })
       .catch(error => {
         console.log(error)
       })
+    this.orderSummary = this.orders[0]
   }
 }
 </script>
+
+<style>
+.size {
+   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+    max-width: 100px;
+}
+</style>

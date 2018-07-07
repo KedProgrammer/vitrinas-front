@@ -8,11 +8,11 @@ if (localStorage.getItem('user_data') !== null) {
 }
 
 const configService = axios.create({
-  baseURL: 'staging.comidaenlau.com/',
+  baseURL: 'http://staging.comidaenlau.com/',
   headers: {
     'accept-language': 'es',
     'Content-Type': 'application/json',
-    'authorization': 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo2fQ.cmfqeZanuGPtFheDSGzeXhAg56D3DODqyseskOO3Dg8'
+    'authorization': 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo4fQ.o0rzosFkPZuOsdmi6vfiI7WJ5f18ITtyqdPxDED_aIs'
   }
 })
 

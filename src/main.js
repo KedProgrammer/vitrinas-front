@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import routes from './routes'
+import EventBus from './plugins/event-bus'
 import VueOffline from 'vue-offline'
 import vSelect from 'vue-select'
 import * as VueGoogleMaps from 'vue2-google-maps'
@@ -13,6 +14,7 @@ import App from './App.vue'
 
 Vue.config.productionTip = false
 
+Vue.use(EventBus)
 Vue.use(VueRouter)
 Vue.use(VueOffline)
 Vue.component('v-select', vSelect)

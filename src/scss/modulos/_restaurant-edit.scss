@@ -22,6 +22,11 @@
   border-radius: 50%;
   border: 1px solid #e5edef;
   margin: 0 auto;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-origin: content-box;
+  padding: 20px;
 }
 
 .restaurant-edit__logo-upload {
@@ -282,9 +287,12 @@
     }
   }
   .ceu-campo__text2 {
-    width: 60px;
+    width: 100px;
     input {
       font-weight: 400;
+      &:focus {
+        border: none;
+      }
     }
   }
 }

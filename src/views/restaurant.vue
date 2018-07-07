@@ -4,6 +4,10 @@
     <Menu />
 
     <article class="admin-team__tabla">
+      <gmap-Map
+        style="width: 270px; height: 160px;"
+        :zoom="16"
+        :center="{lat: 7.8357492, lng: -72.5069806}" />
       <vue-good-table
         :columns="columns"
         :rows="rows"
@@ -40,12 +44,14 @@
       :show-modal="showAdd" />
     <ModalEdit
       @toggle-edit="toggleEdit"
+      :id-restaurant="idRestaurant"
       :show-modal="showEdit" />
   </main>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
+import Vue from 'vue'
 // https://xaksis.github.io/vue-good-table/guide/#installation
 import { VueGoodTable } from 'vue-good-table'
 import 'vue-good-table/dist/vue-good-table.css'
@@ -65,7 +71,7 @@ export default {
     ModalEdit
   },
   computed: {
-    ...mapState(['university', 'commerces'])
+    ...mapState(['university', 'commerces', 'commerce'])
   },
   mounted () {
     this.$nextTick(function () {
@@ -242,14 +248,19 @@ export default {
         }
       ],
       rows: [],
+      idRestaurant: 0,
       showAdd: false,
-      showEdit: false
+      showEdit: false,
+      markers: [],
+      places: [],
+      currentPlace: null
     }
   },
   methods: {
+    ...mapActions(['updateCommercesAsync']),
     updateTable () {
       this.rows = []
-      this.$store.dispatch('updateCommerceAsync')
+      this.updateCommercesAsync()
         .then(res => {
           const data = res.data
           if (data.lenght === 1) {
@@ -286,6 +297,7 @@ export default {
     cellClick (value) {
       if (value.column.field === 'edit') {
         console.log('edit')
+        this.idRestaurant = value.row.id
         this.toggleEdit()
       }
     },
@@ -334,7 +346,24 @@ export default {
     toggleEdit () {
       this.showEdit = !this.showEdit
       document.querySelector('body').classList.toggle('no-scroll')
+      Vue.$gmapDefaultResizeBus.$emit('resize')
+    },
+    setPlace (place) {
+      this.currentPlace = place
+      this.addMarker()
     }
+    // addMarker () {
+    //   if (this.currentPlace) {
+    //     const marker = {
+    //       lat: this.currentPlace.geometry.location.lat(),
+    //       lng: this.currentPlace.geometry.location.lng()
+    //     }
+    //     this.markers.push({ position: marker })
+    //     this.places.push(this.currentPlace)
+    //     this.center = marker
+    //     this.currentPlace = null
+    //   }
+    // }
   }
 }
 </script>

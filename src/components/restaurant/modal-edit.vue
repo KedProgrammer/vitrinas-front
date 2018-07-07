@@ -16,7 +16,9 @@
           <div class="restaurant-edit__name-service-logo">
             <!-- upload logo -->
             <div class="restaurant-edit__logo ceu-item s-30">
-              <div class="restaurant-edit__logo-img" />
+              <div
+                :style="{backgroundImage: 'url(' + formData.logo + ')'}"
+                class="restaurant-edit__logo-img" />
               <div class="restaurant-edit__logo-upload">
                 Upload Logo
               </div>
@@ -50,6 +52,7 @@
                   <div class="ceu-checkbox">
                     <input
                       id="edit-restaurant__domicilios"
+                      v-model="formData.hasDelivery"
                       type="checkbox">
                     <label for="edit-restaurant__domicilios">
                       <span />
@@ -57,7 +60,7 @@
                     </label>
                   </div>
                   <div class="restaurant-edit__servicio-porcentaje">
-                    14%
+                    {{ formData.feeDelivery }}%
                     <p>Edit</p>
                   </div>
                 </div>
@@ -66,6 +69,7 @@
                   <div class="ceu-checkbox">
                     <input
                       id="edit-restaurant__takeout"
+                      v-model="formData.hasTakeout"
                       type="checkbox">
                     <label for="edit-restaurant__takeout">
                       <span />
@@ -73,7 +77,7 @@
                     </label>
                   </div>
                   <div class="restaurant-edit__servicio-porcentaje">
-                    7%
+                    {{ formData.feeTakeout }}%
                     <p>Edit</p>
                   </div>
                 </div>
@@ -81,6 +85,7 @@
                 <div class="restaurant-edit__servicio">
                   <div class="ceu-checkbox">
                     <input
+                      v-model="formData.hasMecadillo"
                       id="edit-restaurant__mercadillo"
                       type="checkbox">
                     <label for="edit-restaurant__mercadillo">
@@ -237,18 +242,18 @@
               <p>Dirección</p>
               <div class="ceu-campo__text-round2">
                 <gmap-autocomplete
+                  v-model="formData.address"
                   @place_changed="setPlace" />
               </div>
             </div>
             <gmap-Map
               style="width: 270px; height: 160px;"
-              :zoom="16"
-              :center="center">
+              :zoom="zoomMap"
+              :center="centerMap">
               <gmap-marker
-                :key="index"
-                v-for="(m, index) in markers"
-                :position="m.position"
-                @click="center=m.position" />
+                :draggable="true"
+                @dragend="getCoordinates"
+                :position="centerMap" />
             </gmap-Map>
           </div>
           <div class="restaurant-edit__datos">
@@ -257,6 +262,7 @@
               <!-- campo -->
               <div class="ceu-campo__text-round">
                 <input
+                  v-model="formData.business_name"
                   placeholder="Restaurante S.A.S"
                   type="text">
               </div>
@@ -267,6 +273,7 @@
               <!-- campo -->
               <div class="ceu-campo__text-round">
                 <input
+                  v-model="formData.mail"
                   autocomplete="email"
                   placeholder="tao@comidaenlau.com"
                   type="text">
@@ -277,6 +284,7 @@
               <!-- campo -->
               <div class="ceu-campo__text-round">
                 <input
+                  v-model="formData.commercial_name"
                   type="text">
               </div>
             </div>
@@ -285,6 +293,7 @@
               <!-- campo -->
               <div class="ceu-campo__text-round">
                 <input
+                  v-model="formData.nit"
                   placeholder="xxxxxxxxx-x"
                   type="text">
               </div>
@@ -294,6 +303,7 @@
               <!-- campo -->
               <div class="ceu-campo__text-round">
                 <input
+                  v-model="formData.university"
                   placeholder="Universidad de los Andes"
                   type="text">
               </div>
@@ -303,6 +313,7 @@
               <!-- campo -->
               <div class="ceu-campo__text-round">
                 <input
+                  v-model="formData.cellphone"
                   placeholder=""
                   type="text">
               </div>
@@ -312,6 +323,7 @@
               <!-- campo -->
               <div class="ceu-campo__text-round">
                 <input
+                  v-model="formData.cellphone2"
                   placeholder=""
                   type="text">
               </div>
@@ -321,6 +333,7 @@
               <!-- campo -->
               <div class="ceu-campo__text-round">
                 <input
+                  v-model="formData.facebook"
                   placeholder=""
                   type="text">
               </div>
@@ -330,6 +343,7 @@
               <!-- campo -->
               <div class="ceu-campo__text-round">
                 <input
+                  v-model="formData.instagram"
                   placeholder=""
                   type="text">
               </div>
@@ -339,18 +353,19 @@
               <!-- campo -->
               <div class="ceu-campo__text-round">
                 <input
+                  v-model="formData.web"
                   placeholder=""
                   type="text">
               </div>
             </div>
             <div class="ceu-item s-50">
-              <p>Tags</p>
-              <!-- campo -->
+              <!-- <p>Tags</p>
               <div class="ceu-campo__text-round">
                 <input
+                  v-model="formData.tag"
                   placeholder=""
                   type="text">
-              </div>
+              </div> -->
             </div>
           </div>
           <!--. datos  -->
@@ -360,9 +375,8 @@
               <p>Tiempo promedio de preparación</p>
               <div class="ceu-campo__text2">
                 <input
-                  max="100"
-                  min="0"
-                  type="number">
+                  v-model="formData.averagePreparationTime"
+                  type="text">
               </div>
               <p>min</p>
             </div>
@@ -371,9 +385,8 @@
               <p>Tiempo promedio de entrega</p>
               <div class="ceu-campo__text2">
                 <input
-                  max="100"
-                  min="0"
-                  type="number">
+                  v-model="formData.averageDeliveryTime"
+                  type="text">
               </div>
               <p>min</p>
             </div>
@@ -381,16 +394,20 @@
             <div class="restaurant-edit__time-item restaurant-edit__time-precio">
               <p>Precio</p>
               <div class="ceu-campo__text2">
-                <input type="text">
+                <multiselect
+                  class="custom-select4"
+                  v-model="formData.priceRange"
+                  :options="preciosPromecios"
+                  :show-labels="false"
+                  placeholder="" />
               </div>
               <p>min</p>
             </div>
           </div>
           <!--. time price  -->
           <div class="restaurant-edit__payments">
-            <h3>METODO DE PAGO</h3>
+            <!-- <h3>METODO DE PAGO</h3>
             <div class="restaurant-edit__payments-radio">
-              <!-- checkbox -->
               <div class="lista-radio2">
                 <input
                   type="checkbox"
@@ -399,7 +416,6 @@
                   Efectivo
                 </label>
               </div>
-              <!-- checkbox -->
               <div class="lista-radio2">
                 <input
                   type="checkbox"
@@ -408,7 +424,6 @@
                   NEQUI
                 </label>
               </div>
-              <!-- checkbox -->
               <div class="lista-radio2">
                 <input
                   type="checkbox"
@@ -417,22 +432,22 @@
                   Banco
                 </label>
               </div>
-            </div>
+            </div> -->
             <div class="restaurant-edit__banco-info">
               <div class="restaurant-edit__banco-campo ceu-item s-1-3">
                 <p>Banco</p>
-                <multiselect
-                  class="custom-select4 selBanco"
-                  v-model="banco"
-                  :options="bancos"
-                  :show-labels="false"
-                  label="label"
-                  placeholder="Elige tu banco" />
+                <div class="ceu-campo__text-round">
+                  <input
+                    v-model="formData.bank"
+                    placeholder=""
+                    type="text">
+                </div>
               </div>
               <div class="restaurant-edit__banco-campo ceu-item s-1-3">
                 <p>#Cuenta</p>
                 <div class="ceu-campo__text-round">
                   <input
+                    v-model="formData.bankAccount"
                     placeholder="Número"
                     type="text">
                 </div>
@@ -441,20 +456,19 @@
                 <p>Tipo</p>
                 <multiselect
                   class="custom-select4"
-                  v-model="cuentaTipo"
+                  v-model="formData.accountType"
                   :options="cuentaTipos"
                   :show-labels="false"
-                  label="label"
                   placeholder="Tipo de Cuenta" />
               </div>
             </div>
           </div>
           <!-- eliminar -->
-          <div class="restaurant-edit__eliminar main-center">
+          <!-- <div class="restaurant-edit__eliminar main-center">
             <div class="ceu-btn1">
               Eliminar restaurante
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
       <div class="restaurant-edit__footer cross-center">
@@ -468,6 +482,7 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
 import VueTimepicker from 'vue2-timepicker'
 // http://sagalbot.github.io/vue-select/docs/Install.html#
 import Multiselect from 'vue-multiselect'
@@ -478,6 +493,18 @@ export default {
     showModal: {
       type: Boolean,
       default: false
+    },
+    idRestaurant: {
+      type: Number,
+      default: 0
+    }
+  },
+  computed: {
+    ...mapState(['commerce'])
+  },
+  watch: {
+    showModal () {
+      this.fillFormData()
     }
   },
   components: {
@@ -486,6 +513,34 @@ export default {
   },
   data () {
     return {
+      formData: {
+        logo: '',
+        hasDelivery: false,
+        hasTakeout: false,
+        feeDelivery: '',
+        feeTakeout: '',
+        hasMecadillo: false,
+        address: '',
+        lat: '',
+        lng: '',
+        business_name: '',
+        mail: '',
+        commercial_name: '',
+        nit: '',
+        university: '',
+        cellphone: '',
+        cellphone2: '',
+        facebook: '',
+        instagram: '',
+        web: '',
+        tag: [],
+        averageDeliveryTime: '',
+        averagePreparationTime: '',
+        priceRange: '',
+        bank: '',
+        bankAccount: 0,
+        accountType: ''
+      },
       formatTime: 'hh:mm a',
       openingHours: [
         {
@@ -507,44 +562,92 @@ export default {
       ],
       dayWeeks: [ 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo' ],
       days: [],
-      banco: null,
-      bancos: [
-        { name: 'BANCO AV VILLAS', label: 'BANCO AV VILLAS' },
-        { name: 'BANCO BBVA COLOMBIA S.A.', label: 'BANCO BBVA COLOMBIA S.A.' },
-        { name: 'BANCO CAJA SOCIAL', label: 'BANCO CAJA SOCIAL' },
-        { name: 'BANCO COLPATRIA', label: 'BANCO COLPATRIA' },
-        { name: 'BANCO DAVIVIENDA', label: 'BANCO DAVIVIENDA' }
-      ],
       cuentaTipo: null,
-      cuentaTipos: [
-        { name: 'ahorros', label: 'ahorros' },
-        { name: 'credito', label: 'credito' }
-      ],
-      center: {lat: 5.2555977, lng: -75.9819583},
-      markers: [],
-      places: [],
-      currentPlace: null
+      cuentaTipos: ['Ahorros', 'Corriente'],
+      precioPromecio: '',
+      preciosPromecios: ['$', '$$', '$$$', '$$$$'],
+      centerMap: {lat: 4.6471319, lng: -74.1003523},
+      zoomMap: 6
     }
   },
   methods: {
+    ...mapActions(['updateCommerceAsync']),
     toggleShow () {
       this.$emit('toggle-edit')
     },
     setPlace (place) {
-      this.currentPlace = place
-      this.addMarker()
-    },
-    addMarker () {
-      if (this.currentPlace) {
-        const marker = {
-          lat: this.currentPlace.geometry.location.lat(),
-          lng: this.currentPlace.geometry.location.lng()
-        }
-        this.markers.push({ position: marker })
-        this.places.push(this.currentPlace)
-        this.center = marker
-        this.currentPlace = null
+      this.centerMap = {
+        lat: place.geometry.location.lat(),
+        lng: place.geometry.location.lng()
       }
+      this.zoomMap = 15
+    },
+    getCoordinates (e) {
+      this.centerMap = {
+        lat: e.latLng.lat(),
+        lng: e.latLng.lng()
+      }
+      this.zoomMap = 15
+    },
+    fillFormData () {
+      this.updateCommerceAsync(this.idRestaurant)
+        .then(res => {
+          const data = res.data
+
+          var web = data.web
+          if (web === 'not defined') {
+            web = ''
+          }
+          var bank = data.bank
+          if (bank === 'not defined') {
+            bank = ''
+          }
+          var businessName = data.business_name
+          if (businessName === 'not defined') {
+            businessName = ''
+          }
+          var accountType = data.account_type
+          if (accountType === 'not defined') {
+            accountType = ''
+          }
+          var longitude = data.longitude
+          var latitude = data.latitude
+          if (longitude !== null && latitude !== null) {
+            this.centerMap = {
+              lat: latitude,
+              lng: longitude
+            }
+            this.zoomMap = 15
+          }
+          this.formData = {
+            logo: data.logo.url,
+            hasDelivery: data.has_delivery,
+            hasTakeout: data.has_takeout,
+            feeDelivery: '14',
+            feeTakeout: '7',
+            hasMecadillo: false,
+            address: data.address,
+            lat: this.centerMap.lat,
+            lng: this.centerMap.lng,
+            business_name: businessName,
+            mail: data.email,
+            commercial_name: data.commercial_name,
+            nit: data.nit,
+            university: data.university_name,
+            cellphone: data.telephone,
+            cellphone2: data.contact_number,
+            facebook: data.facebook_account,
+            instagram: data.instagram_account,
+            web,
+            tag: [],
+            averageDeliveryTime: data.average_delivery_time,
+            averagePreparationTime: data.average_preparation_time,
+            priceRange: data.price_range,
+            bank,
+            bankAccount: data.bank_account,
+            accountType
+          }
+        })
     }
   }
 }

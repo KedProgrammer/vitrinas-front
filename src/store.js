@@ -10,18 +10,29 @@ const store = new Vuex.Store({
     university: {
       id: 1
     },
-    commerces: {}
+    commerces: {},
+    commerce: {}
   },
   getters: {
   },
   mutations: {
-    updateCommerce (state, res) {
+    updateCommerces (state, res) {
       state.commerces = res.data
+    },
+    updateCommerce (state, res) {
+      state.commerce = res.data
     }
   },
   actions: {
-    updateCommerceAsync (context, payload) {
+    updateCommercesAsync (context, payload) {
       return configService(`/central_admin/universities/${context.state.university.id}/commerces`)
+        .then(res => {
+          context.commit('updateCommerces', res)
+          return res
+        })
+    },
+    updateCommerceAsync (context, id) {
+      return configService(`/normal_user/commerces/${id}`)
         .then(res => {
           context.commit('updateCommerce', res)
           return res

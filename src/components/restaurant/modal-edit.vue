@@ -13,14 +13,23 @@
       </div>
       <div class="modal-edit__content ceu-container full">
         <div class="ceu-item s-55">
-          <div class="restaurant-edit__name-service-logo">
+          <form
+            @submit.prevent="sendFormServices"
+            class="restaurant-edit__name-service-logo">
             <!-- upload logo -->
             <div class="restaurant-edit__logo ceu-item s-30">
               <div
-                :style="{backgroundImage: 'url(' + formData.logo + ')'}"
+                :style="{backgroundImage: 'url(' + formServices.perfil + ')'}"
                 class="restaurant-edit__logo-img" />
               <div class="restaurant-edit__logo-upload">
-                Upload Logo
+                <label for="uploadLogo">
+                  Upload Logo
+                </label>
+                <input
+                  id="uploadLogo"
+                  @change="fileImage('logo', $event.target.files)"
+                  accept="image/*"
+                  type="file">
               </div>
               <div class="restaurant-edit__logo-info">
                 <strong>Formato:</strong> .png 500*500px
@@ -30,11 +39,12 @@
             <div class="restaurant-edit__servicios-name ceu-item s-70">
               <!-- name -->
               <div class="restaurant-edit__name">
-                <h2>TAO CALENTAO</h2>
+                <h2>{{ formData.commercial_name }}</h2>
                 <div class="restaurant-edit__descontinuado">
                   <p>Continuado/Descontinuado</p>
                   <div class="lista-checkbox2 large">
                     <input
+                      v-model="formServices.active"
                       id="restaurant-edit__descontinuado"
                       type="checkbox">
                     <label
@@ -42,6 +52,9 @@
                       data-checkedno="Off"
                       for="restaurant-edit__descontinuado" />
                   </div>
+                </div>
+                <div class="restaurant-edit__edit-menu">
+                  Editar Menú
                 </div>
               </div>
               <!-- servicios -->
@@ -52,7 +65,7 @@
                   <div class="ceu-checkbox">
                     <input
                       id="edit-restaurant__domicilios"
-                      v-model="formData.hasDelivery"
+                      v-model="formServices.has_delivery"
                       type="checkbox">
                     <label for="edit-restaurant__domicilios">
                       <span />
@@ -60,8 +73,13 @@
                     </label>
                   </div>
                   <div class="restaurant-edit__servicio-porcentaje">
-                    {{ formData.feeDelivery }}%
-                    <p>Edit</p>
+                    <div class="ceu-campo__text-round2">
+                      <input
+                        v-model="formServices.delivery_fee"
+                        maxlength="2"
+                        min="1"
+                        type="number">%
+                    </div>
                   </div>
                 </div>
                 <!-- servicio -->
@@ -69,7 +87,7 @@
                   <div class="ceu-checkbox">
                     <input
                       id="edit-restaurant__takeout"
-                      v-model="formData.hasTakeout"
+                      v-model="formServices.has_takeout"
                       type="checkbox">
                     <label for="edit-restaurant__takeout">
                       <span />
@@ -77,15 +95,20 @@
                     </label>
                   </div>
                   <div class="restaurant-edit__servicio-porcentaje">
-                    {{ formData.feeTakeout }}%
-                    <p>Edit</p>
+                    <div class="ceu-campo__text-round2">
+                      <input
+                        v-model="formServices.takeout_fee"
+                        maxlength="2"
+                        min="1"
+                        type="number">%
+                    </div>
                   </div>
                 </div>
                 <!-- servicio -->
                 <div class="restaurant-edit__servicio">
                   <div class="ceu-checkbox">
                     <input
-                      v-model="formData.hasMecadillo"
+                      v-model="formServices.hasMecadillo"
                       id="edit-restaurant__mercadillo"
                       type="checkbox">
                     <label for="edit-restaurant__mercadillo">
@@ -96,29 +119,81 @@
                 </div>
               </div>
             </div>
+            <div class="restaurant-edit__footer cross-center">
+              <p v-if="loadUpload.logo">
+                {{ loadUpload.logo }}
+              </p>
+              <button
+                type="submit"
+                class="ceu-btn1">
+                Guardar
+              </button>
+            </div>
             <!--. servicios - name-->
-          </div>
-          <div class="restaurant-edit__edit-menu">
-            Editar Menú
-          </div>
+          </form>
           <!-- horarios apertura y cierre-->
           <div class="restaurant-edit__horarios">
             <h3>HORARIOS DE APERTURA</h3>
-            <div class="restaurant-edit__list">
-              <div class="restaurant-edit__list-item">
+            <div class="restaurant-edit__horarios-apertura">
+              <div class="restaurant-edit__list">
                 <div
-                  class="ceu-campo__hStart-hEnd"
+                  v-for="(item, index) in listOpenTime"
                   :key="index"
-                  v-for="(item, index) in openingHours">
+                  class="restaurant-edit__list-item">
+                  <div class="ceu-campo__hStart-hEnd">
+                    <p>Hora inicial</p>
+                    <vue-timepicker
+                      hide-clear-button
+                      v-model="modelOpenTime[index].start_time"
+                      :format="formatTime"/>
+                    <p>Hora final</p>
+                    <vue-timepicker
+                      v-model="modelOpenTime[index].end_time"
+                      hide-clear-button
+                      :format="formatTime"/>
+                  </div>
+                  <div class="restaurant-edit__dias-semana">
+                    <p>Dias de la semana</p>
+                    <multiselect
+                      class="custom-select3"
+                      v-model="modelOpenDays[index]"
+                      :options="dayWeeks"
+                      :searchable="false"
+                      :close-on-select="false"
+                      :show-labels="false"
+                      :multiple="true"
+                      label="label"
+                      track-by="value"
+                      placeholder="Multi Selección" />
+                  </div>
+                  <div class="restaurant-edit__item-footer">
+                    <div
+                      @click="deleteOpenSchedules(item.id, index)"
+                      class="ceu-btn1 alert">
+                      Eliminar
+                    </div>
+                    <div
+                      @click="putOpenSchedules(item.id, index)"
+                      class="ceu-btn1">
+                      Guardar Cambios
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="restaurant-edit__horarios-crear">
+              <h3>Crear horario de apertura</h3>
+              <div class="restaurant-edit__list-item">
+                <div class="ceu-campo__hStart-hEnd">
                   <p>Hora inicial</p>
                   <vue-timepicker
                     hide-clear-button
-                    v-model="item.start_time"
+                    v-model="openingHours.start_time"
                     :format="formatTime"/>
                   <p>Hora final</p>
                   <vue-timepicker
+                    v-model="openingHours.end_time"
                     hide-clear-button
-                    v-model="item.end_time"
                     :format="formatTime"/>
                 </div>
                 <div class="restaurant-edit__dias-semana">
@@ -131,54 +206,16 @@
                     :close-on-select="false"
                     :show-labels="false"
                     :multiple="true"
+                    label="label"
+                    track-by="value"
                     placeholder="Multi Selección" />
                 </div>
-              </div>
-            </div>
-            <div class="restaurant-edit__add-horario">
-              +Añadir Horario
-            </div>
-          </div>
-          <!-- Banner principal -->
-          <div class="restaurant-edit__add-banner">
-            <div class="restaurant-edit__add-banner-titulo">
-              <h4>Banner Principal</h4>
-              <p><strong>Formato:</strong> .png, .jpg, .jpeg | 1100px * 700px</p>
-            </div>
-            <div class="restaurant-edit__banner-upload">
-              <div class="restaurant-edit__upload-file">
-                <label for="restaurant-edit__bPricipal">
-                  Upload
-                </label>
-                <input
-                  id="restaurant-edit__bPricipal"
-                  type="file">
-                <div class="restaurant-edit__upload-text" />
-              </div>
-              <div class="restaurant-edit__upload-delete">
-                <i class="ceu-icon-garbage" />
-              </div>
-            </div>
-            <div class="restaurant-edit__banner-horaios">
-              <div
-                class="ceu-campo__hStart-hEnd"
-                :key="index"
-                v-for="(item, index) in scheduleBannerPrimary">
-                <p>Hora inicial</p>
-                <vue-timepicker
-                  hide-clear-button
-                  v-model="item.start_time"
-                  :format="formatTime"/>
-                <p>Hora final</p>
-                <vue-timepicker
-                  hide-clear-button
-                  v-model="item.end_time"
-                  :format="formatTime"/>
-              </div>
-              <div class="restaurant-edit__banner-description">
-                <div class="ceu-campo__text-round2">
-                  <p>Descripción</p>
-                  <input type="text">
+                <div class="restaurant-edit__item-footer">
+                  <div
+                    @click="postOpenSchedules"
+                    class="ceu-btn1">
+                    +Añadir Horario
+                  </div>
                 </div>
               </div>
             </div>
@@ -186,19 +223,78 @@
           <!-- Banner apoyo -->
           <div class="restaurant-edit__add-banner">
             <div class="restaurant-edit__add-banner-titulo">
-              <h4>Banner Apoyo</h4>
+              <h4>Banners</h4>
               <p><strong>Formato:</strong> .png, .jpg, .jpeg | 1100px * 700px</p>
             </div>
             <div class="restaurant-edit__banner-list">
               <!-- item -->
-              <div class="restaurant-edit__banner-list-item">
+              <div
+                v-for="(item, index) in listBanenrShedule"
+                :key="index"
+                class="restaurant-edit__banner-list-item">
+                <div class="restaurant-edit__banner-upload">
+                  <div class="restaurant-edit__upload-file">
+                    <div
+                      :style="{backgroundImage: 'url(' + modelBannerImg[index] + ')'}"
+                      class="restaurant-edit__upload-image" />
+                    <label :for="'restaurant-edit__banner-input' + index">
+                      Upload
+                    </label>
+                    <input
+                      :id="'restaurant-edit__banner-input' + index"
+                      @change="fileImage('banner', $event.target.files, index)"
+                      accept="image/*"
+                      type="file">
+                  </div>
+                  <div class="restaurant-edit__upload-horarios ceu-campo__hStart-hEnd">
+                    <div class="restaurant-edit__upload-horarios-item">
+                      <p>Hora inicial</p>
+                      <vue-timepicker
+                        hide-clear-button
+                        v-model="modelBannerTime[index].start_time"
+                        :format="formatTime"/>
+                    </div>
+                    <div class="restaurant-edit__upload-horarios-item">
+                      <p>Hora final</p>
+                      <vue-timepicker
+                        hide-clear-button
+                        v-model="modelBannerTime[index].end_time"
+                        :format="formatTime"/>
+                    </div>
+                  </div>
+                </div>
+                <div class="restaurant-edit__banner-horaios">
+                  <div class="restaurant-edit__banner-description">
+                    <div class="ceu-campo__text-round2">
+                      <p>Descripción</p>
+                      <input
+                        v-model="item.description"
+                        type="text">
+                    </div>
+                  </div>
+                </div>
+                <div class="restaurant-edit__item-footer">
+                  <div
+                    @click="deleteBannerSchedules(item.id, index)"
+                    class="ceu-btn1 alert">
+                    Eliminar
+                  </div>
+                  <div
+                    @click="putBannerSchedules(item.id, index)"
+                    class="ceu-btn1">
+                    Guardar Cambios
+                  </div>
+                </div>
+              </div>
+              <!-- <div class="restaurant-edit__banner-list-item">
                 <div class="restaurant-edit__banner-upload">
                   <div class="restaurant-edit__upload-file">
                     <label for="restaurant-edit__apoyo1">
                       Upload
                     </label>
                     <input
-                      id="restaurant-edit__apoyo1"
+                      @change="fileImage('banner', $event.target.files)"
+                      accept="image/*"
                       type="file">
                     <div class="restaurant-edit__upload-text" />
                   </div>
@@ -210,7 +306,7 @@
                   <div
                     class="ceu-campo__hStart-hEnd"
                     :key="index"
-                    v-for="(item, index) in scheduleBanners">
+                    v-for="(item, index) in timeBannersSchedule">
                     <p>Hora inicial</p>
                     <vue-timepicker
                       hide-clear-button
@@ -229,14 +325,19 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> -->
             </div>
-            <div class="restaurant-edit__add-horario">
+            <div
+              @click="postBannerSchedules"
+              class="restaurant-edit__add-horario">
               +Añadir Banner de apoyo
             </div>
+            {{ modelBannerImg }}
           </div>
         </div>
-        <div class="ceu-item s-45">
+        <form
+          @submit.prevent="sendFormData"
+          class="ceu-item s-45">
           <div class="restaurant-edit__direccion">
             <div class="restaurant-edit__search-map">
               <p>Dirección</p>
@@ -264,6 +365,7 @@
                 <input
                   v-model="formData.business_name"
                   placeholder="Restaurante S.A.S"
+                  required
                   type="text">
               </div>
             </div>
@@ -273,10 +375,11 @@
               <!-- campo -->
               <div class="ceu-campo__text-round">
                 <input
-                  v-model="formData.mail"
+                  v-model="formData.email"
                   autocomplete="email"
                   placeholder="tao@comidaenlau.com"
-                  type="text">
+                  required
+                  type="email">
               </div>
             </div>
             <div class="ceu-item s-50">
@@ -303,7 +406,7 @@
               <!-- campo -->
               <div class="ceu-campo__text-round">
                 <input
-                  v-model="formData.university"
+                  v-model="formData.university_name"
                   placeholder="Universidad de los Andes"
                   type="text">
               </div>
@@ -313,9 +416,10 @@
               <!-- campo -->
               <div class="ceu-campo__text-round">
                 <input
-                  v-model="formData.cellphone"
+                  v-model="formData.telephone"
                   placeholder=""
-                  type="text">
+                  required
+                  type="tel">
               </div>
             </div>
             <div class="ceu-item s-50">
@@ -323,7 +427,7 @@
               <!-- campo -->
               <div class="ceu-campo__text-round">
                 <input
-                  v-model="formData.cellphone2"
+                  v-model="formData.contact_number"
                   placeholder=""
                   type="text">
               </div>
@@ -335,7 +439,7 @@
                 <input
                   v-model="formData.facebook"
                   placeholder=""
-                  type="text">
+                  type="url">
               </div>
             </div>
             <div class="ceu-item s-50">
@@ -345,7 +449,7 @@
                 <input
                   v-model="formData.instagram"
                   placeholder=""
-                  type="text">
+                  type="url">
               </div>
             </div>
             <div class="ceu-item s-50">
@@ -355,7 +459,7 @@
                 <input
                   v-model="formData.web"
                   placeholder=""
-                  type="text">
+                  type="url">
               </div>
             </div>
             <div class="ceu-item s-50">
@@ -375,8 +479,10 @@
               <p>Tiempo promedio de preparación</p>
               <div class="ceu-campo__text2">
                 <input
-                  v-model="formData.averagePreparationTime"
-                  type="text">
+                  v-model="formData.avg_preparation_time"
+                  required
+                  maxlength="4"
+                  type="number">
               </div>
               <p>min</p>
             </div>
@@ -385,8 +491,10 @@
               <p>Tiempo promedio de entrega</p>
               <div class="ceu-campo__text2">
                 <input
-                  v-model="formData.averageDeliveryTime"
-                  type="text">
+                  v-model="formData.avg_delivery_time"
+                  required
+                  maxlength="4"
+                  type="number">
               </div>
               <p>min</p>
             </div>
@@ -396,9 +504,10 @@
               <div class="ceu-campo__text2">
                 <multiselect
                   class="custom-select4"
-                  v-model="formData.priceRange"
+                  v-model="formData.price_range"
                   :options="preciosPromecios"
                   :show-labels="false"
+                  required
                   placeholder="" />
               </div>
               <p>min</p>
@@ -439,6 +548,7 @@
                 <div class="ceu-campo__text-round">
                   <input
                     v-model="formData.bank"
+                    required
                     placeholder=""
                     type="text">
                 </div>
@@ -447,18 +557,20 @@
                 <p>#Cuenta</p>
                 <div class="ceu-campo__text-round">
                   <input
-                    v-model="formData.bankAccount"
+                    v-model="formData.bank_account"
                     placeholder="Número"
-                    type="text">
+                    required
+                    type="number">
                 </div>
               </div>
               <div class="restaurant-edit__banco-campo ceu-item s-1-3">
                 <p>Tipo</p>
                 <multiselect
                   class="custom-select4"
-                  v-model="formData.accountType"
+                  v-model="formData.account_type"
                   :options="cuentaTipos"
                   :show-labels="false"
+                  required
                   placeholder="Tipo de Cuenta" />
               </div>
             </div>
@@ -469,13 +581,15 @@
               Eliminar restaurante
             </div>
           </div> -->
-        </div>
-      </div>
-      <div class="restaurant-edit__footer cross-center">
-        <a href="">Ver contrato</a>
-        <button class="ceu-btn1">
-          Guardar Cambios
-        </button>
+          <div class="restaurant-edit__footer cross-center">
+            <a href="">Ver contrato</a>
+            <button
+              type="submit"
+              class="ceu-btn1">
+              Guardar Cambios
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   </section>
@@ -483,6 +597,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
+import configService from '../../settings/api-url'
 import VueTimepicker from 'vue2-timepicker'
 // http://sagalbot.github.io/vue-select/docs/Install.html#
 import Multiselect from 'vue-multiselect'
@@ -504,7 +619,11 @@ export default {
   },
   watch: {
     showModal () {
-      this.fillFormData()
+      this.fillFormServices()
+      // horarios de apertura
+      this.getOpenShedules()
+      // banners
+      this.getBannerShedules()
     }
   },
   components: {
@@ -513,55 +632,68 @@ export default {
   },
   data () {
     return {
+      loadUpload: {
+        logo: ''
+      },
+      formServices: {
+        'logo': '',
+        'perfil': '',
+        'has_delivery': false,
+        'has_takeout': false,
+        'active': false,
+        'delivery_fee': '',
+        'takeout_fee': '',
+        'hasMecadillo': false
+      },
       formData: {
-        logo: '',
-        hasDelivery: false,
-        hasTakeout: false,
-        feeDelivery: '',
-        feeTakeout: '',
-        hasMecadillo: false,
         address: '',
-        lat: '',
-        lng: '',
+        latitude: '',
+        longitude: '',
         business_name: '',
-        mail: '',
+        email: '',
         commercial_name: '',
         nit: '',
-        university: '',
-        cellphone: '',
-        cellphone2: '',
+        university_name: '',
+        telephone: '',
+        contact_number: '',
         facebook: '',
         instagram: '',
         web: '',
         tag: [],
-        averageDeliveryTime: '',
-        averagePreparationTime: '',
-        priceRange: '',
+        avg_delivery_time: 0,
+        avg_preparation_time: 0,
+        price_range: '',
         bank: '',
-        bankAccount: 0,
-        accountType: ''
+        bank_account: '',
+        account_type: ''
       },
-      formatTime: 'hh:mm a',
-      openingHours: [
-        {
-          start_time: {hh: '01', mm: '00', a: 'am'},
-          end_time: {hh: '01', mm: '00', a: 'am'}
-        }
+      modelOpenTime: [],
+      modelOpenDays: [],
+      listOpenTime: [],
+      formatTime: 'HH:mm',
+      openingHours: {
+        start_time: {HH: '00', mm: '00'},
+        end_time: {HH: '00', mm: '00'}
+      },
+      dayWeeks: [
+        {value: 0, label: 'Domingo'},
+        {value: 1, label: 'Lunes'},
+        {value: 2, label: 'Martes'},
+        {value: 3, label: 'Miercoles'},
+        {value: 4, label: 'Jueves'},
+        {value: 5, label: 'Viernes'},
+        {value: 6, label: 'Sabado'}
       ],
-      scheduleBannerPrimary: [
-        {
-          start_time: {hh: '01', mm: '00', a: 'am'},
-          end_time: {hh: '01', mm: '00', a: 'am'}
-        }
-      ],
-      scheduleBanners: [
-        {
-          start_time: {hh: '01', mm: '00', a: 'am'},
-          end_time: {hh: '01', mm: '00', a: 'am'}
-        }
-      ],
-      dayWeeks: [ 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo' ],
       days: [],
+      listBanenrShedule: [],
+      modelBannerTime: [],
+      modelBannerImg: [],
+      timeBannersSchedule: [
+        {
+          start_time: {HH: '01', mm: '00'},
+          end_time: {HH: '01', mm: '00'}
+        }
+      ],
       cuentaTipo: null,
       cuentaTipos: ['Ahorros', 'Corriente'],
       precioPromecio: '',
@@ -580,6 +712,9 @@ export default {
         lat: place.geometry.location.lat(),
         lng: place.geometry.location.lng()
       }
+      this.formData.latitude = place.geometry.location.lat()
+      this.formData.longitude = place.geometry.location.lng()
+      this.formData.address = place.formatted_address
       this.zoomMap = 15
     },
     getCoordinates (e) {
@@ -587,66 +722,335 @@ export default {
         lat: e.latLng.lat(),
         lng: e.latLng.lng()
       }
+      this.formData.latitude = e.latLng.lat()
+      this.formData.longitude = e.latLng.lng()
       this.zoomMap = 15
     },
-    fillFormData () {
+    fillFormServices () {
       this.updateCommerceAsync(this.idRestaurant)
         .then(res => {
           const data = res.data
 
-          var web = data.web
-          if (web === 'not defined') {
-            web = ''
+          this.formServices = {
+            'perfil': data.logo.url,
+            'has_delivery': data.has_delivery,
+            'has_takeout': data.has_takeout,
+            'delivery_fee': data.delivery_fee,
+            'active': data.active,
+            'takeout_fee': data.takeout_fee,
+            'hasMecadillo': false
           }
-          var bank = data.bank
-          if (bank === 'not defined') {
-            bank = ''
-          }
-          var businessName = data.business_name
-          if (businessName === 'not defined') {
-            businessName = ''
-          }
-          var accountType = data.account_type
-          if (accountType === 'not defined') {
-            accountType = ''
-          }
-          var longitude = data.longitude
-          var latitude = data.latitude
-          if (longitude !== null && latitude !== null) {
-            this.centerMap = {
-              lat: latitude,
-              lng: longitude
+          // otra parte del formulario
+          this.fillFormData(data)
+        })
+    },
+    fillFormData (data) {
+      // const data = res.data
+
+      var web = data.web
+      if (web === 'not defined') {
+        web = ''
+      }
+      var bank = data.bank
+      if (bank === 'not defined') {
+        bank = ''
+      }
+      var businessName = data.business_name
+      if (businessName === 'not defined') {
+        businessName = ''
+      }
+      var accountType = data.account_type
+      if (accountType === 'not defined') {
+        accountType = ''
+      }
+      var longitude = data.longitude
+      var latitude = data.latitude
+      if (longitude !== null && latitude !== null) {
+        this.centerMap = {
+          lat: parseFloat(latitude),
+          lng: parseFloat(longitude)
+        }
+        this.zoomMap = 15
+      }
+      this.formData = {
+        address: data.address,
+        latitude: this.centerMap.lat,
+        longitude: this.centerMap.lng,
+        business_name: businessName,
+        email: data.email,
+        commercial_name: data.commercial_name,
+        nit: data.nit,
+        university_name: data.university_name,
+        telephone: data.telephone,
+        contact_number: data.contact_number,
+        facebook: data.facebook,
+        instagram: data.instagram,
+        web,
+        tag: [],
+        avg_delivery_time: data.avg_delivery_time,
+        avg_preparation_time: data.avg_preparation_time,
+        price_range: data.price_range,
+        bank,
+        bank_account: data.bank_account,
+        account_type: accountType
+      }
+    },
+    sendFormData () {
+      configService(`/central_admin/commerces/${this.idRestaurant}`, {
+        method: 'put',
+        data: this.formData
+      })
+        .then(res => {
+          this.$emit('edit-restaurant')
+          this.$swal({
+            type: 'success',
+            title: 'Cambios Aplicados!',
+            timer: 2000,
+            showConfirmButton: false
+          })
+        })
+        .catch(error => {
+          console.log(error.response.data)
+        })
+    },
+    sendFormServices () {
+      this.loadUpload.logo = 'Cargando...'
+      configService(`/central_admin/commerces/${this.idRestaurant}`, {
+        method: 'put',
+        data: this.formServices
+      })
+        .then(res => {
+          this.loadUpload.logo = ''
+          this.$emit('edit-restaurant')
+          this.$swal({
+            type: 'success',
+            title: 'Cambios Aplicados!',
+            timer: 2000,
+            showConfirmButton: false
+          })
+        })
+        .catch(error => {
+          console.log(error.response.data)
+        })
+    },
+    fileImage (origin, file, position = '') {
+      console.log(file)
+      const reader = new FileReader()
+      const self = this
+      reader.addEventListener('load', function () {
+        if (origin === 'logo') {
+          self.formServices.perfil = reader.result
+          self.formServices.logo = reader.result
+        }
+
+        if (origin === 'banner' && position !== '') {
+          console.log('entre')
+          console.log(reader.result)
+          self.modelBannerImg[position] = reader.result
+        }
+      }, false)
+
+      if (file[0]) {
+        reader.readAsDataURL(file[0])
+      }
+    },
+    nameDayWeek (day) {
+      var nameDay
+      switch (day) {
+        case 0:
+          nameDay = 'Domingo'
+          break
+        case 1:
+          nameDay = 'Lunes'
+          break
+        case 2:
+          nameDay = 'Martes'
+          break
+        case 3:
+          nameDay = 'Miercoles'
+          break
+        case 4:
+          nameDay = 'Jueves'
+          break
+        case 5:
+          nameDay = 'Vienes'
+          break
+        case 6:
+          nameDay = 'Sabado'
+          break
+        default:
+          nameDay = 'no Day'
+          break
+      }
+      return nameDay
+    },
+    getOpenShedules () {
+      // limpiar datos
+      this.listOpenTime = []
+      this.modelOpenTime = []
+      this.modelOpenDays = []
+      configService(`/central_admin/commerces/${this.idRestaurant}/opening_schedules`)
+        .then(res => {
+          const self = this
+          const data = res.data
+          for (let index = 0; index < data.length; index++) {
+            self.listOpenTime[index] = data[index]
+            // llenar v-model de horarios
+            self.modelOpenTime[index] = {
+              start_time: {HH: data[index].opening_time.hour, mm: data[index].opening_time.minute},
+              end_time: {HH: data[index].closing_time.hour, mm: data[index].closing_time.minute}
             }
-            this.zoomMap = 15
+            //  llenar dias de la semana
+            var arrAux = []
+            for (let j = 0; j < data[index].weekdays.length; j++) {
+              arrAux.push({
+                value: data[index].weekdays[j],
+                label: self.nameDayWeek(data[index].weekdays[j])
+              })
+            }
+            self.modelOpenDays[index] = arrAux
           }
-          this.formData = {
-            logo: data.logo.url,
-            hasDelivery: data.has_delivery,
-            hasTakeout: data.has_takeout,
-            feeDelivery: '14',
-            feeTakeout: '7',
-            hasMecadillo: false,
-            address: data.address,
-            lat: this.centerMap.lat,
-            lng: this.centerMap.lng,
-            business_name: businessName,
-            mail: data.email,
-            commercial_name: data.commercial_name,
-            nit: data.nit,
-            university: data.university_name,
-            cellphone: data.telephone,
-            cellphone2: data.contact_number,
-            facebook: data.facebook_account,
-            instagram: data.instagram_account,
-            web,
-            tag: [],
-            averageDeliveryTime: data.average_delivery_time,
-            averagePreparationTime: data.average_preparation_time,
-            priceRange: data.price_range,
-            bank,
-            bankAccount: data.bank_account,
-            accountType
+        })
+    },
+    putOpenSchedules (id, position) {
+      // horarios
+      const open = `${this.modelOpenTime[position].start_time.HH}:${this.modelOpenTime[position].start_time.mm}`
+      const close = `${this.modelOpenTime[position].end_time.HH}:${this.modelOpenTime[position].end_time.mm}`
+      // dias de la semana
+      const daysWeek = this.modelOpenDays[position].map(item => {
+        return item.value
+      })
+      configService(`/central_admin/commerces/${this.idRestaurant}/opening_schedules/${id}`, {
+        method: 'PUT',
+        data: {
+          'opening_time': open,
+          'closing_time': close,
+          'weekdays': daysWeek
+        }
+      })
+        .then(res => {
+          this.$swal({
+            type: 'success',
+            title: 'Cambios Aplicados!',
+            timer: 2000,
+            showConfirmButton: false
+          })
+        })
+        .catch(error => {
+          console.log(error.response.data)
+        })
+    },
+    deleteOpenSchedules (id, position) {
+      console.log('id ' + id)
+      console.log('position ' + position)
+      configService(`/central_admin/commerces/${this.idRestaurant}/opening_schedules/${id}`, {
+        method: 'DELETE'
+      })
+        .then(res => {
+          this.getOpenShedules()
+        })
+    },
+    postOpenSchedules () {
+      const open = `${this.openingHours.start_time.HH}:${this.openingHours.start_time.mm}`
+      const close = `${this.openingHours.end_time.HH}:${this.openingHours.end_time.mm}`
+      // dias de la semana
+      const daysWeek = this.days.map(item => {
+        return item.value
+      })
+      configService(`/central_admin/commerces/${this.idRestaurant}/opening_schedules`, {
+        method: 'POST',
+        data: {
+          'opening_time': open,
+          'closing_time': close,
+          'weekdays': daysWeek
+        }
+      })
+        .then(res => {
+          this.$swal({
+            type: 'success',
+            title: 'Horario Creado!',
+            timer: 2000,
+            showConfirmButton: false
+          })
+        })
+        .catch(error => {
+          console.log(error.response.data)
+        })
+    },
+    getBannerShedules () {
+      // limpiar datos
+      this.listBanenrShedule = []
+      this.modelBannerTime = []
+      this.modelBannerImg = []
+      configService(`/central_admin/commerces/${this.idRestaurant}/schedules`)
+        .then(res => {
+          const self = this
+          const data = res.data
+          for (let index = 0; index < data.length; index++) {
+            self.listBanenrShedule[index] = data[index]
+            // llenar v-model de horarios
+            const horaOpen = new Date(data[index].opening_time).getHours()
+            const minutoOpen = new Date(data[index].opening_time).getMinutes()
+            const horaClose = new Date(data[index].closing_time).getHours()
+            const minutoClose = new Date(data[index].closing_time).getMinutes()
+
+            self.modelBannerTime[index] = {
+              start_time: {HH: horaClose, mm: minutoClose},
+              end_time: {HH: horaOpen, mm: minutoOpen}
+            }
+            //  llenar banner
+            self.modelBannerImg[index] = data[index].banner.url
           }
+        })
+    },
+    postBannerSchedules () {
+      const open = `${this.timeBannersSchedule.start_time.HH}:${this.timeBannersSchedule.start_time.mm}`
+      const close = `${this.timeBannersSchedule.end_time.HH}:${this.timeBannersSchedule.end_time.mm}`
+      configService(`/central_admin/commerces/${this.idRestaurant}/opening_schedules`, {
+        method: 'POST',
+        data: {
+          'opening_time': open,
+          'closing_time': close,
+          'description': 'Gran',
+          'tweet': 'tweet definicion',
+          'banner': ''
+        }
+      })
+        .then(res => {
+          this.$swal({
+            type: 'success',
+            title: 'Horario Creado!',
+            timer: 2000,
+            showConfirmButton: false
+          })
+        })
+        .catch(error => {
+          console.log(error.response.data)
+        })
+    },
+    deleteBannerSchedules () {
+
+    },
+    putBannerSchedules (id, position) {
+      const open = `${this.modelBannerTime[position].start_time.HH}:${this.modelBannerTime[position].start_time.mm}`
+      const close = `${this.modelBannerTime[position].end_time.HH}:${this.modelBannerTime[position].end_time.mm}`
+      configService(`/central_admin/commerces/${this.idRestaurant}/schedules/${id}`, {
+        method: 'PUT',
+        data: {
+          'opening_time': open,
+          'closing_time': close
+        }
+      })
+        .then(res => {
+          this.$swal({
+            type: 'success',
+            title: 'Cambios Aplicados!',
+            timer: 2000,
+            showConfirmButton: false
+          })
+        })
+        .catch(error => {
+          console.log(error.response.data)
         })
     }
   }

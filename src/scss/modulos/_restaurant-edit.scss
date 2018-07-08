@@ -36,6 +36,16 @@
   text-align: center;
   margin-top: 10px;
   cursor: pointer;
+  position: relative;
+  label  {
+    cursor: pointer;
+  }
+  input {
+    visibility: hidden;
+    position: absolute;
+    height: 2px;
+    width: 2px;
+  }
 }
 
 .restaurant-edit__logo-info {
@@ -117,6 +127,14 @@
     font-weight: 300;
     text-decoration: underline;
   }
+  .ceu-campo__text-round2 {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    input {
+      margin-right: 6px;
+    }
+  }
 }
 
 .restaurant-edit__edit-menu {
@@ -124,7 +142,7 @@
   color: $principal;
   text-decoration: underline;
   font-weight: 500;
-  margin: 15px 25px;
+  margin: 10px 0 0 0;
 }
 
 // datos
@@ -150,7 +168,29 @@
     color: #000000;
     font-size: 20px;
     font-weight: bold;
-    margin: 0;
+    margin: 15px 0;
+  }
+}
+
+.restaurant-edit__horarios-apertura {
+  .restaurant-edit__list-item {
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e5edef;
+    &:last-child {
+      border: none;
+    }
+  }
+  .restaurant-edit__list {
+    max-height: 280px;
+    overflow-y: auto;
+    padding-right: 20px;
+  }
+}
+
+.restaurant-edit__item-footer {
+  margin-top: 15px;
+  div {
+    margin-right: 20px;
   }
 }
 
@@ -179,8 +219,7 @@
 
 .ceu-campo__hStart-hEnd {
   display: flex;
-  align-items: center;
-  margin-top: 15px;
+  margin-left: 20px;
   p {
     margin: 0;
     font-family: $font2;
@@ -363,9 +402,16 @@
 }
 
 .restaurant-edit__footer {
+  width: 100%;
   display: flex;
   flex-direction: column;
   margin: 15px 0;
+  p {
+    margin: 0;
+    margin-bottom: 8px;
+    font-family: $font1;
+    color: #404040;
+  }
   a {
     font-family: $font1;
     font-size: 20px;
@@ -381,12 +427,15 @@
 .restaurant-edit__upload-file {
   position: relative;
   display: flex;
+  flex-direction: column;
+  text-align: center;
   label {
     font-family: $font1;
     font-size: 20px;
     color: $principal;
     text-decoration: underline;
     cursor: pointer;
+    margin-top: 10px;
   }
   input {
     position: absolute;
@@ -397,11 +446,15 @@
   }
 }
 
-.restaurant-edit__upload-text {
-  border: 1px solid #4f5e61;
-  width: 50px;
-  height: 25px;
+.restaurant-edit__upload-image {
+  border: 1px solid #e5edef;
+  background-color: #e6e6e6;
+  width: 192px;
+  height: 64px;
   margin: 0 10px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 6px;
 }
 
 .restaurant-edit__upload-delete {
@@ -430,4 +483,21 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+.restaurant-edit__banner-list {
+  max-height: 280px;
+  overflow-y: auto;
+  margin-right: 20px;
+}
+
+.restaurant-edit__banner-list-item {
+  border-bottom: 1px solid #e5edef;
+  padding: 20px 0;
+  &:first-child {
+    padding-top: 0;
+  }
+  &:last-child {
+    border: none;
+  }
 }

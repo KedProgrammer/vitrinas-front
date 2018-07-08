@@ -237,7 +237,7 @@
                   </div>
                 </div>
                 <div class="admin-hoy__panel-tiempo">
-                  <p>11:45</p>
+                  <p>{{setTime(order.created_at)}}</p>
                   <span>({{ order.json_products.length }})</span>
                   <p>{{ order.id }}</p>
                 </div>
@@ -247,31 +247,31 @@
           <!-- panel -->
           <div class="admin-hoy__panel">
             <div class="admin-hoy__panel-header">
-              <h3>Out of track</h3>
+              <h3>Pending</h3>
               <!-- menu -->
               <div class="admin-hoy__panel-menu">
+                <!-- agregar la clase 'activo' para aplicar estilo -->
                 <a
-                  @click="filterMiddle('hour')"
-                  :class="{activo: setMiddleActive('hour') }"
+                  @click="filterLeft('hour')"
+                  :class="{activo: setLeftActive('hour') }"
                   class="admin-hoy__panel-menu-item">
                   00:00
                 </a>
-                <!-- agregar la clase 'activo' para aplicar estilo -->
                 <a
-                  @click="filterMiddle('time')"
-                  :class="{activo: setMiddleActive('time') }"
+                  @click="filterLeft('time')"
+                  :class="{activo: setLeftActive('time') }"
                   class="admin-hoy__panel-menu-item">
                   <i class="ceu-icon-time-left"/>
                 </a>
                 <a
-                  @click="filterMiddle('place')"
-                  :class="{activo: setMiddleActive('place') }"
+                  @click="filterLeft('place')"
+                  :class="{activo: setLeftActive('place') }"
                   class="admin-hoy__panel-menu-item">
                   <i class="ceu-icon-shop"/>
                 </a>
                 <a
-                  @click="filterMiddle('price')"
-                  :class="{activo: setMiddleActive('price') }"
+                  @click="filterLeft('price')"
+                  :class="{activo: setLeftActive('price') }"
                   class="admin-hoy__panel-menu-item">
                   <i class="ceu-icon-coin"/>
                 </a>
@@ -282,255 +282,63 @@
             <!-- body panel -->
             <div class="admin-hoy__panel-body">
               <!-- item -->
-              <div class="admin-hoy__panel-item">
+              <div
+                @click="toggleDetail(order)"
+                v-for="order in outTrackedOrders"
+                :key="order.id"
+                class="admin-hoy__panel-item">
                 <div class="admin-hoy__nombre">
                   <div class="admin-hoy__ubicacion-precio admin-hoy__triger">
                     <div class="admin-hoy__nombre-ubicacion">
-                      <h3>Delirato</h3>
-                      <p>ML 203</p>
+                      <h3>{{ order.commerce.commercial_name }}</h3>
+                      <p>{{ order.address }}</p>
                     </div>
                     <div class="admin-hoy__precio">
-                      <h3>$30.000</h3>
+                      <h3>{{ order.total }}</h3>
                       <p>
                         <i class="ceu-icon-payment-terminal"/>
-                        3
+                        {{ order.json_products.length }}
                       </p>
                     </div>
                   </div>
                   <div class="admin-hoy__nombre-row">
-                    <select class="admin-hoy__nombre-runner">
-                      <option value="">Asignar</option>
-                      <option value=""> J. Marquez - 0/2</option>
-                      <option value="">M. Pardo - 1/3</option>
-                      <option value="">J. Ramirez - 1/3</option>
-                      <option value="">E. Gomez - 1/2</option>
-                      <option value="">F. Zamora - 2/3</option>
-                      <option value="">R. Martinez - 2/4</option>
-                      <option value="">Q. Tarantino - 2/2</option>
-                      <option value="">A. Motzart - 3/3</option>
-                      <option value="">J. Balvin - 3/3</option>
-                      <option value="">E. Gomez - 1/2</option>
-                      <option value="">F. Zamora - 2/3</option>
-                      <option value="">R. Martinez - 2/4</option>
-                      <option value="">Q. Tarantino - 2/2</option>
-                      <option value="">A. Motzart - 3/3</option>
-                      <option value="">J. Balvin - 3/3</option>
-                    </select>
+                    <v-select
+                      label="name"
+                      class="search-select"
+                      max-height="250px"
+                      placeholder="Asignar"
+                      v-model="runnerUser"
+                      :clear-search-on-select="false"
+                      :options="runners">
+                      <div
+                        class="runners__list-item"
+                        slot="option"
+                        :title="option.name"
+                        slot-scope="option">
+                        <div class="runners__list-name">
+                          {{ option.name }}
+                        </div>
+                        <div class="runners__list-status">
+                          <div class="runner__list-available">
+                            {{ option.process }} / {{ option.capacity }}
+                          </div>
+                          <i class="ion-android-arrow-forward" />
+                        </div>
+                      </div>
+                    </v-select>
                   </div>
                 </div>
                 <div class="admin-hoy__estado-info">
-                  <!-- para indicar que esta aceptado se agrega la clase "admin-hoy__estado-aceptado" -->
-                  <h3 class="admin-hoy__estado-aceptado">Aceptado.</h3>
-                  <p>(3006304982)</p>
+                  <h3 class="size">{{ order.status }}</h3>
+                  <p>{{ order.cellphone }}</p>
                   <div class="admin-hoy__estado">
                     Listo en..
                   </div>
                 </div>
                 <div class="admin-hoy__panel-tiempo">
-                  <p>11:45</p>
-                  <span>(22)</span>
-                  <p>15413</p>
-                </div>
-              </div>
-              <!-- item -->
-              <div class="admin-hoy__panel-item">
-                <div class="admin-hoy__nombre">
-                  <div class="admin-hoy__ubicacion-precio">
-                    <div class="admin-hoy__nombre-ubicacion">
-                      <h3>Delirato</h3>
-                      <p>ML 203</p>
-                    </div>
-                    <div class="admin-hoy__precio">
-                      <h3>$30.000</h3>
-                      <p>
-                        <img
-                          src="../assets/images/iconos-multicolor/nequi.png"
-                          alt="">
-                        3
-                      </p>
-                    </div>
-                  </div>
-                  <div class="admin-hoy__nombre-row">
-                    <select class="admin-hoy__nombre-runner">
-                      <option value="">Asignar</option>
-                      <option value=""> J. Marquez - 0/2</option>
-                      <option value="">M. Pardo - 1/3</option>
-                      <option value="">J. Ramirez - 1/3</option>
-                      <option value="">E. Gomez - 1/2</option>
-                      <option value="">F. Zamora - 2/3</option>
-                      <option value="">R. Martinez - 2/4</option>
-                      <option value="">Q. Tarantino - 2/2</option>
-                      <option value="">A. Motzart - 3/3</option>
-                      <option value="">J. Balvin - 3/3</option>
-                      <option value="">E. Gomez - 1/2</option>
-                      <option value="">F. Zamora - 2/3</option>
-                      <option value="">R. Martinez - 2/4</option>
-                      <option value="">Q. Tarantino - 2/2</option>
-                      <option value="">A. Motzart - 3/3</option>
-                      <option value="">J. Balvin - 3/3</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="admin-hoy__estado-info">
-                  <h3>Listo en rest.</h3>
-                  <p>(3006304982)</p>
-                  <div class="admin-hoy__estado">
-                    Listo en..
-                  </div>
-                </div>
-                <div class="admin-hoy__panel-tiempo">
-                  <p>11:45</p>
-                  <span>(22)</span>
-                  <p>15413</p>
-                </div>
-              </div>
-              <!-- item -->
-              <div class="admin-hoy__panel-item">
-                <div class="admin-hoy__nombre">
-                  <div class="admin-hoy__nombre-ubicacion">
-                    <h3>Delirato</h3>
-                    <p>ML 203</p>
-                  </div>
-                  <div class="admin-hoy__precio">
-                    <h3>$30.000</h3>
-                    <p>
-                      <img
-                        src="../assets/images/iconos-multicolor/nequi.png"
-                        alt="">
-                      3
-                    </p>
-                  </div>
-                  <div class="admin-hoy__nombre-row">
-                    <select class="admin-hoy__nombre-runner">
-                      <option value="">Asignar</option>
-                      <option value=""> J. Marquez - 0/2</option>
-                      <option value="">M. Pardo - 1/3</option>
-                      <option value="">J. Ramirez - 1/3</option>
-                      <option value="">E. Gomez - 1/2</option>
-                      <option value="">F. Zamora - 2/3</option>
-                      <option value="">R. Martinez - 2/4</option>
-                      <option value="">Q. Tarantino - 2/2</option>
-                      <option value="">A. Motzart - 3/3</option>
-                      <option value="">J. Balvin - 3/3</option>
-                      <option value="">E. Gomez - 1/2</option>
-                      <option value="">F. Zamora - 2/3</option>
-                      <option value="">R. Martinez - 2/4</option>
-                      <option value="">Q. Tarantino - 2/2</option>
-                      <option value="">A. Motzart - 3/3</option>
-                      <option value="">J. Balvin - 3/3</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="admin-hoy__estado-info">
-                  <h3>Listo en rest.</h3>
-                  <p>(3006304982)</p>
-                  <div class="admin-hoy__estado">
-                    Listo en..
-                  </div>
-                </div>
-                <div class="admin-hoy__panel-tiempo">
-                  <p>11:45</p>
-                  <span>(22)</span>
-                  <p>15413</p>
-                </div>
-              </div>
-              <!-- item -->
-              <div class="admin-hoy__panel-item">
-                <div class="admin-hoy__nombre">
-                  <div class="admin-hoy__nombre-ubicacion">
-                    <h3>Delirato</h3>
-                    <p>ML 203</p>
-                  </div>
-                  <div class="admin-hoy__precio">
-                    <h3>$30.000</h3>
-                    <p>
-                      <!-- <img src="../assets/images/iconos-multicolor/nequi.png" alt="">  -->
-                      <i class="ceu-icon-payment-terminal"/>
-                      3
-                    </p>
-                  </div>
-                  <div class="admin-hoy__nombre-row">
-                    <select class="admin-hoy__nombre-runner">
-                      <option value=""> Asignar </option>
-                      <option value=""> J. Marquez - 0/2</option>
-                      <option value="">M. Pardo - 1/3</option>
-                      <option value="">J. Ramirez - 1/3</option>
-                      <option value="">E. Gomez - 1/2</option>
-                      <option value="">F. Zamora - 2/3</option>
-                      <option value="">R. Martinez - 2/4</option>
-                      <option value="">Q. Tarantino - 2/2</option>
-                      <option value="">A. Motzart - 3/3</option>
-                      <option value="">J. Balvin - 3/3</option>
-                      <option value="">E. Gomez - 1/2</option>
-                      <option value="">F. Zamora - 2/3</option>
-                      <option value="">R. Martinez - 2/4</option>
-                      <option value="">Q. Tarantino - 2/2</option>
-                      <option value="">A. Motzart - 3/3</option>
-                      <option value="">J. Balvin - 3/3</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="admin-hoy__estado-info">
-                  <h3>Listo en rest.</h3>
-                  <p>(3006304982)</p>
-                  <div class="admin-hoy__estado">
-                    Listo en..
-                  </div>
-                </div>
-                <div class="admin-hoy__panel-tiempo">
-                  <p>11:45</p>
-                  <span>(22)</span>
-                  <p>15413</p>
-                </div>
-              </div>
-              <!-- item -->
-              <div class="admin-hoy__panel-item">
-                <div class="admin-hoy__nombre">
-                  <div class="admin-hoy__nombre-ubicacion">
-                    <h3>Delirato</h3>
-                    <p>ML 203</p>
-                  </div>
-                  <div class="admin-hoy__precio">
-                    <h3>$30.000</h3>
-                    <p>
-                      <!-- <img src="../assets/images/iconos-multicolor/nequi.png" alt="">  -->
-                      <i class="ceu-icon-payment-terminal"/>
-                      3
-                    </p>
-                  </div>
-                  <div class="admin-hoy__nombre-row">
-                    <select class="admin-hoy__nombre-runner">
-                      <option value="">Asignar</option>
-                      <option value=""> J. Marquez - 0/2</option>
-                      <option value="">M. Pardo - 1/3</option>
-                      <option value="">J. Ramirez - 1/3</option>
-                      <option value="">E. Gomez - 1/2</option>
-                      <option value="">F. Zamora - 2/3</option>
-                      <option value="">R. Martinez - 2/4</option>
-                      <option value="">Q. Tarantino - 2/2</option>
-                      <option value="">A. Motzart - 3/3</option>
-                      <option value="">J. Balvin - 3/3</option>
-                      <option value="">E. Gomez - 1/2</option>
-                      <option value="">F. Zamora - 2/3</option>
-                      <option value="">R. Martinez - 2/4</option>
-                      <option value="">Q. Tarantino - 2/2</option>
-                      <option value="">A. Motzart - 3/3</option>
-                      <option value="">J. Balvin - 3/3</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="admin-hoy__estado-info">
-                  <!-- para indicar que esta aceptado se agrega la clase "admin-hoy__estado-aceptado" -->
-                  <h3 class="admin-hoy__estado-aceptado">Aceptado.</h3>
-                  <p>(3006304982)</p>
-                  <div class="admin-hoy__estado">
-                    Listo en..
-                  </div>
-                </div>
-                <div class="admin-hoy__panel-tiempo">
-                  <p>11:45</p>
-                  <span>(22)</span>
-                  <p>15413</p>
+                  <p>{{setTime(order.created_at)}}</p>
+                  <span>({{ order.json_products.length }})</span>
+                  <p>{{ order.id }}</p>
                 </div>
               </div>
             </div>
@@ -627,7 +435,7 @@
                   </div>
                 </div>
                 <div class="admin-hoy__panel-tiempo">
-                  <p>11:45</p>
+                  <p>{{setTime(order.created_at)}}</p>
                   <span>({{ order.json_products.length }})</span>
                   <p>{{ order.id }}</p>
                 </div>
@@ -643,6 +451,7 @@
       @close-details="showDetail = $event"
       :show-modal="showDetail"
       :order-summary="orderSummary"
+      :set-time="setTime"
     />
   </div>
 </template>
@@ -661,6 +470,7 @@ export default {
   },
   data () {
     return {
+      outTrackedOrders: [],
       orderSummary: {},
       rightPanelActive: '',
       middlePanelActive: '',
@@ -909,13 +719,10 @@ export default {
       if (pending) {
         if (pending === 'pending') {
           this.pendingOrders = orders
-          console.log(this.pendingOrders)
         }
       } else {
         this.filterOrders = orders
-        console.log(this.filterOrders)
       }
-      console.log(this.orders)
     },
     filterType (type) {
       if (type === 'takeout') {
@@ -986,17 +793,102 @@ export default {
     groupOrders (groupFilter) {
       this.setOrdinalOrder(groupFilter)
       this.setPendingOrder(stateGroups.pending)
+    },
+    setTime (date) {
+      const dateFormatted = new Date(date)
+      let minutes = dateFormatted.getMinutes()
+      if (minutes < 10){
+        minutes = `0${minutes}`
+      }
+      const hour = dateFormatted.getHours()
+      const createdTime = hour > 12 ? `${(hour - 12)}:${minutes}pm` : `${(hour)}:${minutes}am`
+      return createdTime
+    },
+    setTrackTime() {
+      this.orders = this.orders.map(element => {
+        const createdTime = new Date(element.created_at)
+        const trackDeliveryMinutes = parseInt(element.commerce.avg_delivery_time)
+        const trackPreparationMinutes = parseInt(element.commerce.avg_preparation_time)
+        const trackTime = new Date(createdTime.getFullYear(), createdTime.getMonth(),
+        createdTime.getDate(), createdTime.getHours(), createdTime.getMinutes() + trackDeliveryMinutes + trackPreparationMinutes)
+        const newElement = {...element, trackTime: trackTime}
+        return newElement
+      })
+    },
+    getDifference(firstDate, secondDate) {
+      let diff =(firstDate.getTime() - secondDate.getTime()) / 1000;
+      diff /=60
+      return Math.round(diff);
+    },
+    setOutTrack(){
+      const solicited = this.orders.filter(element => {
+         const creationDifference = this.getDifference(new Date,new Date(element.created_at))
+         const deliveryDiference = this.getDifference(new Date(element.trackTime),new Date())
+         console.log(deliveryDiference,creationDifference,element)
+        if (stateGroups.solicitado.includes(element.status) && (creationDifference > 5 || deliveryDiference < 20 )){
+          return true
+        }
+      })
+      console.log(solicited)
+      const accepted = this.orders.filter(element => {
+         const deliveryDiference = this.getDifference(new Date(element.trackTime),new Date())
+         if (["preparing_order"].includes(element.status) && deliveryDiference < 15){
+          return true
+        }
+      })
+      console.log(accepted)
+      const alreadyRestaurant = this.orders.filter(element => {
+         const deliveryDiference = this.getDifference(new Date(element.trackTime),new Date())
+         if (["waiting_pickup_client","waiting_pickup_deliveryman"].includes(element.status) && deliveryDiference < 10){
+          return true
+        }
+      })
+      const picked = this.orders.filter(element => {
+         const deliveryDiference = this.getDifference(new Date(element.trackTime),new Date())
+         if (["delivering_order"].includes(element.status) && deliveryDiference < 20){
+          return true
+        }
+      })
+      console.log(picked)
+      const outTracked = this.orders.filter(element => {
+         const deliveryDiference = this.getDifference(new Date(element.trackTime),new Date())
+         if (stateGroups.allNoCompleted.includes(element.status) && deliveryDiference < 0){
+          return true
+        }
+      })
+      console.log(outTracked)
+       const noAsgined = this.orders.filter(element => {
+         const deliveryDiference = this.getDifference(new Date(element.trackTime),new Date())
+         if (!element.delivery && deliveryDiference < 20){
+          return true
+        }
+      })
+      console.log(noAsgined)
+      const tracked = [...solicited,...accepted, ...picked, ...outTracked,...noAsgined]
+      console.log(this.outTrackedOrders)
+      console.log(tracked)
+      tracked.forEach(element => {
+       const index = this.outTrackedOrders.findIndex(element1 => {
+          return element1 === element
+        })
+
+      if (index === -1){
+        this.outTrackedOrders.push(element)
+      }
+      })
     }
   },
   created () {
     this.isAllActive = true
-    configService('central_admin/orders?university_id=1')
+    const date = new Date()
+    const data = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+    console.log(data)
+    configService(`central_admin/universities/2/orders?date=${data}`)
       .then(response => {
         this.orders = response.data
-        console.log(this.orders)
+        this.setTrackTime()
         this.groupOrders(stateGroups.all)
-        console.log(this.filterOrders[0])
-        console.log(this.orders)
+        this.setOutTrack()
       })
       .catch(error => {
         console.log(error)

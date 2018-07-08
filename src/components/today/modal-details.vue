@@ -11,7 +11,7 @@
       <h3>{{ orderSummary.id }}</h3>
       <h2>{{ orderSummary.commerce.commercial_name }}</h2>
       <p class="modal-admin__hora">
-        Para la 1:15pm
+        Para {{ setTime(orderSummary.trackTime) }}
       </p>
       <!-- colocar la clase "activo" para indicar que fue aceptado el pedido -->
       <h4 class="modal-admin__estado-pedido activo">{{orderSummary.status}}</h4>
@@ -26,7 +26,7 @@
         class="modal-admin__lista-item">
         <!-- numero producto en la listaa -->
         <div class="modal-admin__lista-num">
-          2
+          {{product.count}}
         </div>
         <!-- informacion del producto -->
         <div class="modal-admin__lista-info">
@@ -39,12 +39,12 @@
             </li>
 
           </ul>
-          <!--
+          
           <h5 class="modal-admin__lista-comentario">Comentarios:</h5>
           <p class="modal-admin__lista-mensaje">
             Enviar salsa de tomate y mayonesa, no incluir la cebolla
           </p>
-          -->
+          
           <div class="modal-admin__lista-precio">
             {{ product.total_price }}
           </div>
@@ -160,6 +160,12 @@ export default {
             commercial_name: ''
           }
         }
+      }
+    },
+    setTime: {
+      type: Function,
+      default: () => {
+        return 
       }
     }
   },

@@ -20,15 +20,19 @@
     <a
       href=""
       class="admin__menu-item">KPI</a>
-    <a
-      href=""
-      class="admin__menu-item">Team</a>
+    <router-link
+      class="admin__menu-item"
+      :to="{ name: 'team'}">
+      Team
+    </router-link>
     <a
       href=""
       class="admin__menu-item">PROMO</a>
-    <a
-      href=""
-      class="admin__menu-item">Variables</a>
+    <router-link
+      class="admin__menu-item"
+      :to="{ name: 'variables'}">
+      Variables
+    </router-link>
     <a
       href=""
       class="admin__menu-item">ADS</a>

@@ -1,0 +1,40 @@
+.view-variables__contenedor {
+  padding: 30px 50px;
+}
+
+.view-variables__item {
+  h2 {
+    font-family: $font1;
+    color: $principal;
+    font-size: 25px;
+    margin: 0 0 10px 0;
+  }
+}
+
+.view-variables__table {
+  table {
+    border: 1px solid #e5edef;
+    border-radius: 6px;
+    border-collapse: collapse;
+    font-family: $font1;
+    color: #404040;
+    td {
+      border-bottom: 1px solid #e5edef;
+      border-right: 1px solid #e5edef;
+      padding: 5px 10px;
+    }
+  }
+  input {
+    width: 100%;
+    border: none;
+    font-family: $font1;
+    color: #404040;
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+.view-variables__item-footer {
+  margin-top: 10px;
+}

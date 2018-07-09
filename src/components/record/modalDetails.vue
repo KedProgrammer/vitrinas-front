@@ -1,91 +1,52 @@
 <template>
-  <div
+   <div
     :class="{ 'activo': toggleModal }"
     class="modal-admin">
     <button
-      @click="eventToggleModal"
+      @click="close"
       class="modal-admin__cerrar">
       Cerrar
     </button>
     <div class="modal-admin__header">
-      <h3>56721</h3>
-      <h2>Delirato</h2>
+      <h3>{{ orderSummary.id }}</h3>
+      <h2>{{ orderSummary.commerce.commercial_name }}</h2>
       <p class="modal-admin__hora">
-        Para la 1:15pm
+        Para {{ setTime(orderSummary.trackTime) }}
       </p>
       <!-- colocar la clase "activo" para indicar que fue aceptado el pedido -->
-      <h4 class="modal-admin__estado-pedido activo">Aceptado</h4>
+      <h4 class="modal-admin__estado-pedido activo">{{orderSummary.status}}</h4>
     </div>
     <!-- lista del pedido -->
     <div class="modal-admin__lista">
 
       <!-- item -->
-      <div class="modal-admin__lista-item">
+      <div
+        v-for="product in orderSummary.json_products"
+        :key="product.id"
+        class="modal-admin__lista-item">
         <!-- numero producto en la listaa -->
         <div class="modal-admin__lista-num">
-          1
+          {{product.count}}
         </div>
         <!-- informacion del producto -->
         <div class="modal-admin__lista-info">
-          <p class="modal-admin__lista-titulo">Todo terreno en combo</p>
+          <p class="modal-admin__lista-titulo">{{ product.name }}</p>
           <ul class="modal-admin__lista-adicional">
-            <li>Pepsi</li>
-            <li>Francesa</li>
+            <li
+              v-for="addon in product.add_ons"
+              :key="addon.add_ons.id">
+              {{ addonNames(addon.add_ons) }}
+            </li>
+
           </ul>
+          
           <h5 class="modal-admin__lista-comentario">Comentarios:</h5>
           <p class="modal-admin__lista-mensaje">
             Enviar salsa de tomate y mayonesa, no incluir la cebolla
           </p>
+          
           <div class="modal-admin__lista-precio">
-            $32.300
-          </div>
-        </div>
-
-      </div>
-
-      <!-- item -->
-      <div class="modal-admin__lista-item">
-        <!-- numero producto en la listaa -->
-        <div class="modal-admin__lista-num">
-          2
-        </div>
-        <!-- informacion del producto -->
-        <div class="modal-admin__lista-info">
-          <p class="modal-admin__lista-titulo">Todo terreno en combo</p>
-          <ul class="modal-admin__lista-adicional">
-            <li>Pepsi</li>
-            <li>Francesa</li>
-          </ul>
-          <h5 class="modal-admin__lista-comentario">Comentarios:</h5>
-          <p class="modal-admin__lista-mensaje">
-            Enviar salsa de tomate y mayonesa, no incluir la cebolla
-          </p>
-          <div class="modal-admin__lista-precio">
-            $32.300
-          </div>
-        </div>
-
-      </div>
-
-      <!-- item -->
-      <div class="modal-admin__lista-item">
-        <!-- numero producto en la listaa -->
-        <div class="modal-admin__lista-num">
-          3
-        </div>
-        <!-- informacion del producto -->
-        <div class="modal-admin__lista-info">
-          <p class="modal-admin__lista-titulo">Todo terreno en combo</p>
-          <ul class="modal-admin__lista-adicional">
-            <li>Pepsi</li>
-            <li>Francesa</li>
-          </ul>
-          <h5 class="modal-admin__lista-comentario">Comentarios:</h5>
-          <p class="modal-admin__lista-mensaje">
-            Enviar salsa de tomate y mayonesa, no incluir la cebolla
-          </p>
-          <div class="modal-admin__lista-precio">
-            $32.300
+            {{ product.total_price }}
           </div>
         </div>
 
@@ -97,18 +58,26 @@
       <div class="modal-admin__row">
         <p class="modal-admin__cupon">
           <strong>Cupón</strong>
-          HappyCharlie
+          {{setCoupon(orderSummary)}}
         </p>
         <div class="modal-admin__domicilio">
           Sin domicilio
         </div>
       </div>
-      <p class="modal-admin__row">
+      <p
+        v-if="orderSummary.is_takeout"
+        class="modal-admin__row">
+        <strong>Takeout</strong>
+        {{ orderSummary.takeout }}
+      </p>
+      <p
+        v-else
+        class="modal-admin__row">
         <strong>Domicilio</strong>
-        $0
+        {{ orderSummary.delivery_price }}
       </p>
       <div class="modal-admin__total">
-        TOTAL COP $54.400
+        TOTAL COP {{ orderSummary.total }}
       </div>
     </div>
     <!-- formad de pagos -->
@@ -118,58 +87,40 @@
           Forma de pago
         </div>
         <div class="modal-admin__pago-modo">
-          Efectivo <i class="ion-ios-arrow-forward"/>
+          {{orderSummary.payment_type}} <i class="ion-ios-arrow-forward"/>
         </div>
       </div>
-      <div class="modal-admin__pagos-row">
+      <div
+      v-if="!orderSummary.is_takeout"
+       class="modal-admin__pagos-row">
         <div class="modal-admin__pago">
           Runner
         </div>
         <div class="modal-admin__pago-modo">
-          Juan Camilo Martines <i class="ion-ios-arrow-forward"/>
+          {{setDelivery(orderSummary.delivery)}} <i class="ion-ios-arrow-forward"/>
         </div>
       </div>
     </div>
     <!-- estados -->
     <div class="modal-admin__estados">
       <!-- item -->
-      <div class="modal-admin__estado-item">
-        Runner esp...
-      </div>
-      <!-- item -->
-      <div class="modal-admin__estado-item">
-        Listo en rest
-      </div>
-      <!-- item -->
-      <div class="modal-admin__estado-item">
-        Recogido
-      </div>
-      <!-- item -->
-      <div class="modal-admin__estado-item">
-        Entregado
-      </div>
-      <!-- item -->
-      <div class="modal-admin__estado-item">
-        Pagado
-      </div>
-      <!-- item -->
-      <div class="modal-admin__estado-item">
-        Problema Cliente
-      </div>
-      <!-- item -->
-      <div class="modal-admin__estado-item">
-        Problema rest
+      <div 
+      @click="setState(button,orderSummary)"
+      v-for="button in orderSummary.buttons"
+      :key="button"
+      class="modal-admin__estado-item">
+        {{button}}
       </div>
     </div>
     <!-- informacion base -->
     <div class="modal-admin__info">
       <p>
-        <strong>Cliente: </strong>Pepito perez
-        (pepito@javeriana.edu.co
+        <strong>Cliente: </strong>{{setName(orderSummary)}}
+        ({{orderSummary.campus_email}})
       </p>
       <p>
         <strong>Restaurante: </strong>
-        Delirato 3103224982
+        {{orderSummary.commerce.commercial_name}} {{orderSummary.commerce.telephone}}
       </p>
     </div>
   </div>
@@ -182,9 +133,49 @@ export default {
     toggleModal: {
       default: false,
       type: Boolean
+    },
+    orderSummary: {
+      type: Object,
+      default: () => {
+        return {}
+      }
+    },
+    setTime: {
+      type: Function,
+      default: () => {
+        return 
+      }
     }
   },
   methods: {
+    close () {
+       this.$emit('close-details', false)
+    },
+    setName(order){
+      return `${order.first_name} ${order.last_name}`
+    },
+    setDelivery (delivery){
+      if (delivery.delivery_man){
+         return `${delivery.delivery_man.first_name} ${delivery.delivery_man.last_name}`
+      }else {
+        return 'No Asignado'
+      }
+     
+    },
+    setCoupon(order) {
+      if (order.coupon_name) {
+        return order.coupon_name
+      }else{
+        return 'Sin cupon'
+      }
+    },
+    addonNames (addon) {
+      let name = ''
+      addon.forEach(element => {
+        name = element.name
+      })
+      return name
+    },
     eventToggleModal () {
       this.$emit('event-toggle-modal')
     }

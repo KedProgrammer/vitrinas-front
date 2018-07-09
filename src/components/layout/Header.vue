@@ -22,17 +22,60 @@
       </span>
     </div>
 
-    <div class="restaurante-user__avatar">
-      <img
-        src="../../assets/images/perfil/perfil-mini.jpg"
-        alt="">
+    <div class="header__block-righ">
+      <div class="header__select-university">
+        <multiselect
+          class="custom-select1"
+          :value="university"
+          :options="universitys"
+          :searchable="false"
+          :show-labels="false"
+          label="name"
+          @select="updateUniversityAsync"
+          placeholder="Multi Selección" />
+      </div>
+
+      <div class="restaurante-user__avatar">
+        <img
+          src="../../assets/images/perfil/perfil-mini.jpg"
+          alt="">
+      </div>
     </div>
 
   </header>
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
 export default {
-  name: 'Header'
+  name: 'Header',
+  computed: {
+    ...mapState(['university', 'universities'])
+  },
+  data () {
+    return {
+      'universitys': []
+    }
+  },
+  mounted () {
+    this.$nextTick(() => {
+      this.getUniversity()
+    })
+  },
+  methods: {
+    ...mapActions(['updateUniversitiesAsync', 'updateUniversityAsync']),
+    getUniversity () {
+      this.updateUniversitiesAsync()
+        .then(res => {
+          console.log(res)
+          for (let index = 0; index < res.data.length; index++) {
+            this.universitys.push({
+              id: res.data[index].id,
+              name: res.data[index].name
+            })
+          }
+        })
+    }
+  }
 }
 </script>

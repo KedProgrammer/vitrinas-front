@@ -1,6 +1,7 @@
 import Today from './views/today.vue'
 import Restaurant from './views/restaurant.vue'
 import Record from './views/record.vue'
+import Team from './views/team.vue'
 import Error404 from './views/error404.vue'
 
 const routes = [
@@ -18,6 +19,11 @@ const routes = [
     path: '/historial',
     component: Record,
     name: 'record'
+  },
+  {
+    path: '/equipo',
+    component: Team,
+    name: 'team'
   },
   {
     path: '/*',

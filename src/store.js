@@ -11,7 +11,9 @@ const store = new Vuex.Store({
       id: 1
     },
     commerces: {},
-    commerce: {}
+    commerce: {},
+    domiciliary: {},
+    domiciliarys: {}
   },
   getters: {
   },

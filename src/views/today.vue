@@ -98,43 +98,10 @@
           <!-- item -->
           <div class="admin-hoy__estadisticas-item admin-hoy__estadisticas-venta">
             <p>Ventas</p>
-            <span>$2’300.540</span>
+            <span>{{calculateTotal()}}</span>
           </div>
           <!-- item -->
-          <div class="admin-hoy__estadisticas-item admin-hoy__estadisticas-ocupation">
-            <p>Ocupation</p>
-            <span>70%</span>
-          </div>
         </div>
-
-        <!-- row -->
-        <div class="admin-hoy__estadisticas-row">
-          <!-- item -->
-          <div class="admin-hoy__estadisticas-item admin-hoy__estadisticas-lost">
-            <p>Lost</p>
-            <span>$20.450</span>
-          </div>
-          <!-- item -->
-          <div class="admin-hoy__estadisticas-item admin-hoy__estadisticas-sad">
-            <p>Sad</p>
-            <span>15% (7)</span>
-          </div>
-        </div>
-
-        <!-- row -->
-        <div class="admin-hoy__estadisticas-row">
-          <!-- item -->
-          <div class="admin-hoy__estadisticas-item admin-hoy__estadisticas-avtime">
-            <p>Av. Time</p>
-            <span>26 min</span>
-          </div>
-          <!-- item -->
-          <div class="admin-hoy__estadisticas-item admin-hoy__estadisticas-mad">
-            <p>Mad</p>
-            <span> 4% (2)</span>
-          </div>
-        </div>
-
       </div>
 
     </section>
@@ -204,11 +171,12 @@
                   </div>
                   <div class="admin-hoy__nombre-row">
                     <v-select
+                      v-if="!order.is_takeout"
+                      :value="setName(order)"
                       label="name"
                       class="search-select"
                       max-height="250px"
                       placeholder="Asignar"
-                      v-model="runnerUser"
                       :clear-search-on-select="false"
                       :options="runners">
                       <div
@@ -216,7 +184,9 @@
                         slot="option"
                         :title="option.name"
                         slot-scope="option">
-                        <div class="runners__list-name">
+                        <div 
+                        @click="asingDeliveryMan(option.id,order,option.first_name,option.last_name)"
+                        class="runners__list-name">
                           {{ option.name }}
                         </div>
                         <div class="runners__list-status">
@@ -232,7 +202,9 @@
                 <div class="admin-hoy__estado-info">
                   <h3 class="size">{{ order.status }}</h3>
                   <p>{{ order.cellphone }}</p>
-                  <div class="admin-hoy__estado">
+                  <div 
+                  @click="changeState(order)"
+                  class="admin-hoy__estado">
                     Listo en..
                   </div>
                 </div>
@@ -247,7 +219,7 @@
           <!-- panel -->
           <div class="admin-hoy__panel">
             <div class="admin-hoy__panel-header">
-              <h3>Pending</h3>
+              <h3>Out of Track</h3>
               <!-- menu -->
               <div class="admin-hoy__panel-menu">
                 <!-- agregar la clase 'activo' para aplicar estilo -->
@@ -284,7 +256,7 @@
               <!-- item -->
               <div
                 @click="toggleDetail(order)"
-                v-for="order in outTrackedOrders"
+                v-for="order in filteredOutTrackedOrders"
                 :key="order.id"
                 class="admin-hoy__panel-item">
                 <div class="admin-hoy__nombre">
@@ -303,11 +275,12 @@
                   </div>
                   <div class="admin-hoy__nombre-row">
                     <v-select
+                      v-if="!order.is_takeout"
+                      :value="setName(order)"
                       label="name"
                       class="search-select"
                       max-height="250px"
                       placeholder="Asignar"
-                      v-model="runnerUser"
                       :clear-search-on-select="false"
                       :options="runners">
                       <div
@@ -315,7 +288,9 @@
                         slot="option"
                         :title="option.name"
                         slot-scope="option">
-                        <div class="runners__list-name">
+                        <div 
+                        @click="asingDeliveryMan(option.id,order,option.first_name,option.last_name)"
+                        class="runners__list-name">
                           {{ option.name }}
                         </div>
                         <div class="runners__list-status">
@@ -331,7 +306,9 @@
                 <div class="admin-hoy__estado-info">
                   <h3 class="size">{{ order.status }}</h3>
                   <p>{{ order.cellphone }}</p>
-                  <div class="admin-hoy__estado">
+                  <div 
+                   @click="changeState(order)"
+                  class="admin-hoy__estado">
                     Listo en..
                   </div>
                 </div>
@@ -402,11 +379,12 @@
                   </div>
                   <div class="admin-hoy__nombre-row">
                     <v-select
+                      v-if="!order.is_takeout"
+                     :value="setName(order)"
                       label="name"
                       class="search-select"
                       max-height="250px"
                       placeholder="Asignar"
-                      v-model="runnerUser"
                       :clear-search-on-select="false"
                       :options="runners">
                       <div
@@ -414,7 +392,9 @@
                         slot="option"
                         :title="option.name"
                         slot-scope="option">
-                        <div class="runners__list-name">
+                        <div 
+                        @click="asingDeliveryMan(option.id,order,option.first_name,option.last_name)"
+                        class="runners__list-name">
                           {{ option.name }}
                         </div>
                         <div class="runners__list-status">
@@ -430,7 +410,9 @@
                 <div class="admin-hoy__estado-info">
                   <h3 class="size">{{ order.status }}</h3>
                   <p>{{ order.cellphone }}</p>
-                  <div class="admin-hoy__estado">
+                  <div 
+                   @click="changeState(order)"
+                  class="admin-hoy__estado">
                     Listo en..
                   </div>
                 </div>
@@ -448,6 +430,7 @@
     </main>
     <!-- modal detalles -->
     <modal-details
+      @order-modal="orderFromModal = $event"
       @close-details="showDetail = $event"
       :show-modal="showDetail"
       :order-summary="orderSummary"
@@ -470,6 +453,8 @@ export default {
   },
   data () {
     return {
+      orderFromModal: {},
+      filteredOutTrackedOrders: [],
       outTrackedOrders: [],
       orderSummary: {},
       rightPanelActive: '',
@@ -482,103 +467,44 @@ export default {
       selectedFilter: 'All',
       isTakeout: false,
       runnerUser: '',
-      runners: [
-        {
-          name: 'Anderson Mesa Cardozo',
-          capacity: 3,
-          process: 1
-        },
-        {
-          name: 'M. Pardo',
-          capacity: 3,
-          process: 2
-        },
-        {
-          name: 'J. Marquez',
-          capacity: 3,
-          process: 0
-        },
-        {
-          name: 'E. Gomez',
-          capacity: 3,
-          process: 1
-        },
-        {
-          name: 'F. Zamora',
-          capacity: 3,
-          process: 1
-        },
-        {
-          name: 'J. Balvin',
-          capacity: 3,
-          process: 1
-        },
-        {
-          name: 'A. Mesa',
-          capacity: 3,
-          process: 1
-        },
-        {
-          name: 'D. Tobon',
-          capacity: 3,
-          process: 1
-        },
-        {
-          name: 'D. Serrano',
-          capacity: 3,
-          process: 1
-        },
-        {
-          name: 'J. Balvin',
-          capacity: 3,
-          process: 1
-        },
-        {
-          name: 'A. Mesa',
-          capacity: 3,
-          process: 1
-        },
-        {
-          name: 'D. Tobon',
-          capacity: 3,
-          process: 1
-        },
-        {
-          name: 'D. Serrano',
-          capacity: 3,
-          process: 1
-        }
-      ],
+      runners: [],
       showDetail: false
     }
   },
   watch: {
-    orderSummary (newOrder, oldOrder) {
-      console.log(newOrder, oldOrder)
+    orderFromModal (newOrder, oldOrder) {
+      const index = this.orders.findIndex(element => {
+        return element.id === newOrder.id
+      })
+      this.orders.splice(index,1,newOrder)
+        this.setOrdinalOrder(stateGroups.all,'rightColumn')
+        this.setOrdinalOrder(stateGroups.pending,'pending')
+        this.setOutTrack()
+        this.orderSummary = newOrder
     },
     activeFilter (active) {
       console.log(active)
       switch (active) {
         case 'all':
-          this.groupOrders(stateGroups.all)
+          this.setOrdinalOrder(stateGroups.all,'rightColumn')
           break
         case 'vigentes':
-          this.groupOrders(stateGroups.vigentes)
+          this.groupOrders(stateGroups.vigentes,'rightColumn')
           break
         case 'estado':
-          this.groupOrders(stateGroups.intermedio)
+          this.groupOrders(stateGroups.intermedio,'rightColumn')
           break
         case 'recogidos':
-          this.groupOrders(stateGroups.recogidos)
+          this.setOrdinalOrder(stateGroups.recogidos,'rightColumn')
           break
         case 'problemas':
-          this.groupOrders(stateGroups.problemas)
+          this.setOrdinalOrder(stateGroups.problemas,'rightColumn')
           break
         case 'entregados':
-          this.groupOrders(stateGroups.entregados)
+          this.setOrdinalOrder(stateGroups.entregados,'rightColumn')
           break
         case 'prime':
-          this.groupOrders(active)
+          this.setOrdinalOrder(active,'rightColumn')
           break
         default:
           break
@@ -617,9 +543,95 @@ export default {
       this.rightPanelActive = ''
       this.middlePanelActive = ''
       this.letfPanelActive = ''
+      this.filterOutTrackedOrders()
     }
   },
   methods: {
+    calculateTotal(){
+      const ordersCompleted = this.orders.filter(order => {
+        return order.status === 'order_completed'
+      })
+      const total = ordersCompleted.reduce((anterior,actual) => {
+        return anterior + parseInt(actual.total)
+      },0)
+      return total
+    },
+    setStatusToChange (order) {
+      switch (order.status) {
+        case 'waiting_for_external_payment':
+          return 'send_to_restaurant'
+        case 'waiting_restaurant_confirmation':
+        return 'accept_order'
+        case 'preparing_order':
+        return 'dispatch_order'
+        case 'waiting_pickup_client':
+        return 'complete_order'
+        case 'waiting_pickup_deliveryman':
+        return 'pickup_order'
+        case 'delivering_order':
+        return 'complete_order'
+        default:
+          break;
+      }
+    },
+    changeState(order) {
+      const method = this.setStatusToChange(order)
+      const index = this.orders.findIndex(element => {
+        return element.id === order.id
+      })
+      const data = {
+        commerce_id: order.commerce.id,
+        comments: "cualquier comentario"
+      }
+     configService.post(`central_admin/orders/${order.id}/${method}`,data)
+      .then(response => {
+        console.log(response.data)
+        const newOrder = response.data
+        this.orders.splice(index,1,newOrder)
+        this.setTrackTime()
+        this.setOrdinalOrder(stateGroups.all,'rightColumn')
+        this.setOrdinalOrder(stateGroups.pending,'pending')
+        this.setOutTrack()
+        const summary = this.orders.find(element => {
+          return element.id === newOrder.id
+        })
+        this.calculateStateButtons(summary)
+      })
+      .catch(error => {
+        console.log(error)
+      })
+    },
+    setName(order) {
+       if (order.delivery.delivery_man){
+         return `${order.delivery.delivery_man.first_name} ${order.delivery.delivery_man.last_name}`
+      }else {
+        return 'Sin Asignar'
+      }
+    },
+    asingDeliveryMan (id,order,first_name,last_name){
+      console.log(id,order.delivery.id)
+      const data = {
+        delivery: {
+          user_id: id
+        }
+      }
+      configService.put(`central_admin/universities/2/deliveries/${order.delivery.id}`, data)
+      .then(response => {
+        if (order.delivery.delivery_man){
+          order.delivery.delivery_man = {...order.delivery.delivery_man,first_name: first_name,
+          last_name: last_name }
+        }else{
+          order.delivery.delivery_man = {
+            first_name: first_name,
+            last_name: last_name 
+          }
+        }
+        this.calculateStateButtons(order)
+      })
+      .catch(error => {
+        console.log(error)
+      })
+    },
     filterRight (type) {
       this.rightPanelActive = type
       this.sortBy('right', type)
@@ -700,9 +712,9 @@ export default {
           break
       }
     },
-    setOrderCount (orders, pending) {
-      orders.map((element, index) => {
-        let auxiliar = []
+    setOrderCount () {
+     this.orders = this.orders.map((element, index) => {
+       let auxiliar = []
         element.json_products.forEach(element => {
           const repeated = auxiliar.findIndex(element1 => {
             return element1.total_price === element.total_price && element1.name === element.name
@@ -714,15 +726,8 @@ export default {
           }
         })
         element.json_products = auxiliar
-        return element.json_products
+        return element
       })
-      if (pending) {
-        if (pending === 'pending') {
-          this.pendingOrders = orders
-        }
-      } else {
-        this.filterOrders = orders
-      }
     },
     filterType (type) {
       if (type === 'takeout') {
@@ -736,21 +741,64 @@ export default {
     filterOrder (type) {
       this.activeFilter = type
     },
+    calculateStateButtons (order){
+      let buttons = []
+       switch (order.status) {
+        case 'waiting_for_external_payment':
+          buttons =  ['send_to_restaurant','invalid_payment']
+          break;
+        case 'waiting_restaurant_confirmation':
+        buttons = ['accept_order','reject_order'] 
+         break;
+        case 'preparing_order':
+        buttons = ['dispatch_order']
+        break;
+        case 'waiting_pickup_client':
+        buttons = ['complete_order','reject_order']
+        break; 
+        case 'waiting_pickup_deliveryman':
+        buttons = ['pickup_order']
+        break;
+        case 'delivering_order':
+        buttons = ['complete_order','problem_with_delivery','problem_with_hand_off']
+        break;
+        case 'troubleshooting_deliveryman':
+        buttons = ['pickup_order','cancel_order']
+        break;
+        case 'troubleshooting_hand_off':
+        buttons = ['complete_order','cancel_order']
+        break;
+        case 'troubleshooting_restaurant':
+        buttons = ['accept_order','cancel_order']
+        break;
+        default:
+          break;
+      }
+      this.orderSummary = {...order,buttons: buttons}
+      console.log(this.orderSummary)
+    },
     toggleDetail (order) {
-      if (this.orderSummary === order) {
-        if (this.showDetail) {
-          this.showDetail = false
-        } else {
-          this.showDetail = true
-        }
-      } else {
-        this.showDetail = true
-      }
-      this.orderSummary = order
+      this.showDetail = true
+      this.calculateStateButtons(order)
     },
-    setOrdinalOrder (groupFilter) {
+    filterOutTrackedOrders () {
+       this.filteredOutTrackedOrders = this.outTrackedOrders.filter(element => {
+          if (this.isTakeout) {
+            if (element.is_takeout) {
+              return true
+            }
+          } else {
+            if (element.is_takeout === false) {
+              return true
+            }
+          }
+        })
+        console.log(this.outTrackedOrders)
+    },
+    setOrdinalOrder (groupFilter, filterType) {
+      let auxiliarOrders = []
       if (groupFilter === 'prime') {
-        this.setOrderCount(this.orders.filter(element => {
+        auxiliarOrders = this.orders.filter(element => {
           if (this.isTakeout) {
             if (element.user_prime && element.is_takeout) {
               return true
@@ -760,39 +808,28 @@ export default {
               return true
             }
           }
-        }))
+        })
       } else {
-        this.setOrderCount(this.orders.filter(element => {
+         auxiliarOrders = this.orders.filter(element => {
           if (groupFilter.includes(element.status) && (this.isTakeout ? element.is_takeout : !element.is_takeout)) {
             return true
           }
-        }))
+        })
       }
-    },
-    setPendingOrder (groupFilter) {
-      if (groupFilter === 'prime') {
-        this.setOrderCount(this.orders.filter(element => {
-          if (this.isTakeout) {
-            if (element.user_prime && element.is_takeout) {
-              return true
-            }
-          } else {
-            if (element.user_prime && !element.is_takeout) {
-              return true
-            }
-          }
-        }), 'pending')
-      } else {
-        this.setOrderCount(this.orders.filter(element => {
-          if (groupFilter.includes(element.status) && (this.isTakeout ? element.is_takeout : !element.is_takeout)) {
-            return true
-          }
-        }), 'pending')
+       switch (filterType) {
+        case 'rightColumn':
+          this.filterOrders = auxiliarOrders
+          break;
+        case 'pending':
+        this.pendingOrders = auxiliarOrders
+          break;
+        default:
+          break;
       }
     },
     groupOrders (groupFilter) {
-      this.setOrdinalOrder(groupFilter)
-      this.setPendingOrder(stateGroups.pending)
+      this.setOrdinalOrder(groupFilter,'rightColumn')
+      this.setOrdinalOrder(stateGroups.pending,'pending')
     },
     setTime (date) {
       const dateFormatted = new Date(date)
@@ -821,52 +858,56 @@ export default {
       return Math.round(diff);
     },
     setOutTrack(){
+      console.log(this.orders)
       const solicited = this.orders.filter(element => {
          const creationDifference = this.getDifference(new Date,new Date(element.created_at))
          const deliveryDiference = this.getDifference(new Date(element.trackTime),new Date())
-         console.log(deliveryDiference,creationDifference,element)
-        if (stateGroups.solicitado.includes(element.status) && (creationDifference > 5 || deliveryDiference < 20 )){
+        if (stateGroups.solicitado.includes(element.status) && (creationDifference > 5 || deliveryDiference < 20 ) && element.status !== 'order_completed'){
           return true
         }
       })
-      console.log(solicited)
+
       const accepted = this.orders.filter(element => {
          const deliveryDiference = this.getDifference(new Date(element.trackTime),new Date())
-         if (["preparing_order"].includes(element.status) && deliveryDiference < 15){
+         if (["preparing_order"].includes(element.status) && deliveryDiference < 15 && element.status !== 'order_completed'){
           return true
         }
       })
-      console.log(accepted)
+      
       const alreadyRestaurant = this.orders.filter(element => {
          const deliveryDiference = this.getDifference(new Date(element.trackTime),new Date())
-         if (["waiting_pickup_client","waiting_pickup_deliveryman"].includes(element.status) && deliveryDiference < 10){
+         if (["waiting_pickup_client","waiting_pickup_deliveryman"].includes(element.status) && deliveryDiference < 10 && element.status !== 'order_completed'){
           return true
         }
       })
       const picked = this.orders.filter(element => {
          const deliveryDiference = this.getDifference(new Date(element.trackTime),new Date())
-         if (["delivering_order"].includes(element.status) && deliveryDiference < 20){
+         if (["delivering_order"].includes(element.status) && deliveryDiference < 20 && element.status !== 'order_completed'){
           return true
         }
       })
-      console.log(picked)
       const outTracked = this.orders.filter(element => {
          const deliveryDiference = this.getDifference(new Date(element.trackTime),new Date())
-         if (stateGroups.allNoCompleted.includes(element.status) && deliveryDiference < 0){
+         if (stateGroups.allNoCompleted.includes(element.status) && deliveryDiference < 0 && element.status !== 'order_completed'){
           return true
         }
       })
-      console.log(outTracked)
+      
        const noAsgined = this.orders.filter(element => {
          const deliveryDiference = this.getDifference(new Date(element.trackTime),new Date())
-         if (!element.delivery && deliveryDiference < 20){
+         if (!element.is_takeout && !element.delivery.delivery_man && deliveryDiference < 20 && element.status !== 'order_completed'){
           return true
         }
       })
-      console.log(noAsgined)
-      const tracked = [...solicited,...accepted, ...picked, ...outTracked,...noAsgined]
-      console.log(this.outTrackedOrders)
-      console.log(tracked)
+      const problems = this.orders.filter(element => {
+         const deliveryDiference = this.getDifference(new Date(element.trackTime),new Date())
+         if (stateGroups.problemas.includes(element.status) && element.status !== 'order_completed'){
+          return true
+        }
+      })
+    
+      const tracked = [...solicited,...accepted, ...picked, ...outTracked,...noAsgined,...problems]
+      this.outTrackedOrders = []
       tracked.forEach(element => {
        const index = this.outTrackedOrders.findIndex(element1 => {
           return element1 === element
@@ -876,18 +917,37 @@ export default {
         this.outTrackedOrders.push(element)
       }
       })
+      this.filterOutTrackedOrders()
     }
   },
   created () {
     this.isAllActive = true
     const date = new Date()
     const data = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
-    console.log(data)
+    configService('central_admin/universities/2/delivery_men?available_only=true')
+    .then(res => {
+      this.runners = res.data.map(runner => {
+        const data = {
+          name: `${runner.first_name} ${runner.last_name}`,
+          first_name: runner.first_name,
+          last_name: runner.last_name,
+          capacity: runner.max_workload,
+          process: 1,
+          id: runner.id
+        }
+        return data
+      })
+    })
+    .catch(error => {
+      console.log(error)
+    })
     configService(`central_admin/universities/2/orders?date=${data}`)
       .then(response => {
         this.orders = response.data
+        this.setOrderCount()
         this.setTrackTime()
-        this.groupOrders(stateGroups.all)
+        this.setOrdinalOrder(stateGroups.all,'rightColumn')
+        this.setOrdinalOrder(stateGroups.pending,'pending')
         this.setOutTrack()
       })
       .catch(error => {

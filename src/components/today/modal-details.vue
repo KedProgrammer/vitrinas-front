@@ -10,7 +10,9 @@
     <div class="modal-admin__header">
       <h3>{{ orderSummary.id }}</h3>
       <h2>{{ orderSummary.commerce.commercial_name }}</h2>
-      <p class="modal-admin__hora">
+      <p 
+       v-if="orderSummary.status !== 'order_completed'"
+      class="modal-admin__hora">
         Para {{ setTime(orderSummary.trackTime) }}
       </p>
       <!-- colocar la clase "activo" para indicar que fue aceptado el pedido -->

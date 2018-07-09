@@ -15,7 +15,7 @@
             :class="{activo: setActive('all')}"
             class="admin-hoy__filtro-item">
             <h4>All</h4>
-            <p>(30-2)</p>
+           <p>({{allCount}}-{{outTrackedOrdersCount}})</p>
           </div>
           <!-- item filtro -->
           <div
@@ -23,7 +23,7 @@
             :class="{activo: setActive('vigentes')}"
             class="admin-hoy__filtro-item">
             <h4>Vigentes</h4>
-            <p>(12-2)</p>
+            <p>({{vigentCount}}-{{outTrackedOrdersCount}})</p>
           </div>
           <!-- item filtro -->
           <div
@@ -31,7 +31,7 @@
             :class="{activo: setActive('estado')}"
             class="admin-hoy__filtro-item">
             <h4>Estado int.</h4>
-            <p>(7-1)</p>
+            <p>({{intermedioCount}}-{{outTrackedOrdersCount}})</p>
           </div>
           <!-- item filtro -->
           <div
@@ -39,7 +39,7 @@
             :class="{activo: setActive('recogidos')}"
             class="admin-hoy__filtro-item">
             <h4>Recogidos</h4>
-            <p>(3-1)</p>
+            <p>({{recogidosCount}}-{{outTrackedOrdersCount}})</p>
           </div>
           <!-- item filtro -->
           <div
@@ -47,7 +47,7 @@
             :class="{activo: setActive('problemas')}"
             class="admin-hoy__filtro-item">
             <h4>Problemas</h4>
-            <p>(4-0)</p>
+            <p>({{problemasCount}}-{{outTrackedOrdersCount}})</p>
           </div>
           <!-- item filtro -->
           <div
@@ -55,7 +55,7 @@
             :class="{activo: setActive('entregados')}"
             class="admin-hoy__filtro-item">
             <h4>Entregados</h4>
-            <p>(4-0)</p>
+            <p>({{entregadosCount}}-{{outTrackedOrdersCount}})</p>
           </div>
           <!-- item filtro -->
           <div
@@ -63,7 +63,7 @@
             :class="{activo: setActive('prime')}"
             class="admin-hoy__filtro-item">
             <h4>PRIME</h4>
-            <p>(3-1)</p>
+            <p>({{primeCount}}-{{outTrackedOrdersCount}})</p>
           </div>
         </div>
 
@@ -224,26 +224,26 @@
               <div class="admin-hoy__panel-menu">
                 <!-- agregar la clase 'activo' para aplicar estilo -->
                 <a
-                  @click="filterLeft('hour')"
-                  :class="{activo: setLeftActive('hour') }"
+                  @click="filterMiddle('hour')"
+                  :class="{activo: setMiddleActive('hour') }"
                   class="admin-hoy__panel-menu-item">
                   00:00
                 </a>
                 <a
-                  @click="filterLeft('time')"
-                  :class="{activo: setLeftActive('time') }"
+                  @click="filterMiddle('time')"
+                  :class="{activo: setMiddleActive('time') }"
                   class="admin-hoy__panel-menu-item">
                   <i class="ceu-icon-time-left"/>
                 </a>
                 <a
-                  @click="filterLeft('place')"
-                  :class="{activo: setLeftActive('place') }"
+                  @click="filterMiddle('place')"
+                  :class="{activo: setMiddleActive('place') }"
                   class="admin-hoy__panel-menu-item">
                   <i class="ceu-icon-shop"/>
                 </a>
                 <a
-                  @click="filterLeft('price')"
-                  :class="{activo: setLeftActive('price') }"
+                  @click="filterMiddle('price')"
+                  :class="{activo: setMiddleActive('price') }"
                   class="admin-hoy__panel-menu-item">
                   <i class="ceu-icon-coin"/>
                 </a>
@@ -454,6 +454,14 @@ export default {
   },
   data () {
     return {
+      allCount: 0,
+      vigentCount: 0,
+      intermedioCount: 0,
+      recogidosCount: 0,
+      entregadosCount: 0,
+      problemasCount: 0,
+      primeCount: 0,
+      outTrackedOrdersCount: 0,
       orderFromModal: {},
       filteredOutTrackedOrders: [],
       outTrackedOrders: [],
@@ -485,6 +493,7 @@ export default {
         this.setOrdinalOrder(stateGroups.pending,'pending')
         this.setOutTrack()
         this.orderSummary = newOrder
+        this.setCounts()
     },
     activeFilter (active) {
       console.log(active)
@@ -600,6 +609,7 @@ export default {
           return element.id === newOrder.id
         })
         this.calculateStateButtons(summary)
+        this.setCounts()
       })
       .catch(error => {
         console.log(error)
@@ -652,6 +662,7 @@ export default {
     },
     filterMiddle (type) {
       this.middlePanelActive = type
+      this.sortBy('middle', type)
     },
     setLeftActive (type) {
       if (this.letfPanelActive === type) {
@@ -669,6 +680,24 @@ export default {
     },
     sortBy (side, type) {
       switch (type) {
+        case 'time':
+          if (side === 'left') {
+            this.pendingOrders = this.pendingOrders.sort((a, b) => {
+              return new Date(b.trackTime) - new Date(a.trackTime)
+            })
+          }
+
+          if (side === 'right') {
+            this.filterOrders = this.filterOrders.sort((a, b) => {
+              return new Date(b.trackTime) - new Date(a.trackTime)
+            })
+          }
+          if (side === 'middle') {
+            this.filterOutTrackedOrders = this.filterOutTrackedOrders.sort((a, b) => {
+              return new Date(b.trackTime) - new Date(a.trackTime)
+            })
+          }
+          break
         case 'hour':
           if (side === 'left') {
             this.pendingOrders = this.pendingOrders.sort((a, b) => {
@@ -678,6 +707,11 @@ export default {
 
           if (side === 'right') {
             this.filterOrders = this.filterOrders.sort((a, b) => {
+              return new Date(a.created_at) - new Date(b.created_at)
+            })
+          }
+          if (side === 'middle') {
+            this.filterOutTrackedOrders = this.filterOutTrackedOrders.sort((a, b) => {
               return new Date(a.created_at) - new Date(b.created_at)
             })
           }
@@ -694,6 +728,11 @@ export default {
               return a.total - b.total
             })
           }
+          if (side === 'middle') {
+            this.filteredOutTrackedOrders = this.filteredOutTrackedOrders.sort((a, b) => {
+              return a.total - b.total
+            })
+          }
           break
         case 'place':
           if (side === 'left') {
@@ -705,7 +744,14 @@ export default {
           }
 
           if (side === 'right') {
-            this.pendingOrders = this.filterOrders.sort((a, b) => {
+            this.filterOrders = this.filterOrders.sort((a, b) => {
+              if (a.address > b.address) {
+                return 1
+              }
+            })
+          }
+           if (side === 'middle') {
+            this.filteredOutTrackedOrders = this.filteredOutTrackedOrders.sort((a, b) => {
               if (a.address > b.address) {
                 return 1
               }
@@ -743,6 +789,7 @@ export default {
       this.filterOrder(this.activeFilter)
     },
     filterOrder (type) {
+      this.selectedFilter = type
       this.activeFilter = type
     },
     calculateStateButtons (order){
@@ -822,10 +869,10 @@ export default {
       }
        switch (filterType) {
         case 'rightColumn':
-          this.filterOrders = auxiliarOrders
+          this.filterOrders = [...auxiliarOrders]
           break;
         case 'pending':
-        this.pendingOrders = auxiliarOrders
+        this.pendingOrders = [...auxiliarOrders]
           break;
         default:
           break;
@@ -922,6 +969,28 @@ export default {
       }
       })
       this.filterOutTrackedOrders()
+    },
+    setCounts () {
+      this.allCount = this.orders.length
+        this.vigentCount = this.orders.filter(element => {
+          return stateGroups.vigentes.includes(element.status)
+        }).length
+         this.intermedioCount = this.orders.filter(element => {
+          return stateGroups.intermedio.includes(element.status)
+        }).length
+         this.recogidosCount = this.orders.filter(element => {
+          return stateGroups.recogidos.includes(element.status)
+        }).length
+         this.entregadosCount = this.orders.filter(element => {
+         return stateGroups.entregados.includes(element.status)
+        }).length
+         this.problemasCount = this.orders.filter(element => {
+         return  stateGroups.problemas.includes(element.status)
+        }).length
+         this.primeCount = this.orders.filter(element => {
+          return element.user_prime
+        }).length
+        this.outTrackedOrdersCount = this.outTrackedOrders.length
     }
   },
   created () {
@@ -953,6 +1022,7 @@ export default {
         this.setOrdinalOrder(stateGroups.all,'rightColumn')
         this.setOrdinalOrder(stateGroups.pending,'pending')
         this.setOutTrack()
+        this.setCounts()
       })
       .catch(error => {
         console.log(error)

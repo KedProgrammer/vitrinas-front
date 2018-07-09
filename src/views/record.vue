@@ -95,7 +95,7 @@
                   <p><strong>Cliente</strong> {{order.campus_email}}</p>
                 </div>
                 <div class="admin-resumen__lista-total">
-                  TOTAL COP <strong>{{order.total}}</strong>
+                  TOTAL COP <strong>{{ order.total | currency('$', 0) }}</strong>
                 </div>
               </div>
             </div>
@@ -107,6 +107,7 @@
 
     <!-- modal -->
     <modal-details
+     @order-modal="orderFromModal = $event"
       @close-details="showModalDetails = $event"
       @event-toggle-modal="toggleModalDetails"
       :toggle-modal="showModalDetails"
@@ -129,6 +130,7 @@ export default {
   },
   data () {
     return {
+      orderFromModal: {},
       orderSummary: {},
       activeFilter: '',
       start: '',
@@ -168,13 +170,35 @@ export default {
         }
       },
       myRange: {
-        start: new Date(2018, 6, 2),
+        start: new Date(2018, 6, 9),
         end: new Date(2018, 6, 10)
       },
       showModalDetails: false
     }
   },
   watch: {
+    university (value){
+       const date = new Date()
+    const data = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+     configService(`central_admin/universities/${value.id}/orders?date=${data}`)
+      .then(response => {
+        this.orders = response.data
+        this.setOrderCount()
+        this.setTrackTime()
+        console.log(this.orders)
+      })
+      .catch(error => {
+        console.log(error)
+      })
+    },
+    orderFromModal (newOrder, oldOrder) {
+      console.log(newOrder)
+      const index = this.orders.findIndex(element => {
+        return element.id === newOrder.id
+      })
+      this.orders.splice(index,1,newOrder)
+        this.orderSummary = newOrder
+    },
     myRange (value) {
       console.log(value)
         const startDate = new Date(value.start)
@@ -216,6 +240,42 @@ export default {
     ...mapState(['university', 'commerces', 'commerce'])
   },
   methods: {
+    calculateStateButtons (order){
+      let buttons = []
+       switch (order.status) {
+        case 'waiting_for_external_payment':
+          buttons =  ['send_to_restaurant','invalid_payment']
+          break;
+        case 'waiting_restaurant_confirmation':
+        buttons = ['accept_order','reject_order'] 
+         break;
+        case 'preparing_order':
+        buttons = ['dispatch_order']
+        break;
+        case 'waiting_pickup_client':
+        buttons = ['complete_order','reject_order']
+        break; 
+        case 'waiting_pickup_deliveryman':
+        buttons = ['pickup_order']
+        break;
+        case 'delivering_order':
+        buttons = ['complete_order','problem_with_delivery','problem_with_hand_off']
+        break;
+        case 'troubleshooting_deliveryman':
+        buttons = ['pickup_order','cancel_order']
+        break;
+        case 'troubleshooting_hand_off':
+        buttons = ['complete_order','cancel_order']
+        break;
+        case 'troubleshooting_restaurant':
+        buttons = ['accept_order','cancel_order']
+        break;
+        default:
+          break;
+      }
+      this.orderSummary = {...order,buttons: buttons}
+      console.log(this.orderSummary)
+    },
     sortBy (type) {
       switch (type) {
         case 'id':
@@ -272,7 +332,7 @@ export default {
     },
     toggleModalDetails (order) {
       this.showModalDetails = true
-      this.orderSummary = order
+      this.calculateStateButtons(order)
     },
     setOrderCount () {
      this.orders = this.orders.map((element, index) => {

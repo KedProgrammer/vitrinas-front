@@ -77,14 +77,14 @@
             :class='{activo: !isTakeout}'
             class="admin-hoy__header-domicilio ">
             <h4>Domicilios</h4>
-            <p>(30-2)</p>
+            <p>({{deliveryCount}}-{{outTrackedOrdersCount}})</p>
           </div>
           <div
             @click="filterType('takeout')"
             :class='{activo: isTakeout}'
             class="admin-hoy__header-takeout">
             <h4>Take-out</h4>
-            <p>(2-4)</p>
+            <p>({{takeoutCount}}-{{outTrackedOrdersCount}})</p>
           </div>
         </div>
         <div class="admin-hoy__header-cerrar">
@@ -98,7 +98,7 @@
           <!-- item -->
           <div class="admin-hoy__estadisticas-item admin-hoy__estadisticas-venta">
             <p>Ventas</p>
-            <span>{{calculateTotal()}}</span>
+            <span>{{ calculateTotal() | currency('$', 0) }}</span>
           </div>
           <!-- item -->
         </div>
@@ -162,7 +162,7 @@
                       <p>{{ order.address }}</p>
                     </div>
                     <div class="admin-hoy__precio">
-                      <h3>{{ order.total }}</h3>
+                      <h3>{{ order.total | currency('$', 0) }}</h3>
                       <p>
                         <i class="ceu-icon-payment-terminal"/>
                         {{ order.json_products.length }}
@@ -266,7 +266,7 @@
                       <p>{{ order.address }}</p>
                     </div>
                     <div class="admin-hoy__precio">
-                      <h3>{{ order.total }}</h3>
+                      <h3>{{ order.total | currency('$', 0) }}</h3>
                       <p>
                         <i class="ceu-icon-payment-terminal"/>
                         {{ order.json_products.length }}
@@ -370,7 +370,7 @@
                       <p>{{ order.address }}</p>
                     </div>
                     <div class="admin-hoy__precio">
-                      <h3>{{ order.total }}</h3>
+                      <h3> {{ order.total | currency('$', 0) }}</h3>
                       <p>
                         <i class="ceu-icon-payment-terminal"/>
                         {{ order.json_products.length }}
@@ -454,6 +454,8 @@ export default {
   },
   data () {
     return {
+      takeoutCount: 0,
+      deliveryCount: 0,
       allCount: 0,
       vigentCount: 0,
       intermedioCount: 0,
@@ -484,6 +486,42 @@ export default {
     ...mapState(['university', 'commerces', 'commerce'])
   },
   watch: {
+    university (value){
+       this.isAllActive = true
+    const date = new Date()
+    const data = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+    configService(`central_admin/universities/${value.id}/delivery_men?available_only=true`)
+    .then(res => {
+      this.runners = res.data.map(runner => {
+        const data = {
+          name: `${runner.first_name} ${runner.last_name}`,
+          first_name: runner.first_name,
+          last_name: runner.last_name,
+          capacity: runner.max_workload,
+          process: 1,
+          id: runner.id
+        }
+        return data
+      })
+    })
+    .catch(error => {
+      console.log(error)
+    })
+    configService(`central_admin/universities/${value.id}/orders?date=${data}`)
+      .then(response => {
+        this.orders = response.data
+        this.setOrderCount()
+        this.setTrackTime()
+        this.setOrdinalOrder(stateGroups.all,'rightColumn')
+        this.setOrdinalOrder(stateGroups.pending,'pending')
+        this.setOutTrack()
+        this.setCounts()
+      })
+      .catch(error => {
+        console.log(error)
+      })
+    this.orderSummary = this.orders[0]
+    },
     orderFromModal (newOrder, oldOrder) {
       const index = this.orders.findIndex(element => {
         return element.id === newOrder.id
@@ -989,6 +1027,12 @@ export default {
         }).length
          this.primeCount = this.orders.filter(element => {
           return element.user_prime
+        }).length
+         this.takeoutCount = this.orders.filter(element => {
+          return element.is_takeout
+        }).length
+        this.deliveryCount = this.orders.filter(element => {
+          return !element.is_takeout
         }).length
         this.outTrackedOrdersCount = this.outTrackedOrders.length
     }

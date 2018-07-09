@@ -48,7 +48,7 @@
           </p>
           
           <div class="modal-admin__lista-precio">
-            {{ product.total_price }}
+              {{ product.total_price | currency('$', 0) }}
           </div>
         </div>
 
@@ -70,16 +70,16 @@
         v-if="orderSummary.is_takeout"
         class="modal-admin__row">
         <strong>Takeout</strong>
-        {{ orderSummary.takeout }}
+         {{ orderSummary.takeout | currency('$', 0) }}
       </p>
       <p
         v-else
         class="modal-admin__row">
         <strong>Domicilio</strong>
-        {{ orderSummary.delivery_price }}
+        {{ orderSummary.delivery_price | currency('$', 0) }}
       </p>
       <div class="modal-admin__total">
-        TOTAL COP {{ orderSummary.total }}
+         TOTAL COP {{ orderSummary.total | currency('$', 0) }}
       </div>
     </div>
     <!-- formad de pagos -->

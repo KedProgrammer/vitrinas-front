@@ -11,5 +11,9 @@ export const stateGroups = {
   "troubleshooting_restaurant","troubleshooting_deliveryman","troubleshooting_hand_off","order_completed"],
   pending: ["started","waiting_for_external_payment","waiting_restaurant_confirmation"
   ,"preparing_order","waiting_pickup_client", "waiting_pickup_deliveryman",
-  "troubleshooting_restaurant"]
+  "troubleshooting_restaurant"],
+  solicitado: ["waiting_for_external_payment", "waiting_restaurant_confirmation"],
+  allNoCompleted: ["started","waiting_for_external_payment","waiting_restaurant_confirmation"
+  ,"preparing_order","waiting_pickup_client", "waiting_pickup_deliveryman","delivering_order",
+  "troubleshooting_restaurant","troubleshooting_deliveryman","troubleshooting_hand_off"]
 }

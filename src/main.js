@@ -10,6 +10,7 @@ import 'v-calendar/lib/v-calendar.min.css'
 import VueSweetalert2 from 'vue-sweetalert2'
 import Multiselect from 'vue-multiselect'
 import 'vue-multiselect/dist/vue-multiselect.min.css'
+import Vue2Filters from 'vue2-filters'
 
 import store from './store'
 import App from './App.vue'
@@ -19,6 +20,7 @@ Vue.config.productionTip = false
 Vue.use(EventBus)
 Vue.use(VueRouter)
 Vue.use(VueOffline)
+Vue.use(Vue2Filters)
 Vue.component('v-select', vSelect)
 Vue.component('multiselect', Multiselect)
 Vue.use(VueGoogleMaps, {

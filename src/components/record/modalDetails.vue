@@ -10,7 +10,9 @@
     <div class="modal-admin__header">
       <h3>{{ orderSummary.id }}</h3>
       <h2>{{ orderSummary.commerce.commercial_name }}</h2>
-      <p class="modal-admin__hora">
+      <p
+      v-if="orderSummary.status !== 'order_completed'"
+       class="modal-admin__hora">
         Para {{ setTime(orderSummary.trackTime) }}
       </p>
       <!-- colocar la clase "activo" para indicar que fue aceptado el pedido -->
@@ -46,7 +48,7 @@
           </p>
           
           <div class="modal-admin__lista-precio">
-            {{ product.total_price }}
+           {{ product.total_price | currency('$', 0) }}
           </div>
         </div>
 
@@ -68,16 +70,16 @@
         v-if="orderSummary.is_takeout"
         class="modal-admin__row">
         <strong>Takeout</strong>
-        {{ orderSummary.takeout }}
+         {{ orderSummary.takeout | currency('$', 0) }}
       </p>
       <p
         v-else
         class="modal-admin__row">
         <strong>Domicilio</strong>
-        {{ orderSummary.delivery_price }}
+        {{ orderSummary.delivery_price | currency('$', 0) }}
       </p>
       <div class="modal-admin__total">
-        TOTAL COP {{ orderSummary.total }}
+        TOTAL COP {{ orderSummary.total | currency('$', 0) }}
       </div>
     </div>
     <!-- formad de pagos -->
@@ -127,6 +129,7 @@
 </template>
 
 <script>
+import configService from '../../settings/api-url.js'
 export default {
   name: 'ModalDetails',
   props: {
@@ -148,6 +151,70 @@ export default {
     }
   },
   methods: {
+    setTrackTime () {
+       const createdTime = new Date(this.orderSummary.created_at)
+        const trackDeliveryMinutes = parseInt(this.orderSummary.commerce.avg_delivery_time)
+        const trackPreparationMinutes = parseInt(this.orderSummary.commerce.avg_preparation_time)
+        const trackTime = new Date(createdTime.getFullYear(), createdTime.getMonth(),
+        createdTime.getDate(), createdTime.getHours(), createdTime.getMinutes() + trackDeliveryMinutes + trackPreparationMinutes)
+        const newElement = {...this.orderSummary, trackTime: trackTime}
+        this.orderSummary = newElement
+    },
+    setState(button,order) {
+      const data = {
+        commerce_id: order.commerce.id,
+        comments: "cualquier comentario"
+      }
+     configService.post(`central_admin/orders/${order.id}/${button}`,data)
+      .then(response => {
+        const newOrder = response.data
+        this.calculateStateButtons(newOrder)
+        this.setTrackTime()
+         this.$emit('order-modal', this.orderSummary)
+      })
+      .catch(error => {
+        console.log(error)
+      })
+    },
+    setName(order){
+      return `${order.first_name} ${order.last_name}`
+    },
+    calculateStateButtons(order){
+      let buttons = []
+       switch (order.status) {
+        case 'waiting_for_external_payment':
+          buttons =  ['send_to_restaurant','invalid_payment']
+          break;
+        case 'waiting_restaurant_confirmation':
+        buttons = ['accept_order','reject_order'] 
+         break;
+        case 'preparing_order':
+        buttons = ['dispatch_order']
+        break;
+        case 'waiting_pickup_client':
+        buttons = ['complete_order','reject_order'] 
+         break;
+        case 'waiting_pickup_deliveryman':
+        buttons = ['pickup_order']
+        break;
+        case 'delivering_order':
+        buttons = ['complete_order','problem_with_delivery','problem_with_hand_off']
+        break;
+        case 'troubleshooting_deliveryman':
+        buttons = ['pickup_order','cancel_order']
+        break;
+        case 'troubleshooting_hand_off':
+        buttons = ['complete_order','cancel_order']
+        break;
+        case 'troubleshooting_restaurant':
+        buttons = ['accept_order','cancel_order']
+        break;
+        default:
+          break;
+      }
+      this.orderSummary = {...order,buttons: buttons}
+      console.log(this.orderSummary)
+    },
     close () {
        this.$emit('close-details', false)
     },

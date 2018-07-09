@@ -10,7 +10,9 @@
     <div class="modal-admin__header">
       <h3>{{ orderSummary.id }}</h3>
       <h2>{{ orderSummary.commerce.commercial_name }}</h2>
-      <p class="modal-admin__hora">
+      <p 
+       v-if="orderSummary.status !== 'order_completed'"
+      class="modal-admin__hora">
         Para {{ setTime(orderSummary.trackTime) }}
       </p>
       <!-- colocar la clase "activo" para indicar que fue aceptado el pedido -->
@@ -46,7 +48,7 @@
           </p>
           
           <div class="modal-admin__lista-precio">
-            {{ product.total_price }}
+              {{ product.total_price | currency('$', 0) }}
           </div>
         </div>
 
@@ -68,16 +70,16 @@
         v-if="orderSummary.is_takeout"
         class="modal-admin__row">
         <strong>Takeout</strong>
-        {{ orderSummary.takeout }}
+         {{ orderSummary.takeout | currency('$', 0) }}
       </p>
       <p
         v-else
         class="modal-admin__row">
         <strong>Domicilio</strong>
-        {{ orderSummary.delivery_price }}
+        {{ orderSummary.delivery_price | currency('$', 0) }}
       </p>
       <div class="modal-admin__total">
-        TOTAL COP {{ orderSummary.total }}
+         TOTAL COP {{ orderSummary.total | currency('$', 0) }}
       </div>
     </div>
     <!-- formad de pagos -->

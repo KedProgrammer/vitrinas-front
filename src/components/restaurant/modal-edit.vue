@@ -40,7 +40,7 @@
               <!-- name -->
               <div class="restaurant-edit__name">
                 <h2>{{ formData.commercial_name }}</h2>
-                <div class="restaurant-edit__descontinuado">
+                <!-- <div class="restaurant-edit__descontinuado">
                   <p>Continuado/Descontinuado</p>
                   <div class="lista-checkbox2 large">
                     <input
@@ -52,7 +52,7 @@
                       data-checkedno="Off"
                       for="restaurant-edit__descontinuado" />
                   </div>
-                </div>
+                </div> -->
                 <div class="restaurant-edit__edit-menu">
                   Editar Menú
                 </div>
@@ -286,53 +286,59 @@
                   </div>
                 </div>
               </div>
-              <!-- <div class="restaurant-edit__banner-list-item">
-                <div class="restaurant-edit__banner-upload">
-                  <div class="restaurant-edit__upload-file">
-                    <label for="restaurant-edit__apoyo1">
-                      Upload
-                    </label>
-                    <input
-                      @change="fileImage('banner', $event.target.files)"
-                      accept="image/*"
-                      type="file">
-                    <div class="restaurant-edit__upload-text" />
-                  </div>
-                  <div class="restaurant-edit__upload-delete">
-                    <i class="ceu-icon-garbage" />
-                  </div>
-                </div>
-                <div class="restaurant-edit__banner-horaios">
+            </div>
+            <!-- item -->
+            <h4>Crear Banner</h4>
+            <div class="restaurant-edit__banner-list-item">
+              <div class="restaurant-edit__banner-upload">
+                <div class="restaurant-edit__upload-file">
                   <div
-                    class="ceu-campo__hStart-hEnd"
-                    :key="index"
-                    v-for="(item, index) in timeBannersSchedule">
+                    :style="{backgroundImage: 'url(' + modelCreateBannerImg + ')'}"
+                    class="restaurant-edit__upload-image" />
+                  <label for="restaurant-edit__modelCreateBannerImg">
+                    Upload
+                  </label>
+                  <input
+                    id="restaurant-edit__modelCreateBannerImg"
+                    @change="fileImage('banner', $event.target.files)"
+                    accept="image/*"
+                    type="file">
+                </div>
+                <div class="restaurant-edit__upload-horarios ceu-campo__hStart-hEnd">
+                  <div class="restaurant-edit__upload-horarios-item">
                     <p>Hora inicial</p>
                     <vue-timepicker
                       hide-clear-button
-                      v-model="item.start_time"
+                      v-model="modelCreateBannerTime.start_time"
                       :format="formatTime"/>
+                  </div>
+                  <div class="restaurant-edit__upload-horarios-item">
                     <p>Hora final</p>
                     <vue-timepicker
                       hide-clear-button
-                      v-model="item.end_time"
+                      v-model="modelCreateBannerTime.end_time"
                       :format="formatTime"/>
                   </div>
-                  <div class="restaurant-edit__banner-description">
-                    <div class="ceu-campo__text-round2">
-                      <p>Descripción</p>
-                      <input type="text">
-                    </div>
+                </div>
+              </div>
+              <div class="restaurant-edit__banner-horaios">
+                <div class="restaurant-edit__banner-description">
+                  <div class="ceu-campo__text-round2">
+                    <p>Descripción</p>
+                    <input
+                      v-model="modelCreateBannerDescription"
+                      type="text">
                   </div>
                 </div>
-              </div> -->
+              </div>
+              <div class="restaurant-edit__item-footer">
+                <div
+                  @click="postBannerSchedules"
+                  class="ceu-btn1">
+                  Añadir Banner
+                </div>
+              </div>
             </div>
-            <div
-              @click="postBannerSchedules"
-              class="restaurant-edit__add-horario">
-              +Añadir Banner de apoyo
-            </div>
-            {{ modelBannerImg }}
           </div>
         </div>
         <form
@@ -599,9 +605,7 @@
 import { mapState, mapActions } from 'vuex'
 import configService from '../../settings/api-url'
 import VueTimepicker from 'vue2-timepicker'
-// http://sagalbot.github.io/vue-select/docs/Install.html#
-import Multiselect from 'vue-multiselect'
-import 'vue-multiselect/dist/vue-multiselect.min.css'
+
 export default {
   name: 'ModalEdit',
   props: {
@@ -627,8 +631,7 @@ export default {
     }
   },
   components: {
-    VueTimepicker,
-    Multiselect
+    VueTimepicker
   },
   data () {
     return {
@@ -688,12 +691,12 @@ export default {
       listBanenrShedule: [],
       modelBannerTime: [],
       modelBannerImg: [],
-      timeBannersSchedule: [
-        {
-          start_time: {HH: '01', mm: '00'},
-          end_time: {HH: '01', mm: '00'}
-        }
-      ],
+      modelCreateBannerImg: '',
+      modelCreateBannerTime: {
+        start_time: {HH: '00', mm: '00'},
+        end_time: {HH: '00', mm: '00'}
+      },
+      modelCreateBannerDescription: '',
       cuentaTipo: null,
       cuentaTipos: ['Ahorros', 'Corriente'],
       precioPromecio: '',
@@ -834,7 +837,6 @@ export default {
         })
     },
     fileImage (origin, file, position = '') {
-      console.log(file)
       const reader = new FileReader()
       const self = this
       reader.addEventListener('load', function () {
@@ -844,9 +846,11 @@ export default {
         }
 
         if (origin === 'banner' && position !== '') {
-          console.log('entre')
-          console.log(reader.result)
-          self.modelBannerImg[position] = reader.result
+          self.$set(self.modelBannerImg, 1, reader.result)
+        }
+
+        if (origin === 'banner' && position === '') {
+          self.modelCreateBannerImg = reader.result
         }
       }, false)
 
@@ -894,12 +898,12 @@ export default {
           const self = this
           const data = res.data
           for (let index = 0; index < data.length; index++) {
-            self.listOpenTime[index] = data[index]
+            self.$set(self.listOpenTime, index, data[index])
             // llenar v-model de horarios
-            self.modelOpenTime[index] = {
+            self.$set(self.modelOpenTime, index, {
               start_time: {HH: data[index].opening_time.hour, mm: data[index].opening_time.minute},
               end_time: {HH: data[index].closing_time.hour, mm: data[index].closing_time.minute}
-            }
+            })
             //  llenar dias de la semana
             var arrAux = []
             for (let j = 0; j < data[index].weekdays.length; j++) {
@@ -908,7 +912,7 @@ export default {
                 label: self.nameDayWeek(data[index].weekdays[j])
               })
             }
-            self.modelOpenDays[index] = arrAux
+            self.$set(self.modelOpenDays, index, arrAux)
           }
         })
     },
@@ -987,7 +991,8 @@ export default {
           const self = this
           const data = res.data
           for (let index = 0; index < data.length; index++) {
-            self.listBanenrShedule[index] = data[index]
+            // self.listBanenrShedule[index] = data[index]
+            self.$set(self.listBanenrShedule, index, data[index])
             // llenar v-model de horarios
             const horaOpen = new Date(data[index].opening_time).getHours()
             const minutoOpen = new Date(data[index].opening_time).getMinutes()
@@ -1004,22 +1009,23 @@ export default {
         })
     },
     postBannerSchedules () {
-      const open = `${this.timeBannersSchedule.start_time.HH}:${this.timeBannersSchedule.start_time.mm}`
-      const close = `${this.timeBannersSchedule.end_time.HH}:${this.timeBannersSchedule.end_time.mm}`
-      configService(`/central_admin/commerces/${this.idRestaurant}/opening_schedules`, {
+      const open = `${this.modelCreateBannerTime.start_time.HH}:${this.modelCreateBannerTime.start_time.mm}`
+      const close = `${this.modelCreateBannerTime.end_time.HH}:${this.modelCreateBannerTime.end_time.mm}`
+      console.log(this.modelCreateBannerImg)
+      configService(`/central_admin/commerces/${this.idRestaurant}/schedules`, {
         method: 'POST',
         data: {
           'opening_time': open,
           'closing_time': close,
-          'description': 'Gran',
-          'tweet': 'tweet definicion',
-          'banner': ''
+          'tweet': 'tweet',
+          'description': this.modelCreateBannerDescription,
+          'banner': this.modelCreateBannerImg
         }
       })
         .then(res => {
           this.$swal({
             type: 'success',
-            title: 'Horario Creado!',
+            title: 'Banner Creado!',
             timer: 2000,
             showConfirmButton: false
           })
@@ -1034,11 +1040,14 @@ export default {
     putBannerSchedules (id, position) {
       const open = `${this.modelBannerTime[position].start_time.HH}:${this.modelBannerTime[position].start_time.mm}`
       const close = `${this.modelBannerTime[position].end_time.HH}:${this.modelBannerTime[position].end_time.mm}`
+
       configService(`/central_admin/commerces/${this.idRestaurant}/schedules/${id}`, {
         method: 'PUT',
         data: {
           'opening_time': open,
-          'closing_time': close
+          'closing_time': close,
+          // 'banner': this.modelBannerImg[position],
+          'description': this.listBanenrShedule[position].description
         }
       })
         .then(res => {

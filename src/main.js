@@ -8,6 +8,8 @@ import * as VueGoogleMaps from 'vue2-google-maps'
 import VCalendar from 'v-calendar'
 import 'v-calendar/lib/v-calendar.min.css'
 import VueSweetalert2 from 'vue-sweetalert2'
+import Multiselect from 'vue-multiselect'
+import 'vue-multiselect/dist/vue-multiselect.min.css'
 
 import store from './store'
 import App from './App.vue'
@@ -18,6 +20,7 @@ Vue.use(EventBus)
 Vue.use(VueRouter)
 Vue.use(VueOffline)
 Vue.component('v-select', vSelect)
+Vue.component('multiselect', Multiselect)
 Vue.use(VueGoogleMaps, {
   load: {
     key: 'AIzaSyB-E1G59dcqv3orfjhQzupr7F1UCodDTh8',

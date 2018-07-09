@@ -196,6 +196,12 @@
 
 .restaurant-edit__add-banner {
   padding: 0 25px;
+  h4 {
+    color: #404040;
+    font-family: $font2;
+    font-size: 20px;
+    margin: 0;
+  }
 }
 
 .restaurant-edit__add-banner-titulo {
@@ -203,12 +209,6 @@
   align-items: center;
   margin-top: 20px;
   margin-bottom: 15px;
-  h4 {
-    color: #404040;
-    font-family: $font2;
-    font-size: 20px;
-    margin: 0;
-  }
   p {
     margin: 0;
     font-size: 12px;

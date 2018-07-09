@@ -444,6 +444,7 @@ import configService from '../settings/api-url.js'
 import Menu from '../components/layout/Menu'
 import ModalDetails from '../components/today/modal-details'
 import {stateGroups} from '../stateGroup.js'
+import { mapState } from 'vuex'
 
 export default {
   name: 'Today',
@@ -470,6 +471,9 @@ export default {
       runners: [],
       showDetail: false
     }
+  },
+  computed: {
+    ...mapState(['university', 'commerces', 'commerce'])
   },
   watch: {
     orderFromModal (newOrder, oldOrder) {
@@ -615,7 +619,7 @@ export default {
           user_id: id
         }
       }
-      configService.put(`central_admin/universities/2/deliveries/${order.delivery.id}`, data)
+      configService.put(`central_admin/universities/${this.university.id}/deliveries/${order.delivery.id}`, data)
       .then(response => {
         if (order.delivery.delivery_man){
           order.delivery.delivery_man = {...order.delivery.delivery_man,first_name: first_name,
@@ -924,7 +928,7 @@ export default {
     this.isAllActive = true
     const date = new Date()
     const data = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
-    configService('central_admin/universities/2/delivery_men?available_only=true')
+    configService(`central_admin/universities/${this.university.id}/delivery_men?available_only=true`)
     .then(res => {
       this.runners = res.data.map(runner => {
         const data = {
@@ -941,7 +945,7 @@ export default {
     .catch(error => {
       console.log(error)
     })
-    configService(`central_admin/universities/2/orders?date=${data}`)
+    configService(`central_admin/universities/${this.university.id}/orders?date=${data}`)
       .then(response => {
         this.orders = response.data
         this.setOrderCount()

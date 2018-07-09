@@ -117,6 +117,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import configService from '../settings/api-url.js'
 import Menu from '../components/layout/Menu'
 import ModalDetails from '../components/record/modalDetails'
@@ -186,7 +187,7 @@ export default {
         console.log("hola")
         const date = new Date(value.start)
         const data = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
-     configService(`central_admin/universities/2/orders?date=${data}`)
+     configService(`central_admin/universities/${this.university.id}/orders?date=${data}`)
       .then(response => {
         this.orders = response.data
         this.setOrderCount()
@@ -198,7 +199,7 @@ export default {
       })
       }else{
        
-     configService(`central_admin/universities/2/orders?start_date=${dataStart}&end_date=${dataEnd}`)
+     configService(`central_admin/universities/${this.university.id}/orders?start_date=${dataStart}&end_date=${dataEnd}`)
       .then(response => {
         this.orders = response.data
         console.log(this.orders)
@@ -210,6 +211,9 @@ export default {
       })
       }
     }
+  },
+   computed: {
+    ...mapState(['university', 'commerces', 'commerce'])
   },
   methods: {
     sortBy (type) {
@@ -302,7 +306,7 @@ export default {
   created (){
     const date = new Date()
     const data = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
-     configService(`central_admin/universities/2/orders?date=${data}`)
+     configService(`central_admin/universities/${this.university.id}/orders?date=${data}`)
       .then(response => {
         this.orders = response.data
         this.setOrderCount()

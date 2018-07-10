@@ -3,11 +3,12 @@ import Restaurant from './views/restaurant.vue'
 import Record from './views/record.vue'
 import Team from './views/team.vue'
 import Variables from './views/variables.vue'
+import Login from './views/login.vue'
 import Error404 from './views/error404.vue'
 
 const routes = [
   {
-    path: '/hoy',
+    path: '/',
     component: Today,
     name: 'today'
   },
@@ -30,6 +31,12 @@ const routes = [
     path: '/variables',
     component: Variables,
     name: 'variables'
+  },
+  {
+    path: '/login',
+    component: Login,
+    name: 'login',
+    meta: { bodyClass: 'login' }
   },
   {
     path: '/*',

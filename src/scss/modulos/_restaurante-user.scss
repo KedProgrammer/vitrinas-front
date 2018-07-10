@@ -19,6 +19,12 @@
   height: 65px;
 }
 
+body.login {
+  .restaurante-user__header {
+    display: none;
+  }
+}
+
  .restaurante-user__header-universidades {
    
  }

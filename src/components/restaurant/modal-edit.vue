@@ -19,20 +19,40 @@
             <!-- upload logo -->
             <div class="restaurant-edit__logo ceu-item s-30">
               <div
-                :style="{backgroundImage: 'url(' + formServices.perfil + ')'}"
-                class="restaurant-edit__logo-img" />
-              <div class="restaurant-edit__logo-upload">
-                <label for="uploadLogo">
-                  Upload Logo
-                </label>
-                <input
-                  id="uploadLogo"
-                  @change="fileImage('logo', $event.target.files)"
-                  accept="image/*"
-                  type="file">
+                :style="{backgroundImage: 'url(' + formServices.background_imageUrl + ')'}"
+                class="restaurant-edit__bg-img">
+                <img :src="formServices.perfil">
+                <!-- <div
+                  :style="{backgroundImage: 'url(' +  + ')'}"
+                  class="restaurant-edit__logo-img" /> -->
+              </div>
+              <div class="restaurant-edit__title-upload">
+                Upload
+              </div>
+              <div class="restaurant-edit__contenedor-upload">
+                <div class="restaurant-edit__logo-upload">
+                  <label for="uploadLogo">
+                    Logo
+                  </label>
+                  <input
+                    id="uploadLogo"
+                    @change="fileImage('logo', $event.target.files)"
+                    accept="image/*"
+                    type="file">
+                </div>
+                <div class="restaurant-edit__logo-upload">
+                  <label for="uploadBg">
+                    Fondo
+                  </label>
+                  <input
+                    id="uploadBg"
+                    @change="fileImage('imageBg', $event.target.files)"
+                    accept="image/*"
+                    type="file">
+                </div>
               </div>
               <div class="restaurant-edit__logo-info">
-                <strong>Formato:</strong> .png 500*500px
+                <strong>Formato logo:</strong> .png 500*500px
               </div>
             </div>
             <!-- servicios - name -->
@@ -412,16 +432,15 @@
                     type="text">
                 </div>
               </div>
-              <div class="ceu-item s-50">
+              <!-- <div class="ceu-item s-50">
                 <p>Universidad</p>
-                <!-- campo -->
                 <div class="ceu-campo__text-round">
                   <input
                     v-model="formData.university_name"
                     placeholder="Universidad de los Andes"
                     type="text">
                 </div>
-              </div>
+              </div> -->
               <div class="ceu-item s-50">
                 <p>Celular</p>
                 <!-- campo -->
@@ -653,7 +672,9 @@ export default {
         'active': false,
         'delivery_fee': '',
         'takeout_fee': '',
-        'has_market': false
+        'has_market': false,
+        'background_image': '',
+        'background_imageUrl': ''
       },
       formData: {
         address: '',
@@ -748,7 +769,8 @@ export default {
             'delivery_fee': data.delivery_fee,
             'active': data.active,
             'takeout_fee': data.takeout_fee,
-            'has_market': data.has_market
+            'has_market': data.has_market,
+            'background_imageUrl': data.background_image.url
           }
           // otra parte del formulario
           this.fillFormData(data)
@@ -850,6 +872,11 @@ export default {
         if (origin === 'logo') {
           self.formServices.perfil = reader.result
           self.formServices.logo = reader.result
+        }
+
+        if (origin === 'imageBg') {
+          self.formServices.background_image = reader.result
+          self.formServices.background_imageUrl = reader.result
         }
 
         if (origin === 'banner' && position !== '') {
@@ -1015,8 +1042,8 @@ export default {
             const minutoClose = new Date(data[index].closing_time).getMinutes()
 
             self.modelBannerTime[index] = {
-              start_time: {HH: horaClose.toString(), mm: minutoClose.toString()},
-              end_time: {HH: horaOpen.toString(), mm: minutoOpen.toString()}
+              start_time: {HH: horaOpen.toString(), mm: minutoOpen.toString()},
+              end_time: {HH: horaClose.toString(), mm: minutoClose.toString()}
             }
             //  llenar banner
             self.modelBannerImg[index] = data[index].banner.url
@@ -1051,7 +1078,6 @@ export default {
         })
     },
     deleteBannerSchedules (id) {
-      console.log(id)
       configService(`/central_admin/commerces/${this.idRestaurant}/schedules/${id}`, {
         method: 'DELETE'
       })

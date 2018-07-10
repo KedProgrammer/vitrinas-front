@@ -6,9 +6,9 @@
         class="restaurante-user__logo"
         alt="logo morado v3 comida en la u">
 
-      <div class="admin__route-current">
+      <!-- <div class="admin__route-current">
         Pedidos de hoy
-      </div>
+      </div> -->
     </div>
 
     <div class="restaurante-user__header-titulo">

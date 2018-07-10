@@ -17,7 +17,7 @@
         <!-- campo principal -->
         <div class="modal-add__name-retaurant">
           <input
-            placeholder="Número usuario"
+            placeholder="Buscar por numero Teléfonico"
             autocomplete="tel"
             v-model="form.numUser"
             required
@@ -83,6 +83,7 @@ export default {
                 configService(`/central_admin/universities/${this.university.id}/normal_users/${data.id}/hire`)
                   .then(resChild => {
                     this.toggleShow()
+                    this.numUser = ''
                     this.$emit('reload-table')
                   })
               }

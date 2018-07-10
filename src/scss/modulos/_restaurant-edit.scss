@@ -16,29 +16,31 @@
   font-family: $font1;
 }
 
-.restaurant-edit__logo-img {
-  width: 125px;
-  height: 125px;
-  border-radius: 50%;
-  border: 1px solid #e5edef;
-  margin: 0 auto;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-origin: content-box;
-  padding: 20px;
-}
+// .restaurant-edit__logo-img {
+//   width: 110px;
+//   height: 110px;
+//   border-radius: 50%;
+//   border: 1px solid #e5edef;
+//   margin: 0 auto;
+//   background-size: contain;
+//   background-repeat: no-repeat;
+//   background-position: center;
+//   background-origin: content-box;
+//   padding: 20px;
+// }
 
 .restaurant-edit__logo-upload {
-  font-size: 20px;
-  color: $principal;
-  text-decoration: underline;
-  text-align: center;
-  margin-top: 10px;
-  cursor: pointer;
-  position: relative;
   label  {
+    font-size: 14px;
+    background-color: $principal;
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 4px;
+    text-align: center;
+    margin-top: 10px;
     cursor: pointer;
+    position: relative;
+    display: block;
   }
   input {
     visibility: hidden;
@@ -504,5 +506,50 @@
   }
   &:last-child {
     border: none;
+  }
+}
+
+.restaurant-edit__image-bg {
+  padding: 0 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  h4 {
+    font-family: $font2;
+    color: #000000;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 15px 0;
+  }
+}
+
+.restaurant-edit__contenedor-upload {
+  display: flex;
+  justify-content: space-between;
+}
+
+.restaurant-edit__title-upload {
+  font-size: 18px;
+  font-weight: 500;
+  color: #000000;
+  text-align: center;
+  margin-top: 5px;
+}
+
+.restaurant-edit__bg-img {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e5edef;
+  background-color: #e6e6e6;
+  width: 180px;
+  height: 100px;
+  margin: 10px 10px 0 0px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 6px;
+  padding: 15px 20px;
+  img {
+    max-height: 100%;
   }
 }

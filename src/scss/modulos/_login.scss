@@ -3,12 +3,13 @@
   *header login
   */
 
-.login-header {
+.login__contenedor {
   background-image: url('../assets/images/login/bg-login.jpg');
   background-size: cover;
   background-position: center;
-  height: 320px;
+  min-height: 100vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   position: relative;
@@ -19,126 +20,33 @@
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba($color2,.4)
+    background-color: rgba($color2,.6)
   }
   img {
     max-width: 297px;
   }
 }
 
-.login-header__contenido{ 
+.login-header__contenido {
   position: relative;
-  z-index: 10;
-  padding: 0 20px;
+  z-index: 40;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   p {
-    color: $color1;
     font-family: $font1;
-    font-weight: 300;
-    font-size: 20px;
-    margin: 4px 0 0 0;
-    text-align: center;
+    font-size: 24px;
+    color: #fff;
   }
 }
 
-// login main
-.login__contenedor {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 40px;
-}
-
-.login-main__contenido {
-  padding: 0 20px;
-  h2 {
-    font-family: $font2;
-    font-weight: bold;
-    text-align: center;
-    color: $color3;
-    font-size: 30px;
-  }
-}
-// btn login redes sociales
-.login__redes {
-  margin-top: 40px auto;
-  display: flex;
-  flex-direction: column;
-}
-
-.login__faceboook,
-.login__google,
-.g-signin-button {
-  background-color: #dc4e41;
-  display: inline-block;
-  padding: 12px 22px;
-  text-decoration: none;
-  margin-bottom: 15px;
+.login__form-contenedor {
+  background-color: #fff;
+  position: relative;
+  z-index: 50;
+  padding: 40px 80px;
   border-radius: 6px;
-  color: #fff;
-  font-family: $font1;
-  font-weight: 300;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  img {
-    height: 30px;
-    margin-right: 5px;
-  }
-}
-
-.login__google,
-.g-signin-button {
-  background-color: #dc4e41;
-}
-
-.login__faceboook {
-  background-color: #4267b2;
-}
-
-// login correo electronico
-.login__registro {
-  margin: 30px 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  p,a {
-    font-family: $font2;
-    text-align: center;
-  }
-  p {
-    font-size: 18px;
-    color: #9b9b9b;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-  a {
-    color: $principal;
-    margin: 0 10px;
-    cursor: pointer;
-  }
-}
-
-.login__registro__info {
-  display: flex;
-}
-
-// regisstro de usuario
-.modal-registro {
-  h3 {
-    font-family: $font2;
-    color: #404040;
-    font-weight: bold;
-    font-size: 30px;
-    margin: 0 0 20px 0 ;
-    text-align: center;
-  }
-  .modal-ceu__content {
-    padding: 20px;
-  }
 }
 
 .form-campo {
@@ -177,6 +85,10 @@
   border: none;
   font-size: 20px;
   cursor: pointer;
+  transition: all .3s;
+  &:hover {
+    background-image: linear-gradient(to bottom,  #7620d6, #7b38d8);
+  }
 }
 
 .msg__registro {

@@ -11,6 +11,8 @@ import VueSweetalert2 from 'vue-sweetalert2'
 import Multiselect from 'vue-multiselect'
 import 'vue-multiselect/dist/vue-multiselect.min.css'
 import Vue2Filters from 'vue2-filters'
+import vbclass from 'vue-body-class'
+import configService from './settings/api-url'
 
 import store from './store'
 import App from './App.vue'
@@ -35,6 +37,26 @@ Vue.use(VueSweetalert2)
 const router = new VueRouter({
   routes,
   mode: 'history'
+})
+
+Vue.use(vbclass, router)
+
+router.beforeEach((to, from, next) => {
+  var userToken = ''
+
+  if (localStorage.getItem('yek') !== null) {
+    userToken = localStorage.getItem('yek')
+    next()
+    console.log('logueado')
+  } else {
+    if (to.name === 'login') {
+      next()
+    } else {
+      next({ name: 'login' })
+    }
+    console.log('no logueado')
+  }
+  configService.defaults.headers.common['Authorization'] = userToken
 })
 
 new Vue({

@@ -501,6 +501,16 @@
                     type="text">
                 </div> -->
               </div>
+              <div class="ceu-item s-100">
+                <p>Descripción</p>
+                <!-- campo -->
+                <div class="ceu-campo__text-round">
+                  <input
+                    v-model="formData.description"
+                    placeholder=""
+                    type="text">
+                </div>
+              </div>
             </div>
             <!--. datos  -->
             <div class="restaurant-edit__time-price">
@@ -696,7 +706,8 @@ export default {
         price_range: '',
         bank: '',
         bank_account: '',
-        account_type: ''
+        account_type: '',
+        description: ''
       },
       modelOpenTime: [],
       modelOpenDays: [],
@@ -824,7 +835,8 @@ export default {
         price_range: data.price_range,
         bank,
         bank_account: data.bank_account,
-        account_type: accountType
+        account_type: accountType,
+        description: data.description
       }
     },
     sendFormData () {
@@ -1075,6 +1087,11 @@ export default {
         })
         .catch(error => {
           console.log(error.response.data)
+          this.$swal({
+            type: 'error',
+            title: 'Oops!',
+            text: error.response.data.message
+          })
         })
     },
     deleteBannerSchedules (id) {
@@ -1089,7 +1106,8 @@ export default {
       const open = `${this.modelBannerTime[position].start_time.HH}:${this.modelBannerTime[position].start_time.mm}`
       const close = `${this.modelBannerTime[position].end_time.HH}:${this.modelBannerTime[position].end_time.mm}`
       console.log(id)
-      // console.log(this.modelBannerImg[position])
+      console.log(open)
+      console.log(close)
       configService(`/central_admin/commerces/${this.idRestaurant}/schedules/${id}`, {
         method: 'PUT',
         data: {
@@ -1102,6 +1120,9 @@ export default {
         }
       })
         .then(res => {
+          console.log(res)
+          console.log(new Date(res.data.opening_time))
+          console.log(new Date(res.data.closing_time))
           this.$swal({
             type: 'success',
             title: 'Cambios Aplicados!',

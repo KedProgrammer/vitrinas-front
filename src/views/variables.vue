@@ -151,6 +151,12 @@ export default {
         })
           .then(res => {
             console.log(res.data)
+            this.$swal({
+              type: 'success',
+              title: 'Cambios Aplicados!',
+              timer: 2000,
+              showConfirmButton: false
+            })
           })
       })
     }

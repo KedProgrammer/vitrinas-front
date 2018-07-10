@@ -174,7 +174,7 @@
 
 .restaurant-edit__horarios-apertura {
   .restaurant-edit__list-item {
-    padding-bottom: 20px;
+    padding: 20px 0;
     border-bottom: 1px solid #e5edef;
     &:last-child {
       border: none;
@@ -220,6 +220,7 @@
 .ceu-campo__hStart-hEnd {
   display: flex;
   margin-left: 20px;
+  align-items: center;
   p {
     margin: 0;
     font-family: $font2;
@@ -249,6 +250,10 @@
       background-color: $principal;
     }
   }
+}
+
+.ceu-campo__hStart-hEnd--start {
+  align-items: flex-start;
 }
 
 .restaurant-edit__banner-description {

@@ -66,6 +66,11 @@ export default {
   computed: {
     ...mapState(['university', 'commerces', 'commerce'])
   },
+  watch: {
+    university () {
+      this.updateTable()
+    }
+  },
   mounted () {
     this.$nextTick(function () {
       this.updateTable()

@@ -71,6 +71,11 @@ export default {
     ModalAdd,
     ModalEdit
   },
+  watch: {
+    university () {
+      this.updateTable()
+    }
+  },
   computed: {
     ...mapState(['university', 'commerces', 'commerce'])
   },

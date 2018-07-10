@@ -7,8 +7,10 @@
           <form
             @submit.prevent="sendRate"
             class="view-variables__item">
-            <h2>Tarifas</h2>
-            <div class="view-variables__table">
+            <h2>Variables</h2>
+            <div
+              v-if="formRate.length !== 0"
+              class="view-variables__table">
               <table>
                 <tr>
                   <td>
@@ -16,7 +18,7 @@
                   </td>
                   <td>
                     <input
-                      v-model="formRate.first_dish_delivery"
+                      v-model="formRate[0].value"
                       type="text">
                   </td>
                 </tr>
@@ -26,7 +28,7 @@
                   </td>
                   <td>
                     <input
-                      v-model="formRate.second_dish_delivery"
+                      v-model="formRate[1].value"
                       type="text">
                   </td>
                 </tr>
@@ -36,7 +38,7 @@
                   </td>
                   <td>
                     <input
-                      v-model="formRate.first_dish_take_out"
+                      v-model="formRate[2].value"
                       type="text">
                   </td>
                 </tr>
@@ -46,7 +48,7 @@
                   </td>
                   <td>
                     <input
-                      v-model="formRate.second_dish_take_out"
+                      v-model="formRate[3].value"
                       type="text">
                   </td>
                 </tr>
@@ -56,7 +58,7 @@
                   </td>
                   <td>
                     <input
-                      v-model="formRate.second_dish_take_out_prime"
+                      v-model="formRate[4].value"
                       type="text">
                   </td>
                 </tr>
@@ -66,7 +68,7 @@
                   </td>
                   <td>
                     <input
-                      v-model="formRate.first_dish_take_out_prime"
+                      v-model="formRate[5].value"
                       type="text">
                   </td>
                 </tr>
@@ -76,7 +78,7 @@
                   </td>
                   <td>
                     <input
-                      v-model="formRate.first_dish_delivery_prime"
+                      v-model="formRate[6].value"
                       type="text">
                   </td>
                 </tr>
@@ -86,7 +88,7 @@
                   </td>
                   <td>
                     <input
-                      v-model="formRate.second_dish_delivery_prime"
+                      v-model="formRate[7].value"
                       type="text">
                   </td>
                 </tr>
@@ -125,16 +127,7 @@ export default {
   },
   data () {
     return {
-      formRate: {
-        'first_dish_delivery': '',
-        'second_dish_delivery': '',
-        'first_dish_take_out': '',
-        'second_dish_take_out': '',
-        'second_dish_take_out_prime': '',
-        'first_dish_take_out_prime': '',
-        'first_dish_delivery_prime': '',
-        'second_dish_delivery_prime': ''
-      }
+      formRate: []
     }
   },
   methods: {
@@ -142,25 +135,24 @@ export default {
       configService(`/central_admin/universities/${this.university.id}/university_variables`)
         .then(res => {
           const data = res.data
-          this.formRate.first_dish_delivery = data[0].value
-          this.formRate.second_dish_delivery = data[1].value
-          this.formRate.first_dish_take_out = data[2].value
-          this.formRate.second_dish_take_out = data[3].value
-          this.formRate.second_dish_take_out_prime = data[4].value
-          this.formRate.first_dish_take_out_prime = data[5].value
-          this.formRate.first_dish_delivery_prime = data[6].value
-          this.formRate.second_dish_delivery_prime = data[7].value
+          for (let index = 0; index < data.length; index++) {
+            this.formRate.push(data[index])
+          }
         })
     },
     sendRate () {
-      for (let index = 1; index < 9; index++) {
-        configService(`/central_admin/universities/${this.university.id}/university_variables/${index}`, {
-          method: 'PUT'
+      this.formRate.forEach((element, index) => {
+        console.log(element)
+        configService(`/central_admin/universities/${this.university.id}/university_variables/${element.name}`, {
+          method: 'PUT',
+          data: {
+            value: element.value
+          }
         })
           .then(res => {
-            console.log(res)
+            console.log(res.data)
           })
-      }
+      })
     }
   }
 }

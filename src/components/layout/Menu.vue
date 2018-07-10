@@ -6,42 +6,42 @@
       :to="{ name: 'today'}">
       Hoy
     </router-link>
-    <a
+    <!-- <a
       href=""
-      class="admin__menu-item">Resumen</a>
+      class="admin__menu-item">Resumen</a> -->
     <router-link
       class="admin__menu-item"
       :to="{ name: 'record'}">
       Historial
     </router-link>
-    <a
+    <!-- <a
       href=""
       class="admin__menu-item">Dashboard</a>
     <a
       href=""
-      class="admin__menu-item">KPI</a>
+      class="admin__menu-item">KPI</a> -->
     <router-link
       class="admin__menu-item"
       :to="{ name: 'team'}">
       Team
     </router-link>
-    <a
+    <!-- <a
       href=""
-      class="admin__menu-item">PROMO</a>
+      class="admin__menu-item">PROMO</a> -->
     <router-link
       class="admin__menu-item"
       :to="{ name: 'variables'}">
       Variables
     </router-link>
-    <a
+    <!-- <a
       href=""
-      class="admin__menu-item">ADS</a>
+      class="admin__menu-item">ADS</a> -->
     <router-link
       class="admin__menu-item"
       :to="{ name: 'restaurant'}">
       Restaurant.
     </router-link>
-    <a
+    <!-- <a
       href=""
       class="admin__menu-item">Usuarios</a>
     <a
@@ -52,6 +52,6 @@
       class="admin__menu-item">Accounting</a>
     <a
       href=""
-      class="admin__menu-item">View</a>
+      class="admin__menu-item">View</a> -->
   </aside>
 </template>

@@ -537,6 +537,26 @@ body {
   }
 }
 
+.ceu-btn2 {
+  font-family: $font1;
+  border-radius: 4px;
+  color: $principal;
+  font-size: 16px;
+  font-weight: 500;
+  text-decoration: underline;
+  border: none;
+  display: inline-block;
+  padding: .6em 1.2em;
+  cursor: pointer;
+  transition: .3s all;
+  &.alert {
+    color: #ff6767;
+  }
+  &:hover {
+    color: #404040;
+  }
+}
+
 
 // estilos auxilares
 .t-morado {

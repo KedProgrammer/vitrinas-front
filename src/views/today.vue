@@ -527,10 +527,15 @@ export default {
         return element.id === newOrder.id
       })
       this.orders.splice(index, 1, newOrder)
+      this.setOrderCount()
+      this.setTrackTime()
       this.setOrdinalOrder(stateGroups.all, 'rightColumn')
       this.setOrdinalOrder(stateGroups.pending, 'pending')
       this.setOutTrack()
-      this.orderSummary = newOrder
+      const order = this.orders.find(element => {
+        return element.id === newOrder.id
+      })
+      this.orderSummary = order
       this.setCounts()
     },
     activeFilter (active) {
@@ -621,6 +626,12 @@ export default {
           return 'pickup_order'
         case 'delivering_order':
           return 'complete_order'
+        case 'troubleshooting_restaurant':
+          return 'complete_order'
+        case 'troubleshooting_deliveryman':
+          return 'pickup_order'
+        case 'troubleshooting_hand_off':
+          return 'complete_order'
         default:
           break
       }
@@ -639,6 +650,7 @@ export default {
           console.log(response.data)
           const newOrder = response.data
           this.orders.splice(index, 1, newOrder)
+          this.setOrderCount()
           this.setTrackTime()
           this.setOrdinalOrder(stateGroups.all, 'rightColumn')
           this.setOrdinalOrder(stateGroups.pending, 'pending')
@@ -660,7 +672,7 @@ export default {
         return 'Sin Asignar'
       }
     },
-    asingDeliveryMan (id, order, first_name, last_name) {
+    asingDeliveryMan (id, order, firstName, lastName) {
       console.log(id, order.delivery.id)
       const data = {
         delivery: {
@@ -671,12 +683,12 @@ export default {
         .then(response => {
           if (order.delivery.delivery_man) {
             order.delivery.delivery_man = {...order.delivery.delivery_man,
-              first_name: first_name,
-              last_name: last_name }
+              first_name: firstName,
+              last_name: lastName }
           } else {
             order.delivery.delivery_man = {
-              first_name: first_name,
-              last_name: last_name
+              first_name: firstName,
+              last_name: lastName
             }
           }
           this.calculateStateButtons(order)
@@ -802,6 +814,7 @@ export default {
       }
     },
     setOrderCount () {
+      console.log(this.orders)
       this.orders = this.orders.map((element0, index) => {
         let auxiliar = []
         element0 = {...element0, originalCount: element0.json_products.length}
@@ -941,17 +954,15 @@ export default {
     },
     setTrackTime () {
       this.orders = this.orders.map(element => {
-        if (element.status === 'order_completed'){
-
-        }else {
-          
-        }
         const createdTime = new Date(element.created_at)
         const trackDeliveryMinutes = parseInt(element.commerce.avg_delivery_time)
         const trackPreparationMinutes = parseInt(element.commerce.avg_preparation_time)
         let trackTime = new Date(createdTime.getFullYear(), createdTime.getMonth(),
           createdTime.getDate(), createdTime.getHours(), createdTime.getMinutes() + trackDeliveryMinutes + trackPreparationMinutes)
-        const deliveryDiference = this.getDifference(trackTime, new Date())
+        let deliveryDiference = this.getDifference(trackTime, new Date())
+        if (element.status === 'order_completed') {
+          deliveryDiference = ''
+        }
         const newElement = {...element, trackTime, deliveryDiference}
         return newElement
       })

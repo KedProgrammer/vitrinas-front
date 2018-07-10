@@ -212,7 +212,6 @@ export default {
         .then(response => {
           const newOrder = response.data
           this.calculateStateButtons(newOrder)
-          this.setTrackTime()
           this.$emit('order-modal', this.orderSummary)
         })
         .catch(error => {

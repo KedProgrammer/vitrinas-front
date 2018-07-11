@@ -15,7 +15,7 @@
             :class="{activo: setActive('all')}"
             class="admin-hoy__filtro-item">
             <h4>All</h4>
-           <p>({{allCount}}-{{outTrackedOrdersCount}})</p>
+            <p>({{ allCount }}-{{ outTrackedOrdersCount }})</p>
           </div>
           <!-- item filtro -->
           <div
@@ -23,7 +23,7 @@
             :class="{activo: setActive('vigentes')}"
             class="admin-hoy__filtro-item">
             <h4>Vigentes</h4>
-            <p>({{vigentCount}}-{{outTrackedOrdersCount}})</p>
+            <p>({{ vigentCount }}-{{ outTrackedOrdersCount }})</p>
           </div>
           <!-- item filtro -->
           <div
@@ -31,7 +31,7 @@
             :class="{activo: setActive('estado')}"
             class="admin-hoy__filtro-item">
             <h4>Estado int.</h4>
-            <p>({{intermedioCount}}-{{outTrackedOrdersCount}})</p>
+            <p>({{ intermedioCount }}-{{ outTrackedOrdersCount }})</p>
           </div>
           <!-- item filtro -->
           <div
@@ -39,7 +39,7 @@
             :class="{activo: setActive('recogidos')}"
             class="admin-hoy__filtro-item">
             <h4>Recogidos</h4>
-            <p>({{recogidosCount}}-{{outTrackedOrdersCount}})</p>
+            <p>({{ recogidosCount }}-{{ outTrackedOrdersCount }})</p>
           </div>
           <!-- item filtro -->
           <div
@@ -47,7 +47,7 @@
             :class="{activo: setActive('problemas')}"
             class="admin-hoy__filtro-item">
             <h4>Problemas</h4>
-            <p>({{problemasCount}}-{{outTrackedOrdersCount}})</p>
+            <p>({{ problemasCount }}-{{ outTrackedOrdersCount }})</p>
           </div>
           <!-- item filtro -->
           <div
@@ -55,7 +55,7 @@
             :class="{activo: setActive('entregados')}"
             class="admin-hoy__filtro-item">
             <h4>Entregados</h4>
-            <p>({{entregadosCount}}-{{outTrackedOrdersCount}})</p>
+            <p>({{ entregadosCount }}-{{ outTrackedOrdersCount }})</p>
           </div>
           <!-- item filtro -->
           <div
@@ -63,7 +63,7 @@
             :class="{activo: setActive('prime')}"
             class="admin-hoy__filtro-item">
             <h4>PRIME</h4>
-            <p>({{primeCount}}-{{outTrackedOrdersCount}})</p>
+            <p>({{ primeCount }}-{{ outTrackedOrdersCount }})</p>
           </div>
         </div>
 
@@ -77,14 +77,14 @@
             :class='{activo: !isTakeout}'
             class="admin-hoy__header-domicilio ">
             <h4>Domicilios</h4>
-            <p>({{deliveryCount}}-{{outTrackedOrdersCount}})</p>
+            <p>({{ deliveryCount }}-{{ outTrackedOrdersCount }})</p>
           </div>
           <div
             @click="filterType('takeout')"
             :class='{activo: isTakeout}'
             class="admin-hoy__header-takeout">
             <h4>Take-out</h4>
-            <p>({{takeoutCount}}-{{outTrackedOrdersCount}})</p>
+            <p>({{ takeoutCount }}-{{ outTrackedOrdersCount }})</p>
           </div>
         </div>
         <div class="admin-hoy__header-cerrar">
@@ -165,7 +165,7 @@
                       <h3>{{ order.total | currency('$', 0) }}</h3>
                       <p>
                         <i class="ceu-icon-payment-terminal"/>
-                        {{ order.json_products.length }}
+                        {{ order.id }}
                       </p>
                     </div>
                   </div>
@@ -184,9 +184,9 @@
                         slot="option"
                         :title="option.name"
                         slot-scope="option">
-                        <div 
-                        @click="asingDeliveryMan(option.id,order,option.first_name,option.last_name)"
-                        class="runners__list-name">
+                        <div
+                          @click="asingDeliveryMan(option.id,order,option.first_name,option.last_name)"
+                          class="runners__list-name">
                           {{ option.name }}
                         </div>
                         <div class="runners__list-status">
@@ -202,16 +202,16 @@
                 <div class="admin-hoy__estado-info">
                   <h3 class="size">{{ order.status }}</h3>
                   <p>{{ order.cellphone }}</p>
-                  <div 
-                  @click="changeState(order)"
-                  class="admin-hoy__estado">
+                  <div
+                    @click="changeState(order)"
+                    class="admin-hoy__estado">
                     Listo en..
                   </div>
                 </div>
                 <div class="admin-hoy__panel-tiempo">
-                  <p>{{setTime(order.created_at)}}</p>
-                  <span>({{ order.json_products.length }})</span>
-                  <p>{{ order.id }}</p>
+                  <p>{{ setTime(order.created_at) }}</p>
+                  <span>({{ order.originalCount }})</span>
+                  <p>{{ order.deliveryDiference }}</p>
                 </div>
               </div>
             </div>
@@ -269,7 +269,7 @@
                       <h3>{{ order.total | currency('$', 0) }}</h3>
                       <p>
                         <i class="ceu-icon-payment-terminal"/>
-                        {{ order.json_products.length }}
+                        {{ order.id }}
                       </p>
                     </div>
                   </div>
@@ -288,9 +288,9 @@
                         slot="option"
                         :title="option.name"
                         slot-scope="option">
-                        <div 
-                        @click="asingDeliveryMan(option.id,order,option.first_name,option.last_name)"
-                        class="runners__list-name">
+                        <div
+                          @click="asingDeliveryMan(option.id,order,option.first_name,option.last_name)"
+                          class="runners__list-name">
                           {{ option.name }}
                         </div>
                         <div class="runners__list-status">
@@ -306,16 +306,16 @@
                 <div class="admin-hoy__estado-info">
                   <h3 class="size">{{ order.status }}</h3>
                   <p>{{ order.cellphone }}</p>
-                  <div 
-                   @click="changeState(order)"
-                  class="admin-hoy__estado">
+                  <div
+                    @click="changeState(order)"
+                    class="admin-hoy__estado">
                     Listo en..
                   </div>
                 </div>
                 <div class="admin-hoy__panel-tiempo">
-                  <p>{{setTime(order.created_at)}}</p>
-                  <span>({{ order.json_products.length }})</span>
-                  <p>{{ order.id }}</p>
+                  <p>{{ setTime(order.created_at) }}</p>
+                  <span>({{ order.originalCount }})</span>
+                  <p>{{ order.deliveryDiference }}</p>
                 </div>
               </div>
             </div>
@@ -373,14 +373,14 @@
                       <h3> {{ order.total | currency('$', 0) }}</h3>
                       <p>
                         <i class="ceu-icon-payment-terminal"/>
-                        {{ order.json_products.length }}
+                        {{ order.id }}
                       </p>
                     </div>
                   </div>
                   <div class="admin-hoy__nombre-row">
                     <v-select
                       v-if="!order.is_takeout"
-                     :value="setName(order)"
+                      :value="setName(order)"
                       label="name"
                       class="search-select"
                       max-height="250px"
@@ -392,9 +392,9 @@
                         slot="option"
                         :title="option.name"
                         slot-scope="option">
-                        <div 
-                        @click="asingDeliveryMan(option.id,order,option.first_name,option.last_name)"
-                        class="runners__list-name">
+                        <div
+                          @click="asingDeliveryMan(option.id,order,option.first_name,option.last_name)"
+                          class="runners__list-name">
                           {{ option.name }}
                         </div>
                         <div class="runners__list-status">
@@ -410,16 +410,16 @@
                 <div class="admin-hoy__estado-info">
                   <h3 class="size">{{ order.status }}</h3>
                   <p>{{ order.cellphone }}</p>
-                  <div 
-                   @click="changeState(order)"
-                  class="admin-hoy__estado">
+                  <div
+                    @click="changeState(order)"
+                    class="admin-hoy__estado">
                     Listo en..
                   </div>
                 </div>
                 <div class="admin-hoy__panel-tiempo">
-                  <p>{{setTime(order.created_at)}}</p>
-                  <span>({{ order.json_products.length }})</span>
-                  <p>{{ order.id }}</p>
+                  <p>{{ setTime(order.created_at) }}</p>
+                  <span>({{ order.originalCount }})</span>
+                  <p>{{ order.deliveryDiference }}</p>
                 </div>
               </div>
             </div>
@@ -434,7 +434,6 @@
       @close-details="showDetail = $event"
       :show-modal="showDetail"
       :order-summary="orderSummary"
-      :set-time="setTime"
     />
   </div>
 </template>
@@ -486,76 +485,81 @@ export default {
     ...mapState(['university', 'commerces', 'commerce'])
   },
   watch: {
-    university (value){
-       this.isAllActive = true
-    const date = new Date()
-    const data = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
-    configService(`central_admin/universities/${value.id}/delivery_men?available_only=true`)
-    .then(res => {
-      this.runners = res.data.map(runner => {
-        const data = {
-          name: `${runner.first_name} ${runner.last_name}`,
-          first_name: runner.first_name,
-          last_name: runner.last_name,
-          capacity: runner.max_workload,
-          process: 1,
-          id: runner.id
-        }
-        return data
-      })
-    })
-    .catch(error => {
-      console.log(error)
-    })
-    configService(`central_admin/universities/${value.id}/orders?date=${data}`)
-      .then(response => {
-        this.orders = response.data
-        this.setOrderCount()
-        this.setTrackTime()
-        this.setOrdinalOrder(stateGroups.all,'rightColumn')
-        this.setOrdinalOrder(stateGroups.pending,'pending')
-        this.setOutTrack()
-        this.setCounts()
-      })
-      .catch(error => {
-        console.log(error)
-      })
-    this.orderSummary = this.orders[0]
+    university (value) {
+      this.isAllActive = true
+      const date = new Date()
+      const data = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+      configService(`central_admin/universities/${value.id}/delivery_men?available_only=true`)
+        .then(res => {
+          this.runners = res.data.map(runner => {
+            const data = {
+              name: `${runner.first_name} ${runner.last_name}`,
+              first_name: runner.first_name,
+              last_name: runner.last_name,
+              capacity: runner.max_workload,
+              process: 1,
+              id: runner.id
+            }
+            return data
+          })
+        })
+        .catch(error => {
+          console.log(error)
+        })
+      configService(`central_admin/universities/${value.id}/orders?date=${data}`)
+        .then(response => {
+          this.orders = response.data
+          this.setOrderCount()
+          this.setTrackTime()
+          this.setOrdinalOrder(stateGroups.all, 'rightColumn')
+          this.setOrdinalOrder(stateGroups.pending, 'pending')
+          this.setOutTrack()
+          this.setCounts()
+        })
+        .catch(error => {
+          console.log(error)
+        })
+      this.orderSummary = this.orders[0]
     },
     orderFromModal (newOrder, oldOrder) {
       const index = this.orders.findIndex(element => {
         return element.id === newOrder.id
       })
-      this.orders.splice(index,1,newOrder)
-        this.setOrdinalOrder(stateGroups.all,'rightColumn')
-        this.setOrdinalOrder(stateGroups.pending,'pending')
-        this.setOutTrack()
-        this.orderSummary = newOrder
-        this.setCounts()
+      this.orders.splice(index, 1, newOrder)
+      this.setOrderCount()
+      this.setTrackTime()
+      this.setOrdinalOrder(stateGroups.all, 'rightColumn')
+      this.setOrdinalOrder(stateGroups.pending, 'pending')
+      this.setOutTrack()
+      const order = this.orders.find(element => {
+        return element.id === newOrder.id
+      })
+      this.orderSummary = order
+      this.setCounts()
     },
     activeFilter (active) {
       console.log(active)
       switch (active) {
         case 'all':
-          this.setOrdinalOrder(stateGroups.all,'rightColumn')
+          this.setOrdinalOrder(stateGroups.all, 'rightColumn')
           break
         case 'vigentes':
-          this.groupOrders(stateGroups.vigentes,'rightColumn')
+          this.groupOrders(stateGroups.vigentes, 'rightColumn')
           break
         case 'estado':
-          this.groupOrders(stateGroups.intermedio,'rightColumn')
+          this.groupOrders(stateGroups.intermedio, 'rightColumn')
           break
         case 'recogidos':
-          this.setOrdinalOrder(stateGroups.recogidos,'rightColumn')
+          this.setOrdinalOrder(stateGroups.recogidos, 'rightColumn')
           break
         case 'problemas':
-          this.setOrdinalOrder(stateGroups.problemas,'rightColumn')
+          this.setOrdinalOrder(stateGroups.problemas, 'rightColumn')
           break
         case 'entregados':
-          this.setOrdinalOrder(stateGroups.entregados,'rightColumn')
+          this.setOrdinalOrder(stateGroups.entregados, 'rightColumn')
           break
         case 'prime':
-          this.setOrdinalOrder(active,'rightColumn')
+          this.setOrdinalOrder(active, 'rightColumn')
           break
         default:
           break
@@ -598,13 +602,13 @@ export default {
     }
   },
   methods: {
-    calculateTotal(){
+    calculateTotal () {
       const ordersCompleted = this.orders.filter(order => {
         return order.status === 'order_completed'
       })
-      const total = ordersCompleted.reduce((anterior,actual) => {
+      const total = ordersCompleted.reduce((anterior, actual) => {
         return anterior + parseInt(actual.total)
-      },0)
+      }, 0)
       return total
     },
     setStatusToChange (order) {
@@ -612,77 +616,85 @@ export default {
         case 'waiting_for_external_payment':
           return 'send_to_restaurant'
         case 'waiting_restaurant_confirmation':
-        return 'accept_order'
+          return 'accept_order'
         case 'preparing_order':
-        return 'dispatch_order'
+          return 'dispatch_order'
         case 'waiting_pickup_client':
-        return 'complete_order'
+          return 'complete_order'
         case 'waiting_pickup_deliveryman':
-        return 'pickup_order'
+          return 'pickup_order'
         case 'delivering_order':
-        return 'complete_order'
+          return 'complete_order'
+        case 'troubleshooting_restaurant':
+          return 'complete_order'
+        case 'troubleshooting_deliveryman':
+          return 'pickup_order'
+        case 'troubleshooting_hand_off':
+          return 'complete_order'
         default:
-          break;
+          break
       }
     },
-    changeState(order) {
+    changeState (order) {
       const method = this.setStatusToChange(order)
       const index = this.orders.findIndex(element => {
         return element.id === order.id
       })
       const data = {
         commerce_id: order.commerce.id,
-        comments: "cualquier comentario"
+        comment: 'cualquier problema'
       }
-     configService.post(`central_admin/orders/${order.id}/${method}`,data)
-      .then(response => {
-        console.log(response.data)
-        const newOrder = response.data
-        this.orders.splice(index,1,newOrder)
-        this.setTrackTime()
-        this.setOrdinalOrder(stateGroups.all,'rightColumn')
-        this.setOrdinalOrder(stateGroups.pending,'pending')
-        this.setOutTrack()
-        const summary = this.orders.find(element => {
-          return element.id === newOrder.id
+      configService.post(`central_admin/orders/${order.id}/${method}`, data)
+        .then(response => {
+          console.log(response.data)
+          const newOrder = response.data
+          this.orders.splice(index, 1, newOrder)
+          this.setOrderCount()
+          this.setTrackTime()
+          this.setOrdinalOrder(stateGroups.all, 'rightColumn')
+          this.setOrdinalOrder(stateGroups.pending, 'pending')
+          this.setOutTrack()
+          const summary = this.orders.find(element => {
+            return element.id === newOrder.id
+          })
+          this.calculateStateButtons(summary)
+          this.setCounts()
         })
-        this.calculateStateButtons(summary)
-        this.setCounts()
-      })
-      .catch(error => {
-        console.log(error)
-      })
+        .catch(error => {
+          console.log(error)
+        })
     },
-    setName(order) {
-       if (order.delivery.delivery_man){
-         return `${order.delivery.delivery_man.first_name} ${order.delivery.delivery_man.last_name}`
-      }else {
+    setName (order) {
+      if (order.delivery.delivery_man) {
+        return `${order.delivery.delivery_man.first_name} ${order.delivery.delivery_man.last_name}`
+      } else {
         return 'Sin Asignar'
       }
     },
-    asingDeliveryMan (id,order,first_name,last_name){
-      console.log(id,order.delivery.id)
+    asingDeliveryMan (id, order, firstName, lastName) {
+      console.log(id, order.delivery.id)
       const data = {
         delivery: {
           user_id: id
         }
       }
       configService.put(`central_admin/universities/${this.university.id}/deliveries/${order.delivery.id}`, data)
-      .then(response => {
-        if (order.delivery.delivery_man){
-          order.delivery.delivery_man = {...order.delivery.delivery_man,first_name: first_name,
-          last_name: last_name }
-        }else{
-          order.delivery.delivery_man = {
-            first_name: first_name,
-            last_name: last_name 
+        .then(response => {
+          if (order.delivery.delivery_man) {
+            order.delivery.delivery_man = {...order.delivery.delivery_man,
+              first_name: firstName,
+              last_name: lastName }
+          } else {
+            order.delivery.delivery_man = {
+              first_name: firstName,
+              last_name: lastName
+            }
           }
-        }
-        this.calculateStateButtons(order)
-      })
-      .catch(error => {
-        console.log(error)
-      })
+          this.calculateStateButtons(order)
+        })
+        .catch(error => {
+          console.log(error)
+        })
     },
     filterRight (type) {
       this.rightPanelActive = type
@@ -788,7 +800,7 @@ export default {
               }
             })
           }
-           if (side === 'middle') {
+          if (side === 'middle') {
             this.filteredOutTrackedOrders = this.filteredOutTrackedOrders.sort((a, b) => {
               if (a.address > b.address) {
                 return 1
@@ -801,20 +813,22 @@ export default {
       }
     },
     setOrderCount () {
-     this.orders = this.orders.map((element, index) => {
-       let auxiliar = []
-        element.json_products.forEach(element => {
+      console.log(this.orders)
+      this.orders = this.orders.map((element0, index) => {
+        let auxiliar = []
+        element0 = {...element0, originalCount: element0.json_products.length}
+        element0.json_products.forEach(element => {
           const repeated = auxiliar.findIndex(element1 => {
             return element1.total_price === element.total_price && element1.name === element.name
           })
           if (repeated === -1) {
             auxiliar.push({...element, count: 1})
           } else {
-            auxiliar[0].count++
+            auxiliar[repeated].count++
           }
         })
-        element.json_products = auxiliar
-        return element
+        element0.json_products = auxiliar
+        return element0
       })
     },
     filterType (type) {
@@ -830,40 +844,40 @@ export default {
       this.selectedFilter = type
       this.activeFilter = type
     },
-    calculateStateButtons (order){
+    calculateStateButtons (order) {
       let buttons = []
-       switch (order.status) {
+      switch (order.status) {
         case 'waiting_for_external_payment':
-          buttons =  ['send_to_restaurant','invalid_payment']
-          break;
+          buttons = ['send_to_restaurant', 'invalid_payment']
+          break
         case 'waiting_restaurant_confirmation':
-        buttons = ['accept_order','reject_order'] 
-         break;
+          buttons = ['accept_order', 'reject_order']
+          break
         case 'preparing_order':
-        buttons = ['dispatch_order']
-        break;
+          buttons = ['dispatch_order']
+          break
         case 'waiting_pickup_client':
-        buttons = ['complete_order','reject_order']
-        break; 
+          buttons = ['complete_order', 'reject_order']
+          break
         case 'waiting_pickup_deliveryman':
-        buttons = ['pickup_order']
-        break;
+          buttons = ['pickup_order']
+          break
         case 'delivering_order':
-        buttons = ['complete_order','problem_with_delivery','problem_with_hand_off']
-        break;
+          buttons = ['complete_order', 'problem_with_delivery', 'problem_with_hand_off']
+          break
         case 'troubleshooting_deliveryman':
-        buttons = ['pickup_order','cancel_order']
-        break;
+          buttons = ['pickup_order', 'cancel_order']
+          break
         case 'troubleshooting_hand_off':
-        buttons = ['complete_order','cancel_order']
-        break;
+          buttons = ['complete_order', 'cancel_order']
+          break
         case 'troubleshooting_restaurant':
-        buttons = ['accept_order','cancel_order']
-        break;
+          buttons = ['accept_order', 'cancel_order']
+          break
         default:
-          break;
+          break
       }
-      this.orderSummary = {...order,buttons: buttons}
+      this.orderSummary = {...order, buttons: buttons}
       console.log(this.orderSummary)
     },
     toggleDetail (order) {
@@ -871,18 +885,18 @@ export default {
       this.calculateStateButtons(order)
     },
     filterOutTrackedOrders () {
-       this.filteredOutTrackedOrders = this.outTrackedOrders.filter(element => {
-          if (this.isTakeout) {
-            if (element.is_takeout) {
-              return true
-            }
-          } else {
-            if (element.is_takeout === false) {
-              return true
-            }
+      this.filteredOutTrackedOrders = this.outTrackedOrders.filter(element => {
+        if (this.isTakeout) {
+          if (element.is_takeout) {
+            return true
           }
-        })
-        console.log(this.outTrackedOrders)
+        } else {
+          if (element.is_takeout === false) {
+            return true
+          }
+        }
+      })
+      console.log(this.outTrackedOrders)
     },
     setOrdinalOrder (groupFilter, filterType) {
       let auxiliarOrders = []
@@ -899,142 +913,145 @@ export default {
           }
         })
       } else {
-         auxiliarOrders = this.orders.filter(element => {
+        auxiliarOrders = this.orders.filter(element => {
           if (groupFilter.includes(element.status) && (this.isTakeout ? element.is_takeout : !element.is_takeout)) {
             return true
           }
         })
       }
-       switch (filterType) {
+      switch (filterType) {
         case 'rightColumn':
           this.filterOrders = [...auxiliarOrders]
-          break;
+          break
         case 'pending':
-        this.pendingOrders = [...auxiliarOrders]
-          break;
+          this.pendingOrders = [...auxiliarOrders]
+          break
         default:
-          break;
+          break
       }
     },
     groupOrders (groupFilter) {
-      this.setOrdinalOrder(groupFilter,'rightColumn')
-      this.setOrdinalOrder(stateGroups.pending,'pending')
+      this.setOrdinalOrder(groupFilter, 'rightColumn')
+      this.setOrdinalOrder(stateGroups.pending, 'pending')
     },
     setTime (date) {
       const dateFormatted = new Date(date)
       let minutes = dateFormatted.getMinutes()
-      if (minutes < 10){
+      if (minutes < 10) {
         minutes = `0${minutes}`
       }
       const hour = dateFormatted.getHours()
       const createdTime = hour > 12 ? `${(hour - 12)}:${minutes}pm` : `${(hour)}:${minutes}am`
       return createdTime
     },
-    setTrackTime() {
+    setTrackTime () {
       this.orders = this.orders.map(element => {
         const createdTime = new Date(element.created_at)
         const trackDeliveryMinutes = parseInt(element.commerce.avg_delivery_time)
         const trackPreparationMinutes = parseInt(element.commerce.avg_preparation_time)
-        const trackTime = new Date(createdTime.getFullYear(), createdTime.getMonth(),
-        createdTime.getDate(), createdTime.getHours(), createdTime.getMinutes() + trackDeliveryMinutes + trackPreparationMinutes)
-        const newElement = {...element, trackTime: trackTime}
+        let trackTime = new Date(createdTime.getFullYear(), createdTime.getMonth(),
+          createdTime.getDate(), createdTime.getHours(), createdTime.getMinutes() + trackDeliveryMinutes + trackPreparationMinutes)
+        let deliveryDiference = this.getDifference(trackTime, new Date())
+        if (element.status === 'order_completed') {
+          deliveryDiference = ''
+        }
+        const newElement = {...element, trackTime, deliveryDiference}
         return newElement
       })
     },
-    getDifference(firstDate, secondDate) {
-      let diff =(firstDate.getTime() - secondDate.getTime()) / 1000;
-      diff /=60
-      return Math.round(diff);
+    getDifference (firstDate, secondDate) {
+      let diff = (firstDate.getTime() - secondDate.getTime()) / 1000
+      diff /= 60
+      return Math.round(diff)
     },
-    setOutTrack(){
+    setOutTrack () {
       console.log(this.orders)
       const solicited = this.orders.filter(element => {
-         const creationDifference = this.getDifference(new Date,new Date(element.created_at))
-         const deliveryDiference = this.getDifference(new Date(element.trackTime),new Date())
-        if (stateGroups.solicitado.includes(element.status) && (creationDifference > 5 || deliveryDiference < 20 ) && element.status !== 'order_completed'){
+        const creationDifference = this.getDifference(new Date(), new Date(element.created_at))
+        const deliveryDiference = this.getDifference(new Date(element.trackTime), new Date())
+        if (stateGroups.solicitado.includes(element.status) && (creationDifference > 5 || deliveryDiference < 20) && element.status !== 'order_completed') {
           return true
         }
       })
 
       const accepted = this.orders.filter(element => {
-         const deliveryDiference = this.getDifference(new Date(element.trackTime),new Date())
-         if (["preparing_order"].includes(element.status) && deliveryDiference < 15 && element.status !== 'order_completed'){
+        const deliveryDiference = this.getDifference(new Date(element.trackTime), new Date())
+        if (['preparing_order'].includes(element.status) && deliveryDiference < 15 && element.status !== 'order_completed') {
           return true
         }
       })
-      
+
       const alreadyRestaurant = this.orders.filter(element => {
-         const deliveryDiference = this.getDifference(new Date(element.trackTime),new Date())
-         if (["waiting_pickup_client","waiting_pickup_deliveryman"].includes(element.status) && deliveryDiference < 10 && element.status !== 'order_completed'){
+        const deliveryDiference = this.getDifference(new Date(element.trackTime), new Date())
+        if (['waiting_pickup_client', 'waiting_pickup_deliveryman'].includes(element.status) && deliveryDiference < 10 && element.status !== 'order_completed') {
           return true
         }
       })
       const picked = this.orders.filter(element => {
-         const deliveryDiference = this.getDifference(new Date(element.trackTime),new Date())
-         if (["delivering_order"].includes(element.status) && deliveryDiference < 20 && element.status !== 'order_completed'){
+        const deliveryDiference = this.getDifference(new Date(element.trackTime), new Date())
+        if (['delivering_order'].includes(element.status) && deliveryDiference < 20 && element.status !== 'order_completed') {
           return true
         }
       })
       const outTracked = this.orders.filter(element => {
-         const deliveryDiference = this.getDifference(new Date(element.trackTime),new Date())
-         if (stateGroups.allNoCompleted.includes(element.status) && deliveryDiference < 0 && element.status !== 'order_completed'){
+        const deliveryDiference = this.getDifference(new Date(element.trackTime), new Date())
+        if (stateGroups.allNoCompleted.includes(element.status) && deliveryDiference < 0 && element.status !== 'order_completed') {
           return true
         }
       })
-      
-       const noAsgined = this.orders.filter(element => {
-         const deliveryDiference = this.getDifference(new Date(element.trackTime),new Date())
-         if (!element.is_takeout && !element.delivery.delivery_man && deliveryDiference < 20 && element.status !== 'order_completed'){
+
+      const noAsgined = this.orders.filter(element => {
+        const deliveryDiference = this.getDifference(new Date(element.trackTime), new Date())
+        if (!element.is_takeout && !element.delivery.delivery_man && deliveryDiference < 20 && element.status !== 'order_completed') {
           return true
         }
       })
       const problems = this.orders.filter(element => {
-         const deliveryDiference = this.getDifference(new Date(element.trackTime),new Date())
-         if (stateGroups.problemas.includes(element.status) && element.status !== 'order_completed'){
+        if (stateGroups.problemas.includes(element.status) && element.status !== 'order_completed') {
           return true
         }
       })
-    
-      const tracked = [...solicited,...accepted, ...picked, ...outTracked,...noAsgined,...problems]
+
+      const tracked = [...solicited, ...accepted, ...picked, ...outTracked, ...noAsgined, ...problems, ...alreadyRestaurant]
       this.outTrackedOrders = []
       tracked.forEach(element => {
-       const index = this.outTrackedOrders.findIndex(element1 => {
+        const index = this.outTrackedOrders.findIndex(element1 => {
           return element1 === element
         })
 
-      if (index === -1){
-        this.outTrackedOrders.push(element)
-      }
+        if (index === -1) {
+          this.outTrackedOrders.push(element)
+        }
       })
       this.filterOutTrackedOrders()
     },
     setCounts () {
       this.allCount = this.orders.length
-        this.vigentCount = this.orders.filter(element => {
-          return stateGroups.vigentes.includes(element.status)
-        }).length
-         this.intermedioCount = this.orders.filter(element => {
-          return stateGroups.intermedio.includes(element.status)
-        }).length
-         this.recogidosCount = this.orders.filter(element => {
-          return stateGroups.recogidos.includes(element.status)
-        }).length
-         this.entregadosCount = this.orders.filter(element => {
-         return stateGroups.entregados.includes(element.status)
-        }).length
-         this.problemasCount = this.orders.filter(element => {
-         return  stateGroups.problemas.includes(element.status)
-        }).length
-         this.primeCount = this.orders.filter(element => {
-          return element.user_prime
-        }).length
-         this.takeoutCount = this.orders.filter(element => {
-          return element.is_takeout
-        }).length
-        this.deliveryCount = this.orders.filter(element => {
-          return !element.is_takeout
-        }).length
-        this.outTrackedOrdersCount = this.outTrackedOrders.length
+      this.vigentCount = this.orders.filter(element => {
+        return stateGroups.vigentes.includes(element.status)
+      }).length
+      this.intermedioCount = this.orders.filter(element => {
+        return stateGroups.intermedio.includes(element.status)
+      }).length
+      this.recogidosCount = this.orders.filter(element => {
+        return stateGroups.recogidos.includes(element.status)
+      }).length
+      this.entregadosCount = this.orders.filter(element => {
+        return stateGroups.entregados.includes(element.status)
+      }).length
+      this.problemasCount = this.orders.filter(element => {
+        return stateGroups.problemas.includes(element.status)
+      }).length
+      this.primeCount = this.orders.filter(element => {
+        return element.user_prime
+      }).length
+      this.takeoutCount = this.orders.filter(element => {
+        return element.is_takeout
+      }).length
+      this.deliveryCount = this.orders.filter(element => {
+        return !element.is_takeout
+      }).length
+      this.outTrackedOrdersCount = this.outTrackedOrders.length
     }
   },
   created () {
@@ -1042,31 +1059,32 @@ export default {
     const date = new Date()
     const data = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
     configService(`central_admin/universities/${this.university.id}/delivery_men?available_only=true`)
-    .then(res => {
-      this.runners = res.data.map(runner => {
-        const data = {
-          name: `${runner.first_name} ${runner.last_name}`,
-          first_name: runner.first_name,
-          last_name: runner.last_name,
-          capacity: runner.max_workload,
-          process: 1,
-          id: runner.id
-        }
-        return data
+      .then(res => {
+        this.runners = res.data.map(runner => {
+          const data = {
+            name: `${runner.first_name} ${runner.last_name}`,
+            first_name: runner.first_name,
+            last_name: runner.last_name,
+            capacity: runner.max_workload,
+            process: 1,
+            id: runner.id
+          }
+          return data
+        })
       })
-    })
-    .catch(error => {
-      console.log(error)
-    })
+      .catch(error => {
+        console.log(error)
+      })
     configService(`central_admin/universities/${this.university.id}/orders?date=${data}`)
       .then(response => {
         this.orders = response.data
         this.setOrderCount()
         this.setTrackTime()
-        this.setOrdinalOrder(stateGroups.all,'rightColumn')
-        this.setOrdinalOrder(stateGroups.pending,'pending')
+        this.setOrdinalOrder(stateGroups.all, 'rightColumn')
+        this.setOrdinalOrder(stateGroups.pending, 'pending')
         this.setOutTrack()
         this.setCounts()
+        console.log(this.filterOrders, this.pendingOrders, this.outTrackedOrders)
       })
       .catch(error => {
         console.log(error)

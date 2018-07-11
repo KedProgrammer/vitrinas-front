@@ -23,9 +23,9 @@
       <section class="admin-resumen__tabla-resumen">
 
         <p class="admin-resumen__fecha-pedido">
-          <strong>Pedido Del: {{start}}</strong>
+          <strong>Pedido Del: {{ start }}</strong>
           <span class="admin-resumen__fecha-desde"/>
-          <strong>Al: {{end}}</strong>
+          <strong>Al: {{ end }}</strong>
           <span class="admin-resumen__fecha-hasta"/>
         </p>
 
@@ -36,29 +36,29 @@
               Sort
             </div>
             <!-- agregar la clase 'activo' para indicar que se esta ordenando por ese item-->
-            <div 
-            @click="setActive('date')"
-            :class="{activo: evaluateActive('date')}"
-            class="admin-resumen__ordernar-item">
+            <div
+              @click="setActive('date')"
+              :class="{activo: evaluateActive('date')}"
+              class="admin-resumen__ordernar-item">
               Fecha
               <i class="ion-ios-arrow-down"/>
             </div>
             <div
               :class="{activo: evaluateActive('id')}"
               @click="setActive('id')"
-             class="admin-resumen__ordernar-item">
+              class="admin-resumen__ordernar-item">
               ID
             </div>
-            <div 
-            :class="{activo: evaluateActive('state')}"
+            <div
+              :class="{activo: evaluateActive('state')}"
               @click="setActive('state')"
-            class="admin-resumen__ordernar-item">
+              class="admin-resumen__ordernar-item">
               Estado
             </div>
-            <div 
-            :class="{activo: evaluateActive('price')}"
+            <div
+              :class="{activo: evaluateActive('price')}"
               @click="setActive('price')"
-            class="admin-resumen__ordernar-item">
+              class="admin-resumen__ordernar-item">
               Monto
             </div>
           </div>
@@ -73,16 +73,16 @@
               <!-- datos -->
               <div class="admin-resumen__lista-datos-id">
                 <div class="admin-resumen__lista-id">
-                  ID <strong>{{order.id}}</strong>
+                  ID <strong>{{ order.id }}</strong>
                 </div>
                 <div class="admin-resumen__lista-fecha">
-                  {{setDate(order.created_at)}}
+                  {{ setDate(order.created_at) }}
                 </div>
                 <div class="admin-resumen__lista-hora">
                   Para la {{ setTime(order.trackTime) }}
                 </div>
                 <div class="admin-resumen__lista-estado">
-                  ({{order.status}})
+                  ({{ order.status }})
                 </div>
                 <div class="admin-resumen__lista-tiempo">
                   32 minutos
@@ -91,8 +91,8 @@
               <!-- datos -->
               <div class="admin-resumen__lista-lista-datos-total">
                 <div class="admin-resumen__lista-cliente-restaurante">
-                  <p><strong>Restaurante:</strong> {{order.commerce.commercial_name}}</p>
-                  <p><strong>Cliente</strong> {{order.campus_email}}</p>
+                  <p><strong>Restaurante:</strong> {{ order.commerce.commercial_name }}</p>
+                  <p><strong>Cliente</strong> {{ order.campus_email }}</p>
                 </div>
                 <div class="admin-resumen__lista-total">
                   TOTAL COP <strong>{{ order.total | currency('$', 0) }}</strong>
@@ -107,13 +107,13 @@
 
     <!-- modal -->
     <modal-details
-     @order-modal="orderFromModal = $event"
+      @order-modal="orderFromModal = $event"
       @close-details="showModalDetails = $event"
       @event-toggle-modal="toggleModalDetails"
       :toggle-modal="showModalDetails"
       :order-summary="orderSummary"
       :set-time="setTime"
-      />
+    />
   </main>
 </template>
 
@@ -177,135 +177,134 @@ export default {
     }
   },
   watch: {
-    university (value){
-       const date = new Date()
-    const data = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
-     configService(`central_admin/universities/${value.id}/orders?date=${data}`)
-      .then(response => {
-        this.orders = response.data
-        this.setOrderCount()
-        this.setTrackTime()
-        console.log(this.orders)
-      })
-      .catch(error => {
-        console.log(error)
-      })
+    university (value) {
+      const date = new Date()
+      const data = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+      configService(`central_admin/universities/${value.id}/orders?date=${data}`)
+        .then(response => {
+          this.orders = response.data
+          this.setOrderCount()
+          this.setTrackTime()
+          console.log(this.orders)
+        })
+        .catch(error => {
+          console.log(error)
+        })
     },
     orderFromModal (newOrder, oldOrder) {
       console.log(newOrder)
       const index = this.orders.findIndex(element => {
         return element.id === newOrder.id
       })
-      this.orders.splice(index,1,newOrder)
-        this.orderSummary = newOrder
+      this.orders.splice(index, 1, newOrder)
+      this.orderSummary = newOrder
     },
     myRange (value) {
       console.log(value)
-        const startDate = new Date(value.start)
+      const startDate = new Date(value.start)
       const endDate = new Date(value.end)
-    const dataStart = `${startDate.getFullYear()}-${startDate.getMonth() + 1}-${startDate.getDate()}`
-    const dataEnd = `${endDate.getFullYear()}-${endDate.getMonth() + 1}-${endDate.getDate()}`
-    this.start = dataStart
-    this.end = dataEnd
-      if (dataStart === dataEnd){
-        console.log("hola")
+      const dataStart = `${startDate.getFullYear()}-${startDate.getMonth() + 1}-${startDate.getDate()}`
+      const dataEnd = `${endDate.getFullYear()}-${endDate.getMonth() + 1}-${endDate.getDate()}`
+      this.start = dataStart
+      this.end = dataEnd
+      if (dataStart === dataEnd) {
+        console.log('hola')
         const date = new Date(value.start)
         const data = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
-     configService(`central_admin/universities/${this.university.id}/orders?date=${data}`)
-      .then(response => {
-        this.orders = response.data
-        this.setOrderCount()
-        this.setTrackTime()
-        console.log(this.orders)
-      })
-      .catch(error => {
-        console.log(error)
-      })
-      }else{
-       
-     configService(`central_admin/universities/${this.university.id}/orders?start_date=${dataStart}&end_date=${dataEnd}`)
-      .then(response => {
-        this.orders = response.data
-        console.log(this.orders)
-         this.setOrderCount()
-        this.setTrackTime()
-      })
-      .catch(error => {
-        console.log(error)
-      })
+        configService(`central_admin/universities/${this.university.id}/orders?date=${data}`)
+          .then(response => {
+            this.orders = response.data
+            this.setOrderCount()
+            this.setTrackTime()
+            console.log(this.orders)
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      } else {
+        configService(`central_admin/universities/${this.university.id}/orders?start_date=${dataStart}&end_date=${dataEnd}`)
+          .then(response => {
+            this.orders = response.data
+            console.log(this.orders)
+            this.setOrderCount()
+            this.setTrackTime()
+          })
+          .catch(error => {
+            console.log(error)
+          })
       }
     }
   },
-   computed: {
+  computed: {
     ...mapState(['university', 'commerces', 'commerce'])
   },
   methods: {
-    calculateStateButtons (order){
+    calculateStateButtons (order) {
       let buttons = []
-       switch (order.status) {
+      switch (order.status) {
         case 'waiting_for_external_payment':
-          buttons =  ['send_to_restaurant','invalid_payment']
-          break;
+          buttons = ['send_to_restaurant', 'invalid_payment']
+          break
         case 'waiting_restaurant_confirmation':
-        buttons = ['accept_order','reject_order'] 
-         break;
+          buttons = ['accept_order', 'reject_order']
+          break
         case 'preparing_order':
-        buttons = ['dispatch_order']
-        break;
+          buttons = ['dispatch_order']
+          break
         case 'waiting_pickup_client':
-        buttons = ['complete_order','reject_order']
-        break; 
+          buttons = ['complete_order', 'reject_order']
+          break
         case 'waiting_pickup_deliveryman':
-        buttons = ['pickup_order']
-        break;
+          buttons = ['pickup_order']
+          break
         case 'delivering_order':
-        buttons = ['complete_order','problem_with_delivery','problem_with_hand_off']
-        break;
+          buttons = ['complete_order', 'problem_with_delivery', 'problem_with_hand_off']
+          break
         case 'troubleshooting_deliveryman':
-        buttons = ['pickup_order','cancel_order']
-        break;
+          buttons = ['pickup_order', 'cancel_order']
+          break
         case 'troubleshooting_hand_off':
-        buttons = ['complete_order','cancel_order']
-        break;
+          buttons = ['complete_order', 'cancel_order']
+          break
         case 'troubleshooting_restaurant':
-        buttons = ['accept_order','cancel_order']
-        break;
+          buttons = ['accept_order', 'cancel_order']
+          break
         default:
-          break;
+          break
       }
-      this.orderSummary = {...order,buttons: buttons}
+      this.orderSummary = {...order, buttons: buttons}
       console.log(this.orderSummary)
     },
     sortBy (type) {
       switch (type) {
         case 'id':
-            this.orders = this.orders.sort((a, b) => {
-              return b.id - a.id
-            })
+          this.orders = this.orders.sort((a, b) => {
+            return b.id - a.id
+          })
           break
         case 'price':
-            this.orders = this.orders.sort((a, b) => {
-              return b.total - a.total
-            })
+          this.orders = this.orders.sort((a, b) => {
+            return b.total - a.total
+          })
           break
         case 'status':
-            this.orders = this.orders.sort((a, b) => {
-              if (a.status > b.status) {
-                return 1
-              }
-            })
+          this.orders = this.orders.sort((a, b) => {
+            if (a.status > b.status) {
+              return 1
+            }
+          })
           break
-           case 'date':
-            this.orders = this.orders.sort((a, b) => {
-              return new Date(a.created_at) - new Date(b.created_at)
-            })
+        case 'date':
+          this.orders = this.orders.sort((a, b) => {
+            return new Date(a.created_at) - new Date(b.created_at)
+          })
           break
         default:
           break
       }
     },
     evaluateActive (filter) {
-      if (this.activeFilter === filter){
+      if (this.activeFilter === filter) {
         return true
       }
     },
@@ -313,17 +312,17 @@ export default {
       this.activeFilter = filter
       this.sortBy(filter)
     },
-    setDate(date) {
+    setDate (date) {
       const data = new Date(date)
       return `${data.getFullYear()}/${data.getMonth() + 1}/${data.getDate()}`
     },
-    setRange(){
+    setRange () {
       console.log(this.myRange)
     },
     setTime (date) {
       const dateFormatted = new Date(date)
       let minutes = dateFormatted.getMinutes()
-      if (minutes < 10){
+      if (minutes < 10) {
         minutes = `0${minutes}`
       }
       const hour = dateFormatted.getHours()
@@ -335,8 +334,8 @@ export default {
       this.calculateStateButtons(order)
     },
     setOrderCount () {
-     this.orders = this.orders.map((element, index) => {
-       let auxiliar = []
+      this.orders = this.orders.map((element, index) => {
+        let auxiliar = []
         element.json_products.forEach(element => {
           const repeated = auxiliar.findIndex(element1 => {
             return element1.total_price === element.total_price && element1.name === element.name
@@ -351,22 +350,22 @@ export default {
         return element
       })
     },
-     setTrackTime() {
+    setTrackTime () {
       this.orders = this.orders.map(element => {
         const createdTime = new Date(element.created_at)
         const trackDeliveryMinutes = parseInt(element.commerce.avg_delivery_time)
         const trackPreparationMinutes = parseInt(element.commerce.avg_preparation_time)
         const trackTime = new Date(createdTime.getFullYear(), createdTime.getMonth(),
-        createdTime.getDate(), createdTime.getHours(), createdTime.getMinutes() + trackDeliveryMinutes + trackPreparationMinutes)
+          createdTime.getDate(), createdTime.getHours(), createdTime.getMinutes() + trackDeliveryMinutes + trackPreparationMinutes)
         const newElement = {...element, trackTime: trackTime}
         return newElement
       })
     }
   },
-  created (){
+  created () {
     const date = new Date()
     const data = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
-     configService(`central_admin/universities/${this.university.id}/orders?date=${data}`)
+    configService(`central_admin/universities/${this.university.id}/orders?date=${data}`)
       .then(response => {
         this.orders = response.data
         this.setOrderCount()

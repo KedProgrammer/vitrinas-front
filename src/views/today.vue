@@ -209,7 +209,7 @@
                   </div>
                 </div>
                 <div class="admin-hoy__panel-tiempo">
-                  <p>{{ setTime(order.created_at,order) }}</p>
+                  <p>{{ setTime(order.created_at) }}</p>
                   <span>({{ order.originalCount }})</span>
                   <p>{{ order.deliveryDiference }}</p>
                 </div>
@@ -417,7 +417,7 @@
                   </div>
                 </div>
                 <div class="admin-hoy__panel-tiempo">
-                  <p>{{ setTime(order.created_at,order) }}</p>
+                  <p>{{ setTime(order.created_at) }}</p>
                   <span>({{ order.originalCount }})</span>
                   <p>{{ order.deliveryDiference }}</p>
                 </div>
@@ -434,7 +434,6 @@
       @close-details="showDetail = $event"
       :show-modal="showDetail"
       :order-summary="orderSummary"
-      :set-time="setTime"
     />
   </div>
 </template>
@@ -818,15 +817,14 @@ export default {
       this.orders = this.orders.map((element0, index) => {
         let auxiliar = []
         element0 = {...element0, originalCount: element0.json_products.length}
-        const originalCount = element0.json_products.length
         element0.json_products.forEach(element => {
           const repeated = auxiliar.findIndex(element1 => {
             return element1.total_price === element.total_price && element1.name === element.name
           })
           if (repeated === -1) {
-            auxiliar.push({...element, count: 1, originalCount: originalCount})
+            auxiliar.push({...element, count: 1})
           } else {
-            auxiliar[0].count++
+            auxiliar[repeated].count++
           }
         })
         element0.json_products = auxiliar
@@ -936,21 +934,15 @@ export default {
       this.setOrdinalOrder(groupFilter, 'rightColumn')
       this.setOrdinalOrder(stateGroups.pending, 'pending')
     },
-    setTime (date, delivery) {
+    setTime (date) {
       const dateFormatted = new Date(date)
       let minutes = dateFormatted.getMinutes()
       if (minutes < 10) {
         minutes = `0${minutes}`
       }
-      if (delivery) {
-        if (delivery < 0) {
-          return `Demorado ${Math.abs(delivery)} minutos`
-        }
-      } else {
-        const hour = dateFormatted.getHours()
-        const createdTime = hour > 12 ? `Para ${(hour - 12)}:${minutes}pm` : `${(hour)}:${minutes}am`
-        return createdTime
-      }
+      const hour = dateFormatted.getHours()
+      const createdTime = hour > 12 ? `${(hour - 12)}:${minutes}pm` : `${(hour)}:${minutes}am`
+      return createdTime
     },
     setTrackTime () {
       this.orders = this.orders.map(element => {
@@ -1087,7 +1079,6 @@ export default {
       .then(response => {
         this.orders = response.data
         this.setOrderCount()
-        console.log(response.data)
         this.setTrackTime()
         this.setOrdinalOrder(stateGroups.all, 'rightColumn')
         this.setOrdinalOrder(stateGroups.pending, 'pending')

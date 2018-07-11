@@ -34,12 +34,16 @@
         <div class="modal-admin__lista-info">
           <p class="modal-admin__lista-titulo">{{ product.name }}</p>
           <ul class="modal-admin__lista-adicional">
-            <li
+            <div
               v-for="addon in product.add_ons"
-              :key="addon.add_ons.id">
-              {{ addonNames(addon.add_ons) }}
-            </li>
-
+              :key="addon.id"
+            >
+              <li
+                v-for="addon1 in addon.add_ons"
+                :key="addon1.name">
+                {{ addon1.name }}
+              </li>
+            </div>
           </ul>
 
           <h5 class="modal-admin__lista-comentario">Comentarios:</h5>
@@ -149,15 +153,25 @@ export default {
           }
         }
       }
-    },
-    setTime: {
-      type: Function,
-      default: () => {
-
-      }
     }
   },
   methods: {
+    setTime (date, delivery) {
+      console.log(date, delivery)
+      const dateFormatted = new Date(date)
+      let minutes = dateFormatted.getMinutes()
+      if (minutes < 10) {
+        minutes = `0${minutes}`
+      }
+      if (delivery) {
+        if (delivery < 0) {
+          return `Demorado ${Math.abs(delivery)} minutos`
+        }
+      }
+      const hour = dateFormatted.getHours()
+      const createdTime = hour > 12 ? `Para ${(hour - 12)}:${minutes}pm` : `Para ${(hour)}:${minutes}am`
+      return createdTime
+    },
     setTrackTime () {
       const createdTime = new Date(this.orderSummary.created_at)
       const trackDeliveryMinutes = parseInt(this.orderSummary.commerce.avg_delivery_time)

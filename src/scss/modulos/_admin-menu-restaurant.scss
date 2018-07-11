@@ -5,6 +5,9 @@
   flex-wrap: wrap;
   border: 1px solid #e5edef;
   border-radius: 4px;
+}
+
+.modal-edit__menu {
   .ceu-campo__text-round2 {
     p {
       color: $principal;
@@ -206,4 +209,25 @@
   text-decoration: underline;
   color: $principal;
   cursor: pointer;
+}
+
+// modales
+.menu-restaurant__add-title {
+  padding: 20px 15px 10px 15px;
+}
+
+.menu-restaurant__add-description {
+  padding: 0 15px 10px 15px;
+}
+
+.menu-restaurant__text,
+.menu-restaurant__days {
+  padding: 0 15px;
+  margin-bottom: 20px;
+}
+
+.menu-restaurant__add-footer {
+  margin-top: 100px;
+  display: flex;
+  justify-content: center;
 }

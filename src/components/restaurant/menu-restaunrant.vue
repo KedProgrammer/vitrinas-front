@@ -1,7 +1,7 @@
 <template>
   <section
     :class="{ 'modal-ceu__show': showModal }"
-    class="modal-ceu modal-edit">
+    class="modal-ceu modal-edit__menu">
     <div
       @click="toggleShow"
       class="modal-ceu__overley"/>
@@ -21,11 +21,10 @@
               <!-- item -->
               <div class="menu-restaurant__panel-item">
                 <div class="menu-restaurant__panel-edit-delete">
-                  <div class="menu-restaurant__panel-edit">
+                  <div
+                    @click="toggleShowCategory('id')"
+                    class="menu-restaurant__panel-edit">
                     <i class="ceu-icon-settings" />
-                  </div>
-                  <div class="menu-restaurant__panel-delete">
-                    <i class="ceu-icon-garbage" />
                   </div>
                 </div>
                 <div class="menu-restaurant__panel-item-info">
@@ -52,7 +51,9 @@
               </div>
             </div>
             <!-- Añadir -->
-            <div class="menu-restaurant__panel-btn">
+            <div
+              @click="toggleShowCategory"
+              class="menu-restaurant__panel-btn">
               Añadir Categoría
             </div>
           </div>
@@ -92,7 +93,9 @@
               </div>
             </div>
             <!-- Añadir -->
-            <div class="menu-restaurant__panel-btn">
+            <div
+              @click="toggleShowPlate"
+              class="menu-restaurant__panel-btn">
               Añadir Plato
             </div>
           </div>
@@ -156,7 +159,9 @@
                   <div class="menu-restaurant__todo-add">
                     +
                   </div>
-                  <div class="menu-restaurant__todo-edit">
+                  <div
+                    @click="toggleShowPromo"
+                    class="menu-restaurant__todo-edit">
                     <i class="ceu-icon-settings" />
                   </div>
                   <div class="menu-restaurant__todo-delete">
@@ -191,7 +196,9 @@
                   <div class="menu-restaurant__todo-add">
                     +
                   </div>
-                  <div class="menu-restaurant__todo-edit">
+                  <div
+                    @click="toggleShowModifier"
+                    class="menu-restaurant__todo-edit">
                     <i class="ceu-icon-settings" />
                   </div>
                   <div class="menu-restaurant__todo-delete">
@@ -214,10 +221,32 @@
         </div>
       </div>
     </div>
+
+    <!-- promo -->
+    <Promo
+      @toggle-show-promo="toggleShowPromo"
+      :show-modal-promo="showModalPromo" />
+    <!-- modifier -->
+    <Modifier
+      @toggle-show-modifier="toggleShowModifier"
+      :show-modal-modifier="showModalModifier" />
+    <!-- category -->
+    <Category
+      @toggle-show-category="toggleShowCategory"
+      :show-modal-category="showModalCategory" />
+    <!-- Plate -->
+    <Plate
+      @toggle-show-plate="toggleShowPlate"
+      :show-modal-plate="showModalPlate" />
   </section>
 </template>
 
 <script>
+import Promo from './promo.vue'
+import Modifier from './modifier-group.vue'
+import Category from './category'
+import Plate from './plate.vue'
+
 export default {
   name: 'MenuRestaurant',
   props: {
@@ -230,6 +259,12 @@ export default {
       default: 0
     }
   },
+  components: {
+    Promo,
+    Modifier,
+    Category,
+    Plate
+  },
   data () {
     return {
       dayWeeks: [
@@ -241,12 +276,28 @@ export default {
         {value: 5, label: 'Viernes'},
         {value: 6, label: 'Sabado'}
       ],
-      days: []
+      days: [],
+      showModalPromo: false,
+      showModalModifier: false,
+      showModalCategory: false,
+      showModalPlate: false
     }
   },
   methods: {
     toggleShow () {
       this.$emit('toggle-menu-restaurant')
+    },
+    toggleShowPromo () {
+      this.showModalPromo = !this.showModalPromo
+    },
+    toggleShowPlate () {
+      this.showModalPlate = !this.showModalPlate
+    },
+    toggleShowCategory () {
+      this.showModalCategory = !this.showModalCategory
+    },
+    toggleShowModifier () {
+      this.showModalModifier = !this.showModalModifier
     }
   }
 }

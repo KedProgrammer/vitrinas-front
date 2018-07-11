@@ -560,6 +560,9 @@ body {
   &.alert {
     color: #ff6767;
   }
+  &.black {
+    color: #404040;
+  }
   &:hover {
     color: #404040;
   }
@@ -715,4 +718,27 @@ a.ceu-footer__red-linkedin {
 
 .header__select-university {
   margin-right: 50px;
+}
+
+.time-picker {
+  display: inline-block;
+  margin-right: 30px;
+  input.display-time {
+    border-radius: 8px;
+    border: solid 1px #e5edef;
+    height: auto;
+    padding: 10px 12px;
+  }
+  .clear-btn {
+    color: $principal;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    margin-top: auto;
+    font-size: 20px;
+  }
+  .dropdown ul li.active,
+  .dropdown ul li.active:hover {
+    background-color: $principal;
+  }
 }

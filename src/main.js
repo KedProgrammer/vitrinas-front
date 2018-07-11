@@ -13,6 +13,7 @@ import 'vue-multiselect/dist/vue-multiselect.min.css'
 import Vue2Filters from 'vue2-filters'
 import vbclass from 'vue-body-class'
 import configService from './settings/api-url'
+import VueCollapse from 'vue2-collapse'
 
 import store from './store'
 import App from './App.vue'
@@ -33,6 +34,7 @@ Vue.use(VueGoogleMaps, {
 })
 Vue.use(VCalendar)
 Vue.use(VueSweetalert2)
+Vue.use(VueCollapse)
 
 const router = new VueRouter({
   routes,

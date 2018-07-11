@@ -235,6 +235,9 @@
   border-left: 0;
   align-self: center;
   margin: 40px 0;
+  position: sticky;
+  top: 50%;
+  transform: translateY(-50%);
   a {
     display: flex;
     justify-content: center;

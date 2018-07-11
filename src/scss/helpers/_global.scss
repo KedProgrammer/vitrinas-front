@@ -473,7 +473,8 @@ body {
 // input text
 .ceu-campo__text-round2 {
   margin-bottom: 15px;
-  input {
+  input,
+  textarea {
     font-family: $font1;
     font-size: 16px;
     color: #404040;

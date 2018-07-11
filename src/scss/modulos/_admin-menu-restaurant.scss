@@ -1,0 +1,209 @@
+.menu-restaurant-panels {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-wrap: wrap;
+  border: 1px solid #e5edef;
+  border-radius: 4px;
+  .ceu-campo__text-round2 {
+    p {
+      color: $principal;
+      margin: 0 0 5px 0;
+      font-weight: 500;
+    }
+  }
+}
+
+.modal-ceu__menu-restaurant {
+  display: flex;
+  .menu-restaurant__content {
+    padding: 20px;
+    width: 100%;
+  }
+}
+
+.menu-restaurant__panel {
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #e5edef;
+}
+
+.menu-restaurant__panel-title {
+  padding: 12px 15px;
+  border-bottom: 1px solid #e5edef;
+  h5 {
+    font-family: $font2;
+    color: $principal;
+    font-size: 18px;
+    margin: 0;
+  }
+}
+
+.menu-restaurant__panel-list {
+  flex: 1;
+  padding: 0;
+  overflow-y: auto;
+}
+
+.menu-restaurant__panel-item {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #e5edef;
+  height: 50px;
+}
+
+.menu-restaurant__panel-item-info {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  &.active {
+    .menu-restaurant__panel-arrow,
+    .menu-restaurant__panel-nombre {
+      color: $principal;
+      font-weight: 500;
+    }
+  }
+}
+
+.menu-restaurant__panel-edit-delete {
+  display: flex;
+}
+
+.menu-restaurant__panel-delete,
+.menu-restaurant__panel-edit {
+  color: #fff;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 10px;
+  margin: 0 3px;
+  border-radius: 50%;
+}
+
+.menu-restaurant__panel-delete {
+  background-color: #ff6767;
+}
+
+.menu-restaurant__panel-edit {
+  background-color: $principal;
+}
+
+.menu-restaurant__panel-nombre {
+  flex: 1;
+  padding: 8px 10px;
+  text-overflow:ellipsis;
+  white-space:nowrap; 
+  overflow:hidden;
+}
+
+.menu-restaurant__panel-arrow {
+  padding: 8px 15px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.menu-restaurant__panel-btn {
+  background-color: $principal;
+  color: #fff;
+  font-size: 18px;
+  text-align: center;
+  padding: 15px;
+  cursor: pointer;
+  transition: all .3s;
+  &:hover {
+    background-color: #50e3c2;
+  }
+}
+
+.menu-restaurant__edit {
+  display: block;
+  padding-bottom: 30px;
+  overflow-y: auto;
+}
+
+.menu-restaurant__edit-title {
+  padding: 20px 15px 0px 15px;
+}
+
+.menu-restaurant__edit-description {
+  padding: 0 15px;
+}
+
+.menu-restaurant__edit-precios {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.menu-restaurant__todo {
+  padding: 0 15px;
+  h3 {
+    color: $principal;
+    margin: 15px 0 10px 0;
+  }
+}
+
+.menu-restaurant__todo-search {
+  display: flex;
+}
+
+.menu-restaurant__todo-options {
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+}
+
+.menu-restaurant__todo-add,
+.menu-restaurant__todo-edit,
+.menu-restaurant__todo-delete {
+  cursor: pointer;
+  padding: 10px;
+  text-align: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  color: #fff;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  margin: 0 3px;
+  font-size: 14px;
+}
+
+.menu-restaurant__todo-add {
+  background-color: $principal;
+  font-size: 19px;
+}
+
+.menu-restaurant__todo-edit {
+  background-color: #50e3c2;
+}
+
+.menu-restaurant__todo-delete {
+  background-color: #f56a6a;
+}
+
+.menu-restaurant__todo-list {
+  list-style: none;
+  margin: 10px 0 0 0;
+  padding: 0 0 0 15px;
+  li {
+    font-size: 14px;
+    margin-bottom: 5px;
+    span {
+      color: $principal;
+      cursor: pointer;
+      font-size: 18px;
+    }
+  }
+}
+
+.menu-restaurant__todo-footer { 
+  margin-top: 20px;
+  font-weight: 500;
+  text-decoration: underline;
+  color: $principal;
+  cursor: pointer;
+}

@@ -73,7 +73,9 @@
                       for="restaurant-edit__descontinuado" />
                   </div>
                 </div> -->
-                <div class="restaurant-edit__edit-menu">
+                <div
+                  @click="toggleShowMenu"
+                  class="restaurant-edit__edit-menu">
                   Editar Menú
                 </div>
               </div>
@@ -633,6 +635,10 @@
         </div>
       </div>
     </div>
+    <!-- modal menu -->
+    <MenuRestaurant
+      @toggle-menu-restaurant="toggleShowMenu"
+      :show-modal="showMenu" />
   </section>
 </template>
 
@@ -640,7 +646,7 @@
 import { mapState, mapActions } from 'vuex'
 import configService from '../../settings/api-url'
 import VueTimepicker from 'vue2-timepicker'
-
+import MenuRestaurant from './menu-restaunrant.vue'
 export default {
   name: 'ModalEdit',
   props: {
@@ -666,10 +672,12 @@ export default {
     }
   },
   components: {
-    VueTimepicker
+    VueTimepicker,
+    MenuRestaurant
   },
   data () {
     return {
+      showMenu: false,
       loadUpload: {
         logo: '',
         banner: []
@@ -748,6 +756,9 @@ export default {
     ...mapActions(['updateCommerceAsync']),
     toggleShow () {
       this.$emit('toggle-edit')
+    },
+    toggleShowMenu () {
+      this.showMenu = !this.showMenu
     },
     setPlace (place) {
       this.centerMap = {

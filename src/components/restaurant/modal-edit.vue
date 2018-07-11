@@ -1106,8 +1106,7 @@ export default {
       const open = `${this.modelBannerTime[position].start_time.HH}:${this.modelBannerTime[position].start_time.mm}`
       const close = `${this.modelBannerTime[position].end_time.HH}:${this.modelBannerTime[position].end_time.mm}`
       console.log(id)
-      console.log(open)
-      console.log(close)
+      // console.log(this.modelBannerImg[position])
       configService(`/central_admin/commerces/${this.idRestaurant}/schedules/${id}`, {
         method: 'PUT',
         data: {
@@ -1120,9 +1119,6 @@ export default {
         }
       })
         .then(res => {
-          console.log(res)
-          console.log(new Date(res.data.opening_time))
-          console.log(new Date(res.data.closing_time))
           this.$swal({
             type: 'success',
             title: 'Cambios Aplicados!',

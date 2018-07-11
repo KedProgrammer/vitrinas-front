@@ -130,6 +130,11 @@ export default {
       formRate: []
     }
   },
+  watch: {
+    university () {
+      this.getVariables()
+    }
+  },
   methods: {
     getVariables () {
       configService(`/central_admin/universities/${this.university.id}/university_variables`)

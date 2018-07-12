@@ -231,3 +231,38 @@
   display: flex;
   justify-content: center;
 }
+
+// promo
+.menu-restaurant__promo-container {
+  display: flex;
+  padding: 20px 40px;
+}
+
+.menu-restaurant__promo-type {
+  p {
+    color: $principal;
+    margin: 0 0 5px 0;
+    font-weight: 500;
+  }
+}
+
+.menu-restaurant__payments {
+  h3 {
+    font-family: $font2;
+    color: $principal;
+    font-size: 16px;
+    margin: 20px 0 20px 0;
+    text-decoration: underline;
+  }
+}
+
+.menu-restaurant__payments-radio {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  .lista-radio3 {
+    label {
+      font-size: 14px;
+    }
+  }
+}

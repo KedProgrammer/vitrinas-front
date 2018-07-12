@@ -24,9 +24,7 @@
           </div>
           <div class="ceu-item s-100">
             <p>Disponibilidad</p>
-            <div
-              data-id=""
-              class="admin-tabla__turno-checkbox">
+            <div class="admin-tabla__turno-checkbox">
               <input
                 type="checkbox"
                 id="restaurant-status__c">

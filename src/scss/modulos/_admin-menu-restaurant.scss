@@ -279,3 +279,72 @@
     margin-bottom: 30px;
   }
 }
+
+// modificador
+.modal-ceu__menu-modifier {
+  .menu-restaurant__content {
+    padding: 20px 30px;
+  }
+  h4, h3 {
+    padding: 0 15px;
+    margin: 0;
+    margin: 15px 0 15px 0;
+  }
+  h4 {
+    margin-top: 30px;
+  }
+}
+
+.menu-restaurant__modifier-title {
+  padding: 0 15px;
+}
+
+.menu-restaurant__modifier-multiselect {
+  margin-bottom: 15px;
+  p {
+    color: $principal;
+    margin: 0 0 10px 0;
+    font-weight: 500;
+  }
+  .admin-tabla__turno-checkbox label {
+    width: 70px;
+  }
+}
+
+.restaurant-menu__modifier-addons-add {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.restaurant-menu__modifier-addons-list {
+  .ceu-campo__text-round2 {
+    margin-bottom: 0;
+  }
+}
+
+.restaurant-menu__modifier-addons-item {
+  display: flex;
+  flex-wrap: wrap;
+  border-bottom: 1px solid #e5edef;
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  &:last-child {
+    border: none;
+  }
+}
+
+.restaurant-menu__modifier-addon-name {
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+}
+
+.restaurant-menu__modifier-item-footer {
+  color: $principal;
+  text-decoration: underline;
+  text-align: right;
+  font-family: $font1;
+  margin-top: 12px;
+  font-size: 18px;
+  font-weight: 500;
+}

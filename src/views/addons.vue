@@ -30,7 +30,7 @@
           class="ceu-table__actions"
           slot="table-actions">
           <div
-            @click="toggleAdd"
+            @click="toggleAdd('')"
             class="ceu-table__add">
             Agregar
           </div>
@@ -43,6 +43,7 @@
               :show-labels="false"
               label="label"
               track-by="value"
+              @select="selectRestaurant"
               placeholder="Buscar Restaurante..." />
           </div>
         </div>
@@ -50,6 +51,8 @@
     </article>
     <!-- modal -->
     <ModalAdd
+      :current-addon="currentAddon"
+      :current-commerce="currentCommerce"
       @toggle-add="toggleAdd"
       @reload-table="updateTable"
       :show-modal="showAdd" />
@@ -79,12 +82,12 @@ export default {
   },
   watch: {
     university () {
-      this.updateTable()
+      this.getCommerces()
     }
   },
   mounted () {
     this.$nextTick(function () {
-      // this.updateTable()
+      this.getCommerces()
     })
   },
   data () {
@@ -107,94 +110,75 @@ export default {
           sortable: false
         }
       ],
-      rows1: [],
-      rows: [
-        {
-          id: 1,
-          name: 'Salta Tomate',
-          availability: '<div class="admin-tabla__turno-checkbox"><input type="checkbox" id="restaurant-addresess__01"><label for="restaurant-addresess__01" data-si="On" data-no="Off"/></div>',
-          edit: '<div class="restaurant-edit">Edit</div>'
-        },
-        {
-          id: 2,
-          name: 'Papitas',
-          availability: '<div class="admin-tabla__turno-checkbox"><input type="checkbox" id="restaurant-addresess__02"><label for="restaurant-addresess__02" data-si="On" data-no="Off"/></div>',
-          edit: '<div class="restaurant-edit">Edit</div>'
-        }
-      ],
+      rows: [],
       idRestaurant: 0,
       showAdd: false,
-      showEdit: false,
-      restaurants: [
-        {value: 0, label: 'Domingo'},
-        {value: 1, label: 'Lunes'},
-        {value: 2, label: 'Martes'},
-        {value: 3, label: 'Miercoles'},
-        {value: 4, label: 'Jueves'},
-        {value: 5, label: 'Viernes'},
-        {value: 6, label: 'Sabado'}
-      ],
-      restaurant: ''
+      restaurants: [],
+      restaurant: {},
+      currentCommerce: 0,
+      currentAddon: NaN
     }
   },
   methods: {
     ...mapActions(['updateCommercesAsync']),
     updateTable () {
       this.rows = []
-      configService(`/central_admin/universities/${this.university.id}/delivery_men`)
+      configService(`/central_admin/commerces/${this.currentCommerce}/add_ons`)
         .then(res => {
           const data = res.data
           for (let index = 0; index < data.length; index++) {
             const dataPosition = data[index]
             this.rows.push({
               id: dataPosition.id,
-              name: `${dataPosition.first_name} ${dataPosition.last_name}`,
-              limit: `<div class="admin-tabla__topes">
-                        <p class="admin-tabla__tope-num">${dataPosition.queued_orders}/${dataPosition.max_workload}</p>
-                        <div class="admin-tabla__topes-regular">
-                          <div data-num="${dataPosition.max_workload}" class="admin-tabla__tope-restar">-</div>
-                          <div data-num="${dataPosition.max_workload}" class="admin-tabla__tope-sumar">+</div>
-                        </div>
-                      </div>`,
-              email: dataPosition.email,
-              turn: `<div data-id="${dataPosition.id}" class="admin-tabla__turno-checkbox"><input type="checkbox" id="team__turn-${dataPosition.id}" ${dataPosition.is_available ? 'checked' : ''}><label for="team__turn-${dataPosition.id}" data-si="On" data-no="Off"/></div>`
+              name: `${dataPosition.name}`,
+              availability: `<div data-id="${dataPosition.id}" class="admin-tabla__turno-checkbox"><input type="checkbox" id="addons-available-${dataPosition.id}" ${dataPosition.is_available ? 'checked' : ''}><label for="addons-available-${dataPosition.id}" data-si="On" data-no="Off"/></div>`,
+              edit: `<div class="restaurant-edit" data-id="${dataPosition.id}">Edit</div>`
             })
           }
         })
     },
+    getCommerces () {
+      this.updateCommercesAsync()
+        .then(res => {
+          const data = res.data
+          // primer restaurante por defecto
+          this.restaurant = {value: data[0].id, label: data[0].commercial_name}
+          this.currentCommerce = data[0].id
+
+          for (let index = 0; index < data.length; index++) {
+            let dataPosition = data[index]
+            this.restaurants.push({value: dataPosition.id, label: dataPosition.commercial_name})
+          }
+          // cargar tabla cuando ya se encuentren todos los comercios
+          this.updateTable()
+        })
+    },
     cellClick (value) {
       // verificar que le dieron en el radio
-      const idUser = value.row.id
-      console.log(value)
-      if (value.event.target.className === 'admin-tabla__tope-sumar') {
-        this.wordloadOperation(idUser, 'sumar', value.event.target.dataset.num)
+      const idAddons = value.row.id
+      if (value.event.target.localName === 'input') {
+        if (value.column.field === 'availability') {
+          const data = {
+            'add_on': {
+              'is_available': value.event.target.checked
+            }
+          }
+          this.checkedStatus(idAddons, data)
+        }
+      }
+      if (value.column.field === 'edit') {
+        this.toggleAdd('')
+        this.currentAddon = idAddons
       }
     },
-    wordloadOperation (id, operador, num) {
+    checkedStatus (id, data) {
       // activar o desacativar el servicio
-      var data = {}
-
-      if (operador === 'sumar') {
-        data = {
-          'delivery_man': {
-            'max_workload': parseInt(num) + 1
-          }
-        }
-      } else {
-        data = {
-          'delivery_man': {
-            'max_workload': parseInt(num) - 1
-          }
-        }
-      }
-
-      configService(`/central_admin/universities/${this.university.id}/delivery_men/${id}`, {
+      configService(`/central_admin/commerces/${this.currentCommerce}/add_ons/${id}`, {
         method: 'put',
         data
       })
         .then(res => {
           console.log(res)
-          this.updateTable()
         })
         .catch(error => {
           this.$swal({
@@ -205,7 +189,14 @@ export default {
           console.log(error.response.data)
         })
     },
-    toggleAdd () {
+    selectRestaurant (e) {
+      this.currentCommerce = e.value
+      this.updateTable()
+    },
+    toggleAdd (event) {
+      if (isNaN(event)) {
+        this.currentAddon = NaN
+      }
       this.showAdd = !this.showAdd
       document.querySelector('body').classList.toggle('no-scroll')
     }

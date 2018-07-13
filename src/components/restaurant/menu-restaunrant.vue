@@ -5,7 +5,7 @@
     <div
       @click="toggleShow"
       class="modal-ceu__overley"/>
-    <div class="modal-ceu__content modal-ceu__menu-restaurant xlarge">
+    <div class="modal-ceu__content modal-ceu__menu-restaurant xmedium">
       <div
         @click="toggleShow"
         class="modal-ceu__close">
@@ -13,38 +13,50 @@
       </div>
       <div class="menu-restaurant__content">
         <div class="menu-restaurant-panels">
-          <div class="menu-restaurant__panel ceu-item s-30 no-padding">
+          <div class="menu-restaurant__panel ceu-item s-50 no-padding">
             <div class="menu-restaurant__panel-title">
               <h5>Categorías</h5>
             </div>
             <div class="menu-restaurant__panel-list">
               <!-- item -->
-              <div class="menu-restaurant__panel-item">
+              <div
+                v-for="(item, index) in categories"
+                v-if="!item.is_deleted"
+                :key="index"
+                :class="{'active': item.id === idCategoryPlate}"
+                class="menu-restaurant__panel-item">
                 <div class="menu-restaurant__panel-edit-delete">
                   <div
-                    @click="toggleShowCategory('id')"
+                    @click="deleteCategory(item.id)"
+                    class="menu-restaurant__panel-delete">
+                    <i class="ceu-icon-garbage" />
+                  </div>
+                  <div
+                    @click="toggleShowCategory(item.id)"
                     class="menu-restaurant__panel-edit">
                     <i class="ceu-icon-settings" />
                   </div>
                 </div>
                 <div class="menu-restaurant__panel-item-info">
                   <div class="menu-restaurant__panel-nombre">
-                    Platos
+                    {{ item.name }}
                   </div>
                   <div class="menu-restaurant__panel-active">
-                    <div
-                      data-id=""
-                      class="admin-tabla__turno-checkbox">
+                    <div class="admin-tabla__turno-checkbox">
                       <input
                         type="checkbox"
-                        id="restaurant-status__">
+                        v-model="modelCaregoryChecked[index]"
+                        @click="activeCategory($event.target.checked, item.id)"
+                        :id="'menu-restaurant__category_' + item.id">
                       <label
-                        for="restaurant-status__"
+                        :for="'menu-restaurant__category_' + item.id"
                         data-si="On"
                         data-no="Off"/>
                     </div>
                   </div>
-                  <div class="menu-restaurant__panel-arrow">
+                  <div
+                    @click="showPlates(item.id, index)"
+                    class="menu-restaurant__panel-arrow">
                     <i class="ceu-icon-arrow-right" />
                   </div>
                 </div>
@@ -52,26 +64,36 @@
             </div>
             <!-- Añadir -->
             <div
-              @click="toggleShowCategory"
+              @click="toggleShowCategory(0)"
               class="menu-restaurant__panel-btn">
               Añadir Categoría
             </div>
           </div>
-          <div class="menu-restaurant__panel ceu-item s-30 no-padding">
+          <div class="menu-restaurant__panel ceu-item s-50 no-padding">
             <div class="menu-restaurant__panel-title">
               <h5>Platos</h5>
             </div>
-            <div class="menu-restaurant__panel-list">
+            <div class="menu-restaurant__panel-list platos">
               <!-- item -->
-              <div class="menu-restaurant__panel-item">
+              <div
+                v-for="(item, index) in products"
+                :key="index"
+                class="menu-restaurant__panel-item">
                 <div class="menu-restaurant__panel-edit-delete one">
-                  <div class="menu-restaurant__panel-delete">
+                  <div
+                    @click="deletePlate(item.id)"
+                    class="menu-restaurant__panel-delete">
                     <i class="ceu-icon-garbage" />
                   </div>
+                  <div
+                    @click="toggleShowPlate(item.id)"
+                    class="menu-restaurant__panel-edit">
+                    <i class="ceu-icon-settings" />
+                  </div>
                 </div>
-                <div class="menu-restaurant__panel-item-info active">
+                <div class="menu-restaurant__panel-item-info">
                   <div class="menu-restaurant__panel-nombre">
-                    Platos
+                    {{ item.name }}
                   </div>
                   <div class="menu-restaurant__panel-active">
                     <div
@@ -79,144 +101,28 @@
                       class="admin-tabla__turno-checkbox">
                       <input
                         type="checkbox"
-                        id="restaurant-status__c">
+                        v-model="modelPlateChecked[index]"
+                        @click="activePlate($event.target.checked, item.id)"
+                        :id="'menu-restaurant__category_' + item.id">
                       <label
-                        for="restaurant-status__c"
+                        :for="'menu-restaurant__category_' + item.id"
                         data-si="On"
                         data-no="Off"/>
                     </div>
                   </div>
-                  <div class="menu-restaurant__panel-arrow">
+                  <!-- <div class="menu-restaurant__panel-arrow">
                     <i class="ceu-icon-arrow-right" />
-                  </div>
+                  </div> -->
                 </div>
               </div>
             </div>
             <!-- Añadir -->
             <div
-              @click="toggleShowPlate"
+              @click="toggleShowPlate(0)"
+              :class="{'disable': idCategoryPlate === 0}"
               class="menu-restaurant__panel-btn">
               Añadir Plato
             </div>
-          </div>
-          <div class="menu-restaurant__panel menu-restaurant__edit ceu-item s-40 no-padding">
-            <div class="menu-restaurant__panel-title">
-              <h5>Editar</h5>
-            </div>
-            <div class="menu-restaurant__edit-title">
-              <div class="ceu-campo__text-round2">
-                <p>Titulo</p>
-                <input
-                  type="text"
-                  value="Hamburguesa de queso"
-                  class="ceu-campo__round">
-              </div>
-            </div>
-            <div class="menu-restaurant__edit-description">
-              <div class="ceu-campo__text-round2">
-                <p>Descripción</p>
-                <textarea name="" />
-              </div>
-            </div>
-            <div class="menu-restaurant__edit-precios">
-              <div class="cue-item padding s-50">
-                <div class="ceu-campo__text-round2">
-                  <p>Precio</p>
-                  <input
-                    type="text">
-                </div>
-              </div>
-              <div class="cue-item padding s-50">
-                <div class="ceu-campo__text-round2">
-                  <p>Prime</p>
-                  <input
-                    type="text"
-                    class="ceu-campo__round">
-                </div>
-              </div>
-              <div class="cue-item padding s-50">
-                <div class="ceu-campo__text-round2">
-                  <p>Calorias</p>
-                  <input
-                    type="text"
-                    class="ceu-campo__round">
-                </div>
-              </div>
-            </div>
-            <div class="menu-restaurant__todo">
-              <h3>Precio promocional</h3>
-              <div class="menu-restaurant__todo-search">
-                <multiselect
-                  class="custom-select3 s-70"
-                  v-model="days"
-                  :options="dayWeeks"
-                  :searchable="false"
-                  :show-labels="false"
-                  label="label"
-                  track-by="value"
-                  placeholder="Selección" />
-                <div class="menu-restaurant__todo-options s-30">
-                  <div class="menu-restaurant__todo-add">
-                    +
-                  </div>
-                  <div
-                    @click="toggleShowPromo"
-                    class="menu-restaurant__todo-edit">
-                    <i class="ceu-icon-settings" />
-                  </div>
-                  <div class="menu-restaurant__todo-delete">
-                    <i class="ceu-icon-garbage" />
-                  </div>
-                </div>
-              </div>
-              <ul class="menu-restaurant__todo-list">
-                <li> <span>x</span> Dia Alitas 1</li>
-                <li> <span>x</span> Dia Alitas 2</li>
-                <li> <span>x</span> Dia Alitas 3</li>
-                <li> <span>x</span> Dia Alitas 4</li>
-              </ul>
-              <div class="menu-restaurant__todo-footer">
-                <span>+ Añadir promoción</span>
-              </div>
-            </div>
-            <!--. promocional -->
-            <div class="menu-restaurant__todo">
-              <h3>Grupo modificador</h3>
-              <div class="menu-restaurant__todo-search">
-                <multiselect
-                  class="custom-select3 s-70"
-                  v-model="days"
-                  :options="dayWeeks"
-                  :searchable="false"
-                  :show-labels="false"
-                  label="label"
-                  track-by="value"
-                  placeholder="Selección" />
-                <div class="menu-restaurant__todo-options s-30">
-                  <div class="menu-restaurant__todo-add">
-                    +
-                  </div>
-                  <div
-                    @click="toggleShowModifier"
-                    class="menu-restaurant__todo-edit">
-                    <i class="ceu-icon-settings" />
-                  </div>
-                  <div class="menu-restaurant__todo-delete">
-                    <i class="ceu-icon-garbage" />
-                  </div>
-                </div>
-              </div>
-              <ul class="menu-restaurant__todo-list">
-                <li> <span>x</span> Elige tu salsa</li>
-                <li> <span>x</span> Elige tu Acompañamiento</li>
-                <li> <span>x</span> Dia Alitas 3</li>
-                <li> <span>x</span> Elige tu Bebida</li>
-              </ul>
-              <div class="menu-restaurant__todo-footer">
-                <span>+ Añadir grupo modificador</span>
-              </div>
-            </div>
-            <!--. Grupo modificador -->
           </div>
         </div>
       </div>
@@ -225,18 +131,27 @@
     <!-- promo -->
     <Promo
       @toggle-show-promo="toggleShowPromo"
+      :id-commerce="idCommerce"
       :show-modal-promo="showModalPromo" />
     <!-- modifier -->
     <Modifier
       @toggle-show-modifier="toggleShowModifier"
+      :id-commerce="idCommerce"
       :show-modal-modifier="showModalModifier" />
     <!-- category -->
     <Category
       @toggle-show-category="toggleShowCategory"
+      @get-category="getCategory"
+      :id-commerce="idCommerce"
+      :id-category="idCategory"
       :show-modal-category="showModalCategory" />
     <!-- Plate -->
     <Plate
       @toggle-show-plate="toggleShowPlate"
+      :id-commerce="idCommerce"
+      :id-plate="idPlate"
+      @create-product="showPlates(idCategoryPlate)"
+      :id-category="idCategoryPlate"
       :show-modal-plate="showModalPlate" />
   </section>
 </template>
@@ -246,6 +161,7 @@ import Promo from './promo.vue'
 import Modifier from './modifier-group.vue'
 import Category from './category'
 import Plate from './plate.vue'
+import configService from '../../settings/api-url'
 
 export default {
   name: 'MenuRestaurant',
@@ -254,9 +170,19 @@ export default {
       type: Boolean,
       default: false
     },
-    idRestaurant: {
+    idCommerce: {
       type: Number,
       default: 0
+    }
+  },
+  watch: {
+    showModal (valNew) {
+      console.log('hola')
+      if (valNew) {
+        this.getCategory()
+      } else {
+        this.emptyVal()
+      }
     }
   },
   components: {
@@ -280,20 +206,185 @@ export default {
       showModalPromo: false,
       showModalModifier: false,
       showModalCategory: false,
-      showModalPlate: false
+      showModalPlate: false,
+      categories: [],
+      products: '',
+      idCategory: 0,
+      idPlate: 0,
+      idCategoryPlate: 0,
+      modelPlateChecked: [],
+      modelCaregoryChecked: []
     }
   },
   methods: {
+    emptyVal () {
+      this.categories = []
+      this.products = []
+      this.idCategoryPlate = 0
+    },
+    getCategory () {
+      this.categories = []
+      configService(`/central_admin/commerces/${this.idCommerce}/categories`)
+        .then(res => {
+          const data = res.data
+          for (let index = 0; index < data.length; index++) {
+            let dataPosition = data[index]
+            this.categories.push(dataPosition)
+            this.modelCaregoryChecked.push(dataPosition.is_active)
+          }
+        })
+        .catch(error => {
+          console.log(error.response.data)
+        })
+    },
+    activeCategory (event, id) {
+      configService(`/central_admin/categories/${id}`, {
+        method: 'PUT',
+        data: {
+          'category': {
+            'is_active': event
+          }
+        }
+      })
+        .then(res => {
+          console.log(res)
+        })
+        .catch(error => {
+          console.log(error.response.data)
+        })
+    },
+    deleteCategory (id) {
+      this.$swal({
+        type: 'question',
+        title: 'Estas Seguro?',
+        showCancelButton: true,
+        reverseButtons: true,
+        confirmButtonText: 'Si'
+      })
+        .then((result) => {
+          if (result.value === true) {
+            configService(`/central_admin/categories/${id}`, {
+              method: 'PUT',
+              data: {
+                'category': {
+                  'is_deleted': true
+                }
+              }
+            })
+              .then(res => {
+                console.log(res)
+                this.getCategory()
+                this.$swal({
+                  type: 'success',
+                  title: 'Eliminado!',
+                  showConfirmButton: false,
+                  timer: 2000
+                })
+              })
+              .catch(error => {
+                this.$swal({
+                  type: 'error',
+                  title: 'Oops...',
+                  text: 'Vuelve a Intentarlo'
+                })
+                console.log(error.response.data)
+              })
+          }
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    },
+    activePlate (event, id) {
+      console.log(event)
+      configService(`/central_admin/products/${id}`, {
+        method: 'PUT',
+        data: {
+          'product': {
+            'is_available': event
+          }
+        }
+      })
+        .then(res => {
+          console.log(res)
+        })
+        .catch(error => {
+          console.log(error.response.data)
+        })
+    },
+    deletePlate (id) {
+      this.$swal({
+        type: 'question',
+        title: 'Estas Seguro?',
+        showCancelButton: true,
+        reverseButtons: true,
+        confirmButtonText: 'Si'
+      })
+        .then((result) => {
+          if (result.value === true) {
+            configService(`/central_admin/products/${id}`, {
+              method: 'PUT',
+              data: {
+                'product': {
+                  'is_deleted': true
+                }
+              }
+            })
+              .then(res => {
+                console.log(res)
+                this.showPlates(this.idCategoryPlate)
+                this.$swal({
+                  type: 'success',
+                  title: 'Eliminado!',
+                  showConfirmButton: false,
+                  timer: 2000
+                })
+              })
+              .catch(error => {
+                this.$swal({
+                  type: 'error',
+                  title: 'Oops...',
+                  text: 'Vuelve a Intentarlo'
+                })
+                console.log(error.response.data)
+              })
+          }
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    },
+    showPlates (id) {
+      this.idCategoryPlate = id
+      this.products = []
+      configService(`central_admin/categories/${id}/products.json`)
+        .then(res => {
+          const data = res.data
+          for (let index = 0; index < data.length; index++) {
+            let dataPosition = data[index]
+            this.products.push(dataPosition)
+            console.log(dataPosition)
+            this.modelPlateChecked.push(dataPosition.is_activated)
+          }
+        })
+        .catch(error => {
+          console.log(error.response.data)
+        })
+    },
     toggleShow () {
       this.$emit('toggle-menu-restaurant')
     },
     toggleShowPromo () {
       this.showModalPromo = !this.showModalPromo
     },
-    toggleShowPlate () {
-      this.showModalPlate = !this.showModalPlate
+    toggleShowPlate (id) {
+      this.idPlate = id
+      if (this.idCategoryPlate !== 0) {
+        this.showModalPlate = !this.showModalPlate
+      }
     },
-    toggleShowCategory () {
+    toggleShowCategory (id) {
+      this.idCategory = id
       this.showModalCategory = !this.showModalCategory
     },
     toggleShowModifier () {

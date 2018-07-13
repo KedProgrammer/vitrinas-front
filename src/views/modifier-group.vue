@@ -14,7 +14,7 @@
         }"
         :search-options="{
           enabled: true,
-          placeholder: 'Buscar Addons...'
+          placeholder: 'Buscar grupo modificador'
         }"
         :pagination-options="{
           enabled: true,
@@ -52,11 +52,16 @@
     </article>
     <!-- modal -->
     <ModalAdd
-      :current-addon="currentAddon"
+      :current-modifier="currentModifier"
       :current-commerce="currentCommerce"
       @toggle-add="toggleAdd"
       @reload-table="updateTable"
       :show-modal="showAdd" />
+    <Associate
+      :current-modifier="currentModifier"
+      :current-commerce="currentCommerce"
+      @toggle-add="toggleAssociate"
+      :show-modal="showAssociate" />
   </main>
 </template>
 
@@ -68,16 +73,18 @@ import 'vue-good-table/dist/vue-good-table.css'
 
 // custom components
 import Menu from '../components/layout/Menu'
-import ModalAdd from '../components/addons/add-addons.vue'
+import ModalAdd from '../components/modifier-group/add-modifier.vue'
+import Associate from '../components/modifier-group/associate.vue'
 import ConfigurationMenu from '../components/restaurant/configuration-menu'
 import configService from '../settings/api-url'
 
 export default {
-  name: 'Addons',
+  name: 'ModifierGroup',
   components: {
     Menu,
     VueGoodTable,
     ModalAdd,
+    Associate,
     ConfigurationMenu
   },
   computed: {
@@ -101,8 +108,22 @@ export default {
           field: 'name'
         },
         {
-          label: 'Disponibilidad',
-          field: 'availability',
+          label: 'Multiple Selección',
+          field: 'is_multiple',
+          html: true,
+          sortable: false
+        },
+        {
+          label: 'Mínimo',
+          field: 'min_constraint'
+        },
+        {
+          label: 'Máximo',
+          field: 'max_constraint'
+        },
+        {
+          label: 'Asociar Addon',
+          field: 'associate',
           html: true,
           sortable: false
         },
@@ -116,25 +137,29 @@ export default {
       rows: [],
       idRestaurant: 0,
       showAdd: false,
+      showAssociate: false,
       restaurants: [],
       restaurant: {},
       currentCommerce: 0,
-      currentAddon: NaN
+      currentModifier: NaN
     }
   },
   methods: {
     ...mapActions(['updateCommercesAsync']),
     updateTable () {
       this.rows = []
-      configService(`/central_admin/commerces/${this.currentCommerce}/add_ons`)
+      configService(`central_admin/commerces/${this.currentCommerce}/product_options`)
         .then(res => {
           const data = res.data
           for (let index = 0; index < data.length; index++) {
             const dataPosition = data[index]
             this.rows.push({
               id: dataPosition.id,
-              name: `${dataPosition.name}`,
-              availability: `<div data-id="${dataPosition.id}" class="admin-tabla__turno-checkbox"><input type="checkbox" id="addons-available-${dataPosition.id}" ${dataPosition.is_available ? 'checked' : ''}><label for="addons-available-${dataPosition.id}" data-si="On" data-no="Off"/></div>`,
+              name: `${dataPosition.title}`,
+              min_constraint: `${dataPosition.min_constraint}`,
+              max_constraint: `${dataPosition.max_constraint}`,
+              is_multiple: `<div data-id="${dataPosition.id}" class="admin-tabla__turno-checkbox"><input type="checkbox" id="addons-available-${dataPosition.id}" ${dataPosition.is_multiple ? 'checked' : ''}><label for="addons-available-${dataPosition.id}" data-si="On" data-no="Off"/></div>`,
+              associate: `<div class="restaurant-edit" data-id="${dataPosition.id}">Asociar</div>`,
               edit: `<div class="restaurant-edit" data-id="${dataPosition.id}">Edit</div>`
             })
           }
@@ -158,7 +183,7 @@ export default {
     },
     cellClick (value) {
       // verificar que le dieron en el radio
-      const idAddons = value.row.id
+      const idModifier = value.row.id
       if (value.event.target.localName === 'input') {
         if (value.column.field === 'availability') {
           const data = {
@@ -166,12 +191,16 @@ export default {
               'is_available': value.event.target.checked
             }
           }
-          this.checkedStatus(idAddons, data)
+          this.checkedStatus(idModifier, data)
         }
       }
       if (value.column.field === 'edit') {
         this.toggleAdd('')
-        this.currentAddon = idAddons
+        this.currentModifier = idModifier
+      }
+      if (value.column.field === 'associate') {
+        this.toggleAssociate('')
+        this.currentModifier = idModifier
       }
     },
     checkedStatus (id, data) {
@@ -198,9 +227,16 @@ export default {
     },
     toggleAdd (event) {
       if (isNaN(event)) {
-        this.currentAddon = NaN
+        this.currentModifier = NaN
       }
       this.showAdd = !this.showAdd
+      document.querySelector('body').classList.toggle('no-scroll')
+    },
+    toggleAssociate (event) {
+      if (isNaN(event)) {
+        this.currentModifier = NaN
+      }
+      this.showAssociate = !this.showAssociate
       document.querySelector('body').classList.toggle('no-scroll')
     }
   }

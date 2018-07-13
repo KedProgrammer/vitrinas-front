@@ -41,11 +41,6 @@
       :to="{ name: 'restaurant'}">
       Restaurant.
     </router-link>
-    <router-link
-      class="admin__menu-item"
-      :to="{ name: 'addons'}">
-      Addons.
-    </router-link>
     <!-- <a
       href=""
       class="admin__menu-item">Usuarios</a>

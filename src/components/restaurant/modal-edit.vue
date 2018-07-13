@@ -638,6 +638,7 @@
     <!-- modal menu -->
     <MenuRestaurant
       @toggle-menu-restaurant="toggleShowMenu"
+      :id-commerce="idRestaurant"
       :show-modal="showMenu" />
   </section>
 </template>

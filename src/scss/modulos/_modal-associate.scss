@@ -1,0 +1,50 @@
+.modal-associate {
+  .ceu__content {
+    padding: 0 30px;
+  }
+  h3, h4 {
+    padding: 0 15px;
+    margin-bottom: 15px;
+  }
+  h4 {
+    margin-top: 30px;
+  }
+}
+
+.restaurant-menu__modifier-item-footer {
+  color: $principal;
+  text-decoration: underline;
+  text-align: right;
+  font-family: $font1;
+  font-size: 18px;
+  font-weight: 500;
+  margin-top: 10px;
+  span {
+    cursor: pointer;
+  }
+}
+
+.restaurant-menu__modifier-addons-delete {
+  color: #fff;
+  background-color: #ff6767;
+  width: 20px;
+  height: 20px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 10px;
+  margin: 0 8px 0 0;
+  border-radius: 50%;
+}
+
+.restaurant-menu__modifier-addons-list {
+  max-height: 300px;
+  overflow-y: auto;
+}

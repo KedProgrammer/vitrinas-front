@@ -7,7 +7,7 @@ if (localStorage.getItem('yek') !== null) {
 }
 
 const configService = axios.create({
-  baseURL: 'http://staging.comidaenlau.com/',
+  baseURL: 'http://localhost:3000/',
   headers: {
     'accept-language': 'es',
     'Content-Type': 'application/json',

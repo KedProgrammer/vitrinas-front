@@ -25,7 +25,7 @@
         <p class="admin-resumen__fecha-pedido">
           <strong>Pedido Del: {{ start }}</strong>
           <span class="admin-resumen__fecha-desde"/>
-          <strong>Al: {{ end }}</strong>
+          <strong> Al:  {{ end }}</strong>
           <span class="admin-resumen__fecha-hasta"/>
         </p>
 
@@ -287,7 +287,7 @@ export default {
             return b.total - a.total
           })
           break
-        case 'status':
+        case 'state':
           this.orders = this.orders.sort((a, b) => {
             if (a.status > b.status) {
               return 1

@@ -103,9 +103,9 @@
                         type="checkbox"
                         v-model="modelPlateChecked[index]"
                         @click="activePlate($event.target.checked, item.id)"
-                        :id="'menu-restaurant__category_' + item.id">
+                        :id="'menu-restaurant__plate_' + item.id">
                       <label
-                        :for="'menu-restaurant__category_' + item.id"
+                        :for="'menu-restaurant__plate_' + item.id"
                         data-si="On"
                         data-no="Off"/>
                     </div>

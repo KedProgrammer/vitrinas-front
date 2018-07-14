@@ -3,14 +3,13 @@
   font-family: $font1;
   font-size: 18px;
   font-weight: bold;
-  background-color: #F2F2F2;
-  color: #bababa;
+  background-color: #f56a6a;
+  color: #fff;
   padding: 6px 12px;
   border-radius: 30px;
   transition: all .2s;
   &.activo{ 
     background-color: #5aff65;
-    color: #fff;
   }
 }
 
@@ -235,9 +234,9 @@
   border-left: 0;
   align-self: center;
   margin: 40px 0;
-  position: sticky;
-  top: 50%;
-  transform: translateY(-50%);
+  // position: sticky;
+  // top: 50%;
+  // transform: translateY(-50%);
   a {
     display: flex;
     justify-content: center;

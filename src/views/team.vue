@@ -13,7 +13,7 @@
         }"
         :search-options="{
           enabled: true,
-          placeholder: 'Buscar restaurante...'
+          placeholder: 'Buscar domiciliario'
         }"
         :pagination-options="{
           enabled: true,

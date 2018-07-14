@@ -3,6 +3,8 @@ import Restaurant from './views/restaurant.vue'
 import Record from './views/record.vue'
 import Team from './views/team.vue'
 import Variables from './views/variables.vue'
+import Addons from './views/addons.vue'
+import ModifierGroup from './views/modifier-group.vue'
 import Login from './views/login.vue'
 import Error404 from './views/error404.vue'
 
@@ -31,6 +33,16 @@ const routes = [
     path: '/variables',
     component: Variables,
     name: 'variables'
+  },
+  {
+    path: '/adicionales',
+    component: Addons,
+    name: 'addons'
+  },
+  {
+    path: '/grupo-modificador',
+    component: ModifierGroup,
+    name: 'modifier-group'
   },
   {
     path: '/login',

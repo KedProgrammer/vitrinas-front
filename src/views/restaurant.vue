@@ -3,7 +3,8 @@
 
     <Menu />
 
-    <article class="admin-team__tabla">
+    <article class="admin-restaurant__tabla">
+      <ConfigurationMenu />
       <vue-good-table
         :columns="columns"
         :rows="rows"
@@ -61,6 +62,7 @@ import 'vue-good-table/dist/vue-good-table.css'
 import Menu from '../components/layout/Menu'
 import ModalAdd from '../components/restaurant/modal-add'
 import ModalEdit from '../components/restaurant/modal-edit'
+import ConfigurationMenu from '../components/restaurant/configuration-menu'
 import configService from '../settings/api-url'
 
 export default {
@@ -69,7 +71,8 @@ export default {
     Menu,
     VueGoodTable,
     ModalAdd,
-    ModalEdit
+    ModalEdit,
+    ConfigurationMenu
   },
   watch: {
     university () {

@@ -43,6 +43,15 @@ body.login {
   }
 }
 
+.header__logout {
+  font-size: 20px;
+  color: $principal;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  cursor: pointer;
+}
+
 .restaurante-user__header-titulo {
   display: flex;
   align-items: center;

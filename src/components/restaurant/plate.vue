@@ -11,98 +11,265 @@
         class="modal-ceu__close">
         <i class="ceu-icon-close" />
       </div>
-      <div class="menu-restaurant__content">
+      <form
+        @submit.prevent="sendPlate"
+        class="menu-restaurant__content">
         <div class="menu-restaurant__add-title">
           <div class="ceu-campo__text-round2">
             <p>Titulo</p>
             <input
-              type="text"
-              value=""
-              class="ceu-campo__round">
+              required
+              v-model="formPlate.name"
+              type="text">
           </div>
-        </div>
-        <div class="menu-restaurant__text">
-          ¿Cuando estará disponible esta categoría?
-        </div>
-        <div class="menu-restaurant__days">
-          <multiselect
-            class="custom-select3"
-            v-model="days"
-            :options="dayWeeks"
-            :searchable="false"
-            :close-on-select="false"
-            :show-labels="false"
-            :multiple="true"
-            label="label"
-            track-by="value"
-            placeholder="Multi Selección" />
+          <div class="ceu-campo__text-round2">
+            <p>Resumen</p>
+            <textarea
+              required
+              v-model="formPlate.tweet"
+              maxlength="120" />
+          </div>
+          <div class="ceu-campo__text-round2">
+            <p>Descrpción</p>
+            <textarea
+              required
+              v-model="formPlate.description" />
+          </div>
         </div>
         <div class="ceu-container2">
           <div class="cue-item padding s-50">
             <div class="ceu-campo__text-round2">
-              <p>Hora Inicial</p>
-              <vue-timepicker
-                v-model="horaInicial"
-                hide-clear-button
-                :format="formatTime"/>
+              Precio
+              <input
+                required
+                v-model="formPlate.price"
+                type="number">
             </div>
           </div>
           <div class="cue-item padding s-50">
             <div class="ceu-campo__text-round2">
-              <p>Hora Final</p>
-              <vue-timepicker
-                v-model="horafinal"
-                hide-clear-button
-                :format="formatTime"/>
+              Precio prime
+              <input
+                required
+                v-model="formPlate.prime_price"
+                type="number">
             </div>
           </div>
         </div>
-        <div class="menu-restaurant__add-footer">
-          <div class="ceu-btn2 black">
-            Cancelar
-          </div>
-          <div class="ceu-btn1">
-            Agregar Plato
+        <div class="ceu-container2">
+          <div class="ceu-item s-100">
+            <multiselect
+              class="custom-select3"
+              v-model="selectModificador"
+              :options="selectModificadores"
+              :searchable="true"
+              :close-on-select="false"
+              :show-labels="false"
+              :multiple="true"
+              label="label"
+              track-by="value"
+              placeholder="Multi Selección" />
           </div>
         </div>
-      </div>
+        <div class="menu-restaurant__add-footer">
+          <div
+            @click="toggleShow"
+            class="ceu-btn2 black">
+            Cancelar
+          </div>
+          <button
+            type="submit"
+            class="ceu-btn1">
+            {{ (idPlate === 0) ? 'Agregar Plato' : 'Editar Plato' }}
+          </button>
+        </div>
+      </form>
     </div>
   </section>
 </template>
 
 <script>
 import VueTimepicker from 'vue2-timepicker'
+import configService from '../../settings/api-url'
 export default {
-  name: 'Category',
+  name: 'Plate',
   props: {
     showModalPlate: {
       type: Boolean,
       default: false
+    },
+    idCommerce: {
+      type: Number,
+      default: 0
+    },
+    idPlate: {
+      type: Number,
+      default: 0
+    },
+    idCategory: {
+      type: Number,
+      default: 0
     }
   },
   components: {
     VueTimepicker
   },
+  watch: {
+    showModalPlate (valNew) {
+      if (valNew) {
+        this.getMofier()
+      }
+      if (valNew && this.idCategory !== 0) {
+        this.fillForm()
+      } else {
+        this.emptyForm()
+      }
+    }
+  },
   data () {
     return {
-      dayWeeks: [
-        {value: 0, label: 'Domingo'},
-        {value: 1, label: 'Lunes'},
-        {value: 2, label: 'Martes'},
-        {value: 3, label: 'Miercoles'},
-        {value: 4, label: 'Jueves'},
-        {value: 5, label: 'Viernes'},
-        {value: 6, label: 'Sabado'}
-      ],
-      days: [],
-      horaInicial: '00:00',
-      horafinal: '00:00',
-      formatTime: 'HH:mm'
+      formPlate: {
+        name: '',
+        tweet: '',
+        description: '',
+        price: '',
+        prime_price: ''
+      },
+      selectModificadores: [],
+      selectModificador: []
     }
   },
   methods: {
     toggleShow () {
       this.$emit('toggle-show-plate')
+    },
+    fillForm () {
+      configService(`/central_admin/products/${this.idPlate}`)
+        .then(res => {
+          const data = res.data
+          this.formPlate = {
+            name: data.name,
+            tweet: data.tweet,
+            description: data.description,
+            price: data.price,
+            prime_price: data.prime_price
+          }
+          for (let index = 0; index < data.product_options.length; index++) {
+            let dataPosition = data.product_options[index]
+            console.log(dataPosition)
+            this.selectModificador.push({ value: dataPosition.id, label: dataPosition.title })
+          }
+        })
+    },
+    emptyForm () {
+      this.formPlate = {
+        name: '',
+        tweet: '',
+        description: '',
+        price: '',
+        prime_price: ''
+      }
+      this.selectModificador = []
+    },
+    getMofier () {
+      this.selectModificadores = []
+      configService(`central_admin/commerces/${this.idCommerce}/product_options`)
+        .then(res => {
+          const data = res.data
+          for (let index = 0; index < data.length; index++) {
+            const dataPosition = data[index]
+            this.selectModificadores.push({ value: dataPosition.id, label: dataPosition.title })
+          }
+        })
+    },
+    sendPlate () {
+      if (this.idPlate === 0) {
+        this.addPlate()
+      } else {
+        this.editPlate()
+      }
+    },
+    addPlate () {
+      const idsModificadores = []
+      for (let index = 0; index < this.selectModificador.length; index++) {
+        let dataPosition = this.selectModificador[index]
+        idsModificadores.push(dataPosition.value)
+      }
+      const data = {
+        'product': {
+          'name': this.formPlate.name,
+          'tweet': this.formPlate.tweet,
+          'description': this.formPlate.description,
+          'ordinal': '99999',
+          'price': this.formPlate.price,
+          'prime_price': this.formPlate.prime_price,
+          'product_option_ids': idsModificadores
+        }
+      }
+      configService(`/central_admin/categories/${this.idCategory}/products.json`, {
+        method: 'POST',
+        data
+      })
+        .then(res => {
+          this.toggleShow()
+          this.$emit('create-product')
+          this.$swal({
+            type: 'success',
+            title: 'Plato Creado!',
+            showConfirmButton: false,
+            timer: 2500
+          })
+        })
+        .catch(error => {
+          this.$swal({
+            type: 'error',
+            title: 'Oops...',
+            text: error.response.data
+          })
+          console.log(error.response.data)
+        })
+    },
+    editPlate () {
+      const idsModificadores = []
+      for (let index = 0; index < this.selectModificador.length; index++) {
+        let dataPosition = this.selectModificador[index]
+        idsModificadores.push(dataPosition.value)
+      }
+      console.log(idsModificadores)
+      const data = {
+        'product': {
+          'name': this.formPlate.name,
+          'tweet': this.formPlate.tweet,
+          'description': this.formPlate.description,
+          'ordinal': '99999',
+          'price': this.formPlate.price,
+          'prime_price': this.formPlate.prime_price,
+          'product_option_ids': idsModificadores
+        }
+      }
+      configService(`/central_admin/products/${this.idPlate}`, {
+        method: 'PUT',
+        data
+      })
+        .then(res => {
+          console.log(res)
+          this.toggleShow()
+          this.$emit('create-product')
+          this.$swal({
+            type: 'success',
+            title: 'Plato Editado!',
+            showConfirmButton: false,
+            timer: 2500
+          })
+        })
+        .catch(error => {
+          this.$swal({
+            type: 'error',
+            title: 'Oops...',
+            text: error.response.data
+          })
+          console.log(error.response.data)
+        })
     }
   }
 }

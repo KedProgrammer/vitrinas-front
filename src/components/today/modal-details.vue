@@ -96,6 +96,17 @@
           {{ orderSummary.payment_type }} <i class="ion-ios-arrow-forward"/>
         </div>
       </div>
+      <div 
+      v-if="orderSummary.payment_type === 'efectivo'"
+      class="modal-admin__pagos-row">
+        <div class="modal-admin__pago">
+          Paga con: 
+        </div>
+        <div 
+        class="modal-admin__pago-modo">
+        {{ orderSummary.cash | currency('$', 0) }} <i class="ion-ios-arrow-forward"/>
+        </div>
+      </div>
       <div
         v-if="!orderSummary.is_takeout"
         class="modal-admin__pagos-row">
@@ -194,7 +205,7 @@ export default {
           buttons = ['dispatch_order']
           break
         case 'waiting_pickup_client':
-          buttons = ['complete_order', 'reject_order']
+          buttons = ['complete_order']
           break
         case 'waiting_pickup_deliveryman':
           buttons = ['pickup_order']

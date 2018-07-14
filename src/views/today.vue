@@ -23,7 +23,7 @@
             :class="{activo: setActive('vigentes')}"
             class="admin-hoy__filtro-item">
             <h4>Vigentes</h4>
-            <p>({{ vigentCount }}-{{ outTrackedOrdersCount }})</p>
+            <p>({{ vigentCount }})</p>
           </div>
           <!-- item filtro -->
           <div
@@ -31,7 +31,7 @@
             :class="{activo: setActive('estado')}"
             class="admin-hoy__filtro-item">
             <h4>Estado int.</h4>
-            <p>({{ intermedioCount }}-{{ outTrackedOrdersCount }})</p>
+            <p>({{ intermedioCount }})</p>
           </div>
           <!-- item filtro -->
           <div
@@ -39,7 +39,7 @@
             :class="{activo: setActive('recogidos')}"
             class="admin-hoy__filtro-item">
             <h4>Recogidos</h4>
-            <p>({{ recogidosCount }}-{{ outTrackedOrdersCount }})</p>
+            <p>({{ recogidosCount }})</p>
           </div>
           <!-- item filtro -->
           <div
@@ -47,7 +47,7 @@
             :class="{activo: setActive('problemas')}"
             class="admin-hoy__filtro-item">
             <h4>Problemas</h4>
-            <p>({{ problemasCount }}-{{ outTrackedOrdersCount }})</p>
+            <p>({{ problemasCount }})</p>
           </div>
           <!-- item filtro -->
           <div
@@ -55,7 +55,7 @@
             :class="{activo: setActive('entregados')}"
             class="admin-hoy__filtro-item">
             <h4>Entregados</h4>
-            <p>({{ entregadosCount }}-{{ outTrackedOrdersCount }})</p>
+            <p>({{ entregadosCount }})</p>
           </div>
           <!-- item filtro -->
           <div
@@ -63,7 +63,7 @@
             :class="{activo: setActive('prime')}"
             class="admin-hoy__filtro-item">
             <h4>PRIME</h4>
-            <p>({{ primeCount }}-{{ outTrackedOrdersCount }})</p>
+            <p>({{ primeCount }})</p>
           </div>
         </div>
 
@@ -77,18 +77,15 @@
             :class='{activo: !isTakeout}'
             class="admin-hoy__header-domicilio ">
             <h4>Domicilios</h4>
-            <p>({{ deliveryCount }}-{{ outTrackedOrdersCount }})</p>
+            <p>({{ deliveryCount }})</p>
           </div>
           <div
             @click="filterType('takeout')"
             :class='{activo: isTakeout}'
             class="admin-hoy__header-takeout">
             <h4>Take-out</h4>
-            <p>({{ takeoutCount }}-{{ outTrackedOrdersCount }})</p>
+            <p>({{ takeoutCount }})</p>
           </div>
-        </div>
-        <div class="admin-hoy__header-cerrar">
-          Cerrar
         </div>
       </div>
 
@@ -159,7 +156,9 @@
                   <div class="admin-hoy__ubicacion-precio admin-hoy__triger">
                     <div class="admin-hoy__nombre-ubicacion">
                       <h3>{{ order.commerce.commercial_name }}</h3>
-                      <p>{{ order.address }}</p>
+                      <p
+                      v-if="!order.is_takeout"
+                      >{{ order.address }}</p>
                     </div>
                     <div class="admin-hoy__precio">
                       <h3>{{ order.total | currency('$', 0) }}</h3>
@@ -204,8 +203,8 @@
                   <p>{{ order.cellphone }}</p>
                   <div
                     @click="changeState(order)"
-                    class="admin-hoy__estado">
-                    Listo en..
+                    class="admin-hoy__estado size">
+                    {{ order.status }}
                   </div>
                 </div>
                 <div class="admin-hoy__panel-tiempo">
@@ -263,7 +262,9 @@
                   <div class="admin-hoy__ubicacion-precio admin-hoy__triger">
                     <div class="admin-hoy__nombre-ubicacion">
                       <h3>{{ order.commerce.commercial_name }}</h3>
-                      <p>{{ order.address }}</p>
+                      <p
+                       v-if="!order.is_takeout"
+                      >{{ order.address }}</p>
                     </div>
                     <div class="admin-hoy__precio">
                       <h3>{{ order.total | currency('$', 0) }}</h3>
@@ -308,8 +309,8 @@
                   <p>{{ order.cellphone }}</p>
                   <div
                     @click="changeState(order)"
-                    class="admin-hoy__estado">
-                    Listo en..
+                    class="admin-hoy__estado size">
+                      {{ order.status }}
                   </div>
                 </div>
                 <div class="admin-hoy__panel-tiempo">
@@ -367,7 +368,9 @@
                   <div class="admin-hoy__ubicacion-precio admin-hoy__triger">
                     <div class="admin-hoy__nombre-ubicacion">
                       <h3>{{ order.commerce.commercial_name }}</h3>
-                      <p>{{ order.address }}</p>
+                      <p
+                       v-if="!order.is_takeout"
+                      >{{ order.address }}</p>
                     </div>
                     <div class="admin-hoy__precio">
                       <h3> {{ order.total | currency('$', 0) }}</h3>
@@ -412,8 +415,8 @@
                   <p>{{ order.cellphone }}</p>
                   <div
                     @click="changeState(order)"
-                    class="admin-hoy__estado">
-                    Listo en..
+                    class="admin-hoy__estado size">
+                      {{ order.status }}
                   </div>
                 </div>
                 <div class="admin-hoy__panel-tiempo">
@@ -857,7 +860,7 @@ export default {
           buttons = ['dispatch_order']
           break
         case 'waiting_pickup_client':
-          buttons = ['complete_order', 'reject_order']
+          buttons = ['complete_order']
           break
         case 'waiting_pickup_deliveryman':
           buttons = ['pickup_order']

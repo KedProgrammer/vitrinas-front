@@ -148,12 +148,13 @@
             <div class="admin-hoy__panel-body">
               <!-- item -->
               <div
-                @click="toggleDetail(order)"
                 v-for="order in pendingOrders"
                 :key="order.id"
                 class="admin-hoy__panel-item">
                 <div class="admin-hoy__nombre">
-                  <div class="admin-hoy__ubicacion-precio admin-hoy__triger">
+                  <div 
+                  @click="toggleDetail(order)"
+                  class="admin-hoy__ubicacion-precio admin-hoy__triger">
                     <div class="admin-hoy__nombre-ubicacion">
                       <h3>{{ order.commerce.commercial_name }}</h3>
                       <p
@@ -254,12 +255,13 @@
             <div class="admin-hoy__panel-body">
               <!-- item -->
               <div
-                @click="toggleDetail(order)"
                 v-for="order in filteredOutTrackedOrders"
                 :key="order.id"
                 class="admin-hoy__panel-item">
                 <div class="admin-hoy__nombre">
-                  <div class="admin-hoy__ubicacion-precio admin-hoy__triger">
+                  <div 
+                   @click="toggleDetail(order)"
+                  class="admin-hoy__ubicacion-precio admin-hoy__triger">
                     <div class="admin-hoy__nombre-ubicacion">
                       <h3>{{ order.commerce.commercial_name }}</h3>
                       <p
@@ -360,13 +362,14 @@
             <div class="admin-hoy__panel-body">
               <!-- item -->
               <div
-                @click="toggleDetail(order)"
                 v-for="order in filterOrders"
                 :key="order.id"
                 class="admin-hoy__panel-item">
                 <div class="admin-hoy__nombre">
                   <div class="admin-hoy__ubicacion-precio admin-hoy__triger">
-                    <div class="admin-hoy__nombre-ubicacion">
+                    <div 
+                     @click="toggleDetail(order)"
+                    class="admin-hoy__nombre-ubicacion">
                       <h3>{{ order.commerce.commercial_name }}</h3>
                       <p
                        v-if="!order.is_takeout"
@@ -875,7 +878,7 @@ export default {
           buttons = ['complete_order', 'cancel_order']
           break
         case 'troubleshooting_restaurant':
-          buttons = ['accept_order', 'cancel_order']
+          buttons = ['accept_order', 'cancel_order', 'complete_order']
           break
         default:
           break

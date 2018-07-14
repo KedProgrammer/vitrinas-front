@@ -220,7 +220,7 @@ export default {
           buttons = ['complete_order', 'cancel_order']
           break
         case 'troubleshooting_restaurant':
-          buttons = ['accept_order', 'cancel_order']
+          buttons = ['accept_order', 'cancel_order', 'complete_order']
           break
         default:
           break

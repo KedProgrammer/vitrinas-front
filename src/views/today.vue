@@ -164,7 +164,7 @@
                     <div class="admin-hoy__precio">
                       <h3>{{ order.total | currency('$', 0) }}</h3>
                       <p>
-                        <i class="ceu-icon-payment-terminal"/>
+                        <i :class="setIconClass(order.payment_type)"/>
                         {{ order.id }}
                       </p>
                     </div>
@@ -271,7 +271,7 @@
                     <div class="admin-hoy__precio">
                       <h3>{{ order.total | currency('$', 0) }}</h3>
                       <p>
-                        <i class="ceu-icon-payment-terminal"/>
+                        <i :class="setIconClass(order.payment_type)"/>
                         {{ order.id }}
                       </p>
                     </div>
@@ -378,7 +378,7 @@
                     <div class="admin-hoy__precio">
                       <h3> {{ order.total | currency('$', 0) }}</h3>
                       <p>
-                        <i class="ceu-icon-payment-terminal"/>
+                        <i :class="setIconClass(order.payment_type)"/>
                         {{ order.id }}
                       </p>
                     </div>
@@ -608,6 +608,22 @@ export default {
     }
   },
   methods: {
+    setIconClass (type){
+      switch (type) {
+        case 'ucoins':
+          return 'ceu-icon-ucoins'
+        case 'efectivo':
+          return 'ceu-icon-coin'
+        case 'credit_card':
+          return 'ceu-icon-credit-card'
+            case 'datafono':
+          return 'ceu-icon-payment-terminal'
+            case 'nequi':
+          return 'ceu-icon-coin'
+        default:
+          break;
+      }
+    },
     calculateTotal () {
       const ordersCompleted = this.orders.filter(order => {
         return order.status === 'order_completed'

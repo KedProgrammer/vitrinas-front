@@ -125,7 +125,8 @@ export default {
         {value: 6, label: 'Sabado'}
       ],
       days: [],
-      formatTime: 'HH:mm'
+      formatTime: 'HH:mm',
+      idCategoryProgram: ''
     }
   },
   methods: {
@@ -133,15 +134,15 @@ export default {
       configService(`/central_admin/categories/${this.idCategory}`)
         .then(res => {
           const data = res.data
-          this.days = []
+          this.idCategoryProgram = data.programs[0].id
           this.form.name = data.name
-          this.form.start_time = {HH: data.start.hour, mm: data.start.minute}
-          this.form.end_time = {HH: data.end.hour, mm: data.end.minute}
-          if (data.weekdays.length !== 0) {
-            for (let index = 0; index < data.weekdays.length; index++) {
+          this.form.start_time = {HH: data.programs[0].start_time.hour, mm: data.programs[0].start_time.minute}
+          this.form.end_time = {HH: data.programs[0].end_time.hour, mm: data.programs[0].end_time.minute}
+          if (data.programs[0].weekdays !== 0) {
+            for (let index = 0; index < data.programs[0].weekdays.length; index++) {
               this.days.push({
-                value: data.weekdays[index],
-                label: this.nameDayWeek(data.weekdays[index])
+                value: data.programs[0].weekdays[index],
+                label: this.nameDayWeek(data.programs[0].weekdays[index])
               })
             }
           }
@@ -154,26 +155,27 @@ export default {
     },
     nameDayWeek (day) {
       var nameDay
+      console.log(day)
       switch (day) {
-        case '0':
+        case 0:
           nameDay = 'Domingo'
           break
-        case '1':
+        case 1:
           nameDay = 'Lunes'
           break
-        case '2':
+        case 2:
           nameDay = 'Martes'
           break
-        case '3':
+        case 3:
           nameDay = 'Miercoles'
           break
-        case '4':
+        case 4:
           nameDay = 'Jueves'
           break
-        case '5':
+        case 5:
           nameDay = 'Vienes'
           break
-        case '6':
+        case 6:
           nameDay = 'Sabado'
           break
         default:
@@ -202,9 +204,11 @@ export default {
       const data = {
         'category': {
           'name': this.form.name,
-          'start': open,
-          'end': close,
-          'weekdays': adddays
+          'programs_attributes': [{
+            'start_time': open,
+            'end_time': close,
+            'weekdays': adddays
+          }]
         }
       }
       configService(`/central_admin/commerces/${this.idCommerce}/categories`, {
@@ -240,16 +244,17 @@ export default {
       for (let index = 0; index < this.days.length; index++) {
         adddays.push(this.days[index].value)
       }
-      console.log(adddays)
       const data = {
         'category': {
           'name': this.form.name,
-          'start': open,
-          'end': close,
-          'weekdays': adddays
+          'programs_attributes': [{
+            'id': this.idCategoryProgram,
+            'start_time': open,
+            'end_time': close,
+            'weekdays': adddays
+          }]
         }
       }
-      console.log(data)
       configService(`/central_admin/categories/${this.idCategory}`, {
         method: 'PUT',
         data

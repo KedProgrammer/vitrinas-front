@@ -171,7 +171,7 @@
                   </div>
                   <div class="admin-hoy__nombre-row">
                     <v-select
-                      v-if="!order.is_takeout"
+                      v-if="!order.is_takeout && order.status !=='order_completed'"
                       :value="setName(order)"
                       label="name"
                       class="search-select"
@@ -385,7 +385,7 @@
                   </div>
                   <div class="admin-hoy__nombre-row">
                     <v-select
-                      v-if="!order.is_takeout"
+                      v-if="!order.is_takeout && order.status !=='order_completed'"
                       :value="setName(order)"
                       label="name"
                       class="search-select"

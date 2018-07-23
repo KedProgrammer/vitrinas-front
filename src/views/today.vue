@@ -66,9 +66,21 @@
             <p>({{ primeCount }})</p>
           </div>
         </div>
-
+        <div class="checkout__pago-row">
+          <p>Cargar ordenes Automaticamente</p>
+            <div class="lista-checkbox2">
+              <input
+                v-model="autoFetchOrder"
+                type="checkbox"
+                id="checkout-takeout-ucoins">
+              <label
+                for="checkout-takeout-ucoins"
+                data-checkedsi="Si"
+                data-checkedno="No"/>
+          </div> 
+        </div>
       </div>
-
+      
       <div class="admin-hoy__header-envio">
         <div class="admin-hoy__header-envio-contenedor">
           <!-- Agregar la clase activo para marcar el item -->
@@ -164,14 +176,14 @@
                     <div class="admin-hoy__precio">
                       <h3>{{ order.total | currency('$', 0) }}</h3>
                       <p>
-                        <i class="ceu-icon-payment-terminal"/>
+                        <i :class="setIconClass(order.payment_type)"/>
                         {{ order.id }}
                       </p>
                     </div>
                   </div>
                   <div class="admin-hoy__nombre-row">
                     <v-select
-                      v-if="!order.is_takeout"
+                      v-if="!order.is_takeout && order.status !=='order_completed'"
                       :value="setName(order)"
                       label="name"
                       class="search-select"
@@ -271,7 +283,7 @@
                     <div class="admin-hoy__precio">
                       <h3>{{ order.total | currency('$', 0) }}</h3>
                       <p>
-                        <i class="ceu-icon-payment-terminal"/>
+                        <i :class="setIconClass(order.payment_type)"/>
                         {{ order.id }}
                       </p>
                     </div>
@@ -378,14 +390,14 @@
                     <div class="admin-hoy__precio">
                       <h3> {{ order.total | currency('$', 0) }}</h3>
                       <p>
-                        <i class="ceu-icon-payment-terminal"/>
+                        <i :class="setIconClass(order.payment_type)"/>
                         {{ order.id }}
                       </p>
                     </div>
                   </div>
                   <div class="admin-hoy__nombre-row">
                     <v-select
-                      v-if="!order.is_takeout"
+                      v-if="!order.is_takeout && order.status !=='order_completed'"
                       :value="setName(order)"
                       label="name"
                       class="search-select"
@@ -459,6 +471,9 @@ export default {
   },
   data () {
     return {
+      stateSet: '',
+      intervalId: 0,
+      autoFetchOrder: false,
       takeoutCount: 0,
       deliveryCount: 0,
       allCount: 0,
@@ -491,6 +506,15 @@ export default {
     ...mapState(['university', 'commerces', 'commerce'])
   },
   watch: {
+    autoFetchOrder (event, old) {
+      if (event) {
+       this.intervalId = setInterval(() => {
+          this.fetchOrdersAfter()
+        },5000)
+      }else{
+        clearInterval(this.intervalId)
+      }
+    },
     university (value) {
       this.isAllActive = true
       const date = new Date()
@@ -518,7 +542,7 @@ export default {
           this.setOrderCount()
           this.setTrackTime()
           this.setOrdinalOrder(stateGroups.all, 'rightColumn')
-          this.setOrdinalOrder(stateGroups.pending, 'pending')
+          this.setOrdinalOrder(stateGroups.all, 'pending')
           this.setOutTrack()
           this.setCounts()
         })
@@ -535,7 +559,7 @@ export default {
       this.setOrderCount()
       this.setTrackTime()
       this.setOrdinalOrder(stateGroups.all, 'rightColumn')
-      this.setOrdinalOrder(stateGroups.pending, 'pending')
+      this.setOrdinalOrder(stateGroups.all, 'pending')
       this.setOutTrack()
       const order = this.orders.find(element => {
         return element.id === newOrder.id
@@ -608,6 +632,86 @@ export default {
     }
   },
   methods: {
+     fetchOrdersAfter () {
+      const date = new Date()
+       const data = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+      configService(`central_admin/universities/${this.university.id}/orders?date=${data}`)
+      .then(response => {
+        this.orders = response.data
+        this.setOrderCount()
+        this.setTrackTime()
+        this.afterFetch(this.activeFilter)
+        this.setOrdinalOrder(stateGroups.all, 'pending')
+        this.setOutTrack()
+        this.setCounts()
+        console.log(this.filterOrders, this.pendingOrders, this.outTrackedOrders)
+      })
+      .catch(error => {
+        console.log(error)
+      })
+    },
+    afterFetch (active) {
+      console.log(active)
+      switch (active) {
+        case 'all':
+          this.setOrdinalOrder(stateGroups.all, 'rightColumn')
+          break
+        case 'vigentes':
+          this.groupOrders(stateGroups.vigentes, 'rightColumn')
+          break
+        case 'estado':
+          this.groupOrders(stateGroups.intermedio, 'rightColumn')
+          break
+        case 'recogidos':
+          this.setOrdinalOrder(stateGroups.recogidos, 'rightColumn')
+          break
+        case 'problemas':
+          this.setOrdinalOrder(stateGroups.problemas, 'rightColumn')
+          break
+        case 'entregados':
+          this.setOrdinalOrder(stateGroups.entregados, 'rightColumn')
+          break
+        case 'prime':
+          this.setOrdinalOrder(active, 'rightColumn')
+          break
+        default:
+          break
+      }
+    },
+    fetchOrders () {
+      const date = new Date()
+       const data = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+      configService(`central_admin/universities/${this.university.id}/orders?date=${data}`)
+      .then(response => {
+        this.orders = response.data
+        this.setOrderCount()
+        this.setTrackTime()
+        this.setOrdinalOrder(stateGroups.all, 'rightColumn')
+        this.setOrdinalOrder(stateGroups.all, 'pending')
+        this.setOutTrack()
+        this.setCounts()
+        console.log(this.filterOrders, this.pendingOrders, this.outTrackedOrders)
+      })
+      .catch(error => {
+        console.log(error)
+      })
+    },
+    setIconClass (type){
+      switch (type) {
+        case 'ucoins':
+          return 'ceu-icon-ucoins'
+        case 'efectivo':
+          return 'ceu-icon-coin'
+        case 'credit_card':
+          return 'ceu-icon-credit-card'
+            case 'datafono':
+          return 'ceu-icon-payment-terminal'
+            case 'nequi':
+          return 'ceu-icon-coin'
+        default:
+          break;
+      }
+    },
     calculateTotal () {
       const ordersCompleted = this.orders.filter(order => {
         return order.status === 'order_completed'
@@ -642,6 +746,16 @@ export default {
       }
     },
     changeState (order) {
+      console.log(order)
+      if (order.status === 'waiting_pickup_deliveryman' &&
+          !order.delivery.delivery_man){
+             this.$swal({
+              type: 'error',
+              title: 'Oops...',
+              text: 'Debes asignar un domiciliario'
+            })
+            return 
+      }
       const method = this.setStatusToChange(order)
       const index = this.orders.findIndex(element => {
         return element.id === order.id
@@ -658,7 +772,7 @@ export default {
           this.setOrderCount()
           this.setTrackTime()
           this.setOrdinalOrder(stateGroups.all, 'rightColumn')
-          this.setOrdinalOrder(stateGroups.pending, 'pending')
+          this.setOrdinalOrder(stateGroups.all, 'pending')
           this.setOutTrack()
           const summary = this.orders.find(element => {
             return element.id === newOrder.id
@@ -697,6 +811,7 @@ export default {
             }
           }
           this.calculateStateButtons(order)
+          this.setOrdinalOrder(stateGroups.all, 'pending')
         })
         .catch(error => {
           console.log(error)
@@ -930,7 +1045,11 @@ export default {
           this.filterOrders = [...auxiliarOrders]
           break
         case 'pending':
-          this.pendingOrders = [...auxiliarOrders]
+           this.pendingOrders = this.orders.filter(element => {
+        if (!element.is_takeout && !element.delivery.delivery_man && element.status !== 'order_completed') {
+          return true
+        }
+      })
           break
         default:
           break
@@ -938,7 +1057,7 @@ export default {
     },
     groupOrders (groupFilter) {
       this.setOrdinalOrder(groupFilter, 'rightColumn')
-      this.setOrdinalOrder(stateGroups.pending, 'pending')
+      this.setOrdinalOrder(stateGroups.all, 'pending')
     },
     setTime (date) {
       const dateFormatted = new Date(date)
@@ -1081,20 +1200,7 @@ export default {
       .catch(error => {
         console.log(error)
       })
-    configService(`central_admin/universities/${this.university.id}/orders?date=${data}`)
-      .then(response => {
-        this.orders = response.data
-        this.setOrderCount()
-        this.setTrackTime()
-        this.setOrdinalOrder(stateGroups.all, 'rightColumn')
-        this.setOrdinalOrder(stateGroups.pending, 'pending')
-        this.setOutTrack()
-        this.setCounts()
-        console.log(this.filterOrders, this.pendingOrders, this.outTrackedOrders)
-      })
-      .catch(error => {
-        console.log(error)
-      })
+    this.fetchOrders()
     this.orderSummary = this.orders[0]
   }
 }

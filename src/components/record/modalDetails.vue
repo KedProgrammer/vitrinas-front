@@ -103,6 +103,22 @@
         {{ orderSummary.cash | currency('$', 0) }} <i class="ion-ios-arrow-forward"/>
         </div>
       </div>
+      <div class="modal-admin__pagos-row">
+        <div class="modal-admin__pago">
+          Apariencia
+        </div>
+        <div class="modal-admin__pago-modo">
+          {{ orderSummary.appearance }} <i class="ion-ios-arrow-forward"/>
+        </div>
+      </div>
+      <div class="modal-admin__pagos-row">
+        <div class="modal-admin__pago">
+          Celular
+        </div>
+        <div class="modal-admin__pago-modo">
+          {{ orderSummary.cellphone }} <i class="ion-ios-arrow-forward"/>
+        </div>
+      </div>
       <div
       v-if="!orderSummary.is_takeout"
        class="modal-admin__pagos-row">

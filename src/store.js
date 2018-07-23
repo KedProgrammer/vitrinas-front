@@ -13,7 +13,7 @@ const store = new Vuex.Store({
       name: 'Javeriana'
     },
     commerces: {},
-    commerce: {},
+    commerce: '',
     domiciliary: {},
     domiciliarys: {}
   },

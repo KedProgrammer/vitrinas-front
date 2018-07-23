@@ -2,7 +2,7 @@
   <main class="admin-hoy__main">
     <Menu />
     <div class="view-variables__contenedor">
-      <div class="ceu-container">
+      <div class="ceu-container2">
         <div class="ceu-item s-50">
           <form
             @submit.prevent="sendRate"
@@ -103,14 +103,67 @@
             </div>
           </form>
         </div>
+        <div class="ceu-item s-50">
+          <form
+            @submit.prevent="sendClosePlatform"
+            class="view-variables__item">
+            <h2>Mensajes visibles/inapp</h2>
+            <div class="view__variables__msg-inapp">
+              <div class="ceu-item s-60">
+                <div class="view__variables__check">
+                  <p>Plataforma</p>
+                  <div
+                    class="admin-tabla__turno-checkbox">
+                    <input
+                      type="checkbox"
+                      v-model="openPlatform"
+                      id="openPlatform">
+                    <label
+                      for="openPlatform"
+                      data-si="On"
+                      data-no="Off"/>
+                  </div>
+                </div>
+              </div>
+              <!--. item -->
+              <div class="ceu-item s-60">
+                <div class="ceu-campo__text4">
+                  <p>Mensaje plataforma cerrada</p>
+                  <textarea
+                    required
+                    v-model="messagePlatform"/>
+                </div>
+              </div>
+              <!--. item -->
+              <div class="ceu-item s-40">
+                <div class="ceu-campo__text4">
+                  <p>Hora Reapertura</p>
+                  <vue-timepicker
+                    hide-clear-button
+                    v-model="timeHourPlatform"
+                    :format="formatTime"/>
+                </div>
+              </div>
+              <!--. item -->
+              <div class="ceu-item s-100">
+                <button
+                  class="ceu-btn1"
+                  type="submit">
+                  Guardar
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </main>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import Menu from '../components/layout/Menu'
+import VueTimepicker from 'vue2-timepicker'
 import configService from '../settings/api-url'
 export default {
   name: 'Variables',
@@ -118,16 +171,27 @@ export default {
     ...mapState(['university', 'commerces', 'commerce'])
   },
   components: {
-    Menu
+    Menu,
+    VueTimepicker
   },
   mounted () {
     this.$nextTick(function () {
       this.getVariables()
+      if (this.commerce === '') {
+        this.updateCommerceAsync(this.university.id)
+          .then(res => {
+            this.openPlatform = res.data.is_open
+          })
+      }
     })
   },
   data () {
     return {
-      formRate: []
+      formRate: [],
+      timeHourPlatform: {HH: '00', mm: '00'},
+      formatTime: 'HH:mm',
+      messagePlatform: '',
+      openPlatform: false
     }
   },
   watch: {
@@ -136,9 +200,11 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['updateCommerceAsync']),
     getVariables () {
       configService(`/central_admin/universities/${this.university.id}/university_variables`)
         .then(res => {
+          console.log(res)
           const data = res.data
           for (let index = 0; index < data.length; index++) {
             this.formRate.push(data[index])
@@ -155,7 +221,6 @@ export default {
           }
         })
           .then(res => {
-            console.log(res.data)
             this.$swal({
               type: 'success',
               title: 'Cambios Aplicados!',
@@ -164,6 +229,28 @@ export default {
             })
           })
       })
+    },
+    sendClosePlatform () {
+      const hour = `${this.timeHourPlatform.HH}:${this.timeHourPlatform.mm}`
+      configService(`/central_admin/universities/${this.university.id}`, {
+        method: 'PUT',
+        data: {
+          reopens_at: hour,
+          is_open: this.openPlatform,
+          welcome_message: this.messagePlatform
+        }
+      })
+        .then(res => {
+          this.$swal({
+            type: 'success',
+            title: 'Cambios Aplicados!',
+            timer: 2000,
+            showConfirmButton: false
+          })
+        })
+        .catch(error => {
+          console.log(error.response)
+        })
     }
   }
 }

@@ -524,6 +524,71 @@ body {
   }
 }
 
+.ceu-campo__text3 {
+  margin-bottom: 25px;
+  p {
+    margin: 0;
+    font-family: $font1;
+    font-size: 15px;
+    color: #9b9b9b;
+    font-size: 15px;
+  }
+  textarea,
+  input {
+    border: none;
+    border-bottom: solid 1px rgba(#e5edef, 1);
+    width: 100%;
+    padding: 10px 0 0 0;
+    &:focus {
+      outline: none;
+    }
+    &::-webkit-input-placeholder {
+      color: #9b9b9b;
+    }
+    &::-moz-placeholder {
+      color: #9b9b9b;
+    }
+    &:-ms-input-placeholder {
+      color: #9b9b9b;
+    }
+    &:-moz-placeholder {
+      color: #9b9b9b;
+    }
+  }
+}
+
+.ceu-campo__text4 {
+  margin-bottom: 15px;
+  p {
+    margin: 0;
+    font-family: $font1;
+    font-size: 15px;
+    color: #9b9b9b;
+    font-size: 15px;
+  }
+  textarea,
+  input {
+    border: none;
+    border: solid 1px rgba(#e5edef, 1);
+    width: 100%;
+    padding: 10px 0 0 0;
+    &:focus {
+      outline: none;
+    }
+    &::-webkit-input-placeholder {
+      color: #9b9b9b;
+    }
+    &::-moz-placeholder {
+      color: #9b9b9b;
+    }
+    &:-ms-input-placeholder {
+      color: #9b9b9b;
+    }
+    &:-moz-placeholder {
+      color: #9b9b9b;
+    }
+  }
+}
 
 // btn
 .ceu-btn1 {

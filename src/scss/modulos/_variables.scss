@@ -38,3 +38,19 @@
 .view-variables__item-footer {
   margin-top: 10px;
 }
+
+.view__variables__msg-inapp {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.view__variables__check {
+  margin-bottom: 15px;
+  p {
+    font-family: $font1;
+    font-size: 15px;
+    color: #9b9b9b;
+    margin-bottom: 10px;
+  }
+}

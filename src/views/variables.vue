@@ -155,6 +155,45 @@
             </div>
           </form>
         </div>
+        <div class="ceu-item s-50">
+          <form
+            @submit.prevent="sendPayment"
+            class="view-variables__item">
+            <h2>Metodos de pagos permitidos</h2>
+            <div
+              class="view-variables__table">
+              <table>
+                <tr
+                  v-for="(item, index) in paymentMethod"
+                  :key="index">
+                  <td>
+                    {{ textMethodPayment(item) }}
+                  </td>
+                  <td>
+                    <div class="admin-tabla__turno-checkbox">
+                      <input
+                        type="checkbox"
+                        :value="item"
+                        v-model="checkboxPayment"
+                        :id="item + 'Method'">
+                      <label
+                        :for="item + 'Method'"
+                        data-si="On"
+                        data-no="Off"/>
+                    </div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="view-variables__item-footer">
+              <button
+                class="ceu-btn1"
+                type="submit">
+                Guardar
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </main>
@@ -168,7 +207,7 @@ import configService from '../settings/api-url'
 export default {
   name: 'Variables',
   computed: {
-    ...mapState(['university', 'commerces', 'commerce'])
+    ...mapState(['university', 'commerces', 'commerce', 'universityData'])
   },
   components: {
     Menu,
@@ -183,6 +222,13 @@ export default {
             this.openPlatform = res.data.is_open
           })
       }
+      if (this.universityData === '') {
+        this.universityDataActions(this.university.id)
+          .then(res => {
+            console.log(res.data)
+            this.getMethodPayment(res.data)
+          })
+      }
     })
   },
   data () {
@@ -191,7 +237,14 @@ export default {
       timeHourPlatform: {HH: '00', mm: '00'},
       formatTime: 'HH:mm',
       messagePlatform: '',
-      openPlatform: false
+      openPlatform: false,
+      checkboxPayment: [],
+      paymentMethod: [
+        'CASH',
+        'CREDIT_CARD',
+        'NEQUI',
+        'POS_TERMINAL'
+      ]
     }
   },
   watch: {
@@ -200,7 +253,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['updateCommerceAsync']),
+    ...mapActions(['updateCommerceAsync', 'universityDataActions']),
     getVariables () {
       configService(`/central_admin/universities/${this.university.id}/university_variables`)
         .then(res => {
@@ -209,6 +262,22 @@ export default {
           for (let index = 0; index < data.length; index++) {
             this.formRate.push(data[index])
           }
+        })
+    },
+    sendPayment () {
+      configService(`/central_admin/universities/${this.university.id}`, {
+        method: 'PUT',
+        data: {
+          'university': {
+            'available_payment_methods': this.checkboxPayment
+          }
+        }
+      })
+        .then(res => {
+          console.log(res)
+        })
+        .catch(error => {
+          console.log(error.response)
         })
     },
     sendRate () {
@@ -251,6 +320,32 @@ export default {
         .catch(error => {
           console.log(error.response)
         })
+    },
+    textMethodPayment (res) {
+      var method
+      switch (res) {
+        case 'CASH':
+          method = 'Efectivo'
+          break
+        case 'CREDIT_CARD':
+          method = 'Tajeta Crédito'
+          break
+        case 'NEQUI':
+          method = 'Nequi'
+          break
+        case 'POS_TERMINAL':
+          method = 'Datafono'
+          break
+        default:
+          method = 'Sin declarar'
+          break
+      }
+      return method
+    },
+    getMethodPayment (res) {
+      for (let index = 0; index < res.available_payment_methods.length; index++) {
+        this.checkboxPayment.push(res.available_payment_methods[index])
+      }
     }
   }
 }

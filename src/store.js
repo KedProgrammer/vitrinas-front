@@ -12,6 +12,7 @@ const store = new Vuex.Store({
       id: 1,
       name: 'Javeriana'
     },
+    universityData: '',
     commerces: {},
     commerce: '',
     domiciliary: {},
@@ -28,6 +29,9 @@ const store = new Vuex.Store({
     },
     updateUniversity (state, value) {
       state.university = value
+    },
+    updateUniversityData (state, value) {
+      state.universityData = value.data
     },
     updateUniversities (state, res) {
       state.universities = []
@@ -56,6 +60,13 @@ const store = new Vuex.Store({
       return configService(`/public/universities`)
         .then(res => {
           context.commit('updateUniversities', res)
+          return res
+        })
+    },
+    universityDataActions (context, id) {
+      return configService(`/public/list_university/${id}`)
+        .then(res => {
+          context.commit('updateUniversityData', res)
           return res
         })
     }

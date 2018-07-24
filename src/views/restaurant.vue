@@ -360,7 +360,6 @@ export default {
         method: 'post',
         data: {
           commerce: {
-            'university_id': this.university.id,
             'active': true,
             'commercial_name': data.nameRestaurant,
             'email': data.email,
@@ -370,7 +369,15 @@ export default {
             'nit': data.nit,
             'address': data.direccion,
             'has_delivery': data.domicilio,
-            'has_takeout': data.takeout
+            'has_takeout': data.takeout,
+            'admin_commerce_attributes': {
+              'first_name': data.nameAdmin,
+              'last_name': data.lastNameAdmin,
+              'email': data.emailAdmin,
+              'cellphone': data.phoneAdmin,
+              'password': data.passAdmin,
+              'password_confirmation': data.passRepeatAdmin
+            }
           }
         }
       })

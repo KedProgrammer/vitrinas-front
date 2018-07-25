@@ -216,6 +216,7 @@ export default {
   mounted () {
     this.$nextTick(function () {
       this.getVariables()
+      this.getUniversity()
       if (this.commerce === '') {
         this.updateCommerceAsync(this.university.id)
           .then(res => {
@@ -223,11 +224,7 @@ export default {
           })
       }
       if (this.universityData === '') {
-        this.universityDataActions(this.university.id)
-          .then(res => {
-            console.log(res.data)
-            this.getMethodPayment(res.data)
-          })
+        this.getUniversity()
       }
     })
   },
@@ -250,7 +247,7 @@ export default {
   watch: {
     university () {
       this.getVariables()
-      this.getMethodPayment()
+      this.getUniversity()
     }
   },
   methods: {
@@ -258,7 +255,6 @@ export default {
     getVariables () {
       configService(`/central_admin/universities/${this.university.id}/university_variables`)
         .then(res => {
-          console.log(res)
           const data = res.data
           for (let index = 0; index < data.length; index++) {
             this.formRate.push(data[index])
@@ -275,7 +271,12 @@ export default {
         }
       })
         .then(res => {
-          console.log(res)
+          this.$swal({
+            type: 'success',
+            title: 'Cambios Aplicados!',
+            timer: 2000,
+            showConfirmButton: false
+          })
         })
         .catch(error => {
           console.log(error.response)
@@ -343,10 +344,23 @@ export default {
       }
       return method
     },
-    getMethodPayment (res) {
-      for (let index = 0; index < res.available_payment_methods.length; index++) {
-        this.checkboxPayment.push(res.available_payment_methods[index])
-      }
+    getUniversity (res) {
+      this.checkboxPayment = []
+      this.timeHourPlatform = {HH: '00', mm: '00'}
+      this.universityDataActions(this.university.id)
+        .then(res => {
+          this.messagePlatform = res.data.welcome_message
+          if (res.data.reopens_at) {
+            this.timeHourPlatform = {
+              HH: res.data.reopens_at.hour,
+              mm: res.data.reopens_at.minute
+            }
+          }
+
+          for (let index = 0; index < res.data.available_payment_methods.length; index++) {
+            this.checkboxPayment.push(res.data.available_payment_methods[index])
+          }
+        })
     }
   }
 }

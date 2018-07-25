@@ -33,9 +33,11 @@
       :to="{ name: 'variables'}">
       Variables
     </router-link>
-    <!-- <a
-      href=""
-      class="admin__menu-item">ADS</a> -->
+    <router-link
+      class="admin__menu-item"
+      :to="{ name: 'ads' }">
+      ADS
+    </router-link>
     <router-link
       class="admin__menu-item"
       :to="{ name: 'restaurant'}">

@@ -6,6 +6,7 @@ import Variables from './views/variables.vue'
 import Addons from './views/addons.vue'
 import ModifierGroup from './views/modifier-group.vue'
 import Login from './views/login.vue'
+import Ads from './views/ads.vue'
 import Error404 from './views/error404.vue'
 
 const routes = [
@@ -49,6 +50,11 @@ const routes = [
     component: Login,
     name: 'login',
     meta: { bodyClass: 'login' }
+  },
+  {
+    path: '/ads',
+    component: Ads,
+    name: 'ads'
   },
   {
     path: '/*',

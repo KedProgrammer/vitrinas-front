@@ -250,6 +250,7 @@ export default {
   watch: {
     university () {
       this.getVariables()
+      this.getMethodPayment()
     }
   },
   methods: {

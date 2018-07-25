@@ -1,0 +1,64 @@
+.ads-banner__contenedor {
+  display: flex;
+}
+
+.ads-banner__dateLimit {
+  display: flex;
+}
+
+.ads-banner__dateLimit-item {
+  p {
+    margin: 0 0 5px 0;
+    font-size: 18px;
+    color: $principal;
+    font-weight: 500;
+  }
+  margin: 10px;
+  .vdatetime {
+    input {
+      border: 1px solid #e5edef;
+      border-radius: 4px;
+      padding: 5px 10px;
+      width: 100%;
+    }
+  }
+}
+
+.ads-banner__checkRestaurant,
+.ads-banner__toggleShow {
+  margin-top: 40px;
+  p {
+    margin: 0 0 5px 0;
+    font-size: 18px;
+    color: $principal;
+    font-weight: 500;
+  }
+}
+
+.ads-banner__titulo {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+  margin-bottom: 15px;
+  h4 {
+    color: #404040;
+    font-family: $font2;
+    font-size: 20px;
+    margin: 0;
+  }
+  p {
+    margin: 0;
+    font-size: 12px;
+    font-family: $font1;
+    margin-left: 15px;
+  }
+}
+
+.view-ads__contenedor {
+  padding: 40px;
+}
+
+.ads-banner__list {
+  max-height: 70vh;
+  overflow-y: auto;
+}

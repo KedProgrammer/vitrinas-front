@@ -96,18 +96,18 @@
           {{ orderSummary.payment_type }} <i class="ion-ios-arrow-forward"/>
         </div>
       </div>
-      <div 
-      v-if="orderSummary.payment_type === 'efectivo'"
-      class="modal-admin__pagos-row">
+      <div
+        v-if="orderSummary.payment_type === 'efectivo'"
+        class="modal-admin__pagos-row">
         <div class="modal-admin__pago">
-          Paga con: 
+          Paga con:
         </div>
-        <div 
-        class="modal-admin__pago-modo">
-        {{ orderSummary.cash | currency('$', 0) }} <i class="ion-ios-arrow-forward"/>
+        <div
+          class="modal-admin__pago-modo">
+          {{ orderSummary.cash | currency('$', 0) }} <i class="ion-ios-arrow-forward"/>
         </div>
       </div>
-       <div class="modal-admin__pagos-row">
+      <div class="modal-admin__pagos-row">
         <div class="modal-admin__pago">
           Apariencia
         </div>

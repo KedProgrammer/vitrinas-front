@@ -68,19 +68,19 @@
         </div>
         <div class="checkout__pago-row">
           <p>Cargar ordenes Automaticamente</p>
-            <div class="lista-checkbox2">
-              <input
-                v-model="autoFetchOrder"
-                type="checkbox"
-                id="checkout-takeout-ucoins">
-              <label
-                for="checkout-takeout-ucoins"
-                data-checkedsi="Si"
-                data-checkedno="No"/>
-          </div> 
+          <div class="lista-checkbox2">
+            <input
+              v-model="autoFetchOrder"
+              type="checkbox"
+              id="checkout-takeout-ucoins">
+            <label
+              for="checkout-takeout-ucoins"
+              data-checkedsi="Si"
+              data-checkedno="No"/>
+          </div>
         </div>
       </div>
-      
+
       <div class="admin-hoy__header-envio">
         <div class="admin-hoy__header-envio-contenedor">
           <!-- Agregar la clase activo para marcar el item -->
@@ -164,13 +164,13 @@
                 :key="order.id"
                 class="admin-hoy__panel-item">
                 <div class="admin-hoy__nombre">
-                  <div 
-                  @click="toggleDetail(order)"
-                  class="admin-hoy__ubicacion-precio admin-hoy__triger">
+                  <div
+                    @click="toggleDetail(order)"
+                    class="admin-hoy__ubicacion-precio admin-hoy__triger">
                     <div class="admin-hoy__nombre-ubicacion">
                       <h3>{{ order.commerce.commercial_name }}</h3>
                       <p
-                      v-if="!order.is_takeout"
+                        v-if="!order.is_takeout"
                       >{{ order.address }}</p>
                     </div>
                     <div class="admin-hoy__precio">
@@ -271,13 +271,13 @@
                 :key="order.id"
                 class="admin-hoy__panel-item">
                 <div class="admin-hoy__nombre">
-                  <div 
-                   @click="toggleDetail(order)"
-                  class="admin-hoy__ubicacion-precio admin-hoy__triger">
+                  <div
+                    @click="toggleDetail(order)"
+                    class="admin-hoy__ubicacion-precio admin-hoy__triger">
                     <div class="admin-hoy__nombre-ubicacion">
                       <h3>{{ order.commerce.commercial_name }}</h3>
                       <p
-                       v-if="!order.is_takeout"
+                        v-if="!order.is_takeout"
                       >{{ order.address }}</p>
                     </div>
                     <div class="admin-hoy__precio">
@@ -324,7 +324,7 @@
                   <div
                     @click="changeState(order)"
                     class="admin-hoy__estado size">
-                      {{ order.status }}
+                    {{ order.status }}
                   </div>
                 </div>
                 <div class="admin-hoy__panel-tiempo">
@@ -379,12 +379,12 @@
                 class="admin-hoy__panel-item">
                 <div class="admin-hoy__nombre">
                   <div class="admin-hoy__ubicacion-precio admin-hoy__triger">
-                    <div 
-                     @click="toggleDetail(order)"
-                    class="admin-hoy__nombre-ubicacion">
+                    <div
+                      @click="toggleDetail(order)"
+                      class="admin-hoy__nombre-ubicacion">
                       <h3>{{ order.commerce.commercial_name }}</h3>
                       <p
-                       v-if="!order.is_takeout"
+                        v-if="!order.is_takeout"
                       >{{ order.address }}</p>
                     </div>
                     <div class="admin-hoy__precio">
@@ -431,7 +431,7 @@
                   <div
                     @click="changeState(order)"
                     class="admin-hoy__estado size">
-                      {{ order.status }}
+                    {{ order.status }}
                   </div>
                 </div>
                 <div class="admin-hoy__panel-tiempo">
@@ -508,10 +508,10 @@ export default {
   watch: {
     autoFetchOrder (event, old) {
       if (event) {
-       this.intervalId = setInterval(() => {
+        this.intervalId = setInterval(() => {
           this.fetchOrdersAfter()
-        },5000)
-      }else{
+        }, 5000)
+      } else {
         clearInterval(this.intervalId)
       }
     },
@@ -521,6 +521,7 @@ export default {
       const data = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
       configService(`central_admin/universities/${value.id}/delivery_men?available_only=true`)
         .then(res => {
+          console.log(res.data)
           this.runners = res.data.map(runner => {
             const data = {
               name: `${runner.first_name} ${runner.last_name}`,
@@ -528,7 +529,7 @@ export default {
               last_name: runner.last_name,
               capacity: runner.max_workload,
               process: 1,
-              id: runner.id
+              id: runner.current_shift.id
             }
             return data
           })
@@ -632,23 +633,23 @@ export default {
     }
   },
   methods: {
-     fetchOrdersAfter () {
+    fetchOrdersAfter () {
       const date = new Date()
-       const data = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+      const data = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
       configService(`central_admin/universities/${this.university.id}/orders?date=${data}`)
-      .then(response => {
-        this.orders = response.data
-        this.setOrderCount()
-        this.setTrackTime()
-        this.afterFetch(this.activeFilter)
-        this.setOrdinalOrder(stateGroups.all, 'pending')
-        this.setOutTrack()
-        this.setCounts()
-        console.log(this.filterOrders, this.pendingOrders, this.outTrackedOrders)
-      })
-      .catch(error => {
-        console.log(error)
-      })
+        .then(response => {
+          this.orders = response.data
+          this.setOrderCount()
+          this.setTrackTime()
+          this.afterFetch(this.activeFilter)
+          this.setOrdinalOrder(stateGroups.all, 'pending')
+          this.setOutTrack()
+          this.setCounts()
+          console.log(this.filterOrders, this.pendingOrders, this.outTrackedOrders)
+        })
+        .catch(error => {
+          console.log(error)
+        })
     },
     afterFetch (active) {
       console.log(active)
@@ -680,23 +681,23 @@ export default {
     },
     fetchOrders () {
       const date = new Date()
-       const data = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+      const data = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
       configService(`central_admin/universities/${this.university.id}/orders?date=${data}`)
-      .then(response => {
-        this.orders = response.data
-        this.setOrderCount()
-        this.setTrackTime()
-        this.setOrdinalOrder(stateGroups.all, 'rightColumn')
-        this.setOrdinalOrder(stateGroups.all, 'pending')
-        this.setOutTrack()
-        this.setCounts()
-        console.log(this.filterOrders, this.pendingOrders, this.outTrackedOrders)
-      })
-      .catch(error => {
-        console.log(error)
-      })
+        .then(response => {
+          this.orders = response.data
+          this.setOrderCount()
+          this.setTrackTime()
+          this.setOrdinalOrder(stateGroups.all, 'rightColumn')
+          this.setOrdinalOrder(stateGroups.all, 'pending')
+          this.setOutTrack()
+          this.setCounts()
+          console.log(this.filterOrders, this.pendingOrders, this.outTrackedOrders)
+        })
+        .catch(error => {
+          console.log(error)
+        })
     },
-    setIconClass (type){
+    setIconClass (type) {
       switch (type) {
         case 'ucoins':
           return 'ceu-icon-ucoins'
@@ -704,12 +705,12 @@ export default {
           return 'ceu-icon-coin'
         case 'credit_card':
           return 'ceu-icon-credit-card'
-            case 'datafono':
+        case 'datafono':
           return 'ceu-icon-payment-terminal'
-            case 'nequi':
+        case 'nequi':
           return 'ceu-icon-coin'
         default:
-          break;
+          break
       }
     },
     calculateTotal () {
@@ -748,13 +749,13 @@ export default {
     changeState (order) {
       console.log(order)
       if (order.status === 'waiting_pickup_deliveryman' &&
-          !order.delivery.delivery_man){
-             this.$swal({
-              type: 'error',
-              title: 'Oops...',
-              text: 'Debes asignar un domiciliario'
-            })
-            return 
+          !order.delivery.delivery_man) {
+        this.$swal({
+          type: 'error',
+          title: 'Oops...',
+          text: 'Debes asignar un domiciliario'
+        })
+        return
       }
       const method = this.setStatusToChange(order)
       const index = this.orders.findIndex(element => {
@@ -795,7 +796,7 @@ export default {
       console.log(id, order.delivery.id)
       const data = {
         delivery: {
-          user_id: id
+          shift_id: id
         }
       }
       configService.put(`central_admin/universities/${this.university.id}/deliveries/${order.delivery.id}`, data)
@@ -987,7 +988,7 @@ export default {
           buttons = ['complete_order', 'problem_with_delivery', 'problem_with_hand_off']
           break
         case 'troubleshooting_deliveryman':
-          buttons = ['pickup_order', 'cancel_order']
+          buttons = ['pickup_order', '']
           break
         case 'troubleshooting_hand_off':
           buttons = ['complete_order', 'cancel_order']
@@ -1045,11 +1046,14 @@ export default {
           this.filterOrders = [...auxiliarOrders]
           break
         case 'pending':
-           this.pendingOrders = this.orders.filter(element => {
-        if (!element.is_takeout && !element.delivery.delivery_man && element.status !== 'order_completed') {
-          return true
-        }
-      })
+          this.pendingOrders = this.orders.filter(element => {
+            if (element.id === 284) {
+              console.log(element)
+            }
+            if (!element.is_takeout && !element.delivery.delivery_man && element.status !== 'order_completed') {
+              return true
+            }
+          })
           break
         default:
           break
@@ -1071,11 +1075,7 @@ export default {
     },
     setTrackTime () {
       this.orders = this.orders.map(element => {
-        const createdTime = new Date(element.created_at)
-        const trackDeliveryMinutes = parseInt(element.commerce.avg_delivery_time)
-        const trackPreparationMinutes = parseInt(element.commerce.avg_preparation_time)
-        let trackTime = new Date(createdTime.getFullYear(), createdTime.getMonth(),
-          createdTime.getDate(), createdTime.getHours(), createdTime.getMinutes() + trackDeliveryMinutes + trackPreparationMinutes)
+        let trackTime = new Date(element.programmed_for)
         let deliveryDiference = this.getDifference(trackTime, new Date())
         if (element.status === 'order_completed') {
           deliveryDiference = ''
@@ -1181,10 +1181,9 @@ export default {
   },
   created () {
     this.isAllActive = true
-    const date = new Date()
-    const data = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
     configService(`central_admin/universities/${this.university.id}/delivery_men?available_only=true`)
       .then(res => {
+        console.log(res.data)
         this.runners = res.data.map(runner => {
           const data = {
             name: `${runner.first_name} ${runner.last_name}`,
@@ -1196,6 +1195,7 @@ export default {
           }
           return data
         })
+        console.log(this.runners)
       })
       .catch(error => {
         console.log(error)

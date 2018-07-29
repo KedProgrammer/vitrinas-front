@@ -99,6 +99,11 @@
             <p>({{ takeoutCount }})</p>
           </div>
         </div>
+        <router-link
+          class="admin-hoy_cerrar"
+          :to="{name: 'variables'}">
+          Abrir/Cerrar
+        </router-link>
       </div>
 
       <div class="admin-hoy__estadisticas">

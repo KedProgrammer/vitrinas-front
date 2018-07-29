@@ -107,7 +107,7 @@
           <form
             @submit.prevent="sendClosePlatform"
             class="view-variables__item">
-            <h2>Mensajes visibles/inapp</h2>
+            <h2>Abrir/Cerrar Universidad</h2>
             <div class="view__variables__msg-inapp">
               <div class="ceu-item s-60">
                 <div class="view__variables__check">

@@ -56,6 +56,36 @@
             </div>
           </div>
         </div>
+        <div class="menu-restaurant__descuento">
+          <p
+            @click="toggleShowDiscount"
+            class="add">Agregar descuento</p>
+          <p>Descuento Actual</p>
+          <div class="menu-restaurant__descuento-info">
+            <table class="menu-restaurant__descuento-table">
+              <tr>
+                <th>
+                  Inicio
+                </th>
+                <th>Fin</th>
+                <th>
+                  Precio
+                </th>
+                <th />
+              </tr>
+              <tr>
+                <td>
+                  30 Enero
+                </td>
+                <td>30 Febrero</td>
+                <td>
+                  2000
+                </td>
+                <td class="edit">Editar</td>
+              </tr>
+            </table>
+          </div>
+        </div>
         <div class="ceu-container2">
           <div class="ceu-item s-100">
             <multiselect
@@ -85,12 +115,19 @@
         </div>
       </form>
     </div>
+
+    <Discount
+      @toggle-show-discount="toggleShowDiscount"
+      :id-commerce="idCommerce"
+      :id-plate="idPlate"
+      :show-modal-plate="showModalPlate" />
   </section>
 </template>
 
 <script>
 import VueTimepicker from 'vue2-timepicker'
 import configService from '../../settings/api-url'
+import Discount from './discount'
 export default {
   name: 'Plate',
   props: {
@@ -112,7 +149,8 @@ export default {
     }
   },
   components: {
-    VueTimepicker
+    VueTimepicker,
+    Discount
   },
   watch: {
     showModalPlate (valNew) {
@@ -136,12 +174,24 @@ export default {
         prime_price: ''
       },
       selectModificadores: [],
-      selectModificador: []
+      selectModificador: [],
+      showModalDiscount: false
     }
   },
   methods: {
     toggleShow () {
       this.$emit('toggle-show-plate')
+    },
+    toggleShowDiscount (id) {
+      this.showModalDiscount = !this.showModalDiscount
+    },
+    showDiscount (id) {
+      // configService(`central_admin/categories/${id}/products.json`)
+      //   .then(res => {
+      //   })
+      //   .catch(error => {
+      //     console.log(error.response.data)
+      //   })
     },
     fillForm () {
       configService(`/central_admin/products/${this.idPlate}`)

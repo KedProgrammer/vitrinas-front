@@ -180,3 +180,45 @@
     }
   }
 }
+
+.menu-restaurant__descuento {
+  padding: 0 1rem;
+  p {
+    margin: 0 0 10px 0;
+    font-weight: 400;
+    &.add {
+      color: $principal;
+      text-decoration: underline;
+    }
+  }
+}
+
+.menu-restaurant__descuento-info {
+  display: flex;
+}
+
+.menu-restaurant__descuento-edit {
+  color: $principal;
+  margin-left: 20px;
+}
+
+.menu-restaurant__descuento-table {
+  width: 100%;
+  margin-bottom: 15px;
+  td,
+  th {
+    padding: 5px 8px;
+    text-overflow:ellipsis;
+    white-space:nowrap; 
+    overflow:hidden;
+    &.edit {
+      color: $principal;
+      cursor: pointer;
+    }
+  }
+
+  th {
+    font-weight: 500;
+    text-align: left;
+  }
+}

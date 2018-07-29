@@ -116,6 +116,10 @@
           </div>
           <!-- item -->
         </div>
+        <div class="admin-hoy__estadisticas-item admin-hoy__estadisticas-venta">
+          <p>Tiempo Promedio de entrega</p>
+          <span>{{ averageCompleted }} minutos</span>
+        </div>
       </div>
 
     </section>
@@ -476,6 +480,7 @@ export default {
   },
   data () {
     return {
+      averageCompleted: 0,
       stateSet: '',
       intervalId: 0,
       autoFetchOrder: false,
@@ -547,6 +552,7 @@ export default {
           this.orders = response.data
           this.setOrderCount()
           this.setTrackTime()
+          this.setAverage()
           this.setOrdinalOrder(stateGroups.all, 'rightColumn')
           this.setOrdinalOrder(stateGroups.all, 'pending')
           this.setOutTrack()
@@ -564,6 +570,7 @@ export default {
       this.orders.splice(index, 1, newOrder)
       this.setOrderCount()
       this.setTrackTime()
+      this.setAverage()
       this.setOrdinalOrder(stateGroups.all, 'rightColumn')
       this.setOrdinalOrder(stateGroups.all, 'pending')
       this.setOutTrack()
@@ -638,6 +645,32 @@ export default {
     }
   },
   methods: {
+    setAverage () {
+      let minutes = 0
+      let count = 0
+      console.log(this.orders)
+      this.orders.forEach(element => {
+        let timeCompleted = ''
+        let timeCreated = ''
+        if (element.status === 'order_completed') {
+          count++
+          timeCreated = new Date(element.created_at)
+          element.logs.forEach(element => {
+            if (element.to === 'order_completed') {
+              timeCompleted = new Date(element.created_at)
+            }
+          })
+          console.log(this.getDifference(timeCompleted, timeCreated))
+          minutes = minutes + this.getDifference(timeCompleted, timeCreated)
+        }
+      })
+      if (count === 0) {
+        this.averageCompleted = 0
+      } else {
+        this.averageCompleted = Math.round(minutes / count)
+      }
+      console.log(minutes, count)
+    },
     fetchOrdersAfter () {
       const date = new Date()
       const data = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
@@ -690,8 +723,10 @@ export default {
       configService(`central_admin/universities/${this.university.id}/orders?date=${data}`)
         .then(response => {
           this.orders = response.data
+          console.log(response.data)
           this.setOrderCount()
           this.setTrackTime()
+          this.setAverage()
           this.setOrdinalOrder(stateGroups.all, 'rightColumn')
           this.setOrdinalOrder(stateGroups.all, 'pending')
           this.setOutTrack()
@@ -719,13 +754,18 @@ export default {
       }
     },
     calculateTotal () {
-      const ordersCompleted = this.orders.filter(order => {
-        return order.status === 'order_completed'
+      let result = 0
+      this.orders.forEach(element => {
+        if (element.status === 'order_completed') {
+          console.log(element.status)
+          result = result + element.json_products.reduce((anterior, actual) => {
+            if (actual.category_type !== 'mercadillo') {
+              return anterior + parseInt(actual.total_price) * actual.count
+            }
+          }, 0)
+        }
       })
-      const total = ordersCompleted.reduce((anterior, actual) => {
-        return anterior + parseInt(actual.total)
-      }, 0)
-      return total
+      return result
     },
     setStatusToChange (order) {
       switch (order.status) {
@@ -776,6 +816,7 @@ export default {
           const newOrder = response.data
           this.orders.splice(index, 1, newOrder)
           this.setOrderCount()
+          this.setAverage()
           this.setTrackTime()
           this.setOrdinalOrder(stateGroups.all, 'rightColumn')
           this.setOrdinalOrder(stateGroups.all, 'pending')

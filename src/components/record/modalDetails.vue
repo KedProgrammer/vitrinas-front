@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="orderSummary.commerce"
     :class="{ 'activo': toggleModal }"
     class="modal-admin">
     <button

@@ -755,7 +755,6 @@ export default {
           console.log(element.status)
           result = result + element.json_products.reduce((anterior, actual) => {
             if (actual.category_type !== 'mercadillo') {
-              console.log(anterior,parseInt(actual.total_price), actual.count)
               return anterior + parseInt(actual.total_price) * actual.count
             }
           }, 0)

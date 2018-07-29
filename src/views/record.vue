@@ -91,7 +91,9 @@
               <!-- datos -->
               <div class="admin-resumen__lista-lista-datos-total">
                 <div class="admin-resumen__lista-cliente-restaurante">
-                  <p><strong>Restaurante:</strong> {{ order.commerce.commercial_name }}</p>
+                  <p
+                    v-if="order"
+                  ><strong>Restaurante:</strong> {{ order.commerce.commercial_name }}</p>
                   <p><strong>Cliente</strong> {{ order.campus_email }}</p>
                 </div>
                 <div class="admin-resumen__lista-total">
@@ -291,6 +293,9 @@ export default {
           this.orders = this.orders.sort((a, b) => {
             if (a.status > b.status) {
               return 1
+            }
+            if (a.status < b.status) {
+              return -1
             }
           })
           break

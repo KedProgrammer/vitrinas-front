@@ -172,8 +172,8 @@ export default {
         }
       },
       myRange: {
-        start: new Date(2018, 6, 9),
-        end: new Date(2018, 6, 10)
+        start: new Date(),
+        end: new Date()
       },
       showModalDetails: false
     }

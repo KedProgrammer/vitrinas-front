@@ -1237,7 +1237,7 @@ export default {
             last_name: runner.last_name,
             capacity: runner.max_workload,
             process: 1,
-            id: runner.id
+            id: runner.current_shift.id
           }
           return data
         })

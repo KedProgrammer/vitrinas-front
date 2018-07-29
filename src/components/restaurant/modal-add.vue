@@ -5,7 +5,7 @@
     <div
       @click="toggleShow"
       class="modal-ceu__overley"/>
-    <div class="modal-ceu__content small">
+    <div class="modal-ceu__content xmedium">
       <div
         @click="toggleShow"
         class="modal-ceu__close">

@@ -14,22 +14,22 @@
       <form
         @submit.prevent="sendPlate"
         class="menu-restaurant__content">
-        <div class="menu-restaurant__add-title">
-          <div class="ceu-campo__text-round2">
+        <div class="ceu-container2">
+          <div class="ceu-campo__text-round2 ceu-item s-100">
             <p>Titulo</p>
             <input
               required
               v-model="formPlate.name"
               type="text">
           </div>
-          <div class="ceu-campo__text-round2">
+          <div class="ceu-campo__text-round2 ceu-item s-100">
             <p>Resumen</p>
             <textarea
               required
               v-model="formPlate.tweet"
               maxlength="120" />
           </div>
-          <div class="ceu-campo__text-round2">
+          <div class="ceu-campo__text-round2 ceu-item s-100">
             <p>Descrpción</p>
             <textarea
               required
@@ -54,6 +54,22 @@
                 v-model="formPlate.prime_price"
                 type="number">
             </div>
+          </div>
+        </div>
+        <div class="ceu-container2">
+          <div class="ceu-item s-100 menu-restaurant__descuento-group-modifier">
+            <p>Grupo modificador</p>
+            <multiselect
+              class="custom-select3"
+              v-model="selectModificador"
+              :options="selectModificadores"
+              :searchable="true"
+              :close-on-select="false"
+              :show-labels="false"
+              :multiple="true"
+              label="label"
+              track-by="value"
+              placeholder="Multi Selección" />
           </div>
         </div>
         <div class="menu-restaurant__descuento">
@@ -84,21 +100,6 @@
                 <td class="edit">Editar</td>
               </tr>
             </table>
-          </div>
-        </div>
-        <div class="ceu-container2">
-          <div class="ceu-item s-100">
-            <multiselect
-              class="custom-select3"
-              v-model="selectModificador"
-              :options="selectModificadores"
-              :searchable="true"
-              :close-on-select="false"
-              :show-labels="false"
-              :multiple="true"
-              label="label"
-              track-by="value"
-              placeholder="Multi Selección" />
           </div>
         </div>
         <div class="menu-restaurant__add-footer">
@@ -184,6 +185,7 @@ export default {
     },
     toggleShowDiscount (id) {
       this.showModalDiscount = !this.showModalDiscount
+      console.log(this.showModalDiscount)
     },
     showDiscount (id) {
       // configService(`central_admin/categories/${id}/products.json`)

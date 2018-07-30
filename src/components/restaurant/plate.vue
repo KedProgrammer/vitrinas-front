@@ -74,10 +74,13 @@
         </div>
         <div class="menu-restaurant__descuento">
           <p
+            v-if="!promoToShow.id"
             @click="toggleShowDiscount"
             class="add">Agregar descuento</p>
           <p>Descuento Actual</p>
-          <div class="menu-restaurant__descuento-info">
+          <div
+            v-if="promoToShow.id"
+            class="menu-restaurant__descuento-info">
             <table class="menu-restaurant__descuento-table">
               <tr>
                 <th>
@@ -91,11 +94,11 @@
               </tr>
               <tr>
                 <td>
-                  30 Enero
+                  {{ new Date(promoToShow.end_date).getDate() }}
                 </td>
-                <td>30 Febrero</td>
+                <td>{{ new Date(promoToShow.start_date).getDate() }}</td>
                 <td>
-                  2000
+                  {{ promoToShow.promo_amount }}
                 </td>
                 <td class="edit">Editar</td>
               </tr>
@@ -118,7 +121,8 @@
     </div>
 
     <Discount
-      @toggle-show-discount="toggleShowDiscount"
+      @close-modal="toggleShowDiscount"
+      :show-modal-discount="showModalDiscount"
       :id-commerce="idCommerce"
       :id-plate="idPlate"
       :show-modal-plate="showModalPlate" />
@@ -129,9 +133,17 @@
 import VueTimepicker from 'vue2-timepicker'
 import configService from '../../settings/api-url'
 import Discount from './discount'
+import createPromo from './createPromo'
+import { mapState } from 'vuex'
 export default {
   name: 'Plate',
   props: {
+    promoToShow: {
+      type: Object,
+      default: () => {
+        return {}
+      }
+    },
     showModalPlate: {
       type: Boolean,
       default: false
@@ -149,11 +161,24 @@ export default {
       default: 0
     }
   },
+  computed: {
+    ...mapState(['university'])
+  },
   components: {
     VueTimepicker,
-    Discount
+    Discount,
+    createPromo
+  },
+  created () {
+
+  },
+  mounted () {
+
   },
   watch: {
+    isPlate (event) {
+      console.log(event)
+    },
     showModalPlate (valNew) {
       if (valNew) {
         this.getMofier()
@@ -167,6 +192,7 @@ export default {
   },
   data () {
     return {
+      promos: [],
       formPlate: {
         name: '',
         tweet: '',

@@ -1,6 +1,7 @@
 export const stateGroups = {
   vigentes: ['started', 'waiting_for_external_payment', 'waiting_restaurant_confirmation',
-    'preparing_order', 'waiting_pickup_client', 'waiting_pickup_deliveryman', 'delivering_order'],
+    'preparing_order', 'waiting_pickup_client', 'waiting_pickup_deliveryman', 'delivering_order',
+  'troubleshooting_deliveryman','troubleshooting_restaurant', 'troubleshooting_hand_off'],
   intermedio: ['started', 'waiting_restaurant_confirmation',
     'preparing_order', 'waiting_pickup_client', 'waiting_pickup_deliveryman', 'delivering_order'],
   recogidos: ['delivering_order'],
@@ -8,7 +9,8 @@ export const stateGroups = {
   problemas: ['troubleshooting_restaurant', 'troubleshooting_deliveryman', 'troubleshooting_hand_off'],
   all: ['started', 'waiting_for_external_payment', 'waiting_restaurant_confirmation',
     'preparing_order', 'waiting_pickup_client', 'waiting_pickup_deliveryman', 'delivering_order',
-    'troubleshooting_restaurant', 'troubleshooting_deliveryman', 'troubleshooting_hand_off', 'order_completed'],
+    'troubleshooting_restaurant', 'troubleshooting_deliveryman', 'troubleshooting_hand_off', 'order_completed',
+    'order_canceled_by_troubleshooting_delivery_man', 'order_canceled_in_handoff', 'order_canceled_by_restaurant'],
   pending: ['started', 'waiting_for_external_payment', 'waiting_restaurant_confirmation',
     'preparing_order', 'waiting_pickup_client', 'waiting_pickup_deliveryman',
     'troubleshooting_restaurant'],

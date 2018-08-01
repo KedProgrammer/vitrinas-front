@@ -230,7 +230,7 @@
                   </div>
                 </div>
                 <div class="admin-hoy__panel-tiempo">
-                  <p>{{ setTime(order.created_at) }}</p>
+                  <p>{{ setTime(order.programmed_for) }}</p>
                   <span>({{ order.originalCount }})</span>
                   <p>{{ order.deliveryDiference }}</p>
                 </div>
@@ -337,7 +337,7 @@
                   </div>
                 </div>
                 <div class="admin-hoy__panel-tiempo">
-                  <p>{{ setTime(order.created_at) }}</p>
+                  <p>{{ setTime(order.programmed_for) }}</p>
                   <span>({{ order.originalCount }})</span>
                   <p>{{ order.deliveryDiference }}</p>
                 </div>
@@ -444,7 +444,7 @@
                   </div>
                 </div>
                 <div class="admin-hoy__panel-tiempo">
-                  <p>{{ setTime(order.created_at) }}</p>
+                  <p>{{ setTime(order.programmed_for) }}</p>
                   <span>({{ order.originalCount }})</span>
                   <p>{{ order.deliveryDiference }}</p>
                 </div>
@@ -567,8 +567,21 @@ export default {
       const index = this.orders.findIndex(element => {
         return element.id === newOrder.id
       })
-      this.orders.splice(index, 1, newOrder)
-      this.setOrderCount()
+      let auxiliar = []
+      let newOrder1 = {}
+      newOrder1 = {...newOrder, originalCount: newOrder.json_products.length}
+      newOrder1.json_products.forEach(element => {
+        const repeated = auxiliar.findIndex(element1 => {
+          return element1.total_price === element.total_price && element1.name === element.name
+        })
+        if (repeated === -1) {
+          auxiliar.push({...element, count: 1})
+        } else {
+          auxiliar[repeated].count++
+        }
+      })
+      newOrder1.json_products = auxiliar
+      this.orders.splice(index, 1, newOrder1)
       this.setTrackTime()
       this.setAverage()
       this.setOrdinalOrder(stateGroups.all, 'rightColumn')
@@ -813,9 +826,20 @@ export default {
       configService.post(`central_admin/orders/${order.id}/${method}`, data)
         .then(response => {
           console.log(response.data)
-          const newOrder = response.data
+          let auxiliar = []
+          let newOrder = {...response.data, originalCount: response.data.json_products.length}
+          newOrder.json_products.forEach(element => {
+            const repeated = auxiliar.findIndex(element1 => {
+              return element1.total_price === element.total_price && element1.name === element.name
+            })
+            if (repeated === -1) {
+              auxiliar.push({...element, count: 1})
+            } else {
+              auxiliar[repeated].count++
+            }
+          })
+          newOrder.json_products = auxiliar
           this.orders.splice(index, 1, newOrder)
-          this.setOrderCount()
           this.setAverage()
           this.setTrackTime()
           this.setOrdinalOrder(stateGroups.all, 'rightColumn')
@@ -981,7 +1005,6 @@ export default {
       }
     },
     setOrderCount () {
-      console.log(this.orders)
       this.orders = this.orders.map((element0, index) => {
         let auxiliar = []
         element0 = {...element0, originalCount: element0.json_products.length}
@@ -1034,7 +1057,7 @@ export default {
           buttons = ['complete_order', 'problem_with_delivery', 'problem_with_hand_off']
           break
         case 'troubleshooting_deliveryman':
-          buttons = ['pickup_order', '']
+          buttons = ['pickup_order', 'cancel_order']
           break
         case 'troubleshooting_hand_off':
           buttons = ['complete_order', 'cancel_order']
@@ -1093,9 +1116,6 @@ export default {
           break
         case 'pending':
           this.pendingOrders = this.orders.filter(element => {
-            if (element.id === 284) {
-              console.log(element)
-            }
             if (!element.is_takeout && !element.delivery.delivery_man && element.status !== 'order_completed') {
               return true
             }

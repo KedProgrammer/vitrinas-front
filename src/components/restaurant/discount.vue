@@ -258,7 +258,7 @@ export default {
         })
 
         reader.readAsDataURL(new File(['foo'], this.form.image))
-        xconfigService.post(`central_admin/universities/${this.university.id}/promos`, data)
+        configService.post(`central_admin/universities/${this.university.id}/promos`, data)
           .then(response => {
             this.$swal({
               position: 'top-end',

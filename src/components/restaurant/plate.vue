@@ -75,9 +75,11 @@
         <div class="menu-restaurant__descuento">
           <p
             v-if="!promoToShow.id"
-            @click="toggleShowDiscount"
+            @click="toggleShowDiscount('add')"
             class="add">Agregar descuento</p>
-          <p>Descuento Actual</p>
+          <p
+            v-else
+          >Descuento Actual</p>
           <div
             v-if="promoToShow.id"
             class="menu-restaurant__descuento-info">
@@ -94,13 +96,15 @@
               </tr>
               <tr>
                 <td>
-                  {{ new Date(promoToShow.end_date).getDate() }}
+                  {{ new Date(promoToShow.start_date).getDate() }}
                 </td>
-                <td>{{ new Date(promoToShow.start_date).getDate() }}</td>
+                <td>{{ new Date(promoToShow.end_date).getDate() }}</td>
                 <td>
                   {{ promoToShow.promo_amount }}
                 </td>
-                <td class="edit">Editar</td>
+                <td
+                  @click="toggleShowDiscount('edit')"
+                  class="edit">Editar</td>
               </tr>
             </table>
           </div>
@@ -125,7 +129,9 @@
       :show-modal-discount="showModalDiscount"
       :id-commerce="idCommerce"
       :id-plate="idPlate"
-      :show-modal-plate="showModalPlate" />
+      :show-modal-plate="showModalPlate"
+      :new-promo="newPromo"
+      :form="form"/>
   </section>
 </template>
 
@@ -192,6 +198,18 @@ export default {
   },
   data () {
     return {
+      form: {
+        options: ['porcentaje', 'amount'],
+        formatDateStart: '',
+        formatDateEnd: '',
+        cantidad: '',
+        asumme: '',
+        image: '',
+        promo_type: '',
+        promo_amount: '',
+        active: false
+      },
+      newPromo: false,
       promos: [],
       formPlate: {
         name: '',
@@ -209,7 +227,35 @@ export default {
     toggleShow () {
       this.$emit('toggle-show-plate')
     },
-    toggleShowDiscount (id) {
+    toggleShowDiscount (action) {
+      console.log(action)
+      if (action === 'add') {
+        this.newPromo = true
+        this.form = {
+          options: ['porcentaje', 'amount'],
+          formatDateStart: '',
+          formatDateEnd: '',
+          cantidad: '',
+          asumme: '',
+          image: '',
+          promo_type: '',
+          promo_amount: '',
+          active: false
+        }
+      } else if (action === 'edit') {
+        this.newPromo = false
+        this.form = {
+          options: ['porcentaje', 'amount'],
+          formatDateStart: this.promoToShow.created_at,
+          formatDateEnd: this.promoToShow.end_date,
+          cantidad: this.promoToShow.quantity,
+          asumme: this.promoToShow.is_ceu ? 'universidad' : 'comidaenlau',
+          image: this.promoToShow.banner.url,
+          promo_type: this.promoToShow.promo_type,
+          promo_amount: this.promoToShow.promo_amount,
+          active: this.promoToShow.is_active
+        }
+      }
       this.showModalDiscount = !this.showModalDiscount
       console.log(this.showModalDiscount)
     },

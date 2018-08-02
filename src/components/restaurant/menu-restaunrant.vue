@@ -152,9 +152,9 @@
       :id-plate="idPlate"
       @create-product="showPlates(idCategoryPlate)"
       :id-category="idCategoryPlate"
-      :show-modal-plate="showModalPlate" 
+      :show-modal-plate="showModalPlate"
       :promo-to-show="promoToShow"
-      />
+    />
   </section>
 </template>
 
@@ -384,14 +384,14 @@ export default {
     },
     toggleShowPlate (id) {
       configService(`central_admin/products/${id}`)
-      .then(response => {
-        this.promoToShow = response.data.promos[0]
-        console.log(this.promoToShow)
-        console.log(response.data)
-      })
-      .catch(error => {
-        console.log(eror)
-      })
+        .then(response => {
+          this.promoToShow = response.data.promos[0]
+          console.log(this.promoToShow)
+          console.log(response.data)
+        })
+        .catch(error => {
+          console.log(error)
+        })
       this.idPlate = id
       if (this.idCategoryPlate !== 0) {
         this.showModalPlate = !this.showModalPlate

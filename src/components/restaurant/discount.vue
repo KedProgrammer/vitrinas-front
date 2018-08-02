@@ -102,7 +102,6 @@
               Upload
             </label>
             <input
-              required
               @change="fileImage($event.target.files)"
               :id="'restaurant-edit__banner-input' + index"
               accept="image/*"
@@ -132,6 +131,10 @@ import { mapState } from 'vuex'
 export default {
   name: 'Discount',
   props: {
+    form: {
+      type: Object,
+      default: () => {}
+    },
     showModalDiscount: {
       type: Boolean,
       default: false
@@ -143,6 +146,10 @@ export default {
     idPlate: {
       type: Number,
       default: 0
+    },
+    newPromo: {
+      type: Boolean,
+      default: false
     }
   },
   watch: {
@@ -159,17 +166,6 @@ export default {
   },
   data () {
     return {
-      form: {
-        options: ['porcentaje', 'amount'],
-        formatDateStart: '',
-        formatDateEnd: '',
-        cantidad: '',
-        asumme: '',
-        image: '',
-        promo_type: '',
-        promo_amount: '',
-        active: false
-      }
     }
   },
   computed: {
@@ -235,21 +231,49 @@ export default {
       } else if (this.form.asumme === 'comidaenlau') {
         data.is_ceu = false
       }
-      configService.post(`central_admin/universities/${this.university.id}/promos`, data)
-        .then(response => {
-          this.$swal({
-            position: 'top-end',
-            type: 'success',
-            title: 'Promocion creada satisfactoriamente',
-            showConfirmButton: false,
-            timer: 1500
+      if (this.newPromo) {
+        console.log(data)
+        configService.post(`central_admin/universities/${this.university.id}/promos`, data)
+          .then(response => {
+            this.$swal({
+              position: 'top-end',
+              type: 'success',
+              title: 'Promocion creada satisfactoriamente',
+              showConfirmButton: false,
+              timer: 1500
+            })
+            console.log(response.data)
+            this.$emit('close-modal')
           })
-          console.log(response.data)
-          this.$emit('close-modal')
+          .catch(error => {
+            console.log(error)
+          })
+        console.log(data)
+      } else {
+        const reader = new FileReader()
+
+        reader.addEventListener('load', function () {
+          console.log(reader.result)
+          data.banner = reader.result
         })
-        .catch(error => {
-          console.log(error)
-        })
+
+        reader.readAsDataURL(new File(['foo'], this.form.image))
+        xconfigService.post(`central_admin/universities/${this.university.id}/promos`, data)
+          .then(response => {
+            this.$swal({
+              position: 'top-end',
+              type: 'success',
+              title: 'Promocion creada satisfactoriamente',
+              showConfirmButton: false,
+              timer: 1500
+            })
+            console.log(response.data)
+            this.$emit('close-modal')
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      }
       console.log(data)
     },
     addPlate () {

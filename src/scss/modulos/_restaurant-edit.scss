@@ -409,6 +409,36 @@
 .restaurant-edit__banner-upload {
   display: flex;
 }
+.restaurant-edit__upload-file-promo {
+  p {
+    color: #9013fe;
+    font-weight: 500;
+    margin-right: 20px;
+    font-family: $font1;
+    font-size: 15px;
+    text-align: center;
+  }
+  position: relative;
+  display: flex;
+  width: 50%;
+  flex-direction: column;
+  text-align: center;
+  label {
+    font-family: $font1;
+    font-size: 20px;
+    color: $principal;
+    text-decoration: underline;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  input {
+    position: absolute;
+    left: 0;
+    top: 0;
+    visibility: hidden;
+    width: 2px;
+  }
+}
 
 .restaurant-edit__upload-file {
   position: relative;

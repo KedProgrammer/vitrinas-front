@@ -152,7 +152,9 @@
       :id-plate="idPlate"
       @create-product="showPlates(idCategoryPlate)"
       :id-category="idCategoryPlate"
-      :show-modal-plate="showModalPlate" />
+      :show-modal-plate="showModalPlate"
+      :promo-to-show="promoToShow"
+    />
   </section>
 </template>
 
@@ -193,6 +195,7 @@ export default {
   },
   data () {
     return {
+      promoToShow: {},
       dayWeeks: [
         {value: 0, label: 'Domingo'},
         {value: 1, label: 'Lunes'},
@@ -360,6 +363,8 @@ export default {
       configService(`central_admin/categories/${id}/products.json`)
         .then(res => {
           const data = res.data
+          console.log(this.promoToShow)
+          console.log(data)
           for (let index = 0; index < data.length; index++) {
             let dataPosition = data[index]
             this.products.push(dataPosition)
@@ -378,6 +383,15 @@ export default {
       this.showModalPromo = !this.showModalPromo
     },
     toggleShowPlate (id) {
+      configService(`central_admin/products/${id}`)
+        .then(response => {
+          this.promoToShow = response.data.promos[0]
+          console.log(this.promoToShow)
+          console.log(response.data)
+        })
+        .catch(error => {
+          console.log(error)
+        })
       this.idPlate = id
       if (this.idCategoryPlate !== 0) {
         this.showModalPlate = !this.showModalPlate

@@ -74,10 +74,15 @@
         </div>
         <div class="menu-restaurant__descuento">
           <p
-            @click="toggleShowDiscount"
+            v-if="!promoToShow.id"
+            @click="toggleShowDiscount('add')"
             class="add">Agregar descuento</p>
-          <p>Descuento Actual</p>
-          <div class="menu-restaurant__descuento-info">
+          <p
+            v-else
+          >Descuento Actual</p>
+          <div
+            v-if="promoToShow.id"
+            class="menu-restaurant__descuento-info">
             <table class="menu-restaurant__descuento-table">
               <tr>
                 <th>
@@ -91,13 +96,15 @@
               </tr>
               <tr>
                 <td>
-                  30 Enero
+                  {{ new Date(promoToShow.start_date).getDate() }}
                 </td>
-                <td>30 Febrero</td>
+                <td>{{ new Date(promoToShow.end_date).getDate() }}</td>
                 <td>
-                  2000
+                  {{ promoToShow.promo_amount }}
                 </td>
-                <td class="edit">Editar</td>
+                <td
+                  @click="toggleShowDiscount('edit')"
+                  class="edit">Editar</td>
               </tr>
             </table>
           </div>
@@ -118,10 +125,13 @@
     </div>
 
     <Discount
-      @toggle-show-discount="toggleShowDiscount"
+      @close-modal="toggleShowDiscount"
+      :show-modal-discount="showModalDiscount"
       :id-commerce="idCommerce"
       :id-plate="idPlate"
-      :show-modal-plate="showModalPlate" />
+      :show-modal-plate="showModalPlate"
+      :new-promo="newPromo"
+      :form="form"/>
   </section>
 </template>
 
@@ -129,9 +139,17 @@
 import VueTimepicker from 'vue2-timepicker'
 import configService from '../../settings/api-url'
 import Discount from './discount'
+import createPromo from './createPromo'
+import { mapState } from 'vuex'
 export default {
   name: 'Plate',
   props: {
+    promoToShow: {
+      type: Object,
+      default: () => {
+        return {}
+      }
+    },
     showModalPlate: {
       type: Boolean,
       default: false
@@ -149,11 +167,24 @@ export default {
       default: 0
     }
   },
+  computed: {
+    ...mapState(['university'])
+  },
   components: {
     VueTimepicker,
-    Discount
+    Discount,
+    createPromo
+  },
+  created () {
+
+  },
+  mounted () {
+
   },
   watch: {
+    isPlate (event) {
+      console.log(event)
+    },
     showModalPlate (valNew) {
       if (valNew) {
         this.getMofier()
@@ -167,6 +198,19 @@ export default {
   },
   data () {
     return {
+      form: {
+        options: ['porcentaje', 'amount'],
+        formatDateStart: '',
+        formatDateEnd: '',
+        cantidad: '',
+        asumme: '',
+        image: '',
+        promo_type: '',
+        promo_amount: '',
+        active: false
+      },
+      newPromo: false,
+      promos: [],
       formPlate: {
         name: '',
         tweet: '',
@@ -183,7 +227,35 @@ export default {
     toggleShow () {
       this.$emit('toggle-show-plate')
     },
-    toggleShowDiscount (id) {
+    toggleShowDiscount (action) {
+      console.log(action)
+      if (action === 'add') {
+        this.newPromo = true
+        this.form = {
+          options: ['porcentaje', 'amount'],
+          formatDateStart: '',
+          formatDateEnd: '',
+          cantidad: '',
+          asumme: '',
+          image: '',
+          promo_type: '',
+          promo_amount: '',
+          active: false
+        }
+      } else if (action === 'edit') {
+        this.newPromo = false
+        this.form = {
+          options: ['porcentaje', 'amount'],
+          formatDateStart: this.promoToShow.created_at,
+          formatDateEnd: this.promoToShow.end_date,
+          cantidad: this.promoToShow.quantity,
+          asumme: this.promoToShow.is_ceu ? 'universidad' : 'comidaenlau',
+          image: this.promoToShow.banner.url,
+          promo_type: this.promoToShow.promo_type,
+          promo_amount: this.promoToShow.promo_amount,
+          active: this.promoToShow.is_active
+        }
+      }
       this.showModalDiscount = !this.showModalDiscount
       console.log(this.showModalDiscount)
     },

@@ -117,7 +117,7 @@
           <button
             type="submit"
             class="ceu-btn1">
-            {{ (idPlate === 0) ? 'Agregar Promo' : 'Editar Promo' }}
+            {{ newPromo ? 'Agregar Promo' : 'Editar Promo' }}
           </button>
         </div>
       </form>
@@ -131,6 +131,10 @@ import { mapState } from 'vuex'
 export default {
   name: 'Discount',
   props: {
+    sendBanner: {
+      type: Boolean,
+      default: false
+    },
     form: {
       type: Object,
       default: () => {}
@@ -173,6 +177,7 @@ export default {
   },
   methods: {
     fileImage (file) {
+      this.sendBanner = true
       console.log(file)
       const reader = new FileReader()
       const self = this
@@ -223,15 +228,17 @@ export default {
         is_ceu: this.form.asumme,
         quantity: this.form.cantidad,
         promo_type: this.form.promo_type,
-        promo_amount: this.form.promo_amount,
-        banner: this.form.image
+        promo_amount: this.form.promo_amount
       }
+      console.log(this.newPromo)
+      console.log(data)
       if (this.form.asumme === 'universidad') {
         data.is_ceu = true
       } else if (this.form.asumme === 'comidaenlau') {
         data.is_ceu = false
       }
       if (this.newPromo) {
+        data.banner = this.form.image
         console.log(data)
         configService.post(`central_admin/universities/${this.university.id}/promos`, data)
           .then(response => {
@@ -243,35 +250,45 @@ export default {
               timer: 1500
             })
             console.log(response.data)
+            this.$emit('change-promo', response.data)
             this.$emit('close-modal')
+            this.sendBanner = false
           })
           .catch(error => {
-            console.log(error)
+            this.$swal({
+              type: 'error',
+              title: 'Oops...',
+              text: error.response.data.message
+            })
           })
         console.log(data)
       } else {
-        const reader = new FileReader()
-
-        reader.addEventListener('load', function () {
-          console.log(reader.result)
-          data.banner = reader.result
-        })
-
-        reader.readAsDataURL(new File(['foo'], this.form.image))
-        configService.post(`central_admin/universities/${this.university.id}/promos`, data)
+        console.log(this.sendBanner)
+        console.log(data)
+        if (this.sendBanner === true) {
+          data.banner = this.form.image
+        }
+        console.log(data)
+        configService.put(`central_admin/universities/${this.university.id}/promos/${this.form.promoId}`, data)
           .then(response => {
             this.$swal({
               position: 'top-end',
               type: 'success',
-              title: 'Promocion creada satisfactoriamente',
+              title: 'Promocion Actualizada satisfactoriamente',
               showConfirmButton: false,
               timer: 1500
             })
             console.log(response.data)
+            this.$emit('change-promo', response.data)
             this.$emit('close-modal')
+            this.sendBanner = false
           })
           .catch(error => {
-            console.log(error)
+            this.$swal({
+              type: 'error',
+              title: 'Oops...',
+              text: error.response.data.message
+            })
           })
       }
       console.log(data)
@@ -291,7 +308,6 @@ export default {
     color: #9013fe;
     font-weight: 500;
     margin-right: 20px;
-    font-family: $font1;
     font-size: 15px;
     text-align: center;
   }

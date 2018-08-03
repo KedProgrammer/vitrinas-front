@@ -96,9 +96,9 @@
               </tr>
               <tr>
                 <td>
-                  {{ new Date(promoToShow.start_date).getDate() }}
+                  {{ formatDate(new Date(promoToShow.created_at)) }}
                 </td>
-                <td>{{ new Date(promoToShow.end_date).getDate() }}</td>
+                <td>{{ formatDate(new Date(promoToShow.end_date)) }}</td>
                 <td>
                   {{ promoToShow.promo_amount }}
                 </td>
@@ -125,12 +125,14 @@
     </div>
 
     <Discount
+      @change-promo="promoToShow = $event"
       @close-modal="toggleShowDiscount"
       :show-modal-discount="showModalDiscount"
       :id-commerce="idCommerce"
       :id-plate="idPlate"
       :show-modal-plate="showModalPlate"
       :new-promo="newPromo"
+      send-banner=false
       :form="form"/>
   </section>
 </template>
@@ -182,6 +184,9 @@ export default {
 
   },
   watch: {
+    promoToShow (event, old) {
+      console.log(event)
+    },
     isPlate (event) {
       console.log(event)
     },
@@ -199,7 +204,7 @@ export default {
   data () {
     return {
       form: {
-        options: ['porcentaje', 'amount'],
+        options: ['percentage', 'amount'],
         formatDateStart: '',
         formatDateEnd: '',
         cantidad: '',
@@ -224,6 +229,12 @@ export default {
     }
   },
   methods: {
+    setPromo () {
+      console.log('hola mundo desde abajo')
+    },
+    formatDate (date) {
+      return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+    },
     toggleShow () {
       this.$emit('toggle-show-plate')
     },
@@ -232,7 +243,7 @@ export default {
       if (action === 'add') {
         this.newPromo = true
         this.form = {
-          options: ['porcentaje', 'amount'],
+          options: ['percentage', 'amount'],
           formatDateStart: '',
           formatDateEnd: '',
           cantidad: '',
@@ -245,7 +256,7 @@ export default {
       } else if (action === 'edit') {
         this.newPromo = false
         this.form = {
-          options: ['porcentaje', 'amount'],
+          options: ['percentage', 'amount'],
           formatDateStart: this.promoToShow.created_at,
           formatDateEnd: this.promoToShow.end_date,
           cantidad: this.promoToShow.quantity,
@@ -253,7 +264,8 @@ export default {
           image: this.promoToShow.banner.url,
           promo_type: this.promoToShow.promo_type,
           promo_amount: this.promoToShow.promo_amount,
-          active: this.promoToShow.is_active
+          active: this.promoToShow.is_active,
+          promoId: this.promoToShow.id
         }
       }
       this.showModalDiscount = !this.showModalDiscount

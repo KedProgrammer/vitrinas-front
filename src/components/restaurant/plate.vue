@@ -50,7 +50,6 @@
             <div class="ceu-campo__text-round2">
               Precio prime
               <input
-                required
                 v-model="formPlate.prime_price"
                 type="number">
             </div>
@@ -132,7 +131,7 @@
       :id-plate="idPlate"
       :show-modal-plate="showModalPlate"
       :new-promo="newPromo"
-      send-banner=false
+      :send-banner=false
       :form="form"/>
   </section>
 </template>

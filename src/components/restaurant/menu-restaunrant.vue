@@ -383,15 +383,23 @@ export default {
       this.showModalPromo = !this.showModalPromo
     },
     toggleShowPlate (id) {
-      configService(`central_admin/products/${id}`)
-        .then(response => {
-          this.promoToShow = response.data.promos[0]
-          console.log(this.promoToShow)
-          console.log(response.data)
-        })
-        .catch(error => {
-          console.log(error)
-        })
+      console.log(id)
+      if (id !== 0) {
+        console.log(id)
+        configService(`central_admin/products/${id}`)
+          .then(response => {
+            this.promoToShow = response.data.promos[0]
+            console.log(this.promoToShow)
+            console.log(response.data)
+          })
+          .catch(error => {
+            console.log('hola error')
+            console.log(error)
+          })
+      } else {
+        this.promoToShow = {}
+      }
+      console.log(this.promoToShow)
       this.idPlate = id
       if (this.idCategoryPlate !== 0) {
         this.showModalPlate = !this.showModalPlate

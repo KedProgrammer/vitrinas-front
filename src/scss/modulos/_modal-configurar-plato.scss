@@ -187,6 +187,7 @@
     margin: 0 0 10px 0;
     font-weight: 400;
     &.add {
+      cursor: pointer;
       color: $principal;
       text-decoration: underline;
     }

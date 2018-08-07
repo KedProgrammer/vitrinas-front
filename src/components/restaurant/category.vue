@@ -134,8 +134,8 @@ export default {
       configService(`/central_admin/categories/${this.idCategory}`)
         .then(res => {
           const data = res.data
-          this.idCategoryProgram = data.programs[0].id
           this.form.name = data.name
+          this.days = []
           this.form.start_time = {HH: data.programs[0].start_time.hour, mm: data.programs[0].start_time.minute}
           this.form.end_time = {HH: data.programs[0].end_time.hour, mm: data.programs[0].end_time.minute}
           if (data.programs[0].weekdays !== 0) {
@@ -146,6 +146,7 @@ export default {
               })
             }
           }
+          this.idCategoryProgram = data.programs[0].id
         })
     },
     emptyForm () {
@@ -155,7 +156,6 @@ export default {
     },
     nameDayWeek (day) {
       var nameDay
-      console.log(day)
       switch (day) {
         case 0:
           nameDay = 'Domingo'

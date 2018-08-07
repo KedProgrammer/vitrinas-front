@@ -10,7 +10,7 @@ const store = new Vuex.Store({
     universities: [],
     university: {
       id: 1,
-      name: 'Javeriana'
+      name: 'universidad de los andes'
     },
     universityData: '',
     commerces: {},

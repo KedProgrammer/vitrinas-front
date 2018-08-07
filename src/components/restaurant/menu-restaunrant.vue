@@ -179,7 +179,6 @@ export default {
   },
   watch: {
     showModal (valNew) {
-      console.log('hola')
       if (valNew) {
         this.getCategory()
       } else {
@@ -275,7 +274,6 @@ export default {
               }
             })
               .then(res => {
-                console.log(res)
                 this.getCategory()
                 this.$swal({
                   type: 'success',
@@ -299,7 +297,6 @@ export default {
         })
     },
     activePlate (event, id) {
-      console.log(event)
       configService(`/central_admin/products/${id}`, {
         method: 'PUT',
         data: {
@@ -334,7 +331,6 @@ export default {
               }
             })
               .then(res => {
-                console.log(res)
                 this.showPlates(this.idCategoryPlate)
                 this.$swal({
                   type: 'success',
@@ -363,12 +359,9 @@ export default {
       configService(`central_admin/categories/${id}/products.json`)
         .then(res => {
           const data = res.data
-          console.log(this.promoToShow)
-          console.log(data)
           for (let index = 0; index < data.length; index++) {
             let dataPosition = data[index]
             this.products.push(dataPosition)
-            console.log(dataPosition)
             this.modelPlateChecked.push(dataPosition.is_activated)
           }
         })
@@ -386,8 +379,6 @@ export default {
       configService(`central_admin/products/${id}`)
         .then(response => {
           this.promoToShow = response.data.promos[0]
-          console.log(this.promoToShow)
-          console.log(response.data)
         })
         .catch(error => {
           console.log(error)

@@ -16,6 +16,7 @@ import configService from './settings/api-url'
 import VueCollapse from 'vue2-collapse'
 import { Datetime } from 'vue-datetime'
 import 'vue-datetime/dist/vue-datetime.css'
+import VueFilter from 'vue-filter'
 
 import store from './store'
 import App from './App.vue'
@@ -26,6 +27,7 @@ Vue.use(EventBus)
 Vue.use(VueRouter)
 Vue.use(VueOffline)
 Vue.use(Vue2Filters)
+Vue.use(VueFilter)
 Vue.component('v-select', vSelect)
 Vue.component('multiselect', Multiselect)
 Vue.use(VueGoogleMaps, {

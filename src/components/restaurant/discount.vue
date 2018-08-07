@@ -14,7 +14,7 @@
       <form
         @submit.prevent="sendDiscount"
         class="menu-restaurant__content">
-        <div class="ads-banner__dateLimit ceu-item s-55">
+        <div class="ads-banner__dateLimit ceu-item">
           <div class="ads-banner__dateLimit-item">
             <p>Fecha Inicial</p>
             <datetime
@@ -30,30 +30,31 @@
               v-model="form.formatDateEnd" />
           </div>
         </div>
-        <div class="menu-restaurant__add-title">
-          <div class="cantidad">
+        <div class="menu-restaurant__add-title ceu-container2">
+          <div class="ceu-campo__text-round2 ceu-item s-50">
             <p>Cantidad de usos</p>
             <input
               required
               v-model="form.cantidad"
               type="number">
           </div>
-          <div class="cantidad">
+          <div class="ceu-campo__text-round2 ceu-item s-50">
             <p>Descuento</p>
             <input
               required
               v-model="form.promo_amount"
               type="number">
           </div>
-          <div class="cantidad">
+          <div class="ceu-campo__text-round2 ceu-item s-50">
             <p>Tipo de Promocion</p>
             <v-select
               required
+              class="search-select"
               :options="form.options"
               v-model="form.promo_type"
             />
           </div>
-          <div class="cantidad">
+          <div class="ceu-campo__text-round2 ceu-item s-50">
             <p>Promocion activa</p>
             <div class="lista-checkbox2">
               <input
@@ -67,7 +68,7 @@
             </div>
           </div>
 
-          <div class="ceu-campo__text-round2">
+          <div class="ceu-item s-50">
             <p>Quien asume el descuento</p>
             <div class="lista-radio2">
               <input
@@ -93,17 +94,17 @@
               <label for="metodo-pago-tarjeta-credito"> Universidad </label>
             </div>
           </div>
-          <div class="restaurant-edit__upload-file-promo">
+          <div class="restaurant-edit__upload-file-promo ceu-item s-50">
             <p class="p-promo">Banner de promo</p>
             <div
               :style="{backgroundImage: 'url(' + form.image + ')'}"
               class="restaurant-edit__upload-image" />
-            <label :for="'restaurant-edit__banner-input' + index">
+            <label for="restaurant-edit__banner-input">
               Upload
             </label>
             <input
               @change="fileImage($event.target.files)"
-              :id="'restaurant-edit__banner-input' + index"
+              id="restaurant-edit__banner-input"
               accept="image/*"
               type="file">
           </div>

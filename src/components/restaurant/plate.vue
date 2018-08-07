@@ -96,9 +96,11 @@
               </tr>
               <tr>
                 <td>
-                  {{ new Date(promoToShow.start_date).getDate() }}
+                  {{ promoToShow.created_at | date("%F") }}
                 </td>
-                <td>{{ new Date(promoToShow.end_date).getDate() }}</td>
+                <td>
+                  {{ promoToShow.end_date | date("%F") }}
+                </td>
                 <td>
                   {{ promoToShow.promo_amount }}
                 </td>

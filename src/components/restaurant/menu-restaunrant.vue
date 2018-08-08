@@ -376,13 +376,15 @@ export default {
       this.showModalPromo = !this.showModalPromo
     },
     toggleShowPlate (id) {
-      configService(`central_admin/products/${id}`)
-        .then(response => {
-          this.promoToShow = response.data.promos[0]
-        })
-        .catch(error => {
-          console.log(error)
-        })
+      if (id !== undefined) {
+        configService(`central_admin/products/${id}`)
+          .then(response => {
+            this.promoToShow = response.data.promos[0]
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      }
       this.idPlate = id
       if (this.idCategoryPlate !== 0) {
         this.showModalPlate = !this.showModalPlate

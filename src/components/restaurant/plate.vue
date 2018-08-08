@@ -43,16 +43,15 @@
               <input
                 required
                 v-model="formPlate.price"
-                type="number">
+                type="text">
             </div>
           </div>
           <div class="cue-item padding s-50">
             <div class="ceu-campo__text-round2">
               Precio prime
               <input
-                required
                 v-model="formPlate.prime_price"
-                type="number">
+                type="text">
             </div>
           </div>
         </div>
@@ -143,6 +142,7 @@ import configService from '../../settings/api-url'
 import Discount from './discount'
 import createPromo from './createPromo'
 import { mapState } from 'vuex'
+import { mixins } from '../../mixins.js'
 export default {
   name: 'Plate',
   props: {
@@ -172,6 +172,7 @@ export default {
   computed: {
     ...mapState(['university'])
   },
+  mixins: [mixins],
   components: {
     VueTimepicker,
     Discount,
@@ -273,13 +274,16 @@ export default {
       configService(`/central_admin/products/${this.idPlate}`)
         .then(res => {
           const data = res.data
+          const price = this.cleanMoney(data.price)
+          const pricePrime = this.cleanMoney(data.prime_price)
           this.formPlate = {
             name: data.name,
             tweet: data.tweet,
             description: data.description,
-            price: data.price,
-            prime_price: data.prime_price
+            price: price,
+            prime_price: pricePrime
           }
+          console.log(data)
           for (let index = 0; index < data.product_options.length; index++) {
             let dataPosition = data.product_options[index]
             console.log(dataPosition)
@@ -361,7 +365,6 @@ export default {
         let dataPosition = this.selectModificador[index]
         idsModificadores.push(dataPosition.value)
       }
-      console.log(idsModificadores)
       const data = {
         'product': {
           'name': this.formPlate.name,
@@ -373,6 +376,7 @@ export default {
           'product_option_ids': idsModificadores
         }
       }
+      console.log(this.idPlate)
       configService(`/central_admin/products/${this.idPlate}`, {
         method: 'PUT',
         data

@@ -308,7 +308,7 @@ export default {
         data: {
           reopens_at: hour,
           is_open: this.openPlatform,
-          welcome_message: this.messagePlatform
+          closed_message: this.messagePlatform
         }
       })
         .then(res => {
@@ -349,7 +349,7 @@ export default {
       this.timeHourPlatform = {HH: '00', mm: '00'}
       this.universityDataActions(this.university.id)
         .then(res => {
-          this.messagePlatform = res.data.welcome_message
+          this.messagePlatform = res.data.closed_message
           if (res.data.reopens_at) {
             this.timeHourPlatform = {
               HH: res.data.reopens_at.hour,

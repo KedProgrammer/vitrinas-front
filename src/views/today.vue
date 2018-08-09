@@ -212,7 +212,7 @@
                         </div>
                         <div class="runners__list-status">
                           <div class="runner__list-available">
-                            {{ option.process }} / {{ option.capacity }}
+                            {{ option.queued_orders }} / {{ option.capacity }}
                           </div>
                           <i class="ion-android-arrow-forward" />
                         </div>
@@ -319,7 +319,7 @@
                         </div>
                         <div class="runners__list-status">
                           <div class="runner__list-available">
-                            {{ option.process }} / {{ option.capacity }}
+                            {{ option.queued_orders }} / {{ option.capacity }}
                           </div>
                           <i class="ion-android-arrow-forward" />
                         </div>
@@ -426,7 +426,7 @@
                         </div>
                         <div class="runners__list-status">
                           <div class="runner__list-available">
-                            {{ option.process }} / {{ option.capacity }}
+                            {{ option.queued_orders }} / {{ option.capacity }}
                           </div>
                           <i class="ion-android-arrow-forward" />
                         </div>
@@ -592,6 +592,7 @@ export default {
       })
       this.orderSummary = order
       this.setCounts()
+      this.activeFilterMethod(this.activeFilter)
     },
     activeFilter (active) {
       console.log(active)
@@ -658,6 +659,37 @@ export default {
     }
   },
   methods: {
+    activeFilterMethod (active) {
+      console.log(active)
+      switch (active) {
+        case 'all':
+          this.setOrdinalOrder(stateGroups.all, 'rightColumn')
+          break
+        case 'vigentes':
+          this.groupOrders(stateGroups.vigentes, 'rightColumn')
+          break
+        case 'estado':
+          this.groupOrders(stateGroups.intermedio, 'rightColumn')
+          break
+        case 'recogidos':
+          this.setOrdinalOrder(stateGroups.recogidos, 'rightColumn')
+          break
+        case 'problemas':
+          this.setOrdinalOrder(stateGroups.problemas, 'rightColumn')
+          break
+        case 'entregados':
+          this.setOrdinalOrder(stateGroups.entregados, 'rightColumn')
+          break
+        case 'prime':
+          this.setOrdinalOrder(active, 'rightColumn')
+          break
+        default:
+          break
+      }
+      this.rightPanelActive = ''
+      this.middlePanelActive = ''
+      this.letfPanelActive = ''
+    },
     setAverage () {
       let minutes = 0
       let count = 0
@@ -850,6 +882,7 @@ export default {
           })
           this.calculateStateButtons(summary)
           this.setCounts()
+          this.activeFilterMethod(this.activeFilter)
         })
         .catch(error => {
           console.log(error)
@@ -881,6 +914,7 @@ export default {
               last_name: lastName
             }
           }
+          this.fetchDomiciliaries()
           this.calculateStateButtons(order)
           this.setOrdinalOrder(stateGroups.all, 'pending')
         })
@@ -1243,29 +1277,33 @@ export default {
         return !element.is_takeout
       }).length
       this.outTrackedOrdersCount = this.outTrackedOrders.length
+    },
+    fetchDomiciliaries () {
+      configService(`central_admin/universities/${this.university.id}/delivery_men?available_only=true`)
+        .then(res => {
+          console.log(res.data)
+          this.runners = res.data.map(runner => {
+            const data = {
+              name: `${runner.first_name} ${runner.last_name}`,
+              first_name: runner.first_name,
+              last_name: runner.last_name,
+              capacity: runner.max_workload,
+              process: 1,
+              id: runner.current_shift.id,
+              queued_orders: runner.queued_orders
+            }
+            return data
+          })
+          console.log(this.runners)
+        })
+        .catch(error => {
+          console.log(error)
+        })
     }
   },
   created () {
     this.isAllActive = true
-    configService(`central_admin/universities/${this.university.id}/delivery_men?available_only=true`)
-      .then(res => {
-        console.log(res.data)
-        this.runners = res.data.map(runner => {
-          const data = {
-            name: `${runner.first_name} ${runner.last_name}`,
-            first_name: runner.first_name,
-            last_name: runner.last_name,
-            capacity: runner.max_workload,
-            process: 1,
-            id: runner.current_shift.id
-          }
-          return data
-        })
-        console.log(this.runners)
-      })
-      .catch(error => {
-        console.log(error)
-      })
+    this.fetchDomiciliaries()
     this.fetchOrders()
     this.orderSummary = this.orders[0]
   }

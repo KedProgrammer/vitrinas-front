@@ -7,6 +7,7 @@ import Addons from './views/addons.vue'
 import ModifierGroup from './views/modifier-group.vue'
 import Login from './views/login.vue'
 import Ads from './views/ads.vue'
+import Cupons from './views/cupons.vue'
 import Error404 from './views/error404.vue'
 
 const routes = [
@@ -55,6 +56,11 @@ const routes = [
     path: '/ads',
     component: Ads,
     name: 'ads'
+  },
+  {
+    path: '/cupons',
+    component: Cupons,
+    name: 'cupons'
   },
   {
     path: '/*',

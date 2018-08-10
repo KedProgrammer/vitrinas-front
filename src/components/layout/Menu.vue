@@ -25,6 +25,11 @@
       :to="{ name: 'team'}">
       Team
     </router-link>
+    <router-link
+      class="admin__menu-item"
+      :to="{ name: 'cupons'}">
+      Cupons
+    </router-link>
     <!-- <a
       href=""
       class="admin__menu-item">PROMO</a> -->

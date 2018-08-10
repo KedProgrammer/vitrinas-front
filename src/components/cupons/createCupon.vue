@@ -200,11 +200,11 @@ export default {
     }
   },
   created () {
-    configService(`central_admin/universities/${this.$store.state.university.id}/commerces`)
+    configService(`/central_admin/universities/${this.$store.state.university.id}/commerces`)
       .then(response => {
         this.commerces = response.data.map(element => ({value: element.id, label: element.commercial_name}))
       })
-    configService(`http://staging.comidaenlau.com/central_admin/universities/${this.$store.state.university.id}/groups`)
+    configService(`/central_admin/universities/${this.$store.state.university.id}/groups`)
       .then(response => {
         this.groups = response.data.map(element => ({value: element.id, label: element.name}))
       })

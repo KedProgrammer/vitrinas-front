@@ -83,6 +83,7 @@
 <script>
 import { mapState } from 'vuex'
 import configService from '../../settings/api-url'
+import { mixins } from '../../mixins.js'
 export default {
   name: 'Associate',
   props: {
@@ -112,6 +113,7 @@ export default {
   computed: {
     ...mapState(['university', 'commerces', 'commerce'])
   },
+  mixins: [mixins],
   data () {
     return {
       idAddonCurrent: '',
@@ -138,13 +140,13 @@ export default {
     getAssociateAddons () {
       this.listAddos = []
       this.modelPrice = []
-      configService(`http://staging.comidaenlau.com/central_admin/product_options/${this.currentModifier}/add_on_price_options`)
+      configService(`/central_admin/product_options/${this.currentModifier}/add_on_price_options`)
         .then(res => {
           const data = res.data
           for (let index = 0; index < data.length; index++) {
             const dataPosition = data[index]
             this.listAddos.push(dataPosition)
-            this.modelPrice.push(dataPosition.price)
+            this.modelPrice.push(this.cleanMoney(dataPosition.price))
           }
         })
     },

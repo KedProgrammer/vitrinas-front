@@ -81,11 +81,13 @@ export default {
         'email': this.log_email,
         'password': this.log_password
       }
+      console.log(dataLog)
       configService('/auth/central_login.json', {
         method: 'post',
         data: dataLog
       })
         .then(res => {
+          console.log(res)
           localStorage.setItem('yek', res.data.auth_token)
           location.reload()
         })

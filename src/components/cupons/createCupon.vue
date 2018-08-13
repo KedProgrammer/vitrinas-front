@@ -28,19 +28,12 @@
         </div>
         <div class="ads-banner__dateLimit ceu-item">
           <div class="ads-banner__dateLimit-item">
-            <p>Grupos</p>
-            <multiselect
+            <p>Grupo</p>
+            <v-select
               required
-              class="custom-select3"
-              v-model="groupOptions"
-              :options="groups"
-              :searchable="false"
-              :close-on-select="false"
-              :show-labels="false"
-              :multiple="true"
-              label="label"
-              track-by="value"
-              placeholder="Multi Selección" />
+              class="search-select"
+              v-model="groupOption"
+              :options="groups"/>
           </div>
           <div class="ads-banner__dateLimit-item">
             <p>Tipo</p>
@@ -73,13 +66,13 @@
               v-model="amount"
               type="number">
           </div>
-          <div class="ceu-campo__text-round2 ceu-item s-50">
+          <!-- <div class="ceu-campo__text-round2 ceu-item s-50">
             <p>Veces por usuario</p>
             <input
               required
               v-model="timesPerUser"
               type="number">
-          </div>
+          </div> -->
           <div class="ads-banner__dateLimit-item">
             <p>Restaurantes</p>
             <multiselect
@@ -119,7 +112,7 @@ export default {
   data () {
     return {
       commercesOptions: [],
-      groupOptions: [],
+      groupOption: '',
       groups: [],
       types: ['free_delivery', 'monetary_discount', 'percentage_discount'],
       type: '',
@@ -184,15 +177,38 @@ export default {
           start_date: this.myRange.start,
           end_date: this.myRange.end,
           commerce_ids: this.commercesOptions.map(element => element.value),
-          group_id: 2,
-          amount_of_uses: this.amount,
-          group: 'prueba'
+          group_id: this.groupOption.value,
+          amount_of_uses: this.amount
         }
       }
       console.log(data)
       configService.post(`/central_admin/universities/${this.$store.state.university.id}/coupons`, data)
         .then(response => {
+          this.$swal({
+            position: 'top-end',
+            type: 'success',
+            title: 'El cupon  ha sido creado correctamente',
+            showConfirmButton: false,
+            timer: 1500
+          })
           console.log(response.data)
+          this.code = ''
+          this.type = ''
+          this.value = ''
+          this.myRange.start = new Date()
+          this.myRange.end = new Date()
+          this.commercesOptions = []
+          this.groupOption = ''
+          this.amount = ''
+          this.$emit('toggle-add')
+          this.$emit('new-coupon', response.data)
+        })
+        .catch(error => {
+          this.$swal({
+            type: 'error',
+            title: 'Oops...',
+            text: error.response.data.message
+          })
         })
     },
     toggleShow () {

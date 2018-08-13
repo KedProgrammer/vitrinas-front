@@ -232,7 +232,7 @@ export default {
           this.$swal({
             type: 'error',
             title: 'Oops...',
-            text: error.response.data
+            text: error.response.data.message
           })
           console.log(error.response.data)
         })

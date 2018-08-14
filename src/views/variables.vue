@@ -12,83 +12,15 @@
               v-if="formRate.length !== 0"
               class="view-variables__table">
               <table>
-                <tr>
+                <tr
+                  v-for="(item, index) in formRate"
+                  :key="index">
                   <td>
-                    Domicilio  primer plato Cliente
+                    {{ formRate[index].name }}
                   </td>
                   <td>
                     <input
-                      v-model="formRate[0].value"
-                      type="text">
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    Domicilio platos adicionales cliente
-                  </td>
-                  <td>
-                    <input
-                      v-model="formRate[1].value"
-                      type="text">
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    Take out primer plato cliente
-                  </td>
-                  <td>
-                    <input
-                      v-model="formRate[2].value"
-                      type="text">
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    Take out plato adicional cliente
-                  </td>
-                  <td>
-                    <input
-                      v-model="formRate[3].value"
-                      type="text">
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    Domicilio primer plato Cliente prime
-                  </td>
-                  <td>
-                    <input
-                      v-model="formRate[4].value"
-                      type="text">
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    Platos adicionales cliente prime
-                  </td>
-                  <td>
-                    <input
-                      v-model="formRate[5].value"
-                      type="text">
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    Take out plato 1 cliente prime
-                  </td>
-                  <td>
-                    <input
-                      v-model="formRate[6].value"
-                      type="text">
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    Take out plato adicional cliente prime
-                  </td>
-                  <td>
-                    <input
-                      v-model="formRate[7].value"
+                      v-model="formRate[index].value"
                       type="text">
                   </td>
                 </tr>
@@ -284,7 +216,6 @@ export default {
     },
     sendRate () {
       this.formRate.forEach((element, index) => {
-        console.log(element)
         configService(`/central_admin/universities/${this.university.id}/university_variables/${element.name}`, {
           method: 'PUT',
           data: {
@@ -292,12 +223,17 @@ export default {
           }
         })
           .then(res => {
-            this.$swal({
-              type: 'success',
-              title: 'Cambios Aplicados!',
-              timer: 2000,
-              showConfirmButton: false
-            })
+            if (index === this.formRate.length - 1) {
+              this.$swal({
+                type: 'success',
+                title: 'Cambios Aplicados!',
+                timer: 2000,
+                showConfirmButton: false
+              })
+            }
+          })
+          .catch(error => {
+            console.log(error.response.data)
           })
       })
     },

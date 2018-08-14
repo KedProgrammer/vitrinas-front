@@ -112,7 +112,7 @@
           <!-- item -->
           <div class="admin-hoy__estadisticas-item admin-hoy__estadisticas-venta">
             <p>Ventas</p>
-            <span>{{ calculateTotal() | currency('$', 0) }}</span>
+            <span>{{ calculateTotal() }}</span>
           </div>
           <!-- item -->
         </div>
@@ -183,7 +183,7 @@
                       >{{ order.address }}</p>
                     </div>
                     <div class="admin-hoy__precio">
-                      <h3>{{ order.total | currency('$', 0) }}</h3>
+                      <h3>{{ order.total }}</h3>
                       <p>
                         <i :class="setIconClass(order.payment_type)"/>
                         {{ order.id }}
@@ -290,7 +290,7 @@
                       >{{ order.address }}</p>
                     </div>
                     <div class="admin-hoy__precio">
-                      <h3>{{ order.total | currency('$', 0) }}</h3>
+                      <h3>{{ order.total }}</h3>
                       <p>
                         <i :class="setIconClass(order.payment_type)"/>
                         {{ order.id }}
@@ -397,7 +397,7 @@
                       >{{ order.address }}</p>
                     </div>
                     <div class="admin-hoy__precio">
-                      <h3> {{ order.total | currency('$', 0) }}</h3>
+                      <h3> {{ order.total }}</h3>
                       <p>
                         <i :class="setIconClass(order.payment_type)"/>
                         {{ order.id }}

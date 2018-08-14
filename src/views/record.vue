@@ -97,7 +97,7 @@
                   <p><strong>Cliente</strong> {{ order.campus_email }}</p>
                 </div>
                 <div class="admin-resumen__lista-total">
-                  TOTAL COP <strong>{{ order.total | currency('$', 0) }}</strong>
+                  TOTAL COP <strong>{{ order.total }}</strong>
                 </div>
               </div>
             </div>

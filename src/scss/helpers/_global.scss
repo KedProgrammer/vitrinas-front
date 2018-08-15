@@ -540,6 +540,42 @@ body {
   }
 }
 
+.ceu-campo__text-round3 {
+  margin-bottom: 15px;
+  p {
+    margin: 0 0 5px 0;
+    font-size: 18px;
+    color: #9013fe;
+    font-weight: 500;
+  }
+  input,
+  textarea {
+    font-family: $font1;
+    font-size: 16px;
+    color: #404040;
+    border-radius: 8px;
+    background-color: #ffffff;
+    border: solid 1px #e5edef;
+    padding: 8px 10px;
+    width: 100%;
+    &:focus {
+      outline: none;
+    }
+    &::-webkit-input-placeholder {
+      color: #9b9b9b;
+    }
+    &::-moz-placeholder {
+      color: #9b9b9b;
+    }
+    &:-ms-input-placeholder {
+      color: #9b9b9b;
+    }
+    &:-moz-placeholder {
+      color: #9b9b9b;
+    }
+  }
+}
+
 .ceu-campo__text2 {
   input {
     border: none;

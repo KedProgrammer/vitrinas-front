@@ -52,7 +52,7 @@
                 </div>
               </div>
               <div class="restaurant-edit__logo-info">
-                <strong>Formato logo:</strong> .png 500*500px
+                <strong>Formato logo:</strong> .png
               </div>
             </div>
             <!-- servicios - name -->
@@ -313,7 +313,7 @@
             <!-- item -->
             <div class="restaurant-edit__add-banner-titulo">
               <h4>Crear Banner</h4>
-              <p><strong>Formato:</strong> .png, .jpg, .jpeg | 1920 * 640px</p>
+              <p><strong>Formato:</strong> .png, .jpg, .jpeg | 920 * 320px</p>
             </div>
             <div class="restaurant-edit__banner-list-item">
               <div class="restaurant-edit__banner-upload">

@@ -5,7 +5,7 @@
     <div
       @click="toggleShow"
       class="modal-ceu__overley"/>
-    <div class="modal-ceu__content modal-ceu__menu-category xsmall">
+    <div class="modal-ceu__content modal-ceu__menu-category medium">
       <div
         @click="toggleShow"
         class="modal-ceu__close">
@@ -13,8 +13,8 @@
       </div>
       <form
         @submit.prevent="sendCoupon"
-        class="menu-restaurant__content">
-        <div class="admin-resumen__calendario">
+        class="menu-restaurant__content ceu-container2">
+        <div class="admin-resumen__calendario ceu-item s-40">
           <v-date-picker
             required
             mode='range'
@@ -26,70 +26,72 @@
             tint-color="#9013fe"
             :attributes='attrs' />
         </div>
-        <div class="ads-banner__dateLimit ceu-item">
-          <div class="ads-banner__dateLimit-item">
-            <p>Grupo</p>
-            <v-select
-              required
-              class="search-select"
-              v-model="groupOption"
-              :options="groups"/>
+        <div class="ceu-item s-60">
+          <div class="ads-banner__dateLimit ceu-container2">
+            <div class="ads-banner__dateLimit-item s-50">
+              <p>Grupo</p>
+              <v-select
+                required
+                class="search-select"
+                v-model="groupOption"
+                :options="groups"/>
+            </div>
+            <div class="ads-banner__dateLimit-item s-50">
+              <p>Tipo</p>
+              <v-select
+                required
+                class="custom-select2"
+                :options="types"
+                v-model="type"
+              />
+            </div>
           </div>
-          <div class="ads-banner__dateLimit-item">
-            <p>Tipo</p>
-            <v-select
-              required
-              class="search-select"
-              :options="types"
-              v-model="type"
-            />
+          <div class="menu-restaurant__add-title ceu-container2">
+            <div class="ceu-campo__text-round3 ceu-item s-50">
+              <p>Valor</p>
+              <input
+                required
+                v-model="value"
+                type="number">
+            </div>
+            <div class="ceu-campo__text-round3 ceu-item s-50">
+              <p>Codigo</p>
+              <input
+                required
+                v-model="code">
+            </div>
+            <div class="ceu-campo__text-round3 ceu-item s-50">
+              <p>Cantidad de usos</p>
+              <input
+                required
+                v-model="amount"
+                type="number">
+            </div>
+            <!-- <div class="ceu-campo__text-round3 ceu-item s-50">
+              <p>Veces por usuario</p>
+              <input
+                required
+                v-model="timesPerUser"
+                type="number">
+            </div> -->
+            <div class="ceu-campo__text-round3 ceu-item s-100">
+              <p>Restaurantes</p>
+              <multiselect
+                required
+                class="custom-select3"
+                v-model="commercesOptions"
+                :options="commerces"
+                :searchable="false"
+                :close-on-select="false"
+                :show-labels="false"
+                :multiple="true"
+                label="label"
+                track-by="value"
+                placeholder="Multi Selección" />
+            </div>
           </div>
         </div>
-        <div class="menu-restaurant__add-title ceu-container2">
-          <div class="ceu-campo__text-round2 ceu-item s-50">
-            <p>Valor</p>
-            <input
-              required
-              v-model="value"
-              type="number">
-          </div>
-          <div class="ceu-campo__text-round2 ceu-item s-50">
-            <p>Codigo</p>
-            <input
-              required
-              v-model="code">
-          </div>
-          <div class="ceu-campo__text-round2 ceu-item s-50">
-            <p>Cantidad de usos</p>
-            <input
-              required
-              v-model="amount"
-              type="number">
-          </div>
-          <!-- <div class="ceu-campo__text-round2 ceu-item s-50">
-            <p>Veces por usuario</p>
-            <input
-              required
-              v-model="timesPerUser"
-              type="number">
-          </div> -->
-          <div class="ads-banner__dateLimit-item">
-            <p>Restaurantes</p>
-            <multiselect
-              required
-              class="custom-select3"
-              v-model="commercesOptions"
-              :options="commerces"
-              :searchable="false"
-              :close-on-select="false"
-              :show-labels="false"
-              :multiple="true"
-              label="label"
-              track-by="value"
-              placeholder="Multi Selección" />
-          </div>
-        </div>
-        <div class="menu-restaurant__add-footer">
+        <div class="menu-restaurant__add-footer s-100">
           <div
             @click="toggleShow"
             class="ceu-btn2 black">

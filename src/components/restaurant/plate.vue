@@ -127,7 +127,7 @@
 
     <Discount
       @change-promo="promoToShow = $event"
-      @close-modal="toggleShowDiscount"
+      @close-modal="closeDiscount"
       :show-modal-discount="showModalDiscount"
       :id-commerce="idCommerce"
       :id-plate="idPlate"
@@ -241,6 +241,9 @@ export default {
     toggleShow () {
       this.$emit('toggle-show-plate')
     },
+    closeDiscount () {
+      this.showModalDiscount = !this.showModalDiscount
+    },
     toggleShowDiscount (action) {
       console.log(action)
       if (action === 'add') {
@@ -287,7 +290,10 @@ export default {
         .then(res => {
           const data = res.data
           const price = this.cleanMoney(data.price)
-          const pricePrime = this.cleanMoney(data.prime_price)
+          let pricePrime = ''
+          if (data.prime_price) {
+            pricePrime = this.cleanMoney(data.prime_price)
+          }
           this.formPlate = {
             name: data.name,
             tweet: data.tweet,

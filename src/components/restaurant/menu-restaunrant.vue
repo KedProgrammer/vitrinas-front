@@ -377,7 +377,7 @@ export default {
     },
     toggleShowPlate (id) {
       console.log(id)
-      if (id !== 0 || id !== undefined) {
+      if (id && id !== 0) {
         console.log(id)
         configService(`central_admin/products/${id}`)
           .then(response => {

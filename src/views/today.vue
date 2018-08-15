@@ -112,7 +112,7 @@
           <!-- item -->
           <div class="admin-hoy__estadisticas-item admin-hoy__estadisticas-venta">
             <p>Ventas</p>
-            <span>{{ calculateTotal() | currency('$', 0) }}</span>
+            <span>{{ calculateTotal() }}</span>
           </div>
           <!-- item -->
         </div>
@@ -183,7 +183,7 @@
                       >{{ order.address }}</p>
                     </div>
                     <div class="admin-hoy__precio">
-                      <h3>{{ order.total | currency('$', 0) }}</h3>
+                      <h3>{{ order.total }}</h3>
                       <p>
                         <i :class="setIconClass(order.payment_type)"/>
                         {{ order.id }}
@@ -290,7 +290,7 @@
                       >{{ order.address }}</p>
                     </div>
                     <div class="admin-hoy__precio">
-                      <h3>{{ order.total | currency('$', 0) }}</h3>
+                      <h3>{{ order.total }}</h3>
                       <p>
                         <i :class="setIconClass(order.payment_type)"/>
                         {{ order.id }}
@@ -397,7 +397,7 @@
                       >{{ order.address }}</p>
                     </div>
                     <div class="admin-hoy__precio">
-                      <h3> {{ order.total | currency('$', 0) }}</h3>
+                      <h3> {{ order.total }}</h3>
                       <p>
                         <i :class="setIconClass(order.payment_type)"/>
                         {{ order.id }}
@@ -969,7 +969,7 @@ export default {
             })
           }
           if (side === 'middle') {
-            this.filterOutTrackedOrders = this.filterOutTrackedOrders.sort((a, b) => {
+            this.filteredOutTrackedOrders = this.filteredOutTrackedOrders.sort((a, b) => {
               return new Date(b.trackTime) - new Date(a.trackTime)
             })
           }
@@ -987,7 +987,7 @@ export default {
             })
           }
           if (side === 'middle') {
-            this.filterOutTrackedOrders = this.filterOutTrackedOrders.sort((a, b) => {
+            this.filteredOutTrackedOrders = this.filteredOutTrackedOrders.sort((a, b) => {
               return new Date(a.created_at) - new Date(b.created_at)
             })
           }
@@ -995,18 +995,19 @@ export default {
         case 'price':
           if (side === 'left') {
             this.pendingOrders = this.pendingOrders.sort((a, b) => {
-              return a.total - b.total
+              console.log(a.total)
+              return Math.floor(parseFloat(b.total.replace(/[^\d\.\-]/g, ""))) - Math.floor(parseFloat(a.total.replace(/[^\d\.\-]/g, "")))
             })
           }
 
           if (side === 'right') {
             this.filterOrders = this.filterOrders.sort((a, b) => {
-              return a.total - b.total
+              return Math.floor(parseFloat(b.total.replace(/[^\d\.\-]/g, ""))) - Math.floor(parseFloat(a.total.replace(/[^\d\.\-]/g, "")))
             })
           }
           if (side === 'middle') {
             this.filteredOutTrackedOrders = this.filteredOutTrackedOrders.sort((a, b) => {
-              return a.total - b.total
+              return Math.floor(parseFloat(b.total.replace(/[^\d\.\-]/g, ""))) - Math.floor(parseFloat(a.total.replace(/[^\d\.\-]/g, "")))
             })
           }
           break

@@ -20,8 +20,7 @@
           ofLabel: 'al',
           allLabel: 'Todo'
         }"
-        style-class="ceu-table"
-        @on-cell-click="cellClick">
+        style-class="ceu-table">
         <div
           class="ceu-table__actions"
           slot="table-actions">

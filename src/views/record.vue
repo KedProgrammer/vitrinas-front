@@ -97,7 +97,7 @@
                   <p><strong>Cliente</strong> {{ order.campus_email }}</p>
                 </div>
                 <div class="admin-resumen__lista-total">
-                  TOTAL COP <strong>{{ order.total | currency('$', 0) }}</strong>
+                  TOTAL COP <strong>{{ order.total }}</strong>
                 </div>
               </div>
             </div>
@@ -224,6 +224,7 @@ export default {
             console.log(error)
           })
       } else {
+        console.log(dataStart, dataEnd)
         configService(`central_admin/universities/${this.university.id}/orders?start_date=${dataStart}&end_date=${dataEnd}`)
           .then(response => {
             this.orders = response.data
@@ -286,7 +287,7 @@ export default {
           break
         case 'price':
           this.orders = this.orders.sort((a, b) => {
-            return b.total - a.total
+            return Math.floor(parseFloat(b.total.replace(/[^\d\.\-]/g, ""))) - Math.floor(parseFloat(a.total.replace(/[^\d\.\-]/g, "")))
           })
           break
         case 'state':

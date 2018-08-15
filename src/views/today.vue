@@ -969,7 +969,7 @@ export default {
             })
           }
           if (side === 'middle') {
-            this.filterOutTrackedOrders = this.filterOutTrackedOrders.sort((a, b) => {
+            this.filteredOutTrackedOrders = this.filteredOutTrackedOrders.sort((a, b) => {
               return new Date(b.trackTime) - new Date(a.trackTime)
             })
           }
@@ -987,7 +987,7 @@ export default {
             })
           }
           if (side === 'middle') {
-            this.filterOutTrackedOrders = this.filterOutTrackedOrders.sort((a, b) => {
+            this.filteredOutTrackedOrders = this.filteredOutTrackedOrders.sort((a, b) => {
               return new Date(a.created_at) - new Date(b.created_at)
             })
           }
@@ -995,18 +995,19 @@ export default {
         case 'price':
           if (side === 'left') {
             this.pendingOrders = this.pendingOrders.sort((a, b) => {
-              return a.total - b.total
+              console.log(a.total)
+              return Math.floor(parseFloat(b.total.replace(/[^\d\.\-]/g, ""))) - Math.floor(parseFloat(a.total.replace(/[^\d\.\-]/g, "")))
             })
           }
 
           if (side === 'right') {
             this.filterOrders = this.filterOrders.sort((a, b) => {
-              return a.total - b.total
+              return Math.floor(parseFloat(b.total.replace(/[^\d\.\-]/g, ""))) - Math.floor(parseFloat(a.total.replace(/[^\d\.\-]/g, "")))
             })
           }
           if (side === 'middle') {
             this.filteredOutTrackedOrders = this.filteredOutTrackedOrders.sort((a, b) => {
-              return a.total - b.total
+              return Math.floor(parseFloat(b.total.replace(/[^\d\.\-]/g, ""))) - Math.floor(parseFloat(a.total.replace(/[^\d\.\-]/g, "")))
             })
           }
           break

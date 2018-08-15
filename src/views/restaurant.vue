@@ -360,6 +360,7 @@ export default {
         method: 'post',
         data: {
           commerce: {
+            'university_id': this.$store.state.university.id,
             'active': true,
             'commercial_name': data.nameRestaurant,
             'email': data.email,

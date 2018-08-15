@@ -67,7 +67,7 @@
           {{ setCoupon(orderSummary) }}
         </p>
         <div class="modal-admin__domicilio">
-          Sin domicilio
+          {{ orderSummary.discount }}
         </div>
       </div>
       <p

@@ -84,9 +84,9 @@
                 <div class="admin-resumen__lista-estado">
                   ({{ order.status }})
                 </div>
-                <div class="admin-resumen__lista-tiempo">
+                <!-- <div class="admin-resumen__lista-tiempo">
                   32 minutos
-                </div>
+                </div> -->
               </div>
               <!-- datos -->
               <div class="admin-resumen__lista-lista-datos-total">

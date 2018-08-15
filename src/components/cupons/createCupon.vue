@@ -91,7 +91,60 @@
             </div>
           </div>
         </div>
-        <div class="menu-restaurant__add-footer s-100">
+        <div class="menu-restaurant__add-title ceu-container2">
+          <div class="ceu-campo__text-round2 ceu-item s-50">
+            <p>Valor</p>
+            <input
+              v-if="isPercentage"
+              required
+              v-model="value"
+              min="1"
+              max="100"
+              placeholder="1-100"
+              type="number">
+            <input
+              v-else
+              required
+              v-model="value"
+              type="number">
+          </div>
+          <div class="ceu-campo__text-round2 ceu-item s-50">
+            <p>Codigo</p>
+            <input
+              required
+              v-model="code">
+          </div>
+          <div class="ceu-campo__text-round2 ceu-item s-50">
+            <p>Cantidad de usos</p>
+            <input
+              required
+              v-model="amount"
+              type="number">
+          </div>
+          <!-- <div class="ceu-campo__text-round2 ceu-item s-50">
+            <p>Veces por usuario</p>
+            <input
+              required
+              v-model="timesPerUser"
+              type="number">
+          </div> -->
+          <div class="ads-banner__dateLimit-item">
+            <p>Restaurantes</p>
+            <multiselect
+              required
+              class="custom-select3"
+              v-model="commercesOptions"
+              :options="commerces"
+              :searchable="false"
+              :close-on-select="false"
+              :show-labels="false"
+              :multiple="true"
+              label="label"
+              track-by="value"
+              placeholder="Multi Selección" />
+          </div>
+        </div>
+        <div class="menu-restaurant__add-footer">
           <div
             @click="toggleShow"
             class="ceu-btn2 black">
@@ -113,10 +166,11 @@ import configService from '../../settings/api-url'
 export default {
   data () {
     return {
+      isPercentage: false,
       commercesOptions: [],
       groupOption: '',
       groups: [],
-      types: ['free_delivery', 'monetary_discount', 'percentage_discount'],
+      types: ['monetary_discount', 'percentage_discount'],
       type: '',
       value: '',
       commerces: [],
@@ -169,8 +223,23 @@ export default {
       default: false
     }
   },
+  watch: {
+    type (event, old) {
+      if (event === 'percentage_discount') {
+        console.log('hola percentaje')
+        this.isPercentage = true
+      } else if (event === 'monetary_discount') {
+        console.log('hola otro')
+        this.isPercentage = false
+        console.log(this.isPercentage)
+      }
+    }
+  },
   methods: {
     sendCoupon () {
+      if (this.isPercentage) {
+        this.value = this.value / 100
+      }
       const data = {
         coupon: {
           code: this.code,

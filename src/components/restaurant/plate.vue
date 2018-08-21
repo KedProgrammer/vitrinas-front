@@ -289,10 +289,10 @@ export default {
       configService(`/central_admin/products/${this.idPlate}`)
         .then(res => {
           const data = res.data
-          const price = this.cleanMoney(data.price)
+          const price = Math.floor(parseFloat(data.price.replace(/[^\d\.\-]/g, '')))
           let pricePrime = ''
           if (data.prime_price) {
-            pricePrime = this.cleanMoney(data.prime_price)
+            pricePrime = Math.floor(parseFloat(data.prime_price.replace(/[^\d\.\-]/g, '')))
           }
           this.formPlate = {
             name: data.name,

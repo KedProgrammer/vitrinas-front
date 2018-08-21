@@ -149,15 +149,6 @@ export default {
     this.$nextTick(function () {
       this.getVariables()
       this.getUniversity()
-      if (this.commerce === '') {
-        this.updateCommerceAsync(this.university.id)
-          .then(res => {
-            this.openPlatform = res.data.is_open
-          })
-      }
-      if (this.universityData === '') {
-        this.getUniversity()
-      }
     })
   },
   data () {
@@ -188,6 +179,7 @@ export default {
       configService(`/central_admin/universities/${this.university.id}/university_variables`)
         .then(res => {
           const data = res.data
+          this.formRate = []
           for (let index = 0; index < data.length; index++) {
             this.formRate.push(data[index])
           }
@@ -286,6 +278,7 @@ export default {
       this.universityDataActions(this.university.id)
         .then(res => {
           this.messagePlatform = res.data.closed_message
+          this.openPlatform = res.data.is_open
           if (res.data.reopens_at) {
             this.timeHourPlatform = {
               HH: res.data.reopens_at.hour,

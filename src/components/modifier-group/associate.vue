@@ -146,7 +146,7 @@ export default {
           for (let index = 0; index < data.length; index++) {
             const dataPosition = data[index]
             this.listAddos.push(dataPosition)
-            this.modelPrice.push(this.cleanMoney(dataPosition.price))
+            this.modelPrice.push(Math.floor(parseFloat(dataPosition.price.replace(/[^\d\.\-]/g, ""))))
           }
         })
     },

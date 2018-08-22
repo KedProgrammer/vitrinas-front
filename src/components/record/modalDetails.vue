@@ -45,7 +45,7 @@
 
           <h5 class="modal-admin__lista-comentario">Comentarios:</h5>
           <p class="modal-admin__lista-mensaje">
-            Enviar salsa de tomate y mayonesa, no incluir la cebolla
+            {{ product.comments }}
           </p>
 
           <div class="modal-admin__lista-precio">

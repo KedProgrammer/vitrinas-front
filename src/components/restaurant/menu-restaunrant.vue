@@ -301,7 +301,7 @@ export default {
         method: 'PUT',
         data: {
           'product': {
-            'is_available': event
+            'is_activated': event
           }
         }
       })
@@ -356,13 +356,14 @@ export default {
     showPlates (id) {
       this.idCategoryPlate = id
       this.products = []
+      this.modelPlateChecked = []
       configService(`central_admin/categories/${id}/products.json`)
         .then(res => {
           const data = res.data
           for (let index = 0; index < data.length; index++) {
             let dataPosition = data[index]
             this.products.push(dataPosition)
-            this.modelPlateChecked.push(dataPosition.is_available)
+            this.modelPlateChecked.push(dataPosition.is_activated)
           }
         })
         .catch(error => {

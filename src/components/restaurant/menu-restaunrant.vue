@@ -362,7 +362,7 @@ export default {
           for (let index = 0; index < data.length; index++) {
             let dataPosition = data[index]
             this.products.push(dataPosition)
-            this.modelPlateChecked.push(dataPosition.is_activated)
+            this.modelPlateChecked.push(dataPosition.is_available)
           }
         })
         .catch(error => {

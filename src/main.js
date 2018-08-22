@@ -17,9 +17,11 @@ import VueCollapse from 'vue2-collapse'
 import { Datetime } from 'vue-datetime'
 import 'vue-datetime/dist/vue-datetime.css'
 import VueFilter from 'vue-filter'
-
 import store from './store'
 import App from './App.vue'
+import VueI18n from 'vue-i18n'
+import  messages  from './statesIn'
+import Tooltip from 'vue-directive-tooltip'
 
 Vue.config.productionTip = false
 
@@ -28,6 +30,14 @@ Vue.use(VueRouter)
 Vue.use(VueOffline)
 Vue.use(Vue2Filters)
 Vue.use(VueFilter)
+Vue.use(VueI18n)
+Vue.use(Tooltip)
+// Create VueI18n instance with options
+const i18n = new VueI18n({
+  locale: 'es', // set locale
+  messages, // set locale messages
+})
+
 Vue.component('v-select', vSelect)
 Vue.component('multiselect', Multiselect)
 Vue.use(VueGoogleMaps, {
@@ -69,5 +79,6 @@ router.beforeEach((to, from, next) => {
 new Vue({
   render: h => h(App),
   router,
-  store
+  store,
+  i18n
 }).$mount('#app')

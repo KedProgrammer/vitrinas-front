@@ -221,12 +221,16 @@
                   </div>
                 </div>
                 <div class="admin-hoy__estado-info">
-                  <h3 class="size">{{ order.status }}</h3>
+                  <h3
+                    v-tooltip.top="{content: internationalizeState(order), offset: 5}"
+                    class="size">{{ internationalizeState(order) }}</h3>
                   <p>{{ order.cellphone }}</p>
                   <div
+                    v-if="order.status !=='order_completed'"
+                    v-tooltip.top="{content: internationalizeState(order,'pos'), offset: 5}"
                     @click="changeState(order)"
                     class="admin-hoy__estado size">
-                    {{ order.status }}
+                    {{ internationalizeState(order,'pos') }}
                   </div>
                 </div>
                 <div class="admin-hoy__panel-tiempo">
@@ -328,12 +332,16 @@
                   </div>
                 </div>
                 <div class="admin-hoy__estado-info">
-                  <h3 class="size">{{ order.status }}</h3>
+                  <h3
+                    v-tooltip.top="{content: internationalizeState(order), offset: 5}"
+                    class="size">{{ internationalizeState(order) }}</h3>
                   <p>{{ order.cellphone }}</p>
                   <div
+                    v-if="order.status !=='order_completed'"
+                    v-tooltip.top="{content: internationalizeState(order,'pos'), offset: 5}"
                     @click="changeState(order)"
                     class="admin-hoy__estado size">
-                    {{ order.status }}
+                    {{ internationalizeState(order,'pos') }}
                   </div>
                 </div>
                 <div class="admin-hoy__panel-tiempo">
@@ -435,12 +443,16 @@
                   </div>
                 </div>
                 <div class="admin-hoy__estado-info">
-                  <h3 class="size">{{ order.status }}</h3>
+                  <h3
+                    v-tooltip.top="{content: internationalizeState(order), offset: 5}"
+                    class="size">{{ internationalizeState(order) }}</h3>
                   <p>{{ order.cellphone }}</p>
                   <div
+                    v-if="order.status !=='order_completed'"
+                    v-tooltip.top="{content: internationalizeState(order,'pos'), offset: 5}"
                     @click="changeState(order)"
                     class="admin-hoy__estado size">
-                    {{ order.status }}
+                    {{ internationalizeState(order,'pos') }}
                   </div>
                 </div>
                 <div class="admin-hoy__panel-tiempo">
@@ -461,6 +473,7 @@
       @close-details="showDetail = $event"
       :show-modal="showDetail"
       :order-summary="orderSummary"
+      :internationalize="internationalizeState"
     />
   </div>
 </template>
@@ -659,6 +672,62 @@ export default {
     }
   },
   methods: {
+    internationalizeState (order, type) {
+      if (order) {
+        switch (order.status) {
+          case 'waiting_restaurant_confirmation':
+            if (type === 'pos') {
+              return this.$t('preparing_order.state')
+            }
+            return this.$t('waiting_restaurant_confirmation.state')
+          case 'preparing_order':
+            if (type === 'pos') {
+              return this.$t('already_restaurant.state')
+            }
+            return this.$t('preparing_order.state')
+          case 'waiting_pickup_deliveryman':
+            if (type === 'pos') {
+              return this.$t('delivering_order.state')
+            }
+            return this.$t('already_restaurant.state')
+          case 'waiting_pickup_client':
+            if (type === 'pos') {
+              return this.$t('order_completed.state')
+            }
+            return this.$t('already_restaurant.state')
+          case 'delivering_order':
+            if (type === 'pos') {
+              return this.$t('order_completed.state')
+            }
+            return this.$t('delivering_order.state')
+          case 'order_completed':
+            return this.$t('order_completed.state')
+          case 'troubleshooting_restaurant':
+            if (type === 'pos') {
+              return this.$t('preparing_order.state')
+            }
+            return this.$t('troubleshooting_restaurant.state')
+          case 'troubleshooting_deliveryman':
+            if (type === 'pos') {
+              return this.$t('delivering_order.state')
+            }
+            return this.$t('troubleshooting_deliveryman.state')
+          case 'troubleshooting_hand_off':
+            if (type === 'pos') {
+              return this.$t('order_completed.state')
+            }
+            return this.$t('troubleshooting_hand_off.state')
+          case 'order_canceled_by_restaurant':
+            return this.$t('order_canceled_by_restaurant.state')
+          case 'order_canceled_in_handoff':
+            return this.$t('order_canceled_in_handoff.state')
+          case 'order_canceled_by_troubleshooting_delivery_man':
+            return this.$t('order_canceled_by_troubleshooting_delivery_man.state')
+          default:
+            break
+        }
+      }
+    },
     activeFilterMethod (active) {
       console.log(active)
       switch (active) {
@@ -802,10 +871,11 @@ export default {
       let result = 0
       this.orders.forEach(element => {
         if (element.status === 'order_completed') {
-          console.log(element.status)
           result = result + element.json_products.reduce((anterior, actual) => {
             if (actual.category_type !== 'mercadillo') {
               return anterior + parseInt(actual.total_price) * actual.count
+            } else {
+              return anterior
             }
           }, 0)
         }
@@ -996,18 +1066,18 @@ export default {
           if (side === 'left') {
             this.pendingOrders = this.pendingOrders.sort((a, b) => {
               console.log(a.total)
-              return Math.floor(parseFloat(b.total.replace(/[^\d\.\-]/g, ""))) - Math.floor(parseFloat(a.total.replace(/[^\d\.\-]/g, "")))
+              return Math.floor(parseFloat(b.total.replace(/[^\d\.\-]/g, ''))) - Math.floor(parseFloat(a.total.replace(/[^\d\.\-]/g, '')))
             })
           }
 
           if (side === 'right') {
             this.filterOrders = this.filterOrders.sort((a, b) => {
-              return Math.floor(parseFloat(b.total.replace(/[^\d\.\-]/g, ""))) - Math.floor(parseFloat(a.total.replace(/[^\d\.\-]/g, "")))
+              return Math.floor(parseFloat(b.total.replace(/[^\d\.\-]/g, ''))) - Math.floor(parseFloat(a.total.replace(/[^\d\.\-]/g, '')))
             })
           }
           if (side === 'middle') {
             this.filteredOutTrackedOrders = this.filteredOutTrackedOrders.sort((a, b) => {
-              return Math.floor(parseFloat(b.total.replace(/[^\d\.\-]/g, ""))) - Math.floor(parseFloat(a.total.replace(/[^\d\.\-]/g, "")))
+              return Math.floor(parseFloat(b.total.replace(/[^\d\.\-]/g, ''))) - Math.floor(parseFloat(a.total.replace(/[^\d\.\-]/g, '')))
             })
           }
           break

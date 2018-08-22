@@ -17,7 +17,7 @@
         Para {{ setTime(orderSummary.trackTime) }}
       </p>
       <!-- colocar la clase "activo" para indicar que fue aceptado el pedido -->
-      <h4 class="modal-admin__estado-pedido activo">{{ orderSummary.status }}</h4>
+      <h4 class="modal-admin__estado-pedido activo">{{ internationalize(orderSummary) }}</h4>
     </div>
     <!-- lista del pedido -->
     <div class="modal-admin__lista">
@@ -139,7 +139,7 @@
         v-for="button in orderSummary.buttons"
         :key="button"
         class="modal-admin__estado-item">
-        {{ button }}
+        {{ internationalizeButton(button) }}
       </div>
     </div>
     <!-- informacion base -->
@@ -176,9 +176,37 @@ export default {
       default: () => {
 
       }
+    },
+    internationalize: {
+      type: Function,
+      default: () => {
+        return ''
+      }
     }
   },
   methods: {
+    internationalizeButton (button) {
+      switch (button) {
+        case 'accept_order':
+          return this.$t('accept_order.state')
+        case 'dispatch_order':
+          return this.$t('dispatch_order.state')
+        case 'complete_order':
+          return this.$t('complete_order.state')
+        case 'pickup_order':
+          return this.$t('pickup_order.state')
+        case 'problem_with_delivery':
+          return this.$t('problem_with_delivery.state')
+        case 'problem_with_hand_off':
+          return this.$t('problem_with_hand_off.state')
+        case 'cancel_order':
+          return this.$t('cancel_order.state')
+        case 'reject_order':
+          return this.$t('reject_order.state')
+        default:
+          break
+      }
+    },
     setTrackTime () {
       const createdTime = new Date(this.orderSummary.created_at)
       const trackDeliveryMinutes = parseInt(this.orderSummary.commerce.avg_delivery_time)

@@ -82,7 +82,7 @@
                   Para la {{ setTime(order.trackTime) }}
                 </div>
                 <div class="admin-resumen__lista-estado">
-                  ({{ order.status }})
+                  ({{ internationalizeState(order) }})
                 </div>
                 <!-- <div class="admin-resumen__lista-tiempo">
                   32 minutos
@@ -115,6 +115,7 @@
       :toggle-modal="showModalDetails"
       :order-summary="orderSummary"
       :set-time="setTime"
+      :internationalize="internationalizeState"
     />
   </main>
 </template>
@@ -242,6 +243,63 @@ export default {
     ...mapState(['university', 'commerces', 'commerce'])
   },
   methods: {
+    internationalizeState (order, type) {
+      if (order) {
+        console.log(order)
+        switch (order.status) {
+          case 'waiting_restaurant_confirmation':
+            if (type === 'pos') {
+              return this.$t('preparing_order.state')
+            }
+            return this.$t('waiting_restaurant_confirmation.state')
+          case 'preparing_order':
+            if (type === 'pos') {
+              return this.$t('already_restaurant.state')
+            }
+            return this.$t('preparing_order.state')
+          case 'waiting_pickup_deliveryman':
+            if (type === 'pos') {
+              return this.$t('delivering_order.state')
+            }
+            return this.$t('already_restaurant.state')
+          case 'waiting_pickup_client':
+            if (type === 'pos') {
+              return this.$t('order_completed.state')
+            }
+            return this.$t('already_restaurant.state')
+          case 'delivering_order':
+            if (type === 'pos') {
+              return this.$t('order_completed.state')
+            }
+            return this.$t('delivering_order.state')
+          case 'order_completed':
+            return this.$t('order_completed.state')
+          case 'troubleshooting_restaurant':
+            if (type === 'pos') {
+              return this.$t('preparing_order.state')
+            }
+            return this.$t('troubleshooting_restaurant.state')
+          case 'troubleshooting_deliveryman':
+            if (type === 'pos') {
+              return this.$t('delivering_order.state')
+            }
+            return this.$t('troubleshooting_deliveryman.state')
+          case 'troubleshooting_hand_off':
+            if (type === 'pos') {
+              return this.$t('order_completed.state')
+            }
+            return this.$t('troubleshooting_hand_off.state')
+          case 'order_canceled_by_restaurant':
+            return this.$t('order_canceled_by_restaurant.state')
+          case 'order_canceled_in_handoff':
+            return this.$t('order_canceled_in_handoff.state')
+          case 'order_canceled_by_troubleshooting_delivery_man':
+            return this.$t('order_canceled_by_troubleshooting_delivery_man.state')
+          default:
+            break
+        }
+      }
+    },
     calculateStateButtons (order) {
       let buttons = []
       switch (order.status) {
@@ -287,7 +345,7 @@ export default {
           break
         case 'price':
           this.orders = this.orders.sort((a, b) => {
-            return Math.floor(parseFloat(b.total.replace(/[^\d\.\-]/g, ""))) - Math.floor(parseFloat(a.total.replace(/[^\d\.\-]/g, "")))
+            return Math.floor(parseFloat(b.total.replace(/[^\d\.\-]/g, ''))) - Math.floor(parseFloat(a.total.replace(/[^\d\.\-]/g, '')))
           })
           break
         case 'state':

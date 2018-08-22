@@ -245,7 +245,6 @@ export default {
   methods: {
     internationalizeState (order, type) {
       if (order) {
-        console.log(order)
         switch (order.status) {
           case 'waiting_restaurant_confirmation':
             if (type === 'pos') {

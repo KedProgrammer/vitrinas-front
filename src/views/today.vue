@@ -484,6 +484,7 @@ import Menu from '../components/layout/Menu'
 import ModalDetails from '../components/today/modal-details'
 import {stateGroups} from '../stateGroup.js'
 import { mapState } from 'vuex'
+import { mixins } from '../mixins.js'
 
 export default {
   name: 'Today',
@@ -528,6 +529,7 @@ export default {
   computed: {
     ...mapState(['university', 'commerces', 'commerce'])
   },
+  mixins: [mixins],
   watch: {
     autoFetchOrder (event, old) {
       if (event) {

@@ -4,7 +4,7 @@
     <router-link
       class="admin__menu-item"
       :to="{ name: 'today'}">
-      Hoy
+      Nomina
     </router-link>
     <!-- <a
       href=""
@@ -23,12 +23,12 @@
     <router-link
       class="admin__menu-item"
       :to="{ name: 'team'}">
-      Team
+      Inventario
     </router-link>
     <router-link
       class="admin__menu-item"
       :to="{ name: 'cupons'}">
-      Cupons
+      Facturación
     </router-link>
     <!-- <a
       href=""
@@ -36,17 +36,12 @@
     <router-link
       class="admin__menu-item"
       :to="{ name: 'variables'}">
-      Variables
+      Costos
     </router-link>
     <router-link
       class="admin__menu-item"
       :to="{ name: 'ads' }">
-      ADS
-    </router-link>
-    <router-link
-      class="admin__menu-item"
-      :to="{ name: 'restaurant'}">
-      Restaurant.
+      Letras
     </router-link>
     <!-- <a
       href=""

@@ -278,16 +278,29 @@
   padding: 5px 20px 20px 20px;
   display: flex;
   height: 760px;
-  min-width: $anchomin;
+  min-width: 900px;
+  flex-direction: row;
+  justify-content: center;
 }
 
 .admin-hoy__panel-contenedor {
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+
   padding: 0 22px;
 }
-
+.main-items {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-left: 30px;
+}
+.main-dater {
+  display: flex;
+  justify-content: center;
+  height: 40%;
+}
 .admin-hoy__panel {
   width: 392px;
   display: flex;

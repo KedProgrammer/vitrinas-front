@@ -1,23 +1,23 @@
-import Today from './views/today.vue'
-import Restaurant from './views/restaurant.vue'
-import Record from './views/record.vue'
+import mainOrders from './views/mainOrders.vue'
+import Login from './views/login.vue'
+
 import Error404 from './views/error404.vue'
 
 const routes = [
   {
-    path: '/hoy',
-    component: Today,
-    name: 'today'
+    path: '/',
+    component: mainOrders,
+    name: 'orders'
   },
   {
-    path: '/restaurante',
-    component: Restaurant,
-    name: 'restaurant'
+    path: '/orders',
+    component: mainOrders,
+    name: 'orders'
   },
   {
-    path: '/historial',
-    component: Record,
-    name: 'record'
+    path: '/login',
+    component: Login,
+    name: 'orders'
   },
   {
     path: '/*',

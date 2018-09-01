@@ -3,14 +3,13 @@
   font-family: $font1;
   font-size: 18px;
   font-weight: bold;
-  background-color: #F2F2F2;
-  color: #bababa;
+  background-color: #f56a6a;
+  color: #fff;
   padding: 6px 12px;
   border-radius: 30px;
   transition: all .2s;
   &.activo{ 
     background-color: #5aff65;
-    color: #fff;
   }
 }
 
@@ -96,6 +95,12 @@
 }
 
 // domiciolios take-out
+.admin-hoy_cerrar {
+  text-decoration: underline;
+  margin-left: 20px;
+  color: $principal;
+  font-weight: 500;
+}
 
 .admin-hoy__header-envio {
   padding: 5px 10px 0px 10px;
@@ -235,6 +240,9 @@
   border-left: 0;
   align-self: center;
   margin: 40px 0;
+  // position: sticky;
+  // top: 50%;
+  // transform: translateY(-50%);
   a {
     display: flex;
     justify-content: center;
@@ -252,7 +260,7 @@
     transition: all .3s;
     background-color: #fff;
     &:hover,
-    &.activo {
+    &.router-link-exact-active {
       background-color: $principal;
       color: #fff;
     }
@@ -270,16 +278,29 @@
   padding: 5px 20px 20px 20px;
   display: flex;
   height: 760px;
-  min-width: $anchomin;
+  min-width: 900px;
+  flex-direction: row;
+  justify-content: center;
 }
 
 .admin-hoy__panel-contenedor {
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+
   padding: 0 22px;
 }
-
+.main-items {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-left: 30px;
+}
+.main-dater {
+  display: flex;
+  justify-content: center;
+  height: 40%;
+}
 .admin-hoy__panel {
   width: 392px;
   display: flex;
@@ -306,6 +327,7 @@
   display: flex;
   margin: 0 auto;
   a {
+    cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -348,9 +370,10 @@
   h3, p {
     font-family: $font1;
     color: $principal;
-    font-size: 20px;
+    font-size: 14px;
     font-weight: bold;
     margin: 0;
+    padding: 0 5px 0 0;
   }
   p {
     font-weight: 400;
@@ -422,6 +445,7 @@
   font-family: $font1;
   color: $principal;
   white-space: nowrap;
+  cursor: pointer;
 }
 
 .admin-hoy__panel-tiempo {

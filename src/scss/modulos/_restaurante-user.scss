@@ -19,6 +19,16 @@
   height: 65px;
 }
 
+body.login {
+  .restaurante-user__header {
+    display: none;
+  }
+}
+
+ .restaurante-user__header-universidades {
+   
+ }
+
 .restaurante-user__logo {
   max-width: 167px;
   display: block;
@@ -31,6 +41,15 @@
     border-radius: 50%;
     max-width: 100%;
   }
+}
+
+.header__logout {
+  font-size: 20px;
+  color: $principal;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  cursor: pointer;
 }
 
 .restaurante-user__header-titulo {

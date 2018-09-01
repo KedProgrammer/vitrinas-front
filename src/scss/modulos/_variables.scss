@@ -1,0 +1,58 @@
+.view-variables__contenedor {
+  padding: 30px 50px;
+}
+
+.view-variables__item {
+  margin-bottom: 30px;
+  h2 {
+    font-family: $font1;
+    color: $principal;
+    font-size: 25px;
+    margin: 0 0 10px 0;
+  }
+}
+
+.view-variables__table {
+  table {
+    border: 1px solid #e5edef;
+    border-radius: 6px;
+    border-collapse: collapse;
+    font-family: $font1;
+    color: #404040;
+    width: 100%;
+    td {
+      border-bottom: 1px solid #e5edef;
+      border-right: 1px solid #e5edef;
+      padding: 5px 10px;
+    }
+  }
+  input {
+    width: 100%;
+    border: none;
+    font-family: $font1;
+    color: #404040;
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+.view-variables__item-footer {
+  margin-top: 10px;
+}
+
+.view__variables__msg-inapp {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.view__variables__check {
+  margin-bottom: 15px;
+  p {
+    font-family: $font1;
+    font-size: 15px;
+    color: #9b9b9b;
+    margin-bottom: 10px;
+  }
+}

@@ -16,6 +16,9 @@ import loginForm from '../components/login/form'
 export default {
   components: {
     loginForm
+  },
+  created () {
+    console.log("hola creado")
   }
 }
 </script>

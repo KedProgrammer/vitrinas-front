@@ -53,46 +53,47 @@
 
       <div class="admin-hoy__estadisticas">
         <!-- row -->
-        <div class="admin-hoy__estadisticas-row">
-          <!-- item -->
+        <!-- <div class="admin-hoy__estadisticas-row">
           <div class="admin-hoy__estadisticas-item admin-hoy__estadisticas-venta">
             <p>Ventas</p>
             <span>$2’300.540</span>
           </div>
-          <!-- item -->
           <div class="admin-hoy__estadisticas-item admin-hoy__estadisticas-ocupation">
             <p>Ocupation</p>
             <span>70%</span>
           </div>
-        </div>
+        </div> -->
+        <button class="new-order">
+          Nueva Orden
+        </button>
 
         <!-- row -->
-        <div class="admin-hoy__estadisticas-row">
-          <!-- item -->
+        <!-- <div class="admin-hoy__estadisticas-row">
+
           <div class="admin-hoy__estadisticas-item admin-hoy__estadisticas-lost">
             <p>Lost</p>
             <span>$20.450</span>
           </div>
-          <!-- item -->
+
           <div class="admin-hoy__estadisticas-item admin-hoy__estadisticas-sad">
             <p>Sad</p>
             <span>15% (7)</span>
           </div>
-        </div>
+        </div> -->
 
         <!-- row -->
-        <div class="admin-hoy__estadisticas-row">
-          <!-- item -->
+        <!-- <div class="admin-hoy__estadisticas-row">
+
           <div class="admin-hoy__estadisticas-item admin-hoy__estadisticas-avtime">
             <p>Av. Time</p>
             <span>26 min</span>
           </div>
-          <!-- item -->
+
           <div class="admin-hoy__estadisticas-item admin-hoy__estadisticas-mad">
             <p>Mad</p>
             <span> 4% (2)</span>
           </div>
-        </div>
+        </div> -->
 
       </div>
 
@@ -116,9 +117,13 @@
         <article class="admin-hoy__paneles">
           <div class="admin-hoy__panel-contenedor">
             <!-- panel -->
-            <orders-box />
+            <orders-box
+              type="pending"
+            />
             <!-- panel -->
-            <orders-box />
+            <orders-box
+              type="process"
+            />
           <!-- panel -->
           </div>
         </article>
@@ -298,17 +303,60 @@
         </p>
       </div>
     </div>
-
+    <orderCreateModal />
   </main>
 </template>
 
 <script>
+import orderCreateModal from '../components/orderMain/newOrder'
 import ordersBox from '../components/orderMain/ordersBox'
 import Menu from '../components/layout/Menu'
 export default {
+  data () {
+    return {
+      myRange: {
+        start: new Date(2018, 6, 9),
+        end: new Date(2018, 6, 10)
+      },
+      attrs: [
+        {
+          key: 'today',
+          highlight: {
+            backgroundColor: '#ff8080'
+          },
+          contentStyle: {
+            color: '#fafafa'
+          },
+          dates: new Date(2018, 0, 1)
+        }
+      ],
+      themeStyles: {
+        wrapper: {
+          backgroundColor: '#fff',
+          borderRadius: '6px',
+          border: '1px solid #e5edef'
+        },
+        weekdayHorizontalDivider: {
+          borderBottom: 'solid #000 1px'
+        },
+        weekdaysHorizontalDivider: {
+          borderBottom: 'solid #9013fe 1px',
+          width: '90%'
+        },
+        weekdays: {
+          padding: `8px`,
+          color: '#9013fe'
+        },
+        dayContent: {
+          borderRadio: '50%'
+        }
+      }
+    }
+  },
   components: {
     ordersBox,
-    Menu
+    Menu,
+    orderCreateModal
   }
 }
 </script>

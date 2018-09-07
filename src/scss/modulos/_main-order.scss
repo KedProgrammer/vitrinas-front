@@ -1,0 +1,29 @@
+.new-order {
+  border-radius: 12%;
+  background-color: $principal;
+  color: white;
+}
+
+.create-order {
+  display: flex;
+  flex-direction: column;
+  input {
+    width: 50%;
+  }
+  textarea {
+    width: 50%;
+    height: 100px;
+    margin-bottom: 10px;
+  }
+}
+
+.input-order {
+  
+}
+
+.create-form-inputs {
+  margin-left: 30px;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+}

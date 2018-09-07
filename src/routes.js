@@ -6,8 +6,7 @@ import Error404 from './views/error404.vue'
 const routes = [
   {
     path: '/',
-    component: mainOrders,
-    name: 'orders'
+    component: mainOrders
   },
   {
     path: '/orders',
@@ -17,7 +16,7 @@ const routes = [
   {
     path: '/login',
     component: Login,
-    name: 'orders'
+    name: 'login'
   },
   {
     path: '/*',

@@ -61,7 +61,7 @@ Vue.use(vbclass, router)
 router.beforeEach((to, from, next) => {
   var userToken = ''
 
-  if (localStorage.getItem('yek') !== null) {
+  if (localStorage.getItem('token') !== null) {
     userToken = localStorage.getItem('yek')
     next()
     console.log('logueado')

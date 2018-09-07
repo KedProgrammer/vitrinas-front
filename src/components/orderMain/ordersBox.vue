@@ -1,7 +1,7 @@
 <template>
   <div class="admin-hoy__panel">
     <div class="admin-hoy__panel-header">
-      <h3>Pending</h3>
+      <h3>{{ type === 'pending' ? 'Pendientes' : 'En proceso' }}</h3>
       <!-- menu -->
       <div class="admin-hoy__panel-menu">
         <!-- agregar la clase 'activo' para aplicar estilo -->
@@ -310,6 +310,12 @@
 
 <script>
 export default {
+  props: {
+    type: {
+      type: String,
+      default: ''
+    }
+  }
 
 }
 </script>

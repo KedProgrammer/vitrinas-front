@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main class="main-order">
     <!-- <header class="restaurante-user__header">
 
       <div class="admin__route-logo">
@@ -39,16 +39,27 @@
         <div class="admin-hoy__filtro">
           <!-- item filtro -->
           <!-- Agregar la clase activo para marcar el item -->
-          <div class="admin-hoy__filtro-item activo">
+          <div class="admin-hoy__filtro-item ">
             <h4>En proceso</h4>
-            <p>(30-2)</p>
+            <p>{{ inProcessCount }} </p>
           </div>
           <!-- item filtro -->
           <div class="admin-hoy__filtro-item">
             <h4>Terminados</h4>
-            <p>(12-2)</p>
+            <p>{{ finishedCount }}</p>
+          </div>
+          <div class="admin-hoy__filtro-item">
+            <h4>Entregados</h4>
+            <p>{{ deliveredCount }}</p>
           </div>
         </div>
+        <div class="search order">
+
+        </div>
+        <form>
+          <v-select />
+          <input type="text" placeholder="buscar orden">
+        </form>
       </div>
 
       <div class="admin-hoy__estadisticas">
@@ -63,7 +74,9 @@
             <span>70%</span>
           </div>
         </div> -->
-        <button class="new-order">
+        <button
+          @click="openNew = true"
+          class="new-order">
           Nueva Orden
         </button>
 
@@ -118,11 +131,21 @@
           <div class="admin-hoy__panel-contenedor">
             <!-- panel -->
             <orders-box
-              type="pending"
+              type="process"
+              :orders="ordersInProcess"
+              @show-modal="showModal=$event"
+              @sorted-order="ordersInProcess=$event"
             />
             <!-- panel -->
             <orders-box
-              type="process"
+              type="finished"
+              :orders="ordersFinished"
+              @show-modal="showModal=$event"
+            />
+            <orders-box
+              type="delivered"
+              :orders="ordersDelivered"
+              @show-modal="showModal=$event"
             />
           <!-- panel -->
           </div>
@@ -132,191 +155,79 @@
     </main>
 
     <!-- modal datos pedido -->
-
-    <div class="modal-admin">
-      <button class="modal-admin__cerrar">
-        Cerrar
-      </button>
-      <div class="modal-admin__header">
-        <h3>56721</h3>
-        <h2>Delirato</h2>
-        <p class="modal-admin__hora">
-          Para la 1:15pm
-        </p>
-        <!-- colocar la clase "activo" para indicar que fue aceptado el pedido -->
-        <h4 class="modal-admin__estado-pedido activo">Aceptado</h4>
-      </div>
-      <!-- lista del pedido -->
-      <div class="modal-admin__lista">
-
-        <!-- item -->
-        <div class="modal-admin__lista-item">
-          <!-- numero producto en la listaa -->
-          <div class="modal-admin__lista-num">
-            1
-          </div>
-          <!-- informacion del producto -->
-          <div class="modal-admin__lista-info">
-            <p class="modal-admin__lista-titulo">Todo terreno en combo</p>
-            <ul class="modal-admin__lista-adicional">
-              <li>Pepsi</li>
-              <li>Francesa</li>
-            </ul>
-            <h5 class="modal-admin__lista-comentario">Comentarios:</h5>
-            <p class="modal-admin__lista-mensaje">
-              Enviar salsa de tomate y mayonesa, no incluir la cebolla
-            </p>
-            <div class="modal-admin__lista-precio">
-              $32.300
-            </div>
-          </div>
-
-        </div>
-
-        <!-- item -->
-        <div class="modal-admin__lista-item">
-          <!-- numero producto en la listaa -->
-          <div class="modal-admin__lista-num">
-            2
-          </div>
-          <!-- informacion del producto -->
-          <div class="modal-admin__lista-info">
-            <p class="modal-admin__lista-titulo">Todo terreno en combo</p>
-            <ul class="modal-admin__lista-adicional">
-              <li>Pepsi</li>
-              <li>Francesa</li>
-            </ul>
-            <h5 class="modal-admin__lista-comentario">Comentarios:</h5>
-            <p class="modal-admin__lista-mensaje">
-              Enviar salsa de tomate y mayonesa, no incluir la cebolla
-            </p>
-            <div class="modal-admin__lista-precio">
-              $32.300
-            </div>
-          </div>
-
-        </div>
-
-        <!-- item -->
-        <div class="modal-admin__lista-item">
-          <!-- numero producto en la listaa -->
-          <div class="modal-admin__lista-num">
-            3
-          </div>
-          <!-- informacion del producto -->
-          <div class="modal-admin__lista-info">
-            <p class="modal-admin__lista-titulo">Todo terreno en combo</p>
-            <ul class="modal-admin__lista-adicional">
-              <li>Pepsi</li>
-              <li>Francesa</li>
-            </ul>
-            <h5 class="modal-admin__lista-comentario">Comentarios:</h5>
-            <p class="modal-admin__lista-mensaje">
-              Enviar salsa de tomate y mayonesa, no incluir la cebolla
-            </p>
-            <div class="modal-admin__lista-precio">
-              $32.300
-            </div>
-          </div>
-
-        </div>
-
-      </div>
-      <!-- precio total -->
-      <div class="modal-admin__costos">
-        <div class="modal-admin__row">
-          <p class="modal-admin__cupon">
-            <strong>Cupón</strong>
-            HappyCharlie
-          </p>
-          <div class="modal-admin__domicilio">
-            Sin domicilio
-          </div>
-        </div>
-        <p class="modal-admin__row">
-          <strong>Domicilio</strong>
-          $0
-        </p>
-        <div class="modal-admin__total">
-          TOTAL COP $54.400
-        </div>
-      </div>
-      <!-- formad de pagos -->
-      <div class="modal-admin__pagos">
-        <div class="modal-admin__pagos-row">
-          <div class="modal-admin__pago">
-            Forma de pago
-          </div>
-          <div class="modal-admin__pago-modo">
-            Efectivo <i class="ion-ios-arrow-forward"/>
-          </div>
-        </div>
-        <div class="modal-admin__pagos-row">
-          <div class="modal-admin__pago">
-            Runner
-          </div>
-          <div class="modal-admin__pago-modo">
-            Juan Camilo Martines <i class="ion-ios-arrow-forward"/>
-          </div>
-        </div>
-      </div>
-      <!-- estados -->
-      <div class="modal-admin__estados">
-        <!-- item -->
-        <div class="modal-admin__estado-item">
-          Runner esp...
-        </div>
-        <!-- item -->
-        <div class="modal-admin__estado-item">
-          Listo en rest
-        </div>
-        <!-- item -->
-        <div class="modal-admin__estado-item">
-          Recogido
-        </div>
-        <!-- item -->
-        <div class="modal-admin__estado-item">
-          Entregado
-        </div>
-        <!-- item -->
-        <div class="modal-admin__estado-item">
-          Pagado
-        </div>
-        <!-- item -->
-        <div class="modal-admin__estado-item">
-          Problema Cliente
-        </div>
-        <!-- item -->
-        <div class="modal-admin__estado-item">
-          Problema rest
-        </div>
-      </div>
-      <!-- informacion base -->
-      <div class="modal-admin__info">
-        <p>
-          <strong>Cliente: </strong>Pepito perez
-          (pepito@javeriana.edu.co
-        </p>
-        <p>
-          <strong>Restaurante: </strong>
-          Delirato 3103224982
-        </p>
-      </div>
-    </div>
-    <orderCreateModal />
+    <order-modal
+      :show-modal="showModal"
+      :order="modalOrder"
+      @close-modal="showModal=$event"
+      @change-orders="changeOrders($event)"
+    />
+    <orderCreateModal
+      :open-new="openNew"
+      @close-modal="openNew=$event"
+      @push-order="pushNew($event)"
+    />
   </main>
 </template>
 
 <script>
+import orderModal from '../components/orderMain/orderModal'
 import orderCreateModal from '../components/orderMain/newOrder'
 import ordersBox from '../components/orderMain/ordersBox'
 import Menu from '../components/layout/Menu'
+import configService from '../settings/api-url'
+import { mapState } from 'vuex'
 export default {
+  watch: {
+    myRange (value) {
+      console.log(value)
+      const startDate = new Date(value.start)
+      const endDate = new Date(value.end)
+      const dataStart = `${startDate.getFullYear()}-${startDate.getMonth() + 1}-${startDate.getDate()}`
+      const dataEnd = `${endDate.getFullYear()}-${endDate.getMonth() + 1}-${endDate.getDate()}`
+      this.start = dataStart
+      this.end = dataEnd
+      if (dataStart === dataEnd) {
+        console.log('hola')
+        const date = new Date(value.start)
+        const data = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+        configService(`orders/orders?date=${data}`)
+          .then(response => {
+            this.orders = response.data
+            this.filterOrders(this.orders)
+            console.log(this.orders)
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      } else {
+        console.log(dataStart, dataEnd)
+        configService(`orders/orders?start_date=${dataStart}&end_date=${dataEnd}`)
+          .then(response => {
+            this.orders = response.data
+            this.filterOrders(this.orders)
+            console.log(this.orders)
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      }
+    }
+  },
   data () {
     return {
+      inProcessCount: 0,
+      finishedCount: 0,
+      deliveredCount: 0,
+      orders: {},
+      orderToModal: {},
+      showModal: false,
+      ordersDelivered: [],
+      ordersInProcess: [],
+      ordersFinished: [],
+      openNew: false,
       myRange: {
-        start: new Date(2018, 6, 9),
-        end: new Date(2018, 6, 10)
+        start: new Date(),
+        end: new Date()
       },
       attrs: [
         {
@@ -356,7 +267,51 @@ export default {
   components: {
     ordersBox,
     Menu,
-    orderCreateModal
+    orderCreateModal,
+    orderModal
+  },
+  computed: {
+    ...mapState(['modalOrder'])
+  },
+  methods: {
+    filterOrders (orders) {
+      this.ordersInProcess = orders.filter(element => {
+        return element.aasm_state === 'en_proceso'
+      })
+      this.ordersFinished = orders.filter(element => {
+        return element.aasm_state === 'orden_terminada'
+      })
+      this.ordersDelivered = orders.filter(element => {
+        return element.aasm_state === 'orden_entregada'
+      })
+      this.inProcessCount = this.ordersInProcess.length
+      this.finishedCount = this.ordersFinished.length
+      this.deliveredCount = this.ordersDelivered.length
+    },
+    pushNew (event) {
+      console.log(event)
+      this.ordersInProcess.push(event)
+    },
+    changeOrders (event) {
+      const index = this.orders.findIndex(element => {
+        return element.id === event.id
+      })
+      this.orders.splice(index, 1)
+      this.orders.push(event)
+      this.filterOrders(this.orders)
+    }
+  },
+  created () {
+    const today = new Date()
+    configService(`orders/orders?date=${today}`)
+      .then(res => {
+        console.log(res.data)
+        this.orders = res.data
+        this.filterOrders(res.data)
+      })
+      .catch(error => {
+        console.log(error)
+      })
   }
 }
 </script>

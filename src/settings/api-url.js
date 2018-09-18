@@ -2,8 +2,8 @@ import axios from 'axios'
 
 var userToken = ''
 
-if (localStorage.getItem('yek') !== null) {
-  userToken = localStorage.getItem('yek')
+if (localStorage.getItem('token') !== null) {
+  userToken = localStorage.getItem('token')
 }
 
 const configService = axios.create({

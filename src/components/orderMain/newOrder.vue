@@ -1,13 +1,13 @@
 <template>
   <section
-    :class="{ 'modal-ceu__show': true }"
+    :class="{ 'modal-ceu__show': openNew }"
     class="modal-ceu modal-edit">
     <div
-      @click="toggleShow"
+      @click="closeModal"
       class="modal-ceu__overley"/>
     <div class="modal-ceu__content modal-ceu__menu-promo medium">
       <div
-        @click="toggleShow"
+        @click="closeModal"
         class="modal-ceu__close">
         <i class="ceu-icon-close" />
       </div>
@@ -18,7 +18,7 @@
         <datepicker
           placeholder="Fecha de pedido"
           v-model="initialDate"
-          input-class="input-order"
+          :required="true"
         />
         <input
           required
@@ -40,7 +40,9 @@
           type="number"
           placeholder="Total orden"
           v-model="orderTotal">
-        <textarea placeholder="Comentario inicial"/>
+        <textarea
+          v-model="comments"
+          placeholder="Comentario inicial"/>
         <button
           class="login-button"
           type="submit">Crear orden</button>
@@ -52,15 +54,23 @@
 
 <script>
 import Datepicker from 'vuejs-datepicker'
+import configService from '../../settings/api-url.js'
 export default {
   components: {
     Datepicker
   },
+  props: {
+    openNew: {
+      type: Boolean,
+      default: false
+    }
+  },
   data () {
     return {
+      comments: '',
       initialDate: '',
-      orderTotal: 0,
-      billNumber: 0,
+      orderTotal: '',
+      billNumber: '',
       clienteName: '',
       clientNumber: '',
       myRange: {
@@ -104,9 +114,54 @@ export default {
   },
   methods: {
     createOrder () {
-
+      const data = {
+        order: {
+          initial_date: this.initialDate,
+          bill_number: this.billNumber,
+          comments: this.comments,
+          client_name: this.clienteName,
+          client_number: this.clientNumber,
+          total: this.orderTotal
+        }
+      }
+      configService.post('orders/orders', data)
+        .then(res => {
+          this.initialDate = ''
+          this.comments = ''
+          this.orderTotal = ''
+          this.billNumber = ''
+          this.clienteName = ''
+          this.clientNumber = ''
+          this.$emit('close-modal', false)
+          this.$emit('push-order', res.data)
+          this.$swal({
+            position: 'center',
+            type: 'success',
+            title: 'Tu orden ha sido creada',
+            showConfirmButton: false,
+            timer: 1500
+          })
+        })
+        .catch(error => {
+          this.$swal({
+            position: 'center',
+            type: 'warning',
+            title: 'Error al crear la orden',
+            showConfirmButton: false,
+            timer: 1500
+          })
+          console.log(error)
+        })
     },
-    toggleShow () {}
+    closeModal () {
+      this.initialDate = ''
+      this.comments = ''
+      this.orderTotal = ''
+      this.billNumber = ''
+      this.clienteName = ''
+      this.clientNumber = ''
+      this.$emit('close-modal', false)
+    }
   }
 }
 </script>

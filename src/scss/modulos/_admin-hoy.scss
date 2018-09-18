@@ -302,7 +302,7 @@
   height: 40%;
 }
 .admin-hoy__panel {
-  width: 392px;
+  width: 270px;
   display: flex;
   flex-direction: column;
   border: 1px solid #9b9b9b;
@@ -408,6 +408,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  width: 45%;
   h3 {
     font-family: $font1;
     font-size: 15px;
@@ -453,6 +454,7 @@
   flex-direction: column;
   justify-content: space-between;
   position: relative;
+  width: 27.5%;
   &:after {
     content: '';
     position: absolute;
@@ -489,7 +491,7 @@
 }
 
 .admin-hoy__nombre {
-  width: 170px;
+  width: 27.5%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

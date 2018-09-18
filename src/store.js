@@ -1,75 +1,25 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import configService from './settings/api-url.js'
+// import configService from './settings/api-url.js'
 
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
-    universities: [],
-    university: {
-      id: 1,
-      name: 'universidad de los andes'
-    },
-    universityData: '',
-    commerces: {},
-    commerce: '',
-    domiciliary: {},
-    domiciliarys: {}
+    modalOrder: {}
   },
   getters: {
   },
   mutations: {
-    updateCommerces (state, res) {
-      state.commerces = res.data
-    },
-    updateCommerce (state, res) {
-      state.commerce = res.data
-    },
-    updateUniversity (state, value) {
-      state.university = value
-    },
-    updateUniversityData (state, value) {
-      state.universityData = value.data
-    },
-    updateUniversities (state, res) {
-      state.universities = []
-      state.universities.push(res.data)
+    setModalOrder (state, data) {
+      console.log("hola mundo")
+      state.modalOrder = data
+      console.log(state.modalOrder)
     }
   },
   actions: {
-    updateCommercesAsync (context, payload) {
-      return configService(`/central_admin/universities/${context.state.university.id}/commerces`)
-        .then(res => {
-          context.commit('updateCommerces', res)
-          return res
-        })
-    },
-    updateCommerceAsync (context, id) {
-      return configService(`/normal_user/commerces/${id}`)
-        .then(res => {
-          context.commit('updateCommerce', res)
-          return res
-        })
-    },
-    updateUniversityAsync (context, value) {
-      context.commit('updateUniversity', value)
-    },
-    updateUniversitiesAsync (context, id) {
-      return configService(`/public/universities`)
-        .then(res => {
-          context.commit('updateUniversities', res)
-          return res
-        })
-    },
-    universityDataActions (context, id) {
-      return configService(`/public/list_university/${id}`)
-        .then(res => {
-          context.commit('updateUniversityData', res)
-          return res
-        })
-    }
+
   }
 
 })

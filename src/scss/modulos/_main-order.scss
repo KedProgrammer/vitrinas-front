@@ -3,8 +3,80 @@
   background-color: $principal;
   color: white;
 }
-.main-order {
-  
+.custom-select1 {
+  .dropdown-toggle {
+    border: none;
+  }
+  .selected-tag {
+    position: absolute;
+    top: 8px;
+    left: 0;
+    border: none;
+    margin: 0;
+    line-height: 1.2;
+    height: auto;
+    font-family: $font1;
+    font-size: 13px;
+  }
+  .dropdown-menu {
+    width: 100%;
+    min-width: auto;
+    border: 1px solid #e5edef;
+    li {
+      a {
+        position: relative;
+        font-family: $font1;
+        font-size: 12px;
+        font-weight: 500;
+        text-align: left;
+        padding: 5px 10px;
+        &:before {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 90%;
+          height: 1px;
+          background-color: #e5edef;
+        }
+      }
+      &.highlight a {
+        background-color: transparent;
+        color: $principal;
+      }
+      &:last-child {
+        a {
+          &:before {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+}
+.search-order {
+  height: 25px;
+  margin: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  div {
+    margin: 10px;
+    width: 200px;
+  }
+  input {
+    margin: 10px;
+    border-radius: 10px;
+    border: 1px solid;
+    color: #404040;
+    padding: 8px 10px;
+    width: 100%;
+    &:focus{
+      outline: none;
+    }
+  }
 }
 .create-order {
   display: flex;

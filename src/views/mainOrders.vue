@@ -53,13 +53,24 @@
             <p>{{ deliveredCount }}</p>
           </div>
         </div>
-        <div class="search order">
-
+        <div class="search-order">
+          <div>
+            <form @submit.prevent="searchOrder">
+              <input
+                type="number"
+                v-model="orderNumber"
+                placeholder="buscar orden" >
+            </form>
+          </div>
+          <div>
+            <v-select
+              :options="searchOptions"
+              placeholder="Buscar por"
+              class="custom-select1"
+              v-model="searchOption"
+            />
+          </div>
         </div>
-        <form>
-          <v-select />
-          <input type="text" placeholder="buscar orden">
-        </form>
       </div>
 
       <div class="admin-hoy__estadisticas">
@@ -122,7 +133,7 @@
             is-inline
             :show-caps="true"
             :theme-styles='themeStyles'
-            v-model='myRange'
+            v-model='searchByRange'
             :show-popove='false'
             tint-color="#9013fe"
             :attributes='attrs' />
@@ -166,10 +177,17 @@
       @close-modal="openNew=$event"
       @push-order="pushNew($event)"
     />
+    <show-order
+      :show-modal="openSearchModal"
+      :order="searchedOrder"
+      @close-modal="openSearchModal=$event"
+      @change-orders="changeOrdersSearch($event)"
+    />
   </main>
 </template>
 
 <script>
+import showOrder from '../components/orderMain/showOrder'
 import orderModal from '../components/orderMain/orderModal'
 import orderCreateModal from '../components/orderMain/newOrder'
 import ordersBox from '../components/orderMain/ordersBox'
@@ -179,42 +197,15 @@ import { mapState } from 'vuex'
 export default {
   watch: {
     myRange (value) {
-      console.log(value)
-      const startDate = new Date(value.start)
-      const endDate = new Date(value.end)
-      const dataStart = `${startDate.getFullYear()}-${startDate.getMonth() + 1}-${startDate.getDate()}`
-      const dataEnd = `${endDate.getFullYear()}-${endDate.getMonth() + 1}-${endDate.getDate()}`
-      this.start = dataStart
-      this.end = dataEnd
-      if (dataStart === dataEnd) {
-        console.log('hola')
-        const date = new Date(value.start)
-        const data = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
-        configService(`orders/orders?date=${data}`)
-          .then(response => {
-            this.orders = response.data
-            this.filterOrders(this.orders)
-            console.log(this.orders)
-          })
-          .catch(error => {
-            console.log(error)
-          })
-      } else {
-        console.log(dataStart, dataEnd)
-        configService(`orders/orders?start_date=${dataStart}&end_date=${dataEnd}`)
-          .then(response => {
-            this.orders = response.data
-            this.filterOrders(this.orders)
-            console.log(this.orders)
-          })
-          .catch(error => {
-            console.log(error)
-          })
-      }
+
     }
   },
   data () {
     return {
+      openSearchModal: false,
+      searchedOrder: {},
+      orderNumber: 0,
+      searchOption: '',
       inProcessCount: 0,
       finishedCount: 0,
       deliveredCount: 0,
@@ -225,6 +216,7 @@ export default {
       ordersInProcess: [],
       ordersFinished: [],
       openNew: false,
+      searchOptions: [{label: 'Id de la orden', value: 0}, {label: 'Numero de factura', value: 1}],
       myRange: {
         start: new Date(),
         end: new Date()
@@ -268,10 +260,20 @@ export default {
     ordersBox,
     Menu,
     orderCreateModal,
-    orderModal
+    orderModal,
+    showOrder
   },
   computed: {
-    ...mapState(['modalOrder'])
+    ...mapState(['modalOrder']),
+    searchByRange: {
+      get () {
+        return this.myRange
+      },
+      set (value) {
+        this.fetchRangeOrders(value)
+        this.myRange = value
+      }
+    }
   },
   methods: {
     filterOrders (orders) {
@@ -290,28 +292,86 @@ export default {
     },
     pushNew (event) {
       console.log(event)
-      this.ordersInProcess.push(event)
+      this.fetchTodayOrders()
     },
     changeOrders (event) {
-      const index = this.orders.findIndex(element => {
-        return element.id === event.id
-      })
-      this.orders.splice(index, 1)
-      this.orders.push(event)
-      this.filterOrders(this.orders)
+      this.fetchRangeOrders(this.myRange)
+    },
+    changeOrdersSearch (event) {
+      console.log('hola show modal')
+      this.fetchRangeOrders(this.myRange)
+      this.searchedOrder = event
+    },
+    searchOrder () {
+      if (!this.searchOption) {
+        this.searchOption = 0
+      }
+      configService(`orders/orders?search=${this.searchOption.value}&number=${this.orderNumber}`)
+        .then(res => {
+          this.searchedOrder = res.data
+          this.openSearchModal = true
+        })
+        .catch(error => {
+          console.log(error)
+          this.$swal({
+            position: 'center',
+            type: 'warning',
+            title: 'No se encontro ninguna orden',
+            showConfirmButton: false,
+            timer: 1500
+          })
+          this.fetchRangeOrders(this.myRange)
+        })
+    },
+    fetchRangeOrders (value) {
+      console.log(value)
+      const startDate = new Date(value.start)
+      const endDate = new Date(value.end)
+      const dataStart = `${startDate.getFullYear()}-${startDate.getMonth() + 1}-${startDate.getDate()}`
+      const dataEnd = `${endDate.getFullYear()}-${endDate.getMonth() + 1}-${endDate.getDate()}`
+      this.start = dataStart
+      this.end = dataEnd
+      if (dataStart === dataEnd) {
+        console.log('hola')
+        const date = new Date(value.start)
+        const data = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+        configService(`orders/orders?date=${data}`)
+          .then(response => {
+            this.orders = response.data
+            this.filterOrders(this.orders)
+            console.log(this.orders)
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      } else {
+        console.log(dataStart, dataEnd)
+        configService(`orders/orders?start_date=${dataStart}&end_date=${dataEnd}`)
+          .then(response => {
+            this.orders = response.data
+            this.filterOrders(this.orders)
+            console.log(this.orders)
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      }
+    },
+    fetchTodayOrders () {
+      const today = new Date()
+      configService(`orders/orders?date=${today}`)
+        .then(res => {
+          console.log(res.data)
+          this.orders = res.data
+          this.filterOrders(res.data)
+        })
+        .catch(error => {
+          console.log(error)
+        })
     }
   },
   created () {
-    const today = new Date()
-    configService(`orders/orders?date=${today}`)
-      .then(res => {
-        console.log(res.data)
-        this.orders = res.data
-        this.filterOrders(res.data)
-      })
-      .catch(error => {
-        console.log(error)
-      })
+    this.fetchTodayOrders()
   }
 }
 </script>

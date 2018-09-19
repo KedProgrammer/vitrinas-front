@@ -146,11 +146,11 @@ export default {
           this.$swal({
             position: 'center',
             type: 'warning',
-            title: 'Error al crear la orden',
+            title: `Error al crear la orden: ${error.response.data.message}`,
             showConfirmButton: false,
-            timer: 1500
+            timer: 3000
           })
-          console.log(error)
+          console.log(error.response.data)
         })
     },
     closeModal () {

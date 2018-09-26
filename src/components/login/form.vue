@@ -54,6 +54,13 @@ export default {
             this.$router.push({name: 'orders'})
           })
           .catch(error => {
+            this.$swal({
+              position: 'center',
+              type: 'warning',
+              title: 'Credenciales incorrectas',
+              showConfirmButton: false,
+              timer: 1500
+            })
             console.log(error)
           })
       }

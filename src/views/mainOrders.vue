@@ -90,6 +90,11 @@
           class="new-order">
           Nueva Orden
         </button>
+        <button
+          @click="logout"
+          class="new-order">
+          Salir
+        </button>
 
         <!-- row -->
         <!-- <div class="admin-hoy__estadisticas-row">
@@ -276,6 +281,10 @@ export default {
     }
   },
   methods: {
+    logout () {
+      localStorage.removeItem('token')
+      this.$router.push({name: 'login'})
+    },
     filterOrders (orders) {
       this.ordersInProcess = orders.filter(element => {
         return element.aasm_state === 'en_proceso'

@@ -62,7 +62,7 @@ router.beforeEach((to, from, next) => {
   var userToken = ''
 
   if (localStorage.getItem('token') !== null) {
-    userToken = localStorage.getItem('yek')
+    userToken = localStorage.getItem('token')
     next()
     console.log('logueado')
   } else {

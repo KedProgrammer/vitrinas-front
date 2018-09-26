@@ -124,6 +124,7 @@ export default {
           total: this.orderTotal
         }
       }
+      console.log(data)
       configService.post('orders/orders', data)
         .then(res => {
           this.initialDate = ''

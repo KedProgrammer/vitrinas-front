@@ -359,7 +359,8 @@ export default {
     },
     fetchTodayOrders () {
       const today = new Date()
-      configService(`orders/orders?date=${today}`)
+      const data = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`
+      configService(`orders/orders?date=${data}`)
         .then(res => {
           console.log(res.data)
           this.orders = res.data

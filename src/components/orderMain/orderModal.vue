@@ -95,7 +95,8 @@ export default {
   computed: {
     formatOrder () {
       const date = new Date(this.order.initial_date)
-      return `${date.getFullYear()}/${date.getMonth()}/${date.getDate()}`
+      console.log(this.order.initial_date, date.getDate())
+      return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`
     },
     formatUpdate () {
       const date = new Date(this.order.updated_at)

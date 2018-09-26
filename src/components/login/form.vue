@@ -50,6 +50,7 @@ export default {
           .then(res => {
             console.log(res.data)
             localStorage.setItem('token', res.data.auth_token)
+            console.log(localStorage)
             this.$router.push({name: 'orders'})
           })
           .catch(error => {

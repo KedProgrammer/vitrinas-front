@@ -14,10 +14,16 @@
       <form
         class="login-form create-order"
         @submit.prevent="createOrder">
-
+        <div class="orderInput">
+          <datepicker
+            placeholder="Fecha de pedido"
+            v-model="initialDate"
+            :required="true"
+          />
+        </div>
         <datepicker
-          placeholder="Fecha de pedido"
-          v-model="initialDate"
+          placeholder="Fecha de entrega"
+          v-model="deliveryDate"
           :required="true"
         />
         <input
@@ -33,13 +39,28 @@
         <input
           required
           type="number"
-          placeholder="Numero del cliente"
+          placeholder="Número del cliente"
           v-model="clientNumber">
+        <input
+          required
+          placeholder="Nombre vendedor"
+          v-model="sellerName">
         <input
           required
           type="number"
           placeholder="Total orden"
           v-model="orderTotal">
+        <h4> Local </h4>
+        <v-select
+          placeholder="local"
+          :searchable="false"
+          :show-labels="false"
+          v-model="placeId"
+          :options="places"/>
+        <textarea
+          class="margen"
+          v-model="description"
+          placeholder="Descripción de la orden"/>
         <textarea
           v-model="comments"
           placeholder="Comentario inicial"/>
@@ -67,6 +88,11 @@ export default {
   },
   data () {
     return {
+      placeId: '',
+      places: [{label: 'Almacén', value: 0}, {label: 'Producción', value: 1}],
+      sellerName: '',
+      deliveryDate: '',
+      description: '',
       comments: '',
       initialDate: '',
       orderTotal: '',
@@ -116,23 +142,30 @@ export default {
     createOrder () {
       const data = {
         order: {
+          place: this.placeId.value,
+          seller_name: this.sellerName,
           initial_date: this.initialDate,
           bill_number: this.billNumber,
           comments: this.comments,
           client_name: this.clienteName,
           client_number: this.clientNumber,
+          description: this.description,
+          delivery_date: this.deliveryDate,
           total: this.orderTotal
         }
       }
       console.log(data)
-      configService.post('orders/orders', data)
+      configService.post('admin/orders', data)
         .then(res => {
+          this.deliveryDate = ''
+          this.sellerName = ''
           this.initialDate = ''
           this.comments = ''
           this.orderTotal = ''
           this.billNumber = ''
           this.clienteName = ''
           this.clientNumber = ''
+          this.description = ''
           this.$emit('close-modal', false)
           this.$emit('push-order', res.data)
           this.$swal({
@@ -167,6 +200,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+  .margen {
+    margin: 30px
+  }
 </style>

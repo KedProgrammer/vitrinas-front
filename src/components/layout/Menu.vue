@@ -1,49 +1,54 @@
 <template>
   <aside class="admin__menu">
-    <!-- agregar clase 'activo' para indicar la ruta actual -->
-    <router-link
+    <!-- agregar clase 'activo' para indicar la ruta actual --><router-link
+      class="admin__menu-item"
+      :to="{ name: 'orders'}">
+      Pedidos
+    </router-link>
+
+  <!-- <router-link
       class="admin__menu-item"
       :to="{ name: 'today'}">
       Nomina
-    </router-link>
-    <!-- <a
+    </router-link> -->
+  <!-- <a
       href=""
       class="admin__menu-item">Resumen</a> -->
-    <router-link
+  <!-- <router-link
       class="admin__menu-item"
       :to="{ name: 'record'}">
       Historial
-    </router-link>
-    <!-- <a
+    </router-link> -->
+  <!-- <a
       href=""
       class="admin__menu-item">Dashboard</a>
     <a
       href=""
       class="admin__menu-item">KPI</a> -->
-    <router-link
+  <!-- <router-link
       class="admin__menu-item"
       :to="{ name: 'team'}">
       Inventario
-    </router-link>
-    <router-link
+    </router-link> -->
+  <!-- <router-link
       class="admin__menu-item"
       :to="{ name: 'cupons'}">
       Facturación
-    </router-link>
-    <!-- <a
+    </router-link> -->
+  <!-- <a
       href=""
       class="admin__menu-item">PROMO</a> -->
-    <router-link
+  <!-- <router-link
       class="admin__menu-item"
       :to="{ name: 'variables'}">
       Costos
-    </router-link>
-    <router-link
+    </router-link> -->
+  <!-- <router-link
       class="admin__menu-item"
       :to="{ name: 'ads' }">
       Letras
-    </router-link>
-    <!-- <a
+    </router-link> -->
+  <!-- <a
       href=""
       class="admin__menu-item">Usuarios</a>
     <a

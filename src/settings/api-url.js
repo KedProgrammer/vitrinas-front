@@ -7,7 +7,7 @@ if (localStorage.getItem('token') !== null) {
 }
 
 const configService = axios.create({
-  baseURL: 'http://18.223.247.60',
+  baseURL: 'http://localhost:3000',
   headers: {
     'accept-language': 'es',
     'Content-Type': 'application/json',

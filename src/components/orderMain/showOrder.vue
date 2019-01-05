@@ -121,7 +121,7 @@ export default {
       const data = {
         order: {}
       }
-      configService.put(`orders/orders/${this.order.id}?state=${this.order.aasm_state}`, data)
+      configService.put(`admin/orders/${this.order.id}?state=${this.order.aasm_state}`, data)
         .then(res => {
           this.$emit('change-orders', res.data)
         })
@@ -135,7 +135,7 @@ export default {
           comments: this.order.comments
         }
       }
-      configService.put(`orders/orders/${this.order.id}`, data)
+      configService.put(`admin/orders/${this.order.id}`, data)
         .then(res => {
           this.$swal({
             position: 'center',

@@ -25,8 +25,8 @@
       <!-- agregar la clase 'alto' para activar este estado -->
       <!-- agregar la clase 'medio' para activar este estado -->
       <!-- se deja sin clase para indicat bajo -->
-      <span class="alto"> {{ order.id }} </span>
-      <p>{{ order.bill_number }}</p>
+      <span class="alto"> Id: {{ order.id }} </span>
+      <p> Factura: {{ order.bill_number }}</p>
     </div>
   </div>
 </template>

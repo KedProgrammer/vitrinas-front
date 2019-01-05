@@ -9,6 +9,7 @@
     </button>
     <div class="modal-admin__header">
       <h3>Factura {{ order.bill_number }}</h3>
+      <h3>{{ order.place }}</h3>
       <h2> Vitrinas Antioquia</h2>
       <p class="modal-admin__hora">
         Fecha de pedido
@@ -19,12 +20,18 @@
     </div>
     <!-- lista del pedido -->
     <div class="comment-section">
-      <textarea v-model="order.comments"/>
+      <textarea
+        class="text-area"
+        v-model="order.comments"/>
       <button
         @click="editComment"
         class="new-order">
         Editar comentario
       </button>
+    </div>
+    <div class="comment-section">
+      <h4>Descripcion</h4>
+      <p>{{ order.description }}</p>
     </div>
     <!-- precio total -->
     <div class="modal-admin__costos">
@@ -36,6 +43,12 @@
         <div class="modal-admin__domicilio">
           Telefono cliente : {{ order.client_number }}
         </div>
+      </div>
+      <div class="modal-admin__row">
+        <p class="modal-admin__cupon">
+          <strong>Nombre vendedor</strong>
+          {{ order.seller_name }}
+        </p>
       </div>
       <!-- <p class="modal-admin__row">
         <strong>Domicilio</strong>
@@ -117,7 +130,7 @@ export default {
       const data = {
         order: {}
       }
-      configService.put(`orders/orders/${this.order.id}?state=${this.order.aasm_state}`, data)
+      configService.put(`admin/orders/${this.order.id}?state=${this.order.aasm_state}`, data)
         .then(res => {
           this.$emit('change-orders', res.data)
           this.setModalOrder(res.data)
@@ -132,7 +145,7 @@ export default {
           comments: this.order.comments
         }
       }
-      configService.put(`orders/orders/${this.order.id}`, data)
+      configService.put(`admin/orders/${this.order.id}`, data)
         .then(res => {
           this.$swal({
             position: 'center',
@@ -163,6 +176,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+  .text-area {
+    height: 300px;
+  }
 </style>

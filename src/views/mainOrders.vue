@@ -52,6 +52,18 @@
             <h4>Entregados</h4>
             <p>{{ deliveredCount }}</p>
           </div>
+          <div
+            @click="changeFilter('almacen')"
+            class="admin-hoy__filtro-item"
+            :class="{activo: activeFilter === 'almacen'}">
+            <h4>Almacén</h4>
+          </div>
+          <div
+            @click="changeFilter('produccion')"
+            class="admin-hoy__filtro-item"
+            :class="{activo: activeFilter === 'produccion'}">
+            <h4>Producción</h4>
+          </div>
         </div>
         <div class="search-order">
           <div>
@@ -207,6 +219,7 @@ export default {
   },
   data () {
     return {
+      activeFilter: 'almacen',
       openSearchModal: false,
       searchedOrder: {},
       orderNumber: 0,
@@ -281,6 +294,11 @@ export default {
     }
   },
   methods: {
+    changeFilter (filter) {
+      console.log(filter)
+      this.activeFilter = filter
+      this.fetchRangeOrders(this.myRange)
+    },
     logout () {
       localStorage.removeItem('token')
       this.$router.push({name: 'login'})
@@ -315,7 +333,7 @@ export default {
       if (!this.searchOption) {
         this.searchOption = 0
       }
-      configService(`orders/orders?search=${this.searchOption.value}&number=${this.orderNumber}`)
+      configService(`admin/orders?search=${this.searchOption.value}&number=${this.orderNumber}`)
         .then(res => {
           this.searchedOrder = res.data
           this.openSearchModal = true
@@ -334,6 +352,7 @@ export default {
     },
     fetchRangeOrders (value) {
       console.log(value)
+      const searchLocale = this.activeFilter === 'almacen' ? 0 : 1
       const startDate = new Date(value.start)
       const endDate = new Date(value.end)
       const dataStart = `${startDate.getFullYear()}-${startDate.getMonth() + 1}-${startDate.getDate()}`
@@ -344,7 +363,7 @@ export default {
         console.log('hola')
         const date = new Date(value.start)
         const data = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
-        configService(`orders/orders?date=${data}`)
+        configService(`admin/orders?date=${data}&place=${searchLocale}`)
           .then(response => {
             this.orders = response.data
             this.filterOrders(this.orders)
@@ -355,7 +374,7 @@ export default {
           })
       } else {
         console.log(dataStart, dataEnd)
-        configService(`orders/orders?start_date=${dataStart}&end_date=${dataEnd}`)
+        configService(`admin/orders?start_date=${dataStart}&end_date=${dataEnd}&place=${searchLocale}`)
           .then(response => {
             this.orders = response.data
             this.filterOrders(this.orders)
@@ -367,9 +386,10 @@ export default {
       }
     },
     fetchTodayOrders () {
+      const searchLocale = this.activeFilter === 'almacen' ? 0 : 1
       const today = new Date()
       const data = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`
-      configService(`orders/orders?date=${data}`)
+      configService(`admin/orders?date=${data}&place=${searchLocale}`)
         .then(res => {
           console.log(res.data)
           this.orders = res.data

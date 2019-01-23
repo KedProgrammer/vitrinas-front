@@ -17,7 +17,7 @@ import VueCollapse from 'vue2-collapse'
 import { Datetime } from 'vue-datetime'
 import 'vue-datetime/dist/vue-datetime.css'
 import VueFilter from 'vue-filter'
-import store from './store'
+import store from './store/store'
 import App from './App.vue'
 import VueI18n from 'vue-i18n'
 import  messages  from './statesIn'
@@ -61,10 +61,8 @@ Vue.use(vbclass, router)
 router.beforeEach((to, from, next) => {
   var userToken = ''
 
-  if (localStorage.getItem('token') !== null) {
-    userToken = localStorage.getItem('token')
+  if (localStorage.getItem('user') !== null) {
     next()
-    console.log('logueado')
   } else {
     if (to.name === 'login') {
       next()

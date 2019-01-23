@@ -69,7 +69,7 @@
           <div>
             <form @submit.prevent="searchOrder">
               <input
-                type="number"
+                type="text"
                 v-model="orderNumber"
                 placeholder="buscar orden" >
             </form>
@@ -98,6 +98,7 @@
           </div>
         </div> -->
         <button
+          v-if="user.user.type === 'AdminUser'"
           @click="openNew = true"
           class="new-order">
           Nueva Orden
@@ -212,11 +213,6 @@ import Menu from '../components/layout/Menu'
 import configService from '../settings/api-url'
 import { mapState } from 'vuex'
 export default {
-  watch: {
-    myRange (value) {
-
-    }
-  },
   data () {
     return {
       activeFilter: 'almacen',
@@ -234,7 +230,8 @@ export default {
       ordersInProcess: [],
       ordersFinished: [],
       openNew: false,
-      searchOptions: [{label: 'Id de la orden', value: 0}, {label: 'Numero de factura', value: 1}],
+      searchOptions: [{label: 'Id de la orden', value: 0}, {label: 'Numero de factura', value: 1},
+        {label: 'Número de pedido', value: 2}, {label: 'Nombre del cliente', value: 3}],
       myRange: {
         start: new Date(),
         end: new Date()
@@ -282,7 +279,7 @@ export default {
     showOrder
   },
   computed: {
-    ...mapState(['modalOrder']),
+    ...mapState(['modalOrder', 'user']),
     searchByRange: {
       get () {
         return this.myRange
@@ -391,7 +388,6 @@ export default {
       const data = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`
       configService(`admin/orders?date=${data}&place=${searchLocale}`)
         .then(res => {
-          console.log(res.data)
           this.orders = res.data
           this.filterOrders(res.data)
         })
@@ -401,6 +397,7 @@ export default {
     }
   },
   created () {
+    console.log(this.user)
     this.fetchTodayOrders()
   }
 }

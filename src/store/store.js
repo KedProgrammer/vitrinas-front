@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import user from './modules/user/user'
 
 // import configService from './settings/api-url.js'
 
@@ -13,13 +14,15 @@ const store = new Vuex.Store({
   },
   mutations: {
     setModalOrder (state, data) {
-      console.log("hola mundo")
       state.modalOrder = data
       console.log(state.modalOrder)
     }
   },
   actions: {
 
+  },
+  modules: {
+    user
   }
 
 })

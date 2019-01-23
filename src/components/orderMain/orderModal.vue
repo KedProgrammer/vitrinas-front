@@ -9,6 +9,7 @@
     </button>
     <div class="modal-admin__header">
       <h3>Factura {{ order.bill_number }}</h3>
+       <h3>Pedido n° {{ order.order_number }}</h3>
       <h3>{{ order.place }}</h3>
       <h2> Vitrinas Antioquia</h2>
       <p class="modal-admin__hora">
@@ -24,6 +25,7 @@
         class="text-area"
         v-model="order.comments"/>
       <button
+        v-if="user.user.type === 'AdminUser'"
         @click="editComment"
         class="new-order">
         Editar comentario
@@ -82,7 +84,7 @@
       <!-- item -->
       <!-- item -->
       <div
-        v-if="order.aasm_state !== 'orden_entregada'"
+        v-if="user.user.type === 'AdminUser' && order.aasm_state !== 'orden_entregada'"
         @click="changeOrder"
         class="modal-admin__estado-item">
         {{ setButton }}
@@ -103,12 +105,12 @@
 
 <script>
 import configService from '../../settings/api-url'
-import { mapMutations } from 'vuex'
+import { mapMutations, mapState } from 'vuex'
 export default {
   computed: {
+    ...mapState(['user']),
     formatOrder () {
       const date = new Date(this.order.initial_date)
-      console.log(this.order.initial_date, date.getDate())
       return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`
     },
     formatUpdate () {

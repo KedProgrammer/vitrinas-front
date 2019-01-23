@@ -27,9 +27,13 @@
           :required="true"
         />
         <input
-          required
           v-model="billNumber"
           placeholder="Numero de factura"
+          type="number">
+        <input
+          required
+          v-model="orderNumber"
+          placeholder="Numero de pedido"
           type="number">
         <input
           required
@@ -45,11 +49,6 @@
           required
           placeholder="Nombre vendedor"
           v-model="sellerName">
-        <input
-          required
-          type="number"
-          placeholder="Total orden"
-          v-model="orderTotal">
         <h4> Local </h4>
         <v-select
           placeholder="local"
@@ -96,6 +95,7 @@ export default {
       comments: '',
       initialDate: '',
       orderTotal: '',
+      orderNumber: '',
       billNumber: '',
       clienteName: '',
       clientNumber: '',
@@ -140,52 +140,63 @@ export default {
   },
   methods: {
     createOrder () {
-      const data = {
-        order: {
-          place: this.placeId.value,
-          seller_name: this.sellerName,
-          initial_date: this.initialDate,
-          bill_number: this.billNumber,
-          comments: this.comments,
-          client_name: this.clienteName,
-          client_number: this.clientNumber,
-          description: this.description,
-          delivery_date: this.deliveryDate,
-          total: this.orderTotal
+      if (this.placeId) {
+        const data = {
+          order: {
+            place: this.placeId.value,
+            seller_name: this.sellerName,
+            initial_date: this.initialDate,
+            bill_number: this.billNumber,
+            comments: this.comments,
+            client_name: this.clienteName,
+            client_number: this.clientNumber,
+            description: this.description,
+            delivery_date: this.deliveryDate,
+            order_number: this.orderNumber
+          }
         }
+        console.log(data)
+        configService.post('admin/orders', data)
+          .then(res => {
+            this.orderNumber = ''
+            this.deliveryDate = ''
+            this.sellerName = ''
+            this.initialDate = ''
+            this.comments = ''
+            this.orderTotal = ''
+            this.billNumber = ''
+            this.clienteName = ''
+            this.clientNumber = ''
+            this.description = ''
+            this.$emit('close-modal', false)
+            this.$emit('push-order', res.data)
+            this.$swal({
+              position: 'center',
+              type: 'success',
+              title: 'Tu orden ha sido creada',
+              showConfirmButton: false,
+              timer: 1500
+            })
+          })
+          .catch(error => {
+            this.$swal({
+              position: 'center',
+              type: 'warning',
+              title: `Error al crear la orden: ${error.response.data.message}`,
+              showConfirmButton: false,
+              timer: 3000
+            })
+            console.log(error.response.data)
+          })
+      } else {
+        this.$swal({
+          position: 'center',
+          type: 'warning',
+          title: `Debes seleccionar un lugar`,
+          showConfirmButton: false,
+          timer: 3000
+        })
       }
-      console.log(data)
-      configService.post('admin/orders', data)
-        .then(res => {
-          this.deliveryDate = ''
-          this.sellerName = ''
-          this.initialDate = ''
-          this.comments = ''
-          this.orderTotal = ''
-          this.billNumber = ''
-          this.clienteName = ''
-          this.clientNumber = ''
-          this.description = ''
-          this.$emit('close-modal', false)
-          this.$emit('push-order', res.data)
-          this.$swal({
-            position: 'center',
-            type: 'success',
-            title: 'Tu orden ha sido creada',
-            showConfirmButton: false,
-            timer: 1500
-          })
-        })
-        .catch(error => {
-          this.$swal({
-            position: 'center',
-            type: 'warning',
-            title: `Error al crear la orden: ${error.response.data.message}`,
-            showConfirmButton: false,
-            timer: 3000
-          })
-          console.log(error.response.data)
-        })
     },
     closeModal () {
       this.initialDate = ''

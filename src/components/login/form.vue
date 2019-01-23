@@ -12,11 +12,6 @@
       type="password"
       placeholder="contraseña"
       v-model="password">
-    <input
-      required
-      type="password"
-      placeholder="confirmar contraseña"
-      v-model="confirmPassword">
     <button
       class="login-button"
       type="submit">Ingresar</button>
@@ -25,6 +20,7 @@
 
 <script>
 import configService from '../../settings/api-url'
+import { mapMutations } from 'vuex'
 export default {
   data () {
     return {
@@ -34,36 +30,30 @@ export default {
     }
   },
   methods: {
+    ...mapMutations(['setUser']),
     loginUser () {
-      if (this.password !== this.confirmPassword) {
-        this.$swal({
-          type: 'error',
-          title: 'Oops...',
-          text: 'Las contraseñas no coinciden'
-        })
-      } else {
-        const data = {
-          email: this.email,
-          password: this.password
-        }
-        configService.post('auth/login', data)
-          .then(res => {
-            console.log(res.data)
-            localStorage.setItem('token', res.data.auth_token)
-            console.log(localStorage)
-            this.$router.push({name: 'orders'})
-          })
-          .catch(error => {
-            this.$swal({
-              position: 'center',
-              type: 'warning',
-              title: 'Credenciales incorrectas',
-              showConfirmButton: false,
-              timer: 1500
-            })
-            console.log(error)
-          })
+      const data = {
+        email: this.email,
+        password: this.password
       }
+      configService.post('auth/login', data)
+        .then(res => {
+          console.log(res.data)
+          localStorage.setItem('user', JSON.stringify(res.data))
+          console.log(res.data)
+          this.setUser(res.data)
+          this.$router.push({name: 'orders'})
+        })
+        .catch(error => {
+          this.$swal({
+            position: 'center',
+            type: 'warning',
+            title: 'Credenciales incorrectas',
+            showConfirmButton: false,
+            timer: 1500
+          })
+          console.log(error)
+        })
     }
   }
 }

@@ -5,8 +5,9 @@ var userToken = ''
 if (localStorage.getItem('user') !== null) {
   userToken = JSON.parse(localStorage.getItem('user')).auth_token
 }
+
 const configService = axios.create({
-  baseURL: 'http://localhost:3000',
+  baseURL: 'http://18.223.247.60',
   headers: {
     'accept-language': 'es',
     'Content-Type': 'application/json',

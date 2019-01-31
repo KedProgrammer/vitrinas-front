@@ -62,6 +62,7 @@ router.beforeEach((to, from, next) => {
   var userToken = ''
 
   if (localStorage.getItem('user') !== null) {
+    userToken = JSON.parse(localStorage.getItem('user')).auth_token
     next()
   } else {
     if (to.name === 'login') {

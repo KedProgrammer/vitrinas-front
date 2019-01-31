@@ -15,7 +15,6 @@ const store = new Vuex.Store({
   mutations: {
     setModalOrder (state, data) {
       state.modalOrder = data
-      console.log(state.modalOrder)
     }
   },
   actions: {

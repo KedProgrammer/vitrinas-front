@@ -38,9 +38,7 @@ export default {
       }
       configService.post('auth/login', data)
         .then(res => {
-          console.log(res.data)
           localStorage.setItem('user', JSON.stringify(res.data))
-          console.log(res.data)
           this.setUser(res.data)
           this.$router.push({name: 'orders'})
         })

@@ -297,7 +297,7 @@ export default {
       this.fetchRangeOrders(this.myRange)
     },
     logout () {
-      localStorage.removeItem('token')
+      localStorage.removeItem('user')
       this.$router.push({name: 'login'})
     },
     filterOrders (orders) {
@@ -397,7 +397,6 @@ export default {
     }
   },
   created () {
-    console.log(this.user)
     this.fetchTodayOrders()
   }
 }

@@ -98,6 +98,11 @@
           </div>
         </div> -->
         <button
+          @click="importFile"
+          class="new-order">
+          Exportar
+        </button>
+        <button
           v-if="user.user.type === 'AdminUser'"
           @click="openNew = true"
           class="new-order">
@@ -212,6 +217,7 @@ import ordersBox from '../components/orderMain/ordersBox'
 import Menu from '../components/layout/Menu'
 import configService from '../settings/api-url'
 import { mapState } from 'vuex'
+import XLSX from 'xlsx'
 export default {
   data () {
     return {
@@ -291,6 +297,28 @@ export default {
     }
   },
   methods: {
+    importFile () {
+      let headers = {}
+      headers.id = 'id'
+      headers.bill_number = 'Numero de factura'
+      headers.aasm_state = 'Estado del pedido'
+      headers.client_name = 'Nombre del cliente'
+      headers.client_number = 'Telefono del cliente'
+      headers.initial_date = 'Fecha inicial'
+      headers.description = 'Descripcion de la orden'
+      headers.seller_name = 'Nombre del vendedor'
+      headers.order_number = 'Número de la orden'
+      headers.place = 'Lugar de la orden'
+      headers.delivery_date = 'fecha de entrega'
+      headers.comments = 'Comentario'
+      headers.updated_at = 'Fecha actualizacion'
+      const newOrders = [headers, ...this.orders]
+      
+      const orders = XLSX.utils.json_to_sheet(newOrders, {skipHeader: true})
+      var wb = XLSX.utils.book_new()
+      XLSX.utils.book_append_sheet(wb, orders, 'orders')
+      XLSX.writeFile(wb, 'orders.xlsx') // name of the file is 'book.xlsx'// sheetAName is name of Worksheet
+    },
     changeFilter (filter) {
       console.log(filter)
       this.activeFilter = filter

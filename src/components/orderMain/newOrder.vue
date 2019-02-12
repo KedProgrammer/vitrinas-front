@@ -41,7 +41,6 @@
           placeholder="Nombre de cliente"
           v-model="clienteName">
         <input
-          required
           type="number"
           placeholder="Número del cliente"
           v-model="clientNumber">

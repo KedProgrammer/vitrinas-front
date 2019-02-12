@@ -9,12 +9,16 @@
     </button>
     <div class="modal-admin__header">
       <h3>Factura {{ order.bill_number }}</h3>
-       <h3>Pedido n° {{ order.order_number }}</h3>
+      <h3>Pedido n° {{ order.order_number }}</h3>
       <h3>{{ order.place }}</h3>
       <h2> Vitrinas Antioquia</h2>
       <p class="modal-admin__hora">
         Fecha de pedido
         {{ formatOrder }}
+      </p>
+      <p class="modal-admin__hora">
+        Fecha de entrega
+        {{ formatOrderDelivery }}
       </p>
       <!-- colocar la clase "activo" para indicar que fue aceptado el pedido -->
       <h4 class="modal-admin__estado-pedido activo"> {{ order.aasm_state }}</h4>
@@ -111,6 +115,12 @@ export default {
     ...mapState(['user']),
     formatOrder () {
       const date = new Date(this.order.initial_date)
+      return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`
+    },
+    formatOrderDelivery () {
+      console.log(this.order.delivery_date)
+      const date = new Date(this.order.delivery_date)
+      console.log(date)
       return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`
     },
     formatUpdate () {

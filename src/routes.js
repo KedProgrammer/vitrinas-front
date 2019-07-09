@@ -1,12 +1,18 @@
 import mainOrders from './views/mainOrders.vue'
 import Login from './views/login.vue'
 import Cost from './views/costos.vue'
+import Products from './views/products'
 import Error404 from './views/error404.vue'
 
 const routes = [
   {
     path: '/',
     component: mainOrders
+  },
+  {
+    path: '/products',
+    component: Products,
+    name: 'products'
   },
   {
     path: '/costos',

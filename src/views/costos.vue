@@ -15,7 +15,7 @@
             Agregar Categoria
           </div>
           <div
-            @click="openModalCategory"
+            @click="$router.push({name: 'products'})"
             class="new-row">
             Ver Productos
           </div>
@@ -137,10 +137,12 @@ export default {
         for (let row of this.rows) {
           const oldRowIndex = row.children.findIndex(element => element.id === value.id)
           if (oldRowIndex >= 0)  {
+            console.log(value)
             if (row.id === value.category_row_material_id) {
               row.children.splice(oldRowIndex,1, {name: value.name, code: value.code, unity: value.unity, price: value.price, category_id: value.category_row_material_id, id: value.id} )
             } else {
               row.children.splice(oldRowIndex, 1)
+              console.log(value)
               let newRow = this.rows.find(row => row.id === value.category_row_material_id)
               newRow.children.push({name: value.name, code: value.code, unity: value.unity, price: value.price, category_id: value.category_row_material_id, id: value.id})
             }

@@ -13,7 +13,7 @@
       </div>
       <form
         v-if="type !== 'create category'"
-        @submit.prevent="sendRowMaterial"
+        @submit.prevent="sendProduct"
         class="coupon__modalContent ceu-container2">
         <div class="ceu-item s-60 no-padding">
           <div class="ads-banner__dateLimit ceu-item">
@@ -41,19 +41,22 @@
                 v-model="code">
             </div>
             <div class="ceu-campo__text-round3 ceu-item s-50">
-              <p>Valor</p>
+              <p>Porcentaje de ganancia</p>
               <input
                 required
-                v-model="price"
                 step="any"
+                v-model="percentaje"
                 type="number">
             </div>
-            <div class="ceu-campo__text-round3 ceu-item s-50">
-              <p>Unidad</p>
-              <input
-                required
-                v-model="unity">
-            </div>
+            <vue-good-table
+            :columns="columns"
+            :rows="rows"
+            :search-options="{
+              enabled: true,
+              placeholder: 'Buscar materia prima'
+              }"
+            theme="black-rhino">
+      </vue-good-table>
           </div>
         </div>
         <div class="ceu-campo__text-round3 ceu-item s-100">
@@ -65,7 +68,13 @@
           <button
             type="submit"
             class="ceu-btn1">
-            {{ type === 'edit' ? 'Editar materia Prima' : 'Crear Materia prima'}}
+            {{ type === 'edit' ? 'Editar Producto' : 'Crear Producto'}}
+          </button>
+          <button
+            v-if="type==='edit'"
+            @click.prevent="createRow = true"
+            class="ceu-btn1">
+            Añadir Materia prima
           </button>
         </div>
       </form>
@@ -95,14 +104,53 @@
         </div>
       </form>
     </div>
+    <add-product-row 
+      v-if="type==='edit'"
+      :product-id="data.id"
+      :show-modal="createRow"
+      @update-data="updateTable"
+      @close="createRow = false"
+    />
   </section>
 </template>
 
 <script>
 import configService from '../../settings/api-url'
+import { VueGoodTable } from 'vue-good-table'
+import AddProductRow from './add-product-row'
 export default {
+  components: {
+    VueGoodTable,
+    AddProductRow
+  },
   data () {
     return {
+      columns: [
+        {
+          label: 'Nombre',
+          field: 'name',
+          html: true
+        },
+        {
+          label: 'Código',
+          field: 'code'
+        },
+        {
+          label: 'Unidad',
+          field: 'unity'
+        },
+        {
+          label: 'Precio',
+          field: 'price'
+        },
+        {
+          label: 'Cantidad',
+          field: 'quantity'
+        }
+      ],
+      rows: [],
+      createRow: false,
+      percentaje: null,
       category: null,
       price: null,
       code: null,
@@ -115,9 +163,10 @@ export default {
     data (newValue, oldValue) {
       this.name = this.data.name
       this.code = this.data.code
-      this.unity = this.data.unity
+      this.percentaje = this.data.profit
       this.price = this.data.price
       this.category = this.data.category
+      this.createRows(this.data.rowMaterialSummary)
     }
   },
   props: {
@@ -139,14 +188,30 @@ export default {
     }
   },
   methods: { 
+    createRows (array) {
+      this.rows = []
+      for (let rowMaterial of array) {
+        this.rows.push({
+        name: rowMaterial.name,
+        code: rowMaterial.code,
+        unity: rowMaterial.unity,
+        price: rowMaterial.price,
+        quantity: rowMaterial.quantity
+        })
+      }
+    },
+    updateTable (value) {
+      this.$emit('remplace-category', value)
+      this.createRows(value.row_material_summary)
+    },
     async sendCategoryName () {
       try {
         const data = {
-          category_row_material: {
+          category_product: {
             name: this.categoryName
           }
         }
-        const data_coming = await configService.post('admin/category_row_materials', data)
+        const data_coming = await configService.post('admin/category_products', data)
         this.$emit('toggle-modal')
         this.$emit('push-category', data_coming.data)
       } catch (error) {
@@ -160,28 +225,28 @@ export default {
       this.code = null
       this.unity = null
       this.category = null
+      this.rows = []
     },
-    async sendRowMaterial () {
+    async sendProduct () {
+      parseInt
       const data = {
-        row_material: {
+        product: {
+          profit_rate: parseFloat(this.percentaje),
           name: this.name,
-          price: this.price,
-          unity: this.unity,
           code: this.code
         }
       }
-      if (this.type === 'edit') data.row_material.category_row_material_id = this.category.value
+      if (this.type === 'edit') data.product.category_product_id = this.category.value
       try {
-        const message = this.type === 'edit' ? 'Materia prima editada!' : 'Materia prima creada!'
+        const message = this.type === 'edit' ? 'Producto editado!' : 'Producto creado!'
         const  data_coming  = this.type === 'edit' ? 
-        await configService.put(`admin/row_materials/${this.data.id}`, data) :
-        await configService.post(`admin/category_row_materials/${this.category.value}/row_materials`, data)
+        await configService.put(`admin/products/${this.data.id}`, data) :
+        await configService.post(`admin/category_products/${this.category.value}/products`, data)
         this.$emit('remplace-category', data_coming.data)
-        this.$emit('toggle-modal')
-        this.price = null 
+        this.$emit('toggle-modal') 
         this.name = null
         this.code = null
-        this.unity = null
+        this.percentaje = null
         this.category = null
         this.$swal({
           position: 'center',

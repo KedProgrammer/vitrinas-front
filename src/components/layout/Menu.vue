@@ -5,6 +5,11 @@
       :to="{ name: 'orders'}">
       Pedidos
     </router-link>
+     <!-- agregar clase 'activo' para indicar la ruta actual --><router-link
+      class="admin__menu-item"
+      :to="{ name: 'costs'}">
+      Costos
+    </router-link>
 
   <!-- <router-link
       class="admin__menu-item"

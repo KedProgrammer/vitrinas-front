@@ -20,7 +20,7 @@
             class="search-select"
             v-model="rowMaterial"
             :options="rowMaterials"/>
-            <p>Cantidad</p>
+            <p>Cantida</p>
           <input
             required
             v-model="quantity">

@@ -29,7 +29,7 @@
           }"
         :search-options="{
           enabled: true,
-          placeholder: 'Buscar materia prima'
+          placeholder: 'Buscar producto'
         }"
         theme="black-rhino">
       </vue-good-table>
@@ -82,7 +82,7 @@ export default {
           field: 'cost'
         },
         {
-          label: 'Porcentaje de ganancia',
+          label: 'Porcentaje de ganancia %',
           field: 'profit'
         },
         {
@@ -106,16 +106,17 @@ export default {
     },
     remplaceCategory (value) {
       if (this.type === 'edit') {
+        this.replaceProductName(value)
         const row = this.rows.find(row => row.name === value.category_product_id)
         for (let row of this.rows) {
           const oldRowIndex = row.children.findIndex(element => element.id === value.id)
           if (oldRowIndex >= 0)  {
             if (row.id === value.category_product_id) {
-              row.children.splice(oldRowIndex,1, {cost: value.cost, name: value.name, code: value.code, category_id: value.category_product_id, id: value.id, profit: value.profit_rate, row_material_summary: value.row_material_summary, sellPrice: value.price} )
+              row.children.splice(oldRowIndex,1, {cost: value.cost, name: value.name + '<div class="edit"> Ver </div>', code: value.code, category_id: value.category_product_id, id: value.id, profit: value.profit_rate, row_material_summary: value.row_material_summary, sellPrice: value.price} )
             } else {
               row.children.splice(oldRowIndex, 1)
               let newRow = this.rows.find(row => row.id === value.category_product_id)
-              newRow.children.push({cost: value.cost, name: value.name, code: value.code, category_id: value.category_product_id, id: value.id, profit: value.profit_rate, row_material_summary: value.row_material_summary, sellPrice: value.price})
+              newRow.children.push({cost: value.cost, name: value.name + '<div class="edit"> Ver </div>', code: value.code, category_id: value.category_product_id, id: value.id, profit: value.profit_rate, row_material_summary: value.row_material_summary, sellPrice: value.price})
             }
             break
           }
@@ -125,11 +126,23 @@ export default {
         this.rows.splice(index, 1, this.formatCategory(value))
       }
     },
+    replaceProductName (value) {
+      let product
+      this.categoryProducts.forEach(category => {
+        category.products.forEach(product => {
+          if (product.id === value.id) product.name = value.name
+        })
+      })
+    },
     openModal (value) {
       if (value.column.field === 'name') {
+        let product
         this.type = 'edit'
         const category = this.categories.find(category => category.value === value.row.category_id)
-        this.data = {code: value.row.code, name: value.row.name, profit: value.row.profit, category, id: value.row.id, rowMaterialSummary: value.row.row_material_summary}
+        this.categoryProducts.forEach(category => {
+          product = category.products.find(product => product.id === value.row.id)
+        })
+        this.data = {code: value.row.code, name: product.name, profit: value.row.profit, category, id: value.row.id, rowMaterialSummary: value.row.row_material_summary}
         this.showModal = true
       }
     },
@@ -145,7 +158,7 @@ export default {
         label: value.name,
         html: false,
         children: value.products.length !== 0 ? value.products.map(product => {
-          return  {name: product.name, code: product.code, cost: product.cost, profit: product.profit_rate, category_id: value.id, id: product.id, row_material_summary: product.row_material_summary, sellPrice: product.price}
+          return  {name: product.name + '<div class="edit"> Ver </div>', code: product.code, cost: product.cost, profit: product.profit_rate, category_id: value.id, id: product.id, row_material_summary: product.row_material_summary, sellPrice: product.price}
            }) : [{name: 'Categoria vacia', code: '', cost: '', category_id: '', id: ''}]
       }
     },
@@ -197,5 +210,10 @@ export default {
   .main-content {
     display: flex;
     flex-direction: column;
+  }
+
+  .edit {
+    cursor: pointer;
+    color: red;
   }
 </style>

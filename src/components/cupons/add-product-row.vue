@@ -15,15 +15,18 @@
       <form @submit.prevent="createProductRow">
         <div class="secondary-container">
           <div class="ads-banner__dateLimit-item ceu-item  options-container">
-          <v-select
+          <div v-if="type !== 'edit'">
+            <v-select
             required
             class="search-select"
             v-model="rowMaterial"
             :options="rowMaterials"/>
-            <p>Cantida</p>
+          </div>
+          <p>Cantidad</p>
           <input
             required
-            v-model="quantity">
+            step="any"
+            v-model="setQuantity">
         </div> 
         <div class="ceu-campo__text-round3 ceu-item s-100">
           <div
@@ -34,7 +37,7 @@
           <button
             type="submit"
             class="ceu-btn1">
-            Agregar materia prima
+            {{ this.type === 'edit' ? 'Editar Materia Prima' : 'Agregar materia prima'}}
           </button>
         </div>
         </div>
@@ -63,29 +66,56 @@ export default {
   components: {
     VueGoodTable
   },
+  computed: {
+    setQuantity: {
+      get () {
+        if (this.type === 'edit') return this.dataRow.quantity
+        return this.quantity
+      },
+      set (value) {
+        this.quantity = value
+      }
+    }
+  },
   methods: {
     closeModal () {
       this.$emit('close')
     },
     async createProductRow () {
+      let response = {}
       const info = {
         product_row_material: {
           quantity: this.quantity
         }
       }
-      const { data } = await configService.post(`/admin/products/${this.productId}/row_materials/${this.rowMaterial.value}/product_row_materials`, info)
-      this.quantity = null
-      this.rowMaterial = null
-      this.$swal({
-        position: 'center',
-        type: 'success',
-        title: 'Materia prima agregada!',
-        showConfirmButton: false,
-        timer: 1500
-      })
-      this.$emit('update-data', data)
-      this.$emit('close')
-
+      try {
+        if (this.type == 'edit') {
+          if (!info.product_row_material.quantity) info.product_row_material.quantity = this.dataRow.quantity
+          response  = await configService.put(`/admin/product_row_materials/${this.dataRow.id}`, info)
+        } else {
+          response = await configService.post(`/admin/products/${this.productId}/row_materials/${this.rowMaterial.value}/product_row_materials`, info)
+        }
+        this.quantity = null
+        this.rowMaterial = null
+        this.$swal({
+          position: 'center',
+          type: 'success',
+          title: this.type === 'edit' ? 'Materia prima editada!' : 'Materia prima agregada!',
+          showConfirmButton: false,
+          timer: 1500
+        })
+        this.$emit('update-data', response.data)
+        this.$emit('close')
+      }
+      catch (error) {
+        this.$swal({
+          position: 'center',
+          type: 'error',
+          title: 'Se ha producido un error',
+          showConfirmButton: false,
+          timer: 1500
+        })
+      }
     }
   },
   props: {
@@ -96,6 +126,16 @@ export default {
     productId: {
       type: Number,
       required: true
+    },
+    type: {
+      type: String,
+      default: 'create'
+    },
+    dataRow: {
+      type: Object,
+      default: () => {
+        return {}
+      }
     }
   },
   async created () {

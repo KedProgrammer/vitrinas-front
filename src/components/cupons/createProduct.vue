@@ -42,13 +42,19 @@
             </div>
             <div class="ceu-campo__text-round3 ceu-item s-50">
               <p>Porcentaje de ganancia</p>
-              <input
+              <div class="percentage-input">
+                <input
                 required
+                min="1"
+                max="100"
                 step="any"
                 v-model="percentaje"
                 type="number">
+                <span class="porcentage-label">%</span>
+              </div>
             </div>
             <vue-good-table
+            @on-cell-click="openModal"
             :columns="columns"
             :rows="rows"
             :search-options="{
@@ -56,7 +62,7 @@
               placeholder: 'Buscar materia prima'
               }"
             theme="black-rhino">
-      </vue-good-table>
+            </vue-good-table>
           </div>
         </div>
         <div class="ceu-campo__text-round3 ceu-item s-100">
@@ -108,8 +114,10 @@
       v-if="type==='edit'"
       :product-id="data.id"
       :show-modal="createRow"
+      :type="typeRow"
+      :dataRow="dataRow"
       @update-data="updateTable"
-      @close="createRow = false"
+      @close="closeCreateRow"
     />
   </section>
 </template>
@@ -145,7 +153,8 @@ export default {
         },
         {
           label: 'Cantidad',
-          field: 'quantity'
+          field: 'quantity',
+          html: true
         }
       ],
       rows: [],
@@ -156,7 +165,10 @@ export default {
       code: null,
       unity: null,
       name: null,
-      categoryName: null
+      categoryName: null,
+      typeRow: null,
+      dataRow: null,
+      rowMaterialSummary: null
     }
   },
   watch: {
@@ -166,7 +178,8 @@ export default {
       this.percentaje = this.data.profit
       this.price = this.data.price
       this.category = this.data.category
-      this.createRows(this.data.rowMaterialSummary)
+      this.rowMaterialSummary = [...this.data.rowMaterialSummary]
+      this.createRows(this.rowMaterialSummary)
     }
   },
   props: {
@@ -187,22 +200,45 @@ export default {
       required: true
     }
   },
-  methods: { 
+  methods: {
+    closeCreateRow () {
+      this.createRow = false
+      this.typeRow = null
+      this.dataRow = null
+    },
+    async openModal (value) {
+      if (value.column.field === 'quantity') {
+        this.typeRow = 'edit'
+        let data_row = this.rowMaterialSummary.find(rowProduct => rowProduct.product_row_material_id === value.row.id)
+        this.dataRow = {id: value.row.id, quantity: data_row.quantity, name: value.row.name}
+        this.createRow = true
+      }
+
+      if (value.column.field === 'name') {
+        let response = await configService.delete(`/admin/product_row_materials/${value.row.id}`)
+        this.updateTable(response.data)
+      }
+    },
+    updateRow (product) {
+      this.rowMaterialSummary = [...product.row_material_summary]
+      this.createRows(product.row_material_summary)
+    },
     createRows (array) {
       this.rows = []
       for (let rowMaterial of array) {
         this.rows.push({
-        name: rowMaterial.name,
+        id: rowMaterial.product_row_material_id,
+        name: rowMaterial.name + ' <div class="edit"> Eliminar </div>',
         code: rowMaterial.code,
         unity: rowMaterial.unity,
         price: rowMaterial.price,
-        quantity: rowMaterial.quantity
+        quantity: rowMaterial.quantity + ' <div class="edit"> Editar </div>'
         })
       }
     },
     updateTable (value) {
       this.$emit('remplace-category', value)
-      this.createRows(value.row_material_summary)
+      this.updateRow(value)
     },
     async sendCategoryName () {
       try {
@@ -264,6 +300,22 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+  .edit {
+    cursor: pointer;
+  }
 
+  .percentage-input {
+    width: 80%;
+
+    input {
+      width: 50% !important;
+      margin: 10px
+    }
+  }
+
+  .porcentage-label {
+    width: 10%;
+    margin: 0% !important;
+  }
 </style>

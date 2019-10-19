@@ -42,6 +42,7 @@
       @push-category="pushCategory"
       @toggle-modal="showModal = false"
       @remplace-category="remplaceCategory"
+      @reset="reset"
       :show-modal="showModal" 
       :type="type"
       :data="data"
@@ -91,6 +92,11 @@ export default {
     }
   },
   methods: {
+    reset (data) {
+      debugger
+      this.categoryMaterials = data
+      this.createTable()
+    },
     pushCategory (event) {
       this.categoryMaterials.push(event)
       this.categories = this.formatCategories()
@@ -137,12 +143,10 @@ export default {
         for (let row of this.rows) {
           const oldRowIndex = row.children.findIndex(element => element.id === value.id)
           if (oldRowIndex >= 0)  {
-            console.log(value)
             if (row.id === value.category_row_material_id) {
               row.children.splice(oldRowIndex,1, {name: value.name, code: value.code, unity: value.unity, price: value.price, category_id: value.category_row_material_id, id: value.id} )
             } else {
               row.children.splice(oldRowIndex, 1)
-              console.log(value)
               let newRow = this.rows.find(row => row.id === value.category_row_material_id)
               newRow.children.push({name: value.name, code: value.code, unity: value.unity, price: value.price, category_id: value.category_row_material_id, id: value.id})
             }
@@ -155,6 +159,7 @@ export default {
       }
     },
     createTable () {
+      this.rows = []
       for (let categoryMaterial of this.categoryMaterials) {
         this.rows.push(this.formatCategory(categoryMaterial))
       }

@@ -67,6 +67,11 @@
             class="ceu-btn1">
             {{ type === 'edit' ? 'Editar materia Prima' : 'Crear Materia prima'}}
           </button>
+          <button 
+            class="ceu-btn1"
+            @click.prevent="reset">
+            Eliminar Materia Prima
+          </button>
         </div>
       </form>
       <form 
@@ -138,7 +143,12 @@ export default {
       required: true
     }
   },
-  methods: { 
+  methods: {
+    async reset () {
+      const data_coming = await configService.delete(`admin/row_materials/${this.data.id}`)
+      this.$emit('reset', data_coming.data)
+      this.$emit('toggle-modal')
+    },
     async sendCategoryName () {
       try {
         const data = {

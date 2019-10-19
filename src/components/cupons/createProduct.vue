@@ -53,6 +53,10 @@
                 <span class="porcentage-label">%</span>
               </div>
             </div>
+            <div class="ceu-campo__text-round3 ceu-item s-50">
+              <p>Valor de venta</p>
+              <span>{{ new Intl.NumberFormat('de-DE', {style: 'currency', currency: 'COP'}).format(this.total) }}</span>
+            </div>
             <vue-good-table
             @on-cell-click="openModal"
             :columns="columns"
@@ -66,11 +70,6 @@
           </div>
         </div>
         <div class="ceu-campo__text-round3 ceu-item s-100">
-          <div
-            @click="$emit('toggle-modal')"
-            class="ceu-btn2 black">
-            Cancelar
-          </div>
           <button
             type="submit"
             class="ceu-btn1">
@@ -81,6 +80,12 @@
             @click.prevent="createRow = true"
             class="ceu-btn1">
             Añadir Materia prima
+          </button>
+          <button
+            v-if="type==='edit'"
+            @click.prevent="deleteProduct"
+            class="ceu-btn1">
+            Eliminar Producto
           </button>
         </div>
       </form>
@@ -168,7 +173,8 @@ export default {
       categoryName: null,
       typeRow: null,
       dataRow: null,
-      rowMaterialSummary: null
+      rowMaterialSummary: null,
+      total: null
     }
   },
   watch: {
@@ -178,6 +184,7 @@ export default {
       this.percentaje = this.data.profit
       this.price = this.data.price
       this.category = this.data.category
+      this.total = this.data.sellPrice
       this.rowMaterialSummary = [...this.data.rowMaterialSummary]
       this.createRows(this.rowMaterialSummary)
     }
@@ -201,6 +208,12 @@ export default {
     }
   },
   methods: {
+    async deleteProduct () {
+      const data_coming = await configService.delete(`admin/products/${this.data.id}`)
+      this.$emit('reset', data_coming.data)
+      this.$emit('toggle-modal') 
+    },
+
     closeCreateRow () {
       this.createRow = false
       this.typeRow = null
@@ -220,6 +233,7 @@ export default {
       }
     },
     updateRow (product) {
+      this.total = product.price
       this.rowMaterialSummary = [...product.row_material_summary]
       this.createRows(product.row_material_summary)
     },
@@ -278,7 +292,7 @@ export default {
         const  data_coming  = this.type === 'edit' ? 
         await configService.put(`admin/products/${this.data.id}`, data) :
         await configService.post(`admin/category_products/${this.category.value}/products`, data)
-        this.$emit('remplace-category', data_coming.data)
+        this.$emit('reset', data_coming.data)
         this.$emit('toggle-modal') 
         this.name = null
         this.code = null

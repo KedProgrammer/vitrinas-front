@@ -42,6 +42,7 @@
       @push-category="pushCategory"
       @toggle-modal="showModal = false"
       @remplace-category="remplaceCategory"
+      @reset="reset"
       :show-modal="showModal" 
       :type="type"
       :data="data"
@@ -96,6 +97,10 @@ export default {
     }
   },
   methods: {
+    reset (data) {
+      this.categoryProducts = data
+      this.createTable()
+    },
     openModalCategory () {
       this.showModal = true
       this.type = 'create category'
@@ -112,11 +117,30 @@ export default {
           const oldRowIndex = row.children.findIndex(element => element.id === value.id)
           if (oldRowIndex >= 0)  {
             if (row.id === value.category_product_id) {
-              row.children.splice(oldRowIndex,1, {cost: value.cost, name: value.name + '<div class="edit"> Ver </div>', code: value.code, category_id: value.category_product_id, id: value.id, profit: value.profit_rate, row_material_summary: value.row_material_summary, sellPrice: value.price} )
+              row.children.splice(oldRowIndex,1, {
+              cost: value.cost ?  new Intl.NumberFormat('de-DE', {style: 'currency', currency: 'COP'}).format(value.cost) : 0, 
+              name: value.name + '<div class="edit"> Ver </div>', 
+              code: value.code, category_id: value.category_product_id, 
+              id: value.id, profit: value.profit_rate, 
+              row_material_summary: value.row_material_summary, 
+              sellPrice: value.price ? new Intl.NumberFormat('de-DE', {style: 'currency', currency: 'COP'}).format(value.price) : 0,
+              costNumber: value.cost || 0,
+              sellPriceNumber: value.price || 0,
+              simpleName: value.name} )
             } else {
               row.children.splice(oldRowIndex, 1)
               let newRow = this.rows.find(row => row.id === value.category_product_id)
-              newRow.children.push({cost: value.cost, name: value.name + '<div class="edit"> Ver </div>', code: value.code, category_id: value.category_product_id, id: value.id, profit: value.profit_rate, row_material_summary: value.row_material_summary, sellPrice: value.price})
+              newRow.children.push({
+              cost: value.cost ?  new Intl.NumberFormat('de-DE', {style: 'currency', currency: 'COP'}).format(value.cost) : 0, 
+              name: value.name + '<div class="edit"> Ver </div>', 
+              code: value.code, 
+              category_id: value.category_product_id, 
+              id: value.id, profit: value.profit_rate, 
+              row_material_summary: value.row_material_summary, 
+              sellPrice: value.price ? new Intl.NumberFormat('de-DE', {style: 'currency', currency: 'COP'}).format(value.price) : 0,
+              costNumber: value.cost || 0,
+              sellPriceNumber: value.price || 0,
+              simpleName: value.name})
             }
             break
           }
@@ -139,10 +163,7 @@ export default {
         let product
         this.type = 'edit'
         const category = this.categories.find(category => category.value === value.row.category_id)
-        this.categoryProducts.forEach(category => {
-          product = category.products.find(product => product.id === value.row.id)
-        })
-        this.data = {code: value.row.code, name: product.name, profit: value.row.profit, category, id: value.row.id, rowMaterialSummary: value.row.row_material_summary}
+        this.data = {sellPrice: parseInt(value.row.sellPriceNumber), code: value.row.code, name: value.row.simpleName, profit: value.row.profit, category, id: value.row.id, rowMaterialSummary: value.row.row_material_summary}
         this.showModal = true
       }
     },
@@ -158,7 +179,15 @@ export default {
         label: value.name,
         html: false,
         children: value.products.length !== 0 ? value.products.map(product => {
-          return  {name: product.name + '<div class="edit"> Ver </div>', code: product.code, cost: product.cost, profit: product.profit_rate, category_id: value.id, id: product.id, row_material_summary: product.row_material_summary, sellPrice: product.price}
+          return  {name: product.name + '<div class="edit"> Ver </div>', 
+          code: product.code, 
+          cost: product.cost ?  new Intl.NumberFormat('de-DE', {style: 'currency', currency: 'COP'}).format(product.cost) : 0, 
+          profit: product.profit_rate, category_id: value.id, id: product.id, 
+          row_material_summary: product.row_material_summary, 
+          sellPrice: product.price ? new Intl.NumberFormat('de-DE', {style: 'currency', currency: 'COP'}).format(product.price) : 0,
+          costNumber: product.cost || 0,
+          sellPriceNumber: product.price || 0,
+          simpleName: product.name}
            }) : [{name: 'Categoria vacia', code: '', cost: '', category_id: '', id: ''}]
       }
     },
@@ -171,10 +200,15 @@ export default {
       })
     },
     createTable () {
+      this.rows = []
       for (let categoryProduct of this.categoryProducts) {
         this.rows.push(this.formatCategory(categoryProduct))
       }
-    }
+    },
+    formatNumber (value) {
+      debugger
+    new Intl.NumberFormat('de-DE', {style: 'currency', currency: 'COP'}).format(value)
+  }
   },
   async created () {
     const { data } = await configService('admin/category_products')

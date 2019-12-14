@@ -160,6 +160,10 @@ export default {
           label: 'Cantidad',
           field: 'quantity',
           html: true
+        },
+        {
+          label: 'Costo Materia prima',
+          field: 'cost',
         }
       ],
       rows: [],
@@ -246,7 +250,8 @@ export default {
         code: rowMaterial.code,
         unity: rowMaterial.unity,
         price: rowMaterial.price,
-        quantity: rowMaterial.quantity + ' <div class="edit"> Editar </div>'
+        quantity: rowMaterial.quantity + ' <div class="edit"> Editar </div>',
+        cost: new Intl.NumberFormat('de-DE', {style: 'currency', currency: 'COP'}).format(rowMaterial.quantity * rowMaterial.price)
         })
       }
     },

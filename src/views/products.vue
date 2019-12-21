@@ -19,6 +19,12 @@
             class="new-row">
             Atrás
           </div>
+          <div
+            @click="getReport"
+            class="new-row">
+            Reporte
+          </div>
+          <a href="admin/reports">downlaod</a>
         </div>
         <vue-good-table
         @on-cell-click="openModal"
@@ -55,6 +61,7 @@ import { VueGoodTable } from 'vue-good-table'
 import configService from '../settings/api-url'
 import productModal from '../components/cupons/createProduct'
 import Menu from '../components/layout/Menu'
+import axios from 'axios'
 import 'vue-good-table/dist/vue-good-table.css'
 export default {
   components: {
@@ -97,6 +104,17 @@ export default {
     }
   },
   methods: {
+    async getReport () {
+
+      const { data } = await configService('admin/reports')
+      var myBlob =  new Blob( [data] , {type:'text/html'});
+      var url = window.URL.createObjectURL(myBlob);
+      var a = document.createElement("a");
+      document.body.appendChild(a);
+      a.href = url;
+      a.download = "report.xls";
+      a.click();
+    },
     reset (data) {
       this.categoryProducts = data
       this.createTable()

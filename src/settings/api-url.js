@@ -7,8 +7,10 @@ if (localStorage.getItem('user') !== null) {
 }
 
 const configService = axios.create({
-  baseURL: 'http://localhost:3000',
+  baseURL: 'http://18.223.247.60',
   headers: {
+    'accept-language': 'es',
+    'Content-Type': 'application/json',
     'authorization': userToken
   }
 })

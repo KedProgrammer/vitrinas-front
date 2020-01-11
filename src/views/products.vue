@@ -24,7 +24,6 @@
             class="new-row">
             Reporte
           </div>
-          <a href="admin/reports">downlaod</a>
         </div>
         <vue-good-table
         @on-cell-click="openModal"
@@ -107,13 +106,19 @@ export default {
     async getReport () {
 
       const { data } = await configService('admin/reports')
-      var myBlob =  new Blob( [data] , {type:'text/html'});
+      var myBlob =  new Blob([this.s2ab(atob(data))], {type: ''});
       var url = window.URL.createObjectURL(myBlob);
       var a = document.createElement("a");
       document.body.appendChild(a);
       a.href = url;
       a.download = "report.xls";
       a.click();
+    },
+    s2ab(s) {
+      var buf = new ArrayBuffer(s.length);
+      var view = new Uint8Array(buf);
+      for (var i=0; i!=s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
+      return buf;
     },
     reset (data) {
       this.categoryProducts = data

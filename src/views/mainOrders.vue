@@ -147,8 +147,6 @@
     </section>
 
     <main class="admin-hoy__main">
-
-      <Menu />
       <section class="main-items">
         <article class="main-dater">
           <v-date-picker

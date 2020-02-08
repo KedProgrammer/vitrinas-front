@@ -1,16 +1,21 @@
 <template>
   <div id="app">
-    <router-view />
+    <div class='main__app'>
+      <Menu />
+      <router-view />
+    </div>
   </div>
 </template>
 
 <script>
+import Menu from './components/layout/Menu'
 import Header from './components/layout/Header'
 import { mapMutations } from 'vuex'
 export default {
   name: 'App',
   components: {
-    Header
+    Header,
+    Menu
   },
   methods: {
     ...mapMutations(['setUser'])

@@ -1,12 +1,12 @@
 <template>
-  <aside class="admin__menu">
+  <nav class="order__menu">
     <!-- agregar clase 'activo' para indicar la ruta actual --><router-link
-      class="admin__menu-item"
+      class="order__menu-item"
       :to="{ name: 'orders'}">
       Pedidos
     </router-link>
      <!-- agregar clase 'activo' para indicar la ruta actual --><router-link
-      class="admin__menu-item"
+      class="order__menu-item"
       :to="{ name: 'costs'}">
       Costos
     </router-link>
@@ -65,5 +65,5 @@
     <a
       href=""
       class="admin__menu-item">View</a> -->
-  </aside>
+  </nav>
 </template>

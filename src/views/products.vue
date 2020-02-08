@@ -1,6 +1,5 @@
 <template>
   <main class="admin-team__main">
-    <Menu />
     <article class="admin-team__tabla">
       <div class="main-content">
         <div class="table_options">

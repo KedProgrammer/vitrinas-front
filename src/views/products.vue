@@ -185,7 +185,7 @@ export default {
         let product
         this.type = 'edit'
         const category = this.categories.find(category => category.value === value.row.category_id)
-        this.data = {sellPrice: parseInt(value.row.sellPriceNumber), code: value.row.code, name: value.row.simpleName, profit: value.row.profit, category, id: value.row.id, rowMaterialSummary: value.row.row_material_summary}
+        this.data = {image_url: value.row.image_url, sellPrice: parseInt(value.row.sellPriceNumber), code: value.row.code, name: value.row.simpleName, profit: value.row.profit, category, id: value.row.id, rowMaterialSummary: value.row.row_material_summary}
         this.showModal = true
       }
     },
@@ -202,6 +202,7 @@ export default {
         html: false,
         children: value.products.length !== 0 ? value.products.map(product => {
           return  {name: product.name + '<div class="edit"> Ver </div>', 
+          image_url: product.image.url,
           code: product.code, 
           cost: product.cost ?  new Intl.NumberFormat('de-DE', {style: 'currency', currency: 'COP'}).format(product.cost) : 0, 
           profit: product.profit_rate, category_id: value.id, id: product.id, 
@@ -228,7 +229,6 @@ export default {
       }
     },
     formatNumber (value) {
-      debugger
     new Intl.NumberFormat('de-DE', {style: 'currency', currency: 'COP'}).format(value)
   }
   },

@@ -25,20 +25,27 @@
                 v-model="category"
                 :options="categories"/>
             </div>
+            <div class="ads-banner__dateLimit-item ceu-item s-50">
+              <p>Imagen</p>
+              <input type='file' @change="setImage"/>
+            </div>
           </div>
           <div class="menu-restaurant__add-title ceu-container2">
             <div
-              class="ceu-campo__text-round3 ceu-item s-50">
+              class="ceu-campo__text-round3 ceu-item s-25">
               <p>Nombre</p>
               <input
                 required
                 v-model="name">
             </div>
-            <div class="ceu-campo__text-round3 ceu-item s-50">
+            <div class="ceu-campo__text-round3 ceu-item s-25">
               <p>Codigo</p>
               <input
                 required
                 v-model="code">
+            </div>
+            <div class="ceu-campo__text-round3 ceu-item s-100">
+              <img :src="image_url" >
             </div>
             <div class="ceu-campo__text-round3 ceu-item s-50">
               <p>Porcentaje de ganancia</p>
@@ -131,6 +138,7 @@
 import configService from '../../settings/api-url'
 import { VueGoodTable } from 'vue-good-table'
 import AddProductRow from './add-product-row'
+import axios from 'axios'
 export default {
   components: {
     VueGoodTable,
@@ -178,7 +186,9 @@ export default {
       typeRow: null,
       dataRow: null,
       rowMaterialSummary: null,
-      total: null
+      total: null,
+      image: null,
+      image_url: null
     }
   },
   watch: {
@@ -189,6 +199,7 @@ export default {
       this.price = this.data.price
       this.category = this.data.category
       this.total = this.data.sellPrice
+      this.image_url = this.data.image_url
       this.rowMaterialSummary = [...this.data.rowMaterialSummary]
       this.createRows(this.rowMaterialSummary)
     }
@@ -212,6 +223,15 @@ export default {
     }
   },
   methods: {
+    setImage (value) {
+      let file = value.target.files[0]
+      let reader =  new FileReader()
+      reader.onloadend = (loadedEvent) => {
+        this.image = loadedEvent.target.result
+      }
+      reader.readAsDataURL(file) 
+    },
+
     async deleteProduct () {
       const data_coming = await configService.delete(`admin/products/${this.data.id}`)
       this.$emit('reset', data_coming.data)
@@ -283,12 +303,12 @@ export default {
       this.rows = []
     },
     async sendProduct () {
-      parseInt
       const data = {
         product: {
           profit_rate: parseFloat(this.percentaje),
           name: this.name,
-          code: this.code
+          code: this.code,
+          image: this.image
         }
       }
       if (this.type === 'edit') data.product.category_product_id = this.category.value

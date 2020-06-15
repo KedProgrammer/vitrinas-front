@@ -18,6 +18,11 @@
             class="new-row">
             Ver Productos
           </div>
+          <div
+            @click="getReport"
+            class="new-row">
+            Reporte Materia prima
+          </div>
         </div>
         <vue-good-table
         @on-cell-click="openModal"
@@ -91,6 +96,23 @@ export default {
     }
   },
   methods: {
+     async getReport () {
+
+      const { data } = await configService('admin/row_material_reports')
+      var myBlob =  new Blob([this.s2ab(atob(data))], {type: ''});
+      var url = window.URL.createObjectURL(myBlob);
+      var a = document.createElement("a");
+      document.body.appendChild(a);
+      a.href = url;
+      a.download = "reporte_materia_prima.xls";
+      a.click();
+    },
+    s2ab(s) {
+      var buf = new ArrayBuffer(s.length);
+      var view = new Uint8Array(buf);
+      for (var i=0; i!=s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
+      return buf;
+    },
     reset (data) {
       debugger
       this.categoryMaterials = data

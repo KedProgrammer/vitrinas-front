@@ -21,7 +21,7 @@
           <div
             @click="getReport"
             class="new-row">
-            Reporte
+            Reporte Productos
           </div>
         </div>
         <vue-good-table
@@ -104,13 +104,13 @@ export default {
   methods: {
     async getReport () {
 
-      const { data } = await configService('admin/reports')
+      const { data } = await configService('admin/product_reports')
       var myBlob =  new Blob([this.s2ab(atob(data))], {type: ''});
       var url = window.URL.createObjectURL(myBlob);
       var a = document.createElement("a");
       document.body.appendChild(a);
       a.href = url;
-      a.download = "report.xls";
+      a.download = "reporte_productos.xls";
       a.click();
     },
     s2ab(s) {

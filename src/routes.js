@@ -2,12 +2,13 @@ import mainOrders from './views/mainOrders.vue'
 import Login from './views/login.vue'
 import Cost from './views/costos.vue'
 import Products from './views/products'
+import mainImage from './views/mainImage'
 import Error404 from './views/error404.vue'
 
 const routes = [
   {
     path: '/',
-    component: mainOrders
+    component: mainImage
   },
   {
     path: '/products',

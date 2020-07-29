@@ -2,7 +2,9 @@
   <div id="app">
     <div class='main__app'>
       <Menu />
-      <router-view />
+      <div class="mainInfo">
+        <router-view />
+      </div>
     </div>
   </div>
 </template>

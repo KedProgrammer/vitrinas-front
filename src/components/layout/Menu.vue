@@ -1,15 +1,28 @@
 <template>
   <nav class="order__menu">
-    <!-- agregar clase 'activo' para indicar la ruta actual --><router-link
-      class="order__menu-item"
-      :to="{ name: 'orders'}">
-      Pedidos
-    </router-link>
-     <!-- agregar clase 'activo' para indicar la ruta actual --><router-link
-      class="order__menu-item"
-      :to="{ name: 'costs'}">
-      Costos
-    </router-link>
+    <div class="items">
+        <router-link
+        class="order__menu-item"
+        :to="{ name: 'orders'}">
+        Gestion Humana
+      </router-link>
+      <router-link
+        class="order__menu-item"
+        :to="{ name: 'costs'}">
+        Producto
+      </router-link>
+      <router-link
+        class="order__menu-item"
+        :to="{ name: 'costs'}">
+        Costos
+      </router-link>
+      <router-link
+        class="order__menu-item"
+        :to="{ name: 'costs'}">
+        Clientes
+      </router-link>
+      <input class="nav-input" placeholder="Buscar">
+    </div>
 
   <!-- <router-link
       class="admin__menu-item"

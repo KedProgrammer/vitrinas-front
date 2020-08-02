@@ -3,6 +3,7 @@ import Login from './views/login.vue'
 import Cost from './views/costos.vue'
 import Products from './views/products'
 import mainImage from './views/mainImage'
+import humanManagement from './views/humanManagement'
 import Error404 from './views/error404.vue'
 
 const routes = [
@@ -29,6 +30,11 @@ const routes = [
     path: '/login',
     component: Login,
     name: 'login'
+  },
+  {
+    path: '/humanManagement',
+    component: humanManagement,
+    name: 'human-management'
   },
   {
     path: '/*',

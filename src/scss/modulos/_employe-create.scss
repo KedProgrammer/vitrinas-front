@@ -1,0 +1,26 @@
+.employer_create-mainForm {
+  display: flex;
+  width: 87%;
+  margin-top: 5%;
+  margin-left: 13%;
+
+  .employer_create-mainForm-input {
+    margin-top: 5%;
+    margin-left: 3%;
+    width: 100%;
+
+    .employer_create-mainForm-input-item {
+      display: flex;
+      align-items: center;
+      margin-top: 1%;
+    }
+    
+    span {
+      margin-right: 10px;
+    }
+
+    input {
+      margin-right: 10px;
+    }
+  }
+}

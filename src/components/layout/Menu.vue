@@ -3,7 +3,7 @@
     <div class="items">
         <router-link
         class="order__menu-item"
-        :to="{ name: 'human-management'}">
+        :to="{ name: 'employer-index'}">
         Gestion Humana
       </router-link>
       <router-link

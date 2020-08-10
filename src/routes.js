@@ -4,6 +4,8 @@ import Cost from './views/costos.vue'
 import Products from './views/products'
 import mainImage from './views/mainImage'
 import humanManagement from './views/humanManagement'
+import employerCreate from './views/employerCreate'
+import employersIndex from './views/employersIndex'
 import Error404 from './views/error404.vue'
 
 const routes = [
@@ -34,7 +36,19 @@ const routes = [
   {
     path: '/humanManagement',
     component: humanManagement,
-    name: 'human-management'
+    name: 'human-management',
+    children: [
+      {
+        path: 'employer-create',
+        component: employerCreate,
+        name: 'employer-create',
+      },
+      {
+        path: '',
+        component: employersIndex,
+        name: 'employer-index',
+      }
+    ]
   },
   {
     path: '/*',

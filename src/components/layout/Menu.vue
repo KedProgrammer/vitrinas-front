@@ -8,8 +8,8 @@
       </router-link>
       <router-link
         class="order__menu-item"
-        :to="{ name: 'costs'}">
-        Producto
+        :to="{ name: 'loans'}">
+        Prestamos
       </router-link>
       <router-link
         class="order__menu-item"

@@ -1,0 +1,25 @@
+.filters {
+  height: 20%;
+  display: flex;
+  justify-content: flex-end;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-top: 30px;
+
+  img {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+.loans {
+  height: 100%;
+  padding-left: 30px;
+  padding-right: 30px;
+
+  .loans_item {
+    border: 1px solid red;
+    height: 10%;
+    border-radius: 20px 20px 20px 20px;
+  }
+}

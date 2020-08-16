@@ -1,6 +1,6 @@
 <template>
 <div class="employes">
-  <employer-header />
+  <employer-header> <h4>Colaboradores</h4> </employer-header>
   <router-view />
 </div>
 </template>

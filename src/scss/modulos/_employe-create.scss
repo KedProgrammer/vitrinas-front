@@ -3,24 +3,48 @@
   width: 87%;
   margin-top: 5%;
   margin-left: 13%;
+  height: 100%;
+
+  img {
+    height: 20%;
+  }
 
   .employer_create-mainForm-input {
     margin-top: 5%;
-    margin-left: 3%;
+    margin-left: 1%;
     width: 100%;
+    display: flex;
 
     .employer_create-mainForm-input-item {
       display: flex;
       align-items: center;
       margin-top: 1%;
-    }
-    
-    span {
-      margin-right: 10px;
-    }
+      flex-direction: column;
+      width: 40%;
+      
+      .employer_create-mainForm-input-item-input {
+        width: 100%;
+        margin: 2%;
 
-    input {
-      margin-right: 10px;
+        span {
+          margin-right: 5%;
+          width: 20%;
+          display: inline-block;
+        }
+    
+        input {
+          margin-right: 20px;
+          width: 60%;
+          margin-top: 2%;
+        }
+
+        button, div {
+          background-color: red;
+          color: white;
+          border: 0px solid #000000;
+          border-radius: 96px 96px 96px 96px;;
+        }
+      }
     }
   }
 }

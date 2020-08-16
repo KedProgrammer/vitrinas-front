@@ -6,6 +6,7 @@ import mainImage from './views/mainImage'
 import humanManagement from './views/humanManagement'
 import employerCreate from './views/employerCreate'
 import employersIndex from './views/employersIndex'
+import loanIndex from './views/loanIndex'
 import Error404 from './views/error404.vue'
 
 const routes = [
@@ -32,6 +33,11 @@ const routes = [
     path: '/login',
     component: Login,
     name: 'login'
+  },
+  {
+    path: '/loans',
+    component: loanIndex,
+    name: 'loans'
   },
   {
     path: '/humanManagement',

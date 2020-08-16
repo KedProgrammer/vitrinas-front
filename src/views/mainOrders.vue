@@ -374,7 +374,6 @@ export default {
         })
     },
     fetchRangeOrders (value) {
-      console.log(value)
       const searchLocale = this.activeFilter === 'almacen' ? 0 : 1
       const startDate = new Date(value.start)
       const endDate = new Date(value.end)

@@ -19,7 +19,120 @@
 
   .loans_item {
     border: 1px solid red;
-    height: 10%;
+    height: 9%;
     border-radius: 20px 20px 20px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    #period {
+      width: 10%;
+    }
+
+    .loans_item-info-photo {
+      margin-left: 3%;
+    }
+
+    .loans_item-employer-info {
+      width: 15%;
+      display: flex;
+      flex-direction: column;
+      margin-left: 1%;
+
+      span:nth-child(1) {
+        font-weight: 420;
+      }
+
+      span:nth-child(2) {
+        font-size: 13px;
+      }
+
+      span:nth-child(3) {
+        font-size: 13px;
+      }
+
+      img {
+        margin-right: 8%;
+      }
+    }
+
+    img {
+      width: 6.5%;
+      height: 70%;
+    }
+
+    .loans_item-price {
+      width: 15%;
+      color: red;
+      font-size: 25px;
+      height: 55%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: initial;
+    }
+
+    .loans_item-grey-text {
+      height: 100%;
+      width: 15%;
+      background-color: #8080803b;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      flex-direction: column;
+      color: grey;
+      padding-top: 0.3%;
+      margin: 0 0.2% 0 0.2%;
+
+      span:nth-child(1) {
+        font-size: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 20%;
+      }
+
+      span:nth-child(2) {
+        font-size: 28px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #000000a1;
+        font-weight: 450
+      }
+    }
+
+    .loans_item-rate {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      flex-direction: column;
+      width: 6%;
+      height: 100%;
+      background-color: #ff000029;
+      padding-top: 0.3%;
+      margin: 0 0.2% 0 0.2%;
+
+      span:nth-child(1) {
+        font-size: 9px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: red;
+        width: 100%;
+        height: 20%;
+      }
+
+      span:nth-child(2) {
+        font-size: 25px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: red;
+        font-weight: bolder;
+        width: 50%;
+      }
+    }
   }
 }

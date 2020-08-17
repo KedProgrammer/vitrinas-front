@@ -10,15 +10,24 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   state: {
     modalOrder: {},
-    employers: [],
-    employerId: 0
+    employers: null,
+    employerId: 0,
+    loans: null
   },
   getters: {
     getEmployer (state) {
       return state.employers.find(employer => employer.id === state.employerId)
+    },
+    getLoan: (state) => (id) =>  {
+      return state.loans.find(loan => {
+        return loan.id == id
+      })
     }
   },
   mutations: {
+    setLoans (state, data) {
+      state.loans = data
+    },
     setModalOrder (state, data) {
       state.modalOrder = data
     },

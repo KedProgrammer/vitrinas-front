@@ -32,8 +32,10 @@ export default {
     }
   },
   async created () {
-    const { data }  = await configService.get('admin/employers')
-    this.setEmployers(data)
+    if (!this.employers) {
+      const { data }  = await configService.get('admin/employers')
+      this.setEmployers(data)
+    }
   }
 }
 </script>

@@ -24,10 +24,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-
-    #period {
-      width: 10%;
-    }
+    margin-bottom: 1%;
 
     .loans_item-info-photo {
       margin-left: 3%;
@@ -71,68 +68,120 @@
       align-items: center;
       font-weight: initial;
     }
+  }
+}
 
-    .loans_item-grey-text {
-      height: 100%;
-      width: 15%;
-      background-color: #8080803b;
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
-      flex-direction: column;
-      color: grey;
-      padding-top: 0.3%;
-      margin: 0 0.2% 0 0.2%;
+.main-info {
+  height: 100%;
+  width: 100%;
+  margin-left: 2%;
 
-      span:nth-child(1) {
-        font-size: 10px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-        height: 20%;
-      }
+  .main-info-items {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 1%;
+    height: 9%;
 
-      span:nth-child(2) {
-        font-size: 28px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: #000000a1;
-        font-weight: 450
-      }
+    #main-info-span {
+      font-size: 25px;
+      color: red;
+      font-weight: 430;
+      margin-left: 3%;
     }
+  }  
 
-    .loans_item-rate {
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
-      flex-direction: column;
-      width: 6%;
-      height: 100%;
-      background-color: #ff000029;
-      padding-top: 0.3%;
-      margin: 0 0.2% 0 0.2%;
+  img {
+    width: 8%;
+    height: 55%;
+  }
 
-      span:nth-child(1) {
-        font-size: 9px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: red;
-        width: 100%;
-        height: 20%;
-      }
+  .main-loan-info {
+    height: 100%;
+  }
+}
 
-      span:nth-child(2) {
-        font-size: 25px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: red;
-        font-weight: bolder;
-        width: 50%;
-      }
-    }
+.loans_item-grey-text {
+  height: 100%;
+  width: 15%;
+  background-color: #8080803b;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  color: grey;
+  padding-top: 0.3%;
+  margin: 0 0.2% 0 0.2%;
+
+  span:nth-child(1) {
+    font-size: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 20%;
+  }
+
+  span:nth-child(2) {
+    font-size: 28px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #000000a1;
+    font-weight: 450
+  }
+}
+
+.loans_item-rate {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  width: 6%;
+  height: 100%;
+  background-color: #ff000029;
+  padding-top: 0.3%;
+  margin: 0 0.2% 0 0.2%;
+
+  span:nth-child(1) {
+    font-size: 9px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: red;
+    width: 100%;
+    height: 20%;
+  }
+
+  span:nth-child(2) {
+    font-size: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: red;
+    font-weight: bolder;
+    width: 50%;
+  }
+}
+
+#period {
+  width: 10%;
+}
+
+.main_loan-table {
+  width: 80%;
+  border-collapse: separate;
+  border-spacing: 1em 1em;
+
+  th {
+    width: 5%;
+  }
+
+  tr {
+    margin-bottom: 5%;
+  }
+
+  td {
+    background-color: #80808029;
   }
 }

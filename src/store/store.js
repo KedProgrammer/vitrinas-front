@@ -22,6 +22,11 @@ const store = new Vuex.Store({
       return state.loans.find(loan => {
         return loan.id == id
       })
+    },
+    getEmployersNames (state) {
+      return state.employers.map(employer => { 
+        return { value: employer.id, label: employer.name }
+      })
     }
   },
   mutations: {
@@ -40,7 +45,10 @@ const store = new Vuex.Store({
     },
     removeEmployer (state) {
       state.employerId = 0
-    }
+    },
+    setLoan (state, data) {
+      state.loans.push(data)
+    },
   },
   actions: {
 

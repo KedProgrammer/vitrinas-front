@@ -4,16 +4,16 @@
     <div class="employer_create-mainForm-input">
       <div class="employer_create-mainForm-input-item">
         <div class="employer_create-mainForm-input-item-input">
-          <span>Nombres</span> <input   v-model="name" type="text">
+          <span class="spanInput">Nombres</span> <input   v-model="name" type="text">
         </div>
         <div class="employer_create-mainForm-input-item-input">
-          <span>CC: </span> <input  v-model="identification" type="text">
+          <span class="spanInput">CC: </span> <input  v-model="identification" type="text">
         </div>
         <div class="employer_create-mainForm-input-item-input">
-          <span>Correo Electronico: </span> <input type="email"  v-model="email">
+          <span class="spanInput">Correo Electronico: </span> <input type="email"  v-model="email">
         </div>
         <div class="employer_create-mainForm-input-item-input">
-          <span>Fecha de ingreso: </span> <input  v-model="initialDate" type="text">
+          <span class="spanInput">Fecha de ingreso: </span> <input  v-model="initialDate" type="text">
         </div>
         <div v-if="employerId !== 0" class="employer_create-mainForm-input-item-input">
           <button @click="goToLoans" class="createEmployer">Ver pagos</button>
@@ -21,16 +21,16 @@
       </div>
       <div class="employer_create-mainForm-input-item">
         <div class="employer_create-mainForm-input-item-input">
-          <span>Apellidos</span> <input  v-model="lastName" type="text">
+          <span class="spanInput">Apellidos</span> <input  v-model="lastName" type="text">
         </div>
         <div class="employer_create-mainForm-input-item-input">
-          <span>Celular 1:</span> <input  v-model="cellphone" type="text">
+          <span class="spanInput">Celular 1:</span> <input  v-model="cellphone" type="text">
         </div>
         <div class="employer_create-mainForm-input-item-input">
-          <span>Edad: </span> <input  v-model="age" type="text">
+          <span class="spanInput">Edad: </span> <input  v-model="age" type="text">
         </div>
         <div class="employer_create-mainForm-input-item-input">
-          <span>Cargo: </span> <input  v-model="jobPosition" type="text">
+          <span class="spanInput">Cargo: </span> <input  v-model="jobPosition" type="text">
         </div>
         <div class="employer_create-mainForm-input-item-input">
           <button type="submit" class="createEmployer">{{ buttonName }}</button>

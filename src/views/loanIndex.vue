@@ -1,7 +1,7 @@
 <template>
   <div class="employes">
     <employer-header> <h4>Prestamos</h4></employer-header>
-    <div class="filters">
+    <div @click="$router.push({name: 'loan-create'})" class="filters">
       <img src="../assets/images/vitrinas-icons/create.png" alt="" class="employe_filters-item">
     </div>
     <div class="loans">

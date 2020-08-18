@@ -34,8 +34,11 @@
           <table class="main_loan-table">
             <thead>
               <th>
-              Cuota
-            </th>
+                
+              </th>
+              <th>
+                Cuota
+              </th>
               <th>
                 Intereses
               </th>
@@ -48,6 +51,9 @@
             </thead>
             <tbody>
               <tr :key="fee.id" v-for="fee in fees">
+                <td class="dedito">
+                  <img  v-if="fee.status == 'payed'" src="../assets/images/loans/dedito.png" id="dedito">
+                </td>
                 <td>
                   {{ fee.value }}
                 </td>

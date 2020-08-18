@@ -8,6 +8,7 @@ import employerCreate from './views/employerCreate'
 import employersIndex from './views/employersIndex'
 import loanIndex from './views/loanIndex'
 import loanShow from './views/loanShow'
+import loanCreate from './views/loanCreate'
 import Error404 from './views/error404.vue'
 
 const routes = [
@@ -44,6 +45,11 @@ const routes = [
     path: '/loan-show/:id',
     component: loanShow,
     name: 'loan-show',
+  },
+  {
+    path: '/loan-create',
+    component: loanCreate,
+    name: 'loan-create',
   },
   {
     path: '/humanManagement',

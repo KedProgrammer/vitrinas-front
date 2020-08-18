@@ -10,8 +10,13 @@ export default {
   methods: {
     ...mapMutations(['removeEmployer']),
     goToCreate () {
-      this.removeEmployer()
-      this.$router.push({name: 'employer-create'})
+      if (this.$route.name === 'employer-index') {
+        this.removeEmployer()
+        this.$router.push({name: 'employer-create'})
+      } else {
+        this.$router.push({name: 'loan-create'})
+      }
+      
     }
   }
 }

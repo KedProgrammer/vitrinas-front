@@ -73,8 +73,8 @@ export default {
       type: String
     },
     capitalTotal: {
-      default: 0,
-      type: Number
+      default: "",
+      type: String
     }
   }
 }

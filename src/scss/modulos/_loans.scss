@@ -7,6 +7,7 @@
   padding-top: 30px;
 
   img {
+    margin-left: 1%;
     width: 100px;
     height: 100px;
   }
@@ -54,7 +55,7 @@
     }
 
     img {
-      width: 6.5%;
+      width: 4%;
       height: 70%;
     }
 
@@ -165,7 +166,7 @@
 }
 
 #period {
-  width: 10%;
+  width: 15%;
 }
 
 .main_loan-table {
@@ -193,5 +194,9 @@
   
   .dedito {
     background-color: white;
+  }
+
+  .red {
+    color: red;
   }
 }

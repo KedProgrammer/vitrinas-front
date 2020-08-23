@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div class='main__app'>
-      <Menu />
+      <Menu v-if="logued()" />
       <div class="mainInfo">
         <router-view />
       </div>
@@ -20,7 +20,10 @@ export default {
     Menu
   },
   methods: {
-    ...mapMutations(['setUser'])
+    ...mapMutations(['setUser']),
+    logued () {
+      return localStorage.getItem('user') !== null
+    }
   },
   created () {
     this.setUser(JSON.parse(localStorage.getItem('user')))

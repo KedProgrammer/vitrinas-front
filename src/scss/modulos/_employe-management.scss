@@ -53,6 +53,7 @@
     display: flex;
     justify-content: flex-end;
     margin-top: 4%;
+    height: 15%;
 
     .employe_filters-item {
       width: 100px;
@@ -63,22 +64,29 @@
   }
 
   .employers_index {
-    height: 70%;
+    height: 100%;
     padding-right: 60px;
     padding-left: 60px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    flex-direction: column;
+
+    .employer_index-items {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    #employer-name {
+      font-weight: bold;
+    }
 
     .employers_index-item {
       border: 1px solid red;
       width: 23%;
-      height: 15%;
       border-radius: 20px 20px 20px 20px;
       display: flex;
       padding: 10px;
       align-items: flex-end;
-      margin-top: -60px
+      margin: 1%;
+      height: 80px;
     }
 
     .employers_index-item-info {
@@ -86,8 +94,9 @@
       flex-direction: column;
       width: 60%;
       margin-left: 10px;
-      height: 120%;
-      justify-content: space-evenly;
+      height: 110%;
+      justify-content: center;
+      align-items: flex-start;
 
       span {
         font-size: 0.8em;

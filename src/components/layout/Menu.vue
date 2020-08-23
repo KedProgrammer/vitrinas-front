@@ -21,6 +21,9 @@
         :to="{ name: 'costs'}">
         Clientes
       </router-link>
+      <div @click="logout" class="order__menu-item">
+        Salir
+      </div>
       <input class="nav-input" placeholder="Buscar">
     </div>
 
@@ -80,3 +83,14 @@
       class="admin__menu-item">View</a> -->
   </nav>
 </template>
+
+<script>
+export default {
+  methods: {
+    logout () {
+      localStorage.removeItem('user')
+      this.$router.push({name: 'login'})
+    },
+  }
+}
+</script>

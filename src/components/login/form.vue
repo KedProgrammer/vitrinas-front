@@ -40,7 +40,7 @@ export default {
         .then(res => {
           localStorage.setItem('user', JSON.stringify(res.data))
           this.setUser(res.data)
-          this.$router.push({name: 'orders'})
+          this.$router.push({name: 'mainImage'})
         })
         .catch(error => {
           this.$swal({

@@ -1,7 +1,8 @@
 <template>
   <div class="employers_index">
     <create-button />
-    <employer :key="employee.id" v-for="employee in employers"
+    <div class="employer_index-items">
+      <employer :key="employee.id" v-for="employee in employers"
       :id="employee.id"
       :name="employee.name"
       :lastName="employee.last_name"
@@ -9,6 +10,7 @@
       :identification="employee.identification"
       @addEmployer="addEmployer"
     />
+    </div>
   </div>
 </template>
 
@@ -32,7 +34,7 @@ export default {
     }
   },
   async created () {
-    if (!this.employers) {
+    if (this.employers.length === 0) {
       const { data }  = await configService.get('admin/employers')
       this.setEmployers(data)
     }

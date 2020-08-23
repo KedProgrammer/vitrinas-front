@@ -114,7 +114,6 @@ export default {
       return buf;
     },
     reset (data) {
-      debugger
       this.categoryMaterials = data
       this.createTable()
     },

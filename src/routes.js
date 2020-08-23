@@ -14,7 +14,8 @@ import Error404 from './views/error404.vue'
 const routes = [
   {
     path: '/',
-    component: mainImage
+    component: mainImage,
+    name: 'mainImage'
   },
   {
     path: '/products',

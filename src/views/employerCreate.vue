@@ -1,6 +1,6 @@
 <template>
   <form class="employer_create-mainForm" @submit.prevent="sendEmployer">
-    <img src="../assets/images/employers/employer.png" alt="">
+    <img src="../assets/images/vitrinas-icons/photo.png" alt="">
     <div class="employer_create-mainForm-input">
       <div class="employer_create-mainForm-input-item">
         <div class="employer_create-mainForm-input-item-input">
@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex'
+import { mapState, mapGetters, mapMutations } from 'vuex'
 import configService from '../settings/api-url'
 import employerHeader from '../components/humanManagment/header'
 export default {
@@ -71,9 +71,11 @@ export default {
     employerHeader
   },
   methods: {
+    ...mapMutations(['setFilterByEmployer', 'addEmployer', 'updateEmployer']),
     goToLoans (event) {
       event.preventDefault();
-      console.log('hola')
+      this.setFilterByEmployer(true);
+      this.$router.push({name: 'loans'});
     },
     fillData () {
       const employer = this.getEmployer
@@ -101,13 +103,14 @@ export default {
       }
 
       try {
-        if (this.employerId !== 0) {
+         if (this.employerId !== 0) {
            const { data } = await configService.put(`admin/employers/${this.employerId}`, info)
+           this.updateEmployer(data)
         } else {
           const { data } = await configService.post(`admin/employers`, info)
+          this.addEmployer(data)
         }
-        
-        this.$router.push({name: 'employer-index'})
+
         this.$swal({
           position: 'center',
           type: 'success',
@@ -115,6 +118,8 @@ export default {
           showConfirmButton: false,
           timer: 1500
         })
+
+        this.$router.push({name: 'employer-index'})
       } catch (error) {
         this.$swal({
           position: 'center',
@@ -122,7 +127,7 @@ export default {
           title: 'No se pudo crear el usuario!',
           showConfirmButton: false,
           timer: 1500
-        })
+        }) 
       }
     }
   },

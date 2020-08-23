@@ -10,9 +10,10 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   state: {
     modalOrder: {},
-    employers: null,
+    employers: [],
     employerId: 0,
-    loans: null
+    loans: [],
+    filterByEmployer: false
   },
   getters: {
     getEmployer (state) {
@@ -23,13 +24,25 @@ const store = new Vuex.Store({
         return loan.id == id
       })
     },
+    getLoans (state) {
+      return state.loans.filter(loan => {
+         if (state.filterByEmployer) return loan.employee.id == state.employerId
+         else return loan
+      })
+    },
     getEmployersNames (state) {
       return state.employers.map(employer => { 
         return { value: employer.id, label: employer.name }
       })
+    },
+    employersCount (state) {
+      return state.employers ? state.employers.length : 0
     }
   },
   mutations: {
+    setFilterByEmployer (state, data) {
+      state.filterByEmployer = data
+    },
     setLoans (state, data) {
       state.loans = data
     },
@@ -49,6 +62,13 @@ const store = new Vuex.Store({
     setLoan (state, data) {
       state.loans.push(data)
     },
+    addEmployer (state, data) {
+      state.employers.push(data)
+    },
+    updateEmployer (state, data) {
+      let index = state.employers.map(employer => employer.id).indexOf(data.id)
+      state.employers.splice(index, 1, data)
+    }
   },
   actions: {
 

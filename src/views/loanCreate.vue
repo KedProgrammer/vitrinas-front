@@ -12,7 +12,7 @@
           <span class='spanInput'>numero de meses: </span> <input type="number"  required v-model="months">
         </div>
          <div class="employer_create-mainForm-input-item-input">
-          <button type="submit">Crear prestamo</button>
+          <button :disabled="buttonDisabled" class="create-loan" type="submit">Crear prestamo</button>
         </div>
       </div>
       <div class="employer_create-mainForm-input-item">
@@ -44,7 +44,8 @@ export default {
       months: null,
       employerName: '',
       feeValue: null,
-      feeFormatedValue: null
+      feeFormatedValue: null,
+      buttonDisabled: false
     }
   },
   computed: {
@@ -63,6 +64,7 @@ export default {
       }
     },
     async sendLoan () {
+      this.buttonDisabled = true
       const info = {
         amount: parseInt(this.amount),
         interest_rate: parseInt(this.interestRate),
@@ -72,6 +74,7 @@ export default {
 
       try {
         const { data } = await configService.post(`admin/employers/${this.employerName.value}/loans`, info)
+
         this.$swal({
           position: 'center',
           type: 'success',
@@ -79,9 +82,12 @@ export default {
           showConfirmButton: false,
           timer: 1500
         })
+
         this.setLoan(data)
         this.$router.push({ name: 'loan-show', params: {id: data.id}})
       } catch (error) {
+        this.buttonDisabled = false
+
         this.$swal({
           position: 'center',
           type: 'error',
@@ -93,7 +99,7 @@ export default {
     }
   },
   async created () {
-    if (!this.employers) {
+    if (this.employers.length === 0) {
       const { data }  = await configService.get('admin/employers')
       this.setEmployers(data)
     }

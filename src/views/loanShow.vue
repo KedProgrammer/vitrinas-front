@@ -23,7 +23,7 @@
           </div>
           <div class="loans_item-grey-text">
             <span>Total abonado</span>
-            <span>{{ getLoan(this.$route.params.id).capital_total }}</span>
+            <span>{{ getLoan(this.$route.params.id).total_payed }}</span>
           </div>
           <div class="loans_item-grey-text">
             <span>Total restante</span>
@@ -34,7 +34,7 @@
           <table class="main_loan-table">
             <thead>
               <th>
-                
+                Estatus
               </th>
               <th>
                 Cuota
@@ -48,11 +48,17 @@
               <th>
                 Saldo
               </th>
+              <th>
+                Fecha de pago
+              </th>
             </thead>
             <tbody>
               <tr :key="fee.id" v-for="fee in fees">
-                <td class="dedito">
+                <!-- <td class="dedito">
                   <img  v-if="fee.status == 'payed'" src="../assets/images/loans/dedito.png" id="dedito">
+                </td> -->
+                 <td :class="{red: fee.status === 'Pagado'}">
+                  {{ fee.status }}
                 </td>
                 <td>
                   {{ fee.value }}
@@ -66,6 +72,9 @@
                 <td>
                   {{ fee.balance }}
                 </td>
+                <td>
+                  {{ fee.payment_date }}
+                </td>
               </tr>
             </tbody>
           </table>
@@ -77,7 +86,7 @@
 
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState, mapMutations } from 'vuex'
 import configService from '../settings/api-url'
 import employerHeader from '../components/humanManagment/header'
 export default {
@@ -86,13 +95,24 @@ export default {
       fees: null
     }
   },
-  computed: mapGetters(['getLoan']),
+  computed: {
+    ...mapGetters(['getLoan']),
+    ...mapState(['loans'])
+  },
   components: {
     employerHeader
   },
+  methods: {
+    ...mapMutations(['setLoans'])
+  },
   async created () {
-    const { data } = await configService('admin/loans/' + this.$route.params.id + '/fees')
+    let { data } = await configService('admin/loans/' + this.$route.params.id + '/fees')
     this.fees = data
+
+    if (this.loans.length === 0) {
+      let { data } = await configService(`admin/loans`)
+      this.setLoans(data)
+    }
   },
 }
 </script>

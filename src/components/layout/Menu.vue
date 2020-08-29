@@ -9,7 +9,7 @@
       <router-link
         class="order__menu-item"
         :to="{ name: 'loans'}">
-        Prestamos
+        Préstamos
       </router-link>
       <router-link
         class="order__menu-item"

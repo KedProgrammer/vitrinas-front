@@ -29,6 +29,8 @@
 
     .loans_item-info-photo {
       margin-left: 3%;
+      width: 4%;
+      height: 70%;
     }
 
     .loans_item-employer-info {
@@ -54,9 +56,14 @@
       }
     }
 
-    img {
+    .employers_index-item-celu {
       width: 4%;
       height: 70%;
+    }
+
+    .green {
+      width: 7%;
+      height: 60%;
     }
 
     .loans_item-price {

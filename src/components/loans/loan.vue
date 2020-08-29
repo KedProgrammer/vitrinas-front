@@ -1,6 +1,6 @@
 <template>
   <div @click="$router.push({name: 'loan-show', params: {id: id}})" class="loans_item">
-    <img src="../../assets/images/loans/green.png" alt="">
+    <img src="../../assets/images/loans/green.png" class="green">
     <div class="loans_item-price">
       {{ amount }}
     </div>

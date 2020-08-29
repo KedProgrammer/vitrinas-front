@@ -200,7 +200,7 @@ export default {
       this.category = this.data.category
       this.total = this.data.sellPrice
       this.image_url = this.data.image_url
-      this.rowMaterialSummary = [...this.data.rowMaterialSummary]
+      this.rowMaterialSummary = [...this.data.rowMaterialSummary, []]
       this.createRows(this.rowMaterialSummary)
     }
   },
@@ -233,9 +233,22 @@ export default {
     },
 
     async deleteProduct () {
-      const data_coming = await configService.delete(`admin/products/${this.data.id}`)
-      this.$emit('reset', data_coming.data)
-      this.$emit('toggle-modal') 
+      this.$swal({
+        title: "Estas seguro?",
+        text: "Se eliminara este producto",
+        showCancelButton: true
+      })
+      .then((willDelete) => {
+        if (willDelete.value) {
+          const { data } = configService.delete(`admin/products/${this.data.id}`)
+          .then(response => {
+            this.$emit('reset', data_coming.data)
+            this.$emit('toggle-modal') 
+          })
+        } else {
+          
+        }
+      });
     },
 
     closeCreateRow () {
@@ -252,27 +265,54 @@ export default {
       }
 
       if (value.column.field === 'name') {
-        let response = await configService.delete(`/admin/product_row_materials/${value.row.id}`)
-        this.updateTable(response.data)
+        this.$swal({
+        title: "Estas seguro?",
+        text: "Se eliminara esta materia prima",
+        showCancelButton: true
+        })
+        .then((willDelete) => {
+          if (willDelete.value) {
+            const { data } = configService.delete(`/admin/product_row_materials/${value.row.id}`)
+            .then(response => {
+              this.updateTable(response.data)
+              this.$swal({
+                position: 'center',
+                type: 'success',
+                title: 'Materia prima eliminada',
+                showConfirmButton: false,
+                timer: 1500
+              })
+            })
+          } else {
+            
+          }
+        });
       }
     },
     updateRow (product) {
       this.total = product.price
       this.rowMaterialSummary = [...product.row_material_summary]
-      this.createRows(product.row_material_summary)
+      this.createRows([...product.row_material_summary, []])
     },
     createRows (array) {
       this.rows = []
       for (let rowMaterial of array) {
-        this.rows.push({
-        id: rowMaterial.product_row_material_id,
-        name: rowMaterial.name + ' <div class="edit"> Eliminar </div>',
-        code: rowMaterial.code,
-        unity: rowMaterial.unity,
-        price: rowMaterial.price,
-        quantity: rowMaterial.quantity + ' <div class="edit"> Editar </div>',
-        cost: new Intl.NumberFormat('de-DE', {style: 'currency', currency: 'COP'}).format(rowMaterial.quantity * rowMaterial.price)
-        })
+
+        if (Object.values(rowMaterial).length !== 0) {
+            this.rows.push({
+            id: rowMaterial.product_row_material_id,
+            name: rowMaterial.name + ' <div class="edit"> Eliminar </div>',
+            code: rowMaterial.code,
+            unity: rowMaterial.unity,
+            price: rowMaterial.price,
+            quantity: rowMaterial.quantity + ' <div class="edit"> Editar </div>',
+            cost: new Intl.NumberFormat('de-DE', {style: 'currency', currency: 'COP'}).format(rowMaterial.quantity * rowMaterial.price)
+          })
+        } else {
+          this.rows.push({
+            cost: new Intl.NumberFormat('de-DE', {style: 'currency', currency: 'COP'}).format(this.total)
+          })
+        }
       }
     },
     updateTable (value) {

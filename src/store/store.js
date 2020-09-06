@@ -68,6 +68,14 @@ const store = new Vuex.Store({
     updateEmployer (state, data) {
       let index = state.employers.map(employer => employer.id).indexOf(data.id)
       state.employers.splice(index, 1, data)
+    },
+    updateLoan(state, data) {
+      let index = state.loans.findIndex(loan => loan.id == data.id)
+      state.loans.splice(index, 1, data)
+    },
+    destroyLoan(state, id) {
+      let index = state.loans.findIndex(loan => loan.id == id)
+      state.loans.splice(index, 1)
     }
   },
   actions: {

@@ -7,6 +7,7 @@
         <div class="main-info-items">
           <img src="../assets/images/loans/green.png" alt="">
           <span id="main-info-span">{{ getLoan(this.$route.params.id).amount }}</span>
+          <span @click="deleteLoan" id="main-info-span"> Eliminar Prestamo </span>
         </div>
         <div class="main-info-items">
           <div class="loans_item-rate">
@@ -28,7 +29,10 @@
           <div class="loans_item-grey-text">
             <span>Total restante</span>
             <span>{{ getLoan(this.$route.params.id).remaining_payment }}</span>
-          </div>
+          </div> 
+          <img class="showPay" @click="payFee" src="../assets/images/vitrinas-icons/pagar cuota.png" >
+          <img class="showPay" @click="rollbackPayment" src="../assets/images/vitrinas-icons/eliminar cuota.png" >
+          
         </div>
         <div class="main-loan-info">
           <table class="main_loan-table">
@@ -103,7 +107,104 @@ export default {
     employerHeader
   },
   methods: {
-    ...mapMutations(['setLoans'])
+    ...mapMutations(['setLoans', 'updateLoan', 'destroyLoan']),
+    payFee () {
+      this.$swal({
+        title: "Estas seguro??",
+        text: "Se pagara una cuota del prestamo",
+        showCancelButton: true
+      })
+      .then((willDelete) => {
+        if (willDelete.value) {
+          configService.post('admin/loans/' + this.$route.params.id)
+          .then(response => {
+            this.fees = [...response.data.fees]
+            this.updateLoan(response.data)
+            this.$swal({
+            position: 'center',
+            type: 'success',
+            title: 'Cuota pagada!',
+            showConfirmButton: false,
+            timer: 1500
+            })
+          })
+          .catch(error => {
+            this.$swal({
+            position: 'center',
+            type: 'error',
+            title: 'Error al paga la cuota!',
+            showConfirmButton: false,
+            timer: 1500
+            })
+          })
+        }
+      });
+    },
+    rollbackPayment () {
+      this.$swal({
+        title: "Estas seguro??",
+        text: "Se devolvera una cuota del prestamo",
+        showCancelButton: true
+      })
+      .then((willDelete) => {
+        if (willDelete.value) {
+          configService.post('admin/loans/' + this.$route.params.id + '/fees/rollback_fee')
+          .then(response => {
+            this.fees = [...response.data.fees]
+            this.updateLoan(response.data)
+            this.$swal({
+            position: 'center',
+            type: 'success',
+            title: 'Se ha devolvido una cuota del prestamo!',
+            showConfirmButton: false,
+            timer: 1500
+            })
+          })
+          .catch(error => {
+            this.$swal({
+            position: 'center',
+            type: 'error',
+            title: 'Error al devolver la cuota!',
+            showConfirmButton: false,
+            timer: 1500
+            })
+          })
+        }
+      });
+    },
+    deleteLoan () {
+      this.$swal({
+        title: "Estas seguro??",
+        text: "Se borrara el prestamo",
+        showCancelButton: true
+      })
+      .then((willDelete) => {
+        if (willDelete.value) {
+          configService.delete('admin/loans/' + this.$route.params.id)
+          .then(response => {
+            this.destroyLoan(this.$route.params.id)
+            this.$swal({
+            position: 'center',
+            type: 'success',
+            title: 'Se ha eliminado el prestamo!',
+            showConfirmButton: false,
+            timer: 1500
+            })
+
+            this.$router.push({ name: 'loans'})
+          })
+          .catch(error => {
+            this.$swal({
+            position: 'center',
+            type: 'error',
+            title: 'Error al eliminar el prestamo!',
+            showConfirmButton: false,
+            timer: 1500
+            })
+          })
+        }
+      });
+    }
   },
   async created () {
     let { data } = await configService('admin/loans/' + this.$route.params.id + '/fees')

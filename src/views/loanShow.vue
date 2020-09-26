@@ -1,8 +1,11 @@
 <template>
-  <div class="employes">
+  <div v-if="loans.length !== 0" class="employes">
     <employer-header> <h4>Prestamos</h4></employer-header>
     <div class="employer_create-mainForm">
-      <img src="../assets/images/vitrinas-icons/photo.png" class="loans_item-info-photo">
+      <div class="employer_create-mainForm-assetContainer">
+        <img src="../assets/images/vitrinas-icons/photo.png" class="loans_item-info-photo">
+        <strong>{{ `${getLoan(this.$route.params.id).employee.name} ${getLoan(this.$route.params.id).employee.last_name}` }}</strong>
+      </div>
       <div class="main-info">
         <div class="main-info-items">
           <img src="../assets/images/loans/green.png" alt="">
@@ -18,10 +21,10 @@
             <span>Valor cuota</span>
             <span>{{ getLoan(this.$route.params.id).fee_value }}</span>
           </div>
-          <div class="loans_item-grey-text" id="period">
+          <!-- <div class="loans_item-grey-text" id="period">
             <span>Periodicidad</span>
             <span>{{ getLoan(this.$route.params.id).period_type }}</span>
-          </div>
+          </div> -->
           <div class="loans_item-grey-text">
             <span>Total abonado</span>
             <span>{{ getLoan(this.$route.params.id).total_payed }}</span>
@@ -29,7 +32,15 @@
           <div class="loans_item-grey-text">
             <span>Total restante</span>
             <span>{{ getLoan(this.$route.params.id).remaining_payment }}</span>
-          </div> 
+          </div>
+          <div class="loans_item-grey-text">
+            <span>Numero cuotas</span>
+            <span>{{ this.fees.length }}</span>
+          </div>
+          <div class="loans_item-grey-text">
+            <span>Cuotas pagadas</span>
+            <span>{{ payedFees }}</span>
+          </div>
           <img class="showPay" @click="payFee" src="../assets/images/vitrinas-icons/pagar cuota.png" >
           <img class="showPay" @click="rollbackPayment" src="../assets/images/vitrinas-icons/eliminar cuota.png" >
           
@@ -101,7 +112,10 @@ export default {
   },
   computed: {
     ...mapGetters(['getLoan']),
-    ...mapState(['loans'])
+    ...mapState(['loans']),
+    payedFees () {
+      return this.fees.filter(fee => fee.status == 'Pagado').length
+    }
   },
   components: {
     employerHeader

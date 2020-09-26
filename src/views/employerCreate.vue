@@ -80,7 +80,7 @@ export default {
     fillData () {
       const employer = this.getEmployer
       this.name = employer.name
-      this.lastName = employer.lastName
+      this.lastName = employer.last_name
       this.age = employer.age
       this.identification = employer.identification 
       this.jobPosition = employer.job_position

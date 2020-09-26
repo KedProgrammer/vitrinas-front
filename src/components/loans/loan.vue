@@ -22,7 +22,7 @@
     </div>
     <img src="../../assets/images/vitrinas-icons/photo.png" class="loans_item-info-photo">
     <div class="loans_item-employer-info">
-      <span>{{ name }}</span>
+      <span>{{ `${name} ${lastName}` }}</span>
         <span>C.C {{ identification }}</span>
         <span><img src="../../assets/images/vitrinas-icons/celu.png" class="employers_index-item-celu">{{ cellphone }}</span>
     </div>

@@ -116,7 +116,7 @@ export default {
       })
       .then((willDelete) => {
         if (willDelete.value) {
-          configService.post('admin/loans/' + this.$route.params.id)
+          configService.post('admin/loans/' + this.$route.params.id + '/fees/pay_fee')
           .then(response => {
             this.fees = [...response.data.fees]
             this.updateLoan(response.data)

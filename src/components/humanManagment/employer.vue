@@ -2,7 +2,7 @@
   <div @click="goToEmployerInfo" class="employers_index-item">
     <img src="../../assets/images/vitrinas-icons/photo.png" class="employers_index-item-photo">
     <div class="employers_index-item-info">
-      <span id="employer-name">{{ name }}</span>
+      <span id="employer-name">{{ `${name} ${lastName}` }}</span>
       <span>CC. {{identification}}</span>
       <span><img src="../../assets/images/vitrinas-icons/celu.png" class="employers_index-item-celu">{{cellphone}} </span>
     </div>

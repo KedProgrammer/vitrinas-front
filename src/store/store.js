@@ -32,7 +32,7 @@ const store = new Vuex.Store({
     },
     getEmployersNames (state) {
       return state.employers.map(employer => { 
-        return { value: employer.id, label: employer.name }
+        return { value: employer.id, label: `${employer.name} ${employer.last_name}`}
       })
     },
     employersCount (state) {

@@ -7,7 +7,7 @@ if (localStorage.getItem('user') !== null) {
 }
 
 const configService = axios.create({
-  baseURL: 'http://18.223.247.60',
+  baseURL: 'http://api.sistema-integral.com',
   headers: {
     'accept-language': 'es',
     'Content-Type': 'application/json',

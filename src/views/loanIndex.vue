@@ -4,7 +4,6 @@
     <div class="filters">
       <img @click="$router.push({name: 'loan-create'})" src="../assets/images/vitrinas-icons/create.png">
       <img @click="payFees" src="../assets/images/vitrinas-icons/pagar cuota.png" >
-      <img @click="generateReport" src="../assets/images/vitrinas-icons/pagar cuota.png" >
     </div>
     <div class="loans">
       <loan :key="loan.id" v-for="loan in getLoans"

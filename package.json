@@ -33,7 +33,7 @@
     "vuejs-datepicker": "^1.5.3",
     "vuex": "^3.0.1",
     "weekstart": "^1.0.0",
-    "xlsx": "^0.14.1"
+    "xlsx": "^0.17.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.0.0-beta.15",

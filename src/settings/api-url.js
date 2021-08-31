@@ -7,7 +7,7 @@ if (localStorage.getItem('user') !== null) {
 }
 
 const configService = axios.create({
-  baseURL: 'http://ec2-3-16-149-108.us-east-2.compute.amazonaws.com',
+  baseURL: 'http://ec2-18-188-243-131.us-east-2.compute.amazonaws.com',
   headers: {
     'accept-language': 'es',
     'Content-Type': 'application/json',
